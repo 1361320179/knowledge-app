@@ -125,6 +125,24 @@ import timeout from '@/pages/timeout'
 import assistactive from '@/pages/assist/active'
 import assisthelp from '@/pages/assist/help'
 
+//满减满折商品列表页
+import multiresult from '@/pages/multiResult'
+
+// 资源图书
+import libraryindex from '@/pages/library/index'
+import librarydetail from '@/pages/library/detail'
+
+// 兑换活动
+import codeIndex from '@/pages/redeem/codeIndex'
+import codeInput from '@/pages/redeem/code/codeInput'
+import appSuccess from '@/pages/redeem/result/appSuccess'
+import wapSuccess from '@/pages/redeem/result/wapSuccess'
+import fail from '@/pages/redeem/result/fail'
+import redeemLogin from '@/pages/redeem/login'
+import redeemGoods from '@/pages/redeem/goods'
+import redeemCoupons from '@/pages/redeem/coupons'
+import straightLinkIndex from '@/pages/redeem/straightLinkIndex'
+
 Vue.use(Router)
 
 export default new Router({
@@ -134,7 +152,7 @@ export default new Router({
   routes: [
     // 自定义装修商城页面
     {
-      path: '/customPage',
+      path: '/custompage',
       name: 'custompage',
       component: custompage,
     },
@@ -797,6 +815,70 @@ export default new Router({
       path: '/assist/help',
       name: 'assisthelp',
       component: assisthelp
+    },
+    {
+      path: '/multiresult',
+      name: 'multiresult',
+      component: multiresult,
+      meta: {
+        title: '活动列表'
+      }
+    },
+    {
+      path: '/library/index',
+      name: 'libraryindex',
+      component: libraryindex
+    },
+    {
+      path: '/library/detail',
+      name: 'librarydetail',
+      component: librarydetail
+    },
+    // 兑换活动
+    {
+      path: '/redeem/codeIndex',
+      name: 'codeIndex',
+      component: codeIndex
+    },
+    {
+      path: '/redeem/codeInput',
+      name: 'codeInput',
+      component: codeInput
+    },
+    {
+      path: '/redeem/straightLinkIndex',
+      name: 'linkIndex',
+      component: straightLinkIndex
+    },
+    {
+      path: '/redeem/appSuccess',
+      name: 'appSuccess',
+      component: appSuccess
+    },
+    {
+      path: '/redeem/wapSuccess',
+      name: 'wapSuccess',
+      component: wapSuccess
+    },
+    {
+      path: '/redeem/fail',
+      name: 'fail',
+      component: fail
+    },
+    {
+      path: '/redeem/login',
+      name: 'redeemLogin',
+      component: redeemLogin
+    },
+    {
+      path: '/redeem/goods',
+      name: 'redeemGoods',
+      component: redeemGoods
+    },
+    {
+      path: '/redeem/coupons',
+      name: 'redeemCoupons',
+      component: redeemCoupons
     }
   ]
 })
