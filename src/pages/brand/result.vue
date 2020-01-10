@@ -161,7 +161,7 @@
 <style src="@/style/scss/pages/brand/result.scss" scoped lang="scss"></style>
 
 <script>
-import { BRAND_SEARCH_GOODS_GETS } from "../../apis/brand.js";
+import { BRAND_SEARCH_GOODS_GETS,SEARCH_GOODS_SUMMARY } from "../../apis/brand.js";
 import { WX_SHARE } from "../../apis/public.js";
 // import easyNav from "../../components/easyNav";
 import resultVue from "../personal/order/result.vue";
@@ -283,6 +283,7 @@ export default {
       if (res.hasOwnProperty("response_code")) {
         var result = res.response_data.result;
         this.column_list = res.response_data.column;
+        // console.log(111,this.column_list)
         var _index = 0;
         for (let i = 0; i < this.column_list.length; i++) {
           if (this.column_list[i].goods_type == this.goods_type) {
@@ -355,9 +356,13 @@ export default {
     tabChange(index, title) {
       this.activekey = index;
       this.brandData = [];
-      this.programFinished = false;
       this.page = 1;
       this.goods_type = Number(this.column_list[index].goods_type);
+      this.programLoading = true; //下拉加载中
+      this.programFinished = false; //下拉结束
+      if (this.programLoading) {
+        this.programLoad();
+      }
     }
   }
 };

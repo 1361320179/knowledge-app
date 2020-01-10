@@ -4,12 +4,12 @@
     :style="{'background-color': couponsDetail.colour.bg?couponsDetail.colour.bg: ''}"
   >
     <div v-if="!remindPopShow">
-      <van-list
-        v-model="couponsLoading"
-        :finished="couponsFinished"
-        finished-text="没有更多了"
-        @load="couponsLoad"
-      >
+      <!--<van-list-->
+        <!--v-model="couponsLoading"-->
+        <!--:finished="couponsFinished"-->
+        <!--finished-text="没有更多了"-->
+        <!--@load="couponsLoad"-->
+      <!--&gt;-->
         <div class="propaganda" v-if="couponsDetail.pic">
           <img :src="couponsDetail.pic" alt width="100%" />
         </div>
@@ -74,7 +74,7 @@
             </van-row>
           </div>
         </div>
-      </van-list>
+      <!--</van-list>-->
       <div class="rule">
         <p
           :style="{'color':couponsDetail.colour.text?couponsDetail.colour.text:''}"
@@ -107,8 +107,8 @@ export default {
       couponsDetail: {
         colour: { bg: "", text: "" }
       },
-      couponsLoading: false,
-      couponsFinished: false,
+      // couponsLoading: false,
+      // couponsFinished: false,
       couponsList: [],
       percentCoupons: {}
     };
@@ -119,6 +119,7 @@ export default {
         code: this.code,
         redeem_id: this.redeem,
         access: 1,
+        encrypt: 1,
         is_captcha: 1,
         version: "1.0"
       };
@@ -150,11 +151,11 @@ export default {
       }
       // console.log(this.couponsList);
       // 加载状态结束
-      this.couponsLoading = false;
+      // this.couponsLoading = false;
 
       // 数据全部加载完成
       if (this.couponsList.length >= list.length) {
-        this.couponsFinished = true;
+        // this.couponsFinished = true;
       }
     },
     couponsLoad() {
@@ -261,10 +262,11 @@ export default {
   },
   created() {
     this.code = this.$route.query.code;
-    this.redeem = this.$route.query.redeem_id;
+    this.redeem = decodeURIComponent(this.$route.query.redeem_id).replace(/\s/g, '+');
     sessionStorage.setItem("hash", window.location.hash);
   },
   mounted() {
+    this.getCouponsDetail();
   }
 };
 </script>

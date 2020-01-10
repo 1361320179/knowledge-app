@@ -164,6 +164,7 @@ export default new Router({
       component: nullpage,
       meta: {
         title: '页面不见了',
+        unreload: true
       }
     },
     // 访问超时
@@ -173,12 +174,16 @@ export default new Router({
       component: timeout,
       meta: {
         title: '访问超时',
+        unreload: true
       }
     },
     // 根目录
     {
       path: '/',
       redirect: '/brand/index',
+      meta: {
+        unreload: true, //当前页跳转不需要刷新
+      }
     },
     // 首页
     {
@@ -330,7 +335,7 @@ export default new Router({
       component: orderdetail,
       meta: {
         keepAlive: false,  // false不需要被缓存，true需要缓存
-        title: '我的订单',
+        title: '订单详情',
         requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
       },
     },
@@ -339,7 +344,7 @@ export default new Router({
       name: 'orderlist',
       component: orderlist,
       meta: {
-        title: '我的购买',
+        title: '我的订单',
         requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
       }
     },
