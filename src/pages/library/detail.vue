@@ -1,10 +1,15 @@
 <template>
   <div id="libraryDetail">
+    <div class="nullBox" v-if="onsale == 0">
+      <img src="./../../assets/null/product.png" width="100%" />
+      <div>该商品已下架~</div>
+    </div>
+    <div v-if="onsale == 1">
     <div class="package">
       <div class="title">
         <div class="text">
           <span class="line"></span>
-          <span class="lh titleOver">{{ packageData.base.title }}</span>
+          <span class="lh">{{ packageData.base.title }}</span>
         </div>
       </div>
       <div class="content">
@@ -84,6 +89,7 @@
       </van-tabs>
     </div>
     <a :href="this.fileHideUrl" download="file.pdf" id="hideDom" style="display: none"></a>
+    </div>
     <!-- 点击获取邮件弹窗 -->
     <van-popup v-model="emailShowPopup" class="emailPopup">
       <svg class="icon close" aria-hidden="true" @click="closeEmail">
@@ -124,6 +130,16 @@
     border-bottom: 0;
     padding: 10px 0px 10px 0;
   }
+  #libraryDetail .nullBox{
+    text-align: center;
+    font-size: 15px;
+    color: #000;
+  }
+  #libraryDetail .nullBox img{
+    width: 100%;
+    margin-top: 100px;
+    margin-bottom: 50px;
+  }
 </style>
 <script>
   import { ALBUM } from "../../apis/album.js";
@@ -137,9 +153,12 @@ export default {
       buyPrice: false,
       fileDownload: true,
       isDownload: true,
+      onsale: null,
       timeoutId: 0,
       fileHideUrl: '',
       url: '',
+      phoneType: '',
+      detailImgRouter: '',
       packageData: {
         base: {},
         brand_info: {},
@@ -152,9 +171,14 @@ export default {
       activeName: 'a'
     }
   },
+  beforeRouteLeave (to,from,next) {
+    this.detailImgRouter&&this.detailImgRouter.close()
+    next()
+  },
   mounted () {
     this.goods_id = this.$route.query.goods_id;
     this.packageGet();
+    this.phoneTypeMethod();
   },
   methods: {
     // email显示弹窗事件
@@ -162,7 +186,8 @@ export default {
       var tStamp = this.$getTimeStamp();
       let data = {
         timestamp: tStamp,
-        file_package_detail_id : this.packageData.base.compress_file_id,
+        file_package_detail_id: this.packageData.base.compress_file_id,
+        equipment: this.phoneType,
         version: "1.0"
       };
       data.sign = this.$getSign(data);
@@ -236,8 +261,14 @@ export default {
           this.pictureFile = false;
         }
         this.isLoading = false;
+        this.onsale = 1;
         console.log(this.resourceData);
       } else {
+        if (res.hasOwnProperty("error_code") && res.error_code == 401) {
+          // 上下架状态, 1=> 在架, 0=> 下架
+          this.onsale = 0;
+          this.isLoading = false;
+        }
         this.$toast(res.error_message);
       }
     },
@@ -268,9 +299,14 @@ export default {
       if (this.packageData.base.price != 0 && this.packageData.base.is_payed == '0') {
         this.buyAction(this.goods_id);
       } else if (this.packageData.base.is_payed != '0') {
-        ImagePreview(item)
+        this.detailImgRouter = ImagePreview({
+          images: item
+        });
+        // ImagePreview(item)
       } else if (this.packageData.base.price == 0) {
-        ImagePreview(item)
+        this.detailImgRouter = ImagePreview({
+          images: item
+        });
       }
     },
     textPackIcon () {
@@ -291,12 +327,28 @@ export default {
           });
         }
     },
+    // 机型判断方法
+    phoneTypeMethod () {
+      const u = navigator.userAgent;
+      const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+      console.log('判断');
+      if (isiOS) {
+        // ios
+        console.log('ios');
+        this.phoneType = 'ios';
+      } else {
+        // andriod
+        console.log('andriod');
+        this.phoneType = 'android';
+      }
+    },
     // 文档判断是否预览
     async fileClickUrl (id) {
       var tStamp = this.$getTimeStamp();
       let data = {
         timestamp: tStamp,
-        file_package_detail_id : id,
+        file_package_detail_id: id,
+        equipment: this.phoneType,
         version: "1.0"
       };
       data.sign = this.$getSign(data);
@@ -307,7 +359,7 @@ export default {
         } else if (this.packageData.base.is_download != 0 && this.packageData.base.is_payed == '0' && this.packageData.base.price != 0) {
           this.buyAction(this.goods_id);
         } else {
-          const u = navigator.userAgent;
+          /*const u = navigator.userAgent;
           const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
           console.log('判断');
           if (isiOS) {
@@ -321,7 +373,12 @@ export default {
             // andriod
             console.log('andriod');
             this.$toast('Android暂不支持预览，请下载文件后查看');
-          }
+          }*/
+          /*this.fileHideUrl = res.response_data.file_path;*/
+          this.fileHideUrl = res.response_data.view_path;
+          this.timeoutId = setTimeout(() => {
+            document.getElementById('hideDom').click();
+          },100)
         }
       } else {
         if (res.error_code === 100) {

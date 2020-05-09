@@ -1,6 +1,9 @@
 <template>
   <div id="resultPage">
-    <div class="nullBox" v-if="programFinished && contentData.length == 0">
+    <div
+      class="nullBox"
+      v-if="programFinished && contentData.length == 0 && summaryList.length == 0"
+    >
       <img src="../../assets/null/list.png" width="100%" />
       <div>您搜索的内容为空</div>
     </div>
@@ -11,9 +14,8 @@
       finished-text="没有更多了"
       @load="programLoad"
       class="list"
-      v-else
     >
-    <!-- <div> -->
+      <!-- <div> -->
       <div class="searhResult">
         <svg class="icon searchIcon" aria-hidden="true">
           <use xlink:href="#icon-search-line" />
@@ -31,128 +33,296 @@
         v-model="activekey"
       >
         <van-tab :title="items.name" v-for="(items,index) in column_list" :key="index">
-          <template v-if="activekey == index">
-            <!-- <van-list
-              v-model="programLoading"
-              :finished="programFinished"
-              finished-text="没有更多了"
-              @load="programLoad"
-            > -->
-              <div v-for="(item,index) in brandData" :key="index">
-                <!-- 图书,专辑 -->
+          <template
+            v-if="items.goods_type == 0 && items.search_type && items.search_type == 'summary' && activekey == index"
+          >
+            <div v-for="(litem,lindex) in summaryList" :key="lindex">
+              <div class="summaryList" v-if="litem.search_type == 'brand'">
+                <div class="head">
+                  <span class="verticleLine"></span>
+                  <span class="brandName">火把号</span>
+                </div>
                 <div
-                  class="content book"
-                  @click="gotoDetail(item)"
-                  v-if="item.goods_type == 3 || item.goods_type == 9"
+                  class="brandContent"
+                  v-for="(bitem,bindex) in litem.result"
+                  :key="bindex"
+                  @click="toBrand(bitem,bindex)"
                 >
-                  <div class="ratiobook">
-                    <div class="bookimg" v-lazy:background-image="item.pic[0]"></div>
-                  </div>
-                  <div class="right">
-                    <div class="text">{{item.title}}</div>
-                    <div class="pinpai">{{item.sub_title}}</div>
-                    <div class="nice">
-                      <span class="good" v-if="item.goods_type == 6">
-                        <svg class="icon" aria-hidden="true">
-                          <use xlink:href="#icon-good-line" />
-                        </svg>
-                        <span>{{item.praise_num}}</span>
-                      </span>
-                      <span class="price" v-if="item.goods_type == 3">
-                        <span>￥{{ item.price }}</span>
-                      </span>
-                      <span class="comment" v-if="item.goods_type == 9">
-                        <svg class="icon" aria-hidden="true">
-                          <use xlink:href="#icon-album-line" />
-                        </svg>
-                        <span>共{{ item.item_count }}集</span>
-                      </span>
+                  <img :src="bitem.brand_pic" alt width="45px" height="45px" />
+                  <span class="bname">{{bitem.brand_name}}</span>
+                </div>
+                <div class="readMore" v-if="litem.result_num > 2">
+                  <span @click="watchMore(litem,lindex)">
+                    查看更多
+                    <svg class="icon" aria-hidden="true">
+                      <use xlink:href="#icon-next-line" />
+                    </svg>
+                  </span>
+                </div>
+              </div>
+              <div class="summaryList" v-if="litem.search_type == 'goods'">
+                <div class="head">
+                  <span class="verticleLine"></span>
+                  <span class="brandName">{{litem.column_name}}</span>
+                </div>
+                <div v-for="(gitem,gindex) in litem.result" :key="gindex">
+                  <!-- 图书,专辑 -->
+                  <div
+                    class="content book"
+                    @click="gotoDetail(gitem)"
+                    v-if="gitem.goods_type == 3 || gitem.goods_type == 9"
+                  >
+                    <div class="ratiobook">
+                      <div class="bookimg" v-lazy:background-image="gitem.pic[0]"></div>
+                    </div>
+                    <div class="right">
+                      <div class="text">{{gitem.title}}</div>
+                      <div class="pinpai">{{gitem.sub_title}}</div>
+                      <div class="nice">
+                        <span class="good" v-if="gitem.goods_type == 6">
+                          <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-good-line" />
+                          </svg>
+                          <span>{{gitem.praise_num}}</span>
+                        </span>
+                        <span class="price" v-if="gitem.goods_type == 3">
+                          <span>￥{{ gitem.price }}</span>
+                        </span>
+                        <span class="comment" v-if="gitem.goods_type == 9">
+                          <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-album-line" />
+                          </svg>
+                          <span>共{{ gitem.item_count }}集</span>
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <!-- 文章 -->
-                <div class="content" @click="gotoDetail(item)" v-if="item.goods_type == 6">
-                  <div class="ratiobox">
-                    <div class="bookImg" v-lazy:background-image="item.pic[0]"></div>
+                  <!-- 文章 -->
+                  <div class="content" @click="gotoDetail(gitem)" v-if="gitem.goods_type == 6">
+                    <div class="ratiobox">
+                      <div class="bookImg" v-lazy:background-image="gitem.pic[0]"></div>
+                    </div>
+                    <div class="right">
+                      <div class="text">{{gitem.title}}</div>
+                      <div class="pinpai">{{gitem.sub_title}}</div>
+                      <div class="nice">
+                        <span class="good" v-if="gitem.goods_type == 6">
+                          <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-good-line" />
+                          </svg>
+                          <span>{{gitem.praise_num}}</span>
+                        </span>
+                        <span class="comment">
+                          <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-comment-line" />
+                          </svg>
+                          <span>{{ gitem.comment_num }}</span>
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                  <div class="right">
-                    <div class="text">{{item.title}}</div>
-                    <div class="pinpai">{{item.sub_title}}</div>
-                    <div class="nice">
-                      <span class="good" v-if="item.goods_type == 6">
-                        <svg class="icon" aria-hidden="true">
-                          <use xlink:href="#icon-good-line" />
-                        </svg>
-                        <span>{{item.praise_num}}</span>
-                      </span>
-                      <span class="comment">
-                        <svg class="icon" aria-hidden="true">
+                  <!-- 音视频 -->
+                  <div
+                    class="content audio"
+                    @click="gotoDetail(gitem)"
+                    v-if="gitem.goods_type == 1 || gitem.goods_type == 2"
+                  >
+                    <div class="ratiobox">
+                      <div class="bookImg" v-lazy:background-image="gitem.pic[0]"></div>
+                    </div>
+                    <div class="right">
+                      <div class="text">{{gitem.title}}</div>
+                      <div class="pinpai">{{gitem.sub_title}}</div>
+                      <div class="nice">
+                        <span class="good">
+                          <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-time-line" />
+                          </svg>
+                          <span>{{gitem.duration}}</span>
+                        </span>
+                        <span class="price">
+                          <!-- <svg class="icon" aria-hidden="true">
                           <use xlink:href="#icon-comment-line" />
-                        </svg>
-                        <span>{{ item.comment_num }}</span>
-                      </span>
+                          </svg>-->
+                          <span v-if="gitem.price">￥{{ gitem.price }}</span>
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <!-- 音视频 -->
-                <div
-                  class="content audio"
-                  @click="gotoDetail(item)"
-                  v-if="item.goods_type == 1 || item.goods_type == 2"
-                >
-                  <div class="ratiobox">
-                    <div class="bookImg" v-lazy:background-image="item.pic[0]"></div>
-                  </div>
-                  <div class="right">
-                    <div class="text">{{item.title}}</div>
-                    <div class="pinpai">{{item.sub_title}}</div>
-                    <div class="nice">
-                      <span class="good">
-                        <svg class="icon" aria-hidden="true">
+                  <!-- 电子书 -->
+                  <div
+                    class="content ebook"
+                    @click="gotoDetail(gitem)"
+                    v-if="gitem.goods_type == 4"
+                  >
+                    <div class="ratiobox">
+                      <div class="bookImg" v-lazy:background-image="gitem.pic[0]"></div>
+                    </div>
+                    <div class="right">
+                      <div class="text">{{gitem.title}}</div>
+                      <!-- <div class="pinpai">{{item.sub_title}}</div> -->
+                      <div class="nice">
+                        <span class="good">
+                          <!-- <svg class="icon" aria-hidden="true">
                           <use xlink:href="#icon-time-line" />
-                        </svg>
-                        <span>{{item.duration}}</span>
-                      </span>
-                      <span class="price">
-                        <!-- <svg class="icon" aria-hidden="true">
+                          </svg>-->
+                          <span>{{gitem.book_author}}</span>
+                        </span>
+                        <span class="price">
+                          <!-- <svg class="icon" aria-hidden="true">
                           <use xlink:href="#icon-comment-line" />
-                        </svg>-->
-                        <span v-if="item.price">￥{{ item.price }}</span>
-                      </span>
+                          </svg>-->
+                          <span v-if="gitem.price">￥{{ gitem.price }}</span>
+                          <span v-else>免费</span>
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <!-- 电子书 -->
-                <div class="content ebook" @click="gotoDetail(item)" v-if="item.goods_type == 4">
-                  <div class="ratiobox">
-                    <div class="bookImg" v-lazy:background-image="item.pic[0]"></div>
-                  </div>
-                  <div class="right">
-                    <div class="text">{{item.title}}</div>
-                    <!-- <div class="pinpai">{{item.sub_title}}</div> -->
-                    <div class="nice">
-                      <span class="good">
-                        <!-- <svg class="icon" aria-hidden="true">
-                          <use xlink:href="#icon-time-line" />
-                        </svg>-->
-                        <span>{{item.book_author}}</span>
-                      </span>
-                      <span class="price">
-                        <!-- <svg class="icon" aria-hidden="true">
-                          <use xlink:href="#icon-comment-line" />
-                        </svg>-->
-                        <span v-if="item.price">￥{{ item.price }}</span>
-                        <span v-else>免费</span>
-                      </span>
-                    </div>
+                <div class="readMore" v-if="litem.result_num > 2">
+                  <span @click="watchMore(litem,lindex)">
+                    查看更多
+                    <svg class="icon" aria-hidden="true">
+                      <use xlink:href="#icon-next-line" />
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </template>
+          <!-- 火把号 -->
+          <template
+            v-if="items.goods_type == 0 && items.search_type && items.search_type == 'brand' && activekey == index"
+          >
+            <div class="summaryList huoba" v-if="huobaList.length>0">
+              <div
+                class="brandContent"
+                v-for="(hbitem,hbindex) in huobaList"
+                :key="hbindex"
+                @click="toBrand(hbitem,hbindex)"
+              >
+                <img :src="hbitem.brand_pic" alt width="45px" height="45px" />
+                <span class="bname">{{hbitem.brand_name}}</span>
+              </div>
+            </div>
+          </template>
+          <template
+            v-if="items.goods_type > 0 && items.search_type && items.search_type == 'goods' && activekey == index"
+          >
+            <div v-for="(item,index) in brandData" :key="index">
+              <!-- 图书,专辑 -->
+              <div
+                class="content book"
+                @click="gotoDetail(item)"
+                v-if="item.goods_type == 3 || item.goods_type == 9"
+              >
+                <div class="ratiobook">
+                  <div class="bookimg" v-lazy:background-image="item.pic[0]"></div>
+                </div>
+                <div class="right">
+                  <div class="text">{{item.title}}</div>
+                  <div class="pinpai">{{item.sub_title}}</div>
+                  <div class="nice">
+                    <span class="good" v-if="item.goods_type == 6">
+                      <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-good-line" />
+                      </svg>
+                      <span>{{item.praise_num}}</span>
+                    </span>
+                    <span class="price" v-if="item.goods_type == 3">
+                      <span>￥{{ item.price }}</span>
+                    </span>
+                    <span class="comment" v-if="item.goods_type == 9">
+                      <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-album-line" />
+                      </svg>
+                      <span>共{{ item.item_count }}集</span>
+                    </span>
                   </div>
                 </div>
               </div>
-            <!-- </van-list> -->
+              <!-- 文章 -->
+              <div class="content" @click="gotoDetail(item)" v-if="item.goods_type == 6">
+                <div class="ratiobox">
+                  <div class="bookImg" v-lazy:background-image="item.pic[0]"></div>
+                </div>
+                <div class="right">
+                  <div class="text">{{item.title}}</div>
+                  <div class="pinpai">{{item.sub_title}}</div>
+                  <div class="nice">
+                    <span class="good" v-if="item.goods_type == 6">
+                      <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-good-line" />
+                      </svg>
+                      <span>{{item.praise_num}}</span>
+                    </span>
+                    <span class="comment">
+                      <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-comment-line" />
+                      </svg>
+                      <span>{{ item.comment_num }}</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <!-- 音视频 -->
+              <div
+                class="content audio"
+                @click="gotoDetail(item)"
+                v-if="item.goods_type == 1 || item.goods_type == 2"
+              >
+                <div class="ratiobox">
+                  <div class="bookImg" v-lazy:background-image="item.pic[0]"></div>
+                </div>
+                <div class="right">
+                  <div class="text">{{item.title}}</div>
+                  <div class="pinpai">{{item.sub_title}}</div>
+                  <div class="nice">
+                    <span class="good">
+                      <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-time-line" />
+                      </svg>
+                      <span>{{item.duration}}</span>
+                    </span>
+                    <span class="price">
+                      <!-- <svg class="icon" aria-hidden="true">
+                          <use xlink:href="#icon-comment-line" />
+                      </svg>-->
+                      <span v-if="item.price">￥{{ item.price }}</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <!-- 电子书 -->
+              <div class="content ebook" @click="gotoDetail(item)" v-if="item.goods_type == 4">
+                <div class="ratiobox">
+                  <div class="bookImg" v-lazy:background-image="item.pic[0]"></div>
+                </div>
+                <div class="right">
+                  <div class="text">{{item.title}}</div>
+                  <!-- <div class="pinpai">{{item.sub_title}}</div> -->
+                  <div class="nice">
+                    <span class="good">
+                      <!-- <svg class="icon" aria-hidden="true">
+                          <use xlink:href="#icon-time-line" />
+                      </svg>-->
+                      <span>{{item.book_author}}</span>
+                    </span>
+                    <span class="price">
+                      <!-- <svg class="icon" aria-hidden="true">
+                          <use xlink:href="#icon-comment-line" />
+                      </svg>-->
+                      <span v-if="item.price">￥{{ item.price }}</span>
+                      <span v-else>免费</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </template>
         </van-tab>
       </van-tabs>
-    <!-- </div> -->
+      <!-- </div> -->
     </van-list>
     <EazyNav type="brand" :isShow="true"></EazyNav>
   </div>
@@ -161,30 +331,19 @@
 <style src="@/style/scss/pages/brand/result.scss" scoped lang="scss"></style>
 
 <script>
-import { BRAND_SEARCH_GOODS_GETS,SEARCH_GOODS_SUMMARY } from "../../apis/brand.js";
-import { WX_SHARE } from "../../apis/public.js";
-// import easyNav from "../../components/easyNav";
+import {
+  BRAND_SEARCH_GOODS_GETS,
+  SEARCH_GOODS_SUMMARY,
+  SEARCH_BRAND_GETS
+} from "../../apis/brand.js";
 import resultVue from "../personal/order/result.vue";
 export default {
-  // components: {
-  //   easyNav
-  // },
   data() {
     return {
-      // navData: {
-      //   fold: false,
-      //   home: true,
-      //   homeLink: "/",
-      //   search: true,
-      //   searchLink: "/search",
-      //   personal: true,
-      //   personalLink: "/personal/index",
-      //   type: "brand"
-      // },
       state: "brand",
       brandData: [],
       bookData: [],
-      column_list: [],
+      column_list: [{ search_type: null }],
       programLoading: false,
       programFinished: false,
       // 搜索结果参数
@@ -198,7 +357,11 @@ export default {
       supplier_id: null,
       tagids: null,
       cids: null,
-      isbrand_id: null
+      isbrand_id: null,
+      summaryList: [],
+      huobapage: 1,
+      huobaList: [],
+      judgehome_id: null
     };
   },
   mounted() {
@@ -216,11 +379,15 @@ export default {
     this.cids = this.$route.query.cids ? this.$route.query.cids : null;
 
     // title
-    this.title = this.$route.query.title ? this.$route.query.title : "";
-    document.title = "搜索结果-" + this.title;
-
+    this.title = this.$route.query.searchContent
+      ? this.$route.query.searchContent
+      : "";
+    if (this.title != "") this.title = "-" + this.title;
+    document.title = "搜索结果" + this.title;
+    this.judgehome_id = localStorage.getItem("home_id");
     // this.getGoodsColum();
     // this.getGoods();
+    this.getSummaryGoods();
     setTimeout(() => {
       window.scrollTo(0, 0);
     }, 100);
@@ -261,36 +428,67 @@ export default {
       }
     },
     programLoad() {
-      this.getGoods();
+      var list_index = this.activekey;
+      // console.log(666,this.column_list)
+      if (this.column_list[list_index].search_type == "brand") {
+        this.huobaBrand();
+      } else if (this.column_list[list_index].search_type == "goods") {
+        this.getGoods();
+      } else if (this.column_list[list_index].search_type == "summary") {
+        this.programFinished = true;
+        this.programLoading = false;
+      } else {
+        this.getGoods();
+      }
     },
     async getGoods() {
       var tStamp = this.$getTimeStamp();
-      var data = {
-        keywords: this.searchContent,
-        goods_type: this.goods_type,
-        brand_id: this.isbrand_id == "no" ? 0 : this.$route.query.brand_id,
-        supplier_id: this.supplier_id,
-        tagids: this.tagids,
-        cids: this.cids,
-        page: this.page,
-        page_size: this.page_size,
-        version: "1.0",
-        timestamp: tStamp
-      };
+      var data = {};
+      if (this.judgehome_id == "all") {
+        data = {
+          scene: "platform",
+          keywords: this.searchContent,
+          goods_type: this.goods_type,
+          // brand_id: this.isbrand_id == "no" ? 0 : this.$route.query.brand_id,
+          // supplier_id: this.supplier_id,
+          tagids: this.tagids,
+          cids: this.cids,
+          page: this.page,
+          page_size: this.page_size,
+          version: "1.0",
+          timestamp: tStamp
+        };
+      } else {
+        data = {
+          keywords: this.searchContent,
+          goods_type: this.goods_type,
+          brand_id: this.isbrand_id == "no" ? 0 : this.$route.query.brand_id,
+          // supplier_id: this.supplier_id?this.supplier_id:0,
+          tagids: this.tagids,
+          cids: this.cids,
+          page: this.page,
+          page_size: this.page_size,
+          version: "1.0",
+          timestamp: tStamp
+        };
+        if (this.supplier_id) {
+          data.supplier_id = this.supplier_id;
+        }
+        if (this.$route.query.type == "brand") {
+          data.scene = "brand";
+        } else if (this.$route.query.type == "mall") {
+          data.scene = "mall";
+        } else {
+          data.scene = "platform";
+        }
+      }
       data.sign = this.$getSign(data);
       let res = await BRAND_SEARCH_GOODS_GETS(data);
 
       if (res.hasOwnProperty("response_code")) {
         var result = res.response_data.result;
-        this.column_list = res.response_data.column;
-        // console.log(111,this.column_list)
-        var _index = 0;
-        for (let i = 0; i < this.column_list.length; i++) {
-          if (this.column_list[i].goods_type == this.goods_type) {
-            _index = i;
-          }
-        }
-        this.activekey = _index;
+        // this.column_list = res.response_data.column;
+
         setTimeout(() => {
           for (let i = 0; i < result.length; i++) {
             this.brandData.push(result[i]);
@@ -307,36 +505,129 @@ export default {
         }, 1);
 
         // 获取页面分享信息
-        var _pageName = "";
-        var _params = "";
-        switch (this.$route.query.type) {
-          case "mall":
-            var tmp = {};
-            tmp.supplier_id = this.$route.query.supplier_id;
-            tmp.brand_id = this.$route.query.brand_id;
-            if (this.$route.query.searchContent)
-              tmp.keywords = this.$route.query.searchContent;
-            if (this.$route.query.goods_type)
-              tmp.goods_type = this.$route.query.goods_type;
-            _pageName = "mall/goods/search";
-            _params = JSON.stringify(tmp);
-            break;
-          case "brand":
-            _pageName = "brand/goods/search";
-            _params = JSON.stringify({
-              brand_id: this.$route.query.brand_id,
-              keywords: this.$route.query.searchContent
-            });
-            break;
-          case "index":
-            _pageName = "brand/goods/search";
-            _params = JSON.stringify({
-              brand_id: this.$route.query.brand_id,
-              keywords: this.$route.query.searchContent
-            });
-            break;
+        // var _pageName = "";
+        // var _params = "";
+        // switch (this.$route.query.type) {
+        //   case "mall":
+        //     var tmp = {};
+        //     tmp.supplier_id = this.$route.query.supplier_id;
+        //     tmp.brand_id = this.$route.query.brand_id;
+        //     if (this.$route.query.searchContent)
+        //       tmp.keywords = this.$route.query.searchContent;
+        //     if (this.$route.query.goods_type)
+        //       tmp.goods_type = this.$route.query.goods_type;
+        //     _pageName = "mall/goods/search";
+        //     _params = JSON.stringify(tmp);
+        //     break;
+        //   case "brand":
+        //     _pageName = "brand/goods/search";
+        //     _params = JSON.stringify({
+        //       brand_id: this.$route.query.brand_id,
+        //       keywords: this.$route.query.searchContent
+        //     });
+        //     break;
+        //   case "index":
+        //     _pageName = "brand/goods/search";
+        //     _params = JSON.stringify({
+        //       brand_id: this.$route.query.brand_id,
+        //       keywords: this.$route.query.searchContent
+        //     });
+        //     break;
+        //   case "all":
+        //     _pageName = "brand/goods/search";
+        //     _params = JSON.stringify({
+        //       brand_id: this.$route.query.brand_id,
+        //       keywords: this.$route.query.searchContent
+        //     });
+        //     break;
+        // }
+        // if (this.isWxLogin) this.$getWxShareData(_pageName, _params);
+      } else {
+        this.$toast(res.error_message);
+      }
+    },
+    // 综合列表
+    async getSummaryGoods() {
+      var tStamp = this.$getTimeStamp();
+      var data = {};
+      if (this.judgehome_id == "all") {
+        data = {
+          scene: "platform",
+          keywords: this.searchContent,
+          // brand_id: this.isbrand_id == "no" ? 0 : this.$route.query.brand_id,
+          // supplier_id: this.supplier_id,
+          cids: this.cids,
+          version: "1.0",
+          timestamp: tStamp
+        };
+      } else {
+        data = {
+          keywords: this.searchContent,
+          brand_id: this.isbrand_id == "no" ? 0 : this.$route.query.brand_id,
+          // supplier_id: this.supplier_id?this.supplier_id:0,
+          cids: this.cids,
+          version: "1.0",
+          timestamp: tStamp
+        };
+        if (this.supplier_id) {
+          data.supplier_id = this.supplier_id;
         }
-        if (this.isWxLogin) this.$getWxShareData(_pageName, _params);
+        if (this.$route.query.type == "brand") {
+          data.scene = "brand";
+        } else if (this.$route.query.type == "mall") {
+          data.scene = "mall";
+        } else {
+          data.scene = "platform";
+        }
+      }
+
+      data.sign = this.$getSign(data);
+      let res = await SEARCH_GOODS_SUMMARY(data);
+
+      if (res.hasOwnProperty("response_code")) {
+        this.column_list = res.response_data.column;
+        // console.log(111,this.column_list)
+        if (this.goods_type > 0) {
+          for (let i = 0; i < this.column_list.length; i++) {
+            if (this.column_list[i].goods_type == this.goods_type) {
+              this.activekey = i;
+            }
+          }
+        }
+        this.summaryList = res.response_data.list;
+        this.programFinished = true;
+        this.programLoading = false;
+      } else {
+        this.$toast(res.error_message);
+      }
+    },
+    // 火把公号列表
+    async huobaBrand() {
+      var tStamp = this.$getTimeStamp();
+      var data = {
+        keywords: this.searchContent,
+        page: this.page,
+        version: "1.0",
+        timestamp: tStamp
+      };
+      data.sign = this.$getSign(data);
+      let res = await SEARCH_BRAND_GETS(data);
+
+      if (res.hasOwnProperty("response_code")) {
+        var result = res.response_data.result;
+        setTimeout(() => {
+          for (let i = 0; i < result.length; i++) {
+            this.huobaList.push(result[i]);
+          }
+          this.programLoading = false;
+          this.page++;
+          // console.log('thispage',this.page)
+          // 数据全部加载完成
+          if (this.page > res.response_data.total_page) {
+            this.programFinished = true;
+            this.page = 1;
+          }
+        }, 1);
       } else {
         this.$toast(res.error_message);
       }
@@ -352,17 +643,57 @@ export default {
         }
       });
     },
-    // 点击tab页切换
-    tabChange(index, title) {
-      this.activekey = index;
+    // 跳转公众号首页
+    toBrand(item, index) {
+      this.$router.push({
+        name: "brand",
+        query: {
+          brand_id: item.brand_id
+        }
+      });
+    },
+    // 查看更多
+    watchMore(item, index) {
+      console.log(item);
+      var _index = this.getArrayIndex(this.column_list, item);
+      this.activekey = _index;
+      this.goods_type = this.column_list[_index].goods_type;
       this.brandData = [];
+      this.huobaList = [];
       this.page = 1;
-      this.goods_type = Number(this.column_list[index].goods_type);
       this.programLoading = true; //下拉加载中
       this.programFinished = false; //下拉结束
       if (this.programLoading) {
         this.programLoad();
       }
+    },
+    getArrayIndex(arr, obj) {
+      for (var i = 0; i < this.column_list.length; i++) {
+        if (obj.search_type == "goods") {
+          if (this.column_list[i].goods_type == obj.goods_type) {
+            return i;
+          }
+        } else {
+          if (this.column_list[i].search_type == obj.search_type) {
+            return i;
+          }
+        }
+      }
+    },
+    // 点击tab页切换
+    tabChange(index, title) {
+      this.activekey = index;
+      this.goods_type = Number(this.column_list[index].goods_type);
+      // if (index > 0) {
+      this.brandData = [];
+      this.huobaList = [];
+      this.page = 1;
+      this.programLoading = true; //下拉加载中
+      this.programFinished = false; //下拉结束
+      if (this.programLoading) {
+        this.programLoad();
+      }
+      // }
     }
   }
 };

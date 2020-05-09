@@ -1,5 +1,5 @@
 <template>
-  <div id="redeemGoodsPage" :style="{'background-color':goodsDetail.colour.bg?goodsDetail.colour.bg:''}">
+  <div id="redeemGoodsPage" :style="{'background-color':goodsDetail.colour.bg?goodsDetail.colour.bg:''}" v-show="pageShow">
     <div v-if="!remindPopShow">
       <!-- <van-list
      v-model="goodsLoading"
@@ -110,7 +110,8 @@
         addressData: [],
         addressId: 0,
         percentGoods: {},
-        pupFlag: false
+        popFlag: false,
+        pageShow: true
       };
     },
     methods: {
@@ -196,6 +197,7 @@
         } else {
           // this.$toast(res.error_message);
           if (localStorage.getItem("unionid")) {
+          // if (true) {
             this.$router.push({name: 'redeemLogin'});
           } else {
             this.$router.push({name: 'login'});
@@ -293,19 +295,14 @@
       },
       // 是否是APP
       isApp() {
-        // var u = navigator.userAgent,
-        //   app = navigator.appVersion;
-        // var _ios = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
-        // var _android = u.indexOf("Android") > -1 || u.indexOf("Adr") > -1;
-        // console.log(u, app, _ios, _android);
-        if (sessionStorage.getItem("isHuobaIosLogin") == "yes" || sessionStorage.getItem("isHuobaAndroidLogin") == "yes") {
+        if (localStorage.getItem("isHuobaIosLogin") == "yes" || localStorage.getItem("isHuobaAndroidLogin") == "yes") {
           return true;
         } else {
           return false;
         }
       },
       visitPage() {
-        if (this.secShare == 0 &&  sessionStorage.getItem('originLink') != 1) { // 不可二次分享
+        if (this.secShare == 0 &&  localStorage.getItem('originLink') != 1) { // 不可二次分享
           this.remindPopShow = true;
           const timer = setInterval(() => {
             this.time--;
@@ -321,10 +318,21 @@
     created() {
       this.code = this.$route.query.code;
       this.redeem = decodeURIComponent(this.$route.query.redeem_id).replace(/\s/g, '+');
-      sessionStorage.setItem('hash', window.location.hash);
+      localStorage.setItem('hash', window.location.hash);
     },
     mounted() {
-      this.getGoodsDetail();
+      let _this = this;
+      this.getGoodsDetail().then(function () {
+        if (sessionStorage.getItem('fromRedeemLogin') == '1') {
+          if (_this.goodsDetail.goods_type != 3 ) { // 非实物商品
+            _this.pageShow = false;
+          }
+          _this.popFlag = false;
+          console.log('goodsItem',JSON.parse(sessionStorage.getItem('goodsItem')));
+          _this.goodsRedeem(JSON.parse(sessionStorage.getItem('goodsItem')));
+          sessionStorage.setItem('fromRedeemLogin', '0');
+        }
+      });
     },
   }
 </script>

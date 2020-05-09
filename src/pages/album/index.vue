@@ -934,8 +934,7 @@ import {
   FOCUS_CANCEL,
   COMMENT,
   COMMENT_ADD,
-  RECOMMEND,
-  WX_SHARE
+  RECOMMEND
 } from "../../apis/public.js";
 import { setTimeout } from "timers";
 import { truncate } from "fs";
@@ -1119,30 +1118,6 @@ export default {
         }
       });
     },
-    // 获取页面分享信息
-    // async wxShareData() {
-    //   var tStamp = this.$getTimeStamp();
-    //   var data = {
-    //     page_name: "goods/detail",
-    //     params: JSON.stringify({ goods_id: this.$route.query.goods_id }),
-    //     version: "1.0",
-    //     timestamp: tStamp
-    //   };
-    //   data.sign = this.$getSign(data);
-    //   let res = await WX_SHARE(data);
-    //   if (res.hasOwnProperty("response_code")) {
-    //     // console.log(res.response_data)
-    //     // 微信分享
-    //     this.$getWxData(
-    //       res.response_data.share_info.title,
-    //       res.response_data.share_info.desc,
-    //       res.response_data.share_info.pic,
-    //       res.response_data.share_info.url
-    //     );
-    //   } else {
-    //     this.$toast(res.error_message);
-    //   }
-    // },
     // --------------------------------专辑信息----------------------------------
     // 获取专辑接口信息
     async albumData() {
@@ -1187,9 +1162,10 @@ export default {
         }
         // 获取页面分享信息
         // if (this.isWxLogin) this.wxShareData();
-        var _pageName = "goods/detail";
-        var _params = JSON.stringify({ goods_id: this.$route.query.goods_id });
-        if (this.isWxLogin) this.$getWxShareData(_pageName, _params);
+        // var _pageName = "goods/detail";
+        // var _params = JSON.stringify({ goods_id: this.$route.query.goods_id });
+        // if (this.isWxLogin) this.$getWxShareData(_pageName, _params);
+        
         // 是否显示底部购买按钮
         this.showBuyButton = !(
           this.baseData.is_free == 0 &&

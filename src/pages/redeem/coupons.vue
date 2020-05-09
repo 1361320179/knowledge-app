@@ -2,6 +2,7 @@
   <div
     id="redeemCouponsPage"
     :style="{'background-color': couponsDetail.colour.bg?couponsDetail.colour.bg: ''}"
+    v-show="pageShow"
   >
     <div v-if="!remindPopShow">
       <!--<van-list-->
@@ -110,7 +111,8 @@ export default {
       // couponsLoading: false,
       // couponsFinished: false,
       couponsList: [],
-      percentCoupons: {}
+      percentCoupons: {},
+      pageShow: true
     };
   },
   methods: {
@@ -183,9 +185,9 @@ export default {
 
         sessionStorage.setItem("goodsItem", JSON.stringify(item));
         sessionStorage.setItem("goodsType", "coupons");
-        // console.log(sessionStorage.getItem("goodsItem"));
+        // console.log(localStorage.getItem("goodsItem"));
         if (localStorage.getItem("unionid")) {
-          // if (false) {
+        //   if (true) {
           this.$router.push({ name: "redeemLogin" });
         } else {
           this.$router.push({ name: "login" });
@@ -238,8 +240,8 @@ export default {
       // var _android = u.indexOf("Android") > -1 || u.indexOf("Adr") > -1;
       // console.log(u, app, _ios, _android);
       if (
-        sessionStorage.getItem("isHuobaIosLogin") == "yes" ||
-        sessionStorage.getItem("isHuobaAndroidLogin") == "yes"
+        localStorage.getItem("isHuobaIosLogin") == "yes" ||
+        localStorage.getItem("isHuobaAndroidLogin") == "yes"
       ) {
         return true;
       } else {
@@ -247,7 +249,7 @@ export default {
       }
     },
     visitPage() {
-      if (this.secShare == 0 &&  sessionStorage.getItem('originLink') != 1) { // 不可二次分享
+      if (this.secShare == 0 &&  localStorage.getItem('originLink') != 1) { // 不可二次分享
         this.remindPopShow = true;
         const timer = setInterval(() => {
           this.time--;
@@ -263,10 +265,18 @@ export default {
   created() {
     this.code = this.$route.query.code;
     this.redeem = decodeURIComponent(this.$route.query.redeem_id).replace(/\s/g, '+');
-    sessionStorage.setItem("hash", window.location.hash);
+    localStorage.setItem("hash", window.location.hash);
   },
   mounted() {
-    this.getCouponsDetail();
+    let _this = this;
+    this.getCouponsDetail().then(function () {
+      if (sessionStorage.getItem('fromRedeemLogin') == '1') {
+        _this.pageShow = false;
+        console.log('goodsItem',JSON.parse(sessionStorage.getItem('goodsItem')));
+        _this.couponsRedeem(JSON.parse(sessionStorage.getItem('goodsItem')));
+        sessionStorage.setItem('fromRedeemLogin', '0');
+      }
+    });
   }
 };
 </script>

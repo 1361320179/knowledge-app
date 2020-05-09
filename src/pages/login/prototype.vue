@@ -262,6 +262,12 @@ export default {
   },
   mounted() {
     this.type = this.$route.query.type;
+    if (this.type == 'private') {
+      document.title = '火把平台用户隐私条款';
+    } else {
+      document.title = '火把平台用户注册协议';
+
+    }
   }
 };
 </script>

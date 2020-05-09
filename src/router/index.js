@@ -5,11 +5,23 @@ import Router from 'vue-router'
 import index from '@/pages/index'
 
 // 登录/注册
-import login from '@/pages/login/index'
-import password from '@/pages/login/password'
-import register from '@/pages/login/register'
-import prototype from '@/pages/login/prototype'
-import bindphone from '@/pages/login/bindphone'
+// import login from '@/pages/login/index'
+// import password from '@/pages/login/password'
+// import register from '@/pages/login/register'
+// import prototype from '@/pages/login/prototype'
+// import bindphone from '@/pages/login/bindphone'
+
+// 登录/注册
+import loginV2 from '@/pages/login/index'
+import prototypeV2 from '@/pages/login/prototype'
+import verificationV2 from '@/pages/login/verification'
+import bindPhoneV2 from '@/pages/login/wxLogin/bindPhone'
+import phoneLoginV2 from '@/pages/login/phoneLogin/phoneLogin'
+import passwordLoginV2 from '@/pages/login/passwordLogin/passwordLogin'
+import changePasswordV2 from '@/pages/login/set/changePassword'
+import changePhoneV2 from '@/pages/login/set/changePhone'
+import authenticationV2 from '@/pages/login/set/authentication'
+
 
 // 个人中心 - 我的余额
 import remain from '@/pages/personal/remain/index'
@@ -51,7 +63,7 @@ import safe from '@/pages/personal/set/safe'
 import cropper from '@/pages/personal/set/cropper'
 import bind from '@/pages/personal/set/bind'
 // import cancel from '@/pages/personal/set/cancel'
-import setpassword from '@/pages/personal/set/password'
+// import setpassword from '@/pages/personal/set/password'
 import setphone from '@/pages/personal/set/phone'
 
 // 个人中心 - 帮助与反馈
@@ -144,6 +156,9 @@ import redeemGoods from '@/pages/redeem/goods'
 import redeemCoupons from '@/pages/redeem/coupons'
 import straightLinkIndex from '@/pages/redeem/straightLinkIndex'
 
+// 问卷调查
+import interest from '@/pages/activity/interest'
+
 Vue.use(Router)
 
 export default new Router({
@@ -195,10 +210,60 @@ export default new Router({
       },
     },
     // 登录/注册
+    // {
+    //   path: '/login/index',
+    //   name: 'login',
+    //   component: login,
+    //   meta: {
+    //     title: '登录',
+    //     noDefaultLink: true,  // 不记录在defaultLink中
+    //     // requireAuth: true
+    //   }
+    // },
+    // {
+    //   path: '/login/password',
+    //   name: 'password',
+    //   component: password,
+    //   meta: {
+    //     title: '找回密码',
+    //     noDefaultLink: true,  // 不记录在defaultLink中
+    //     // requireAuth: true
+    //   }
+    // },
+    // {
+    //   path: '/login/register',
+    //   name: 'register',
+    //   component: register,
+    //   meta: {
+    //     title: '注册',
+    //     noDefaultLink: true,  // 不记录在defaultLink中
+    //     // requireAuth: true
+    //   }
+    // },
+    // {
+    //   path: '/login/prototype',
+    //   name: 'prototype',
+    //   component: prototype,
+    //   meta: {
+    //     title: '协议',
+    //     noDefaultLink: true,  // 不记录在defaultLink中
+    //   }
+    // },
+    // {
+    //   path: '/login/bindphone',
+    //   name: 'bindphone',
+    //   component: bindphone,
+    //   meta: {
+    //     title: '绑定手机号',
+    //     noDefaultLink: true,  // 不记录在defaultLink中
+    //     // requireAuth: false
+    //   }
+    // },
+    // 登录/注册改版
     {
       path: '/login/index',
       name: 'login',
-      component: login,
+      component: loginV2,
       meta: {
         title: '登录',
         noDefaultLink: true,  // 不记录在defaultLink中
@@ -206,21 +271,11 @@ export default new Router({
       }
     },
     {
-      path: '/login/password',
-      name: 'password',
-      component: password,
+      path: '/login/verification',
+      name: 'verification',
+      component: verificationV2,
       meta: {
-        title: '找回密码',
-        noDefaultLink: true,  // 不记录在defaultLink中
-        // requireAuth: true
-      }
-    },
-    {
-      path: '/login/register',
-      name: 'register',
-      component: register,
-      meta: {
-        title: '注册',
+        // title: '',
         noDefaultLink: true,  // 不记录在defaultLink中
         // requireAuth: true
       }
@@ -228,18 +283,67 @@ export default new Router({
     {
       path: '/login/prototype',
       name: 'prototype',
-      component: prototype,
+      component: prototypeV2,
       meta: {
-        title: '协议',
         noDefaultLink: true,  // 不记录在defaultLink中
       }
     },
     {
-      path: '/login/bindphone',
-      name: 'bindphone',
-      component: bindphone,
+      path: '/login/wxLogin/bindPhone',
+      name: 'bindPhone',
+      component: bindPhoneV2,
       meta: {
         title: '绑定手机号',
+        noDefaultLink: true,  // 不记录在defaultLink中
+        // requireAuth: false
+      }
+    },
+    {
+      path: '/login/phoneLogin/phoneLogin',
+      name: 'phoneLogin',
+      component: phoneLoginV2,
+      meta: {
+        // title: '',
+        noDefaultLink: true,  // 不记录在defaultLink中
+        // requireAuth: false
+      }
+    },
+    {
+      path: '/login/passwordLogin/passwordLogin',
+      name: 'passwordLogin',
+      component: passwordLoginV2,
+      meta: {
+        // title: '',
+        noDefaultLink: true,  // 不记录在defaultLink中
+        // requireAuth: false
+      }
+    },
+    {
+      path: '/login/set/changePassword',
+      name: 'changePassword',
+      component: changePasswordV2,
+      meta: {
+        // title: '',
+        noDefaultLink: true,  // 不记录在defaultLink中
+        // requireAuth: false
+      }
+    },
+    {
+      path: '/login/set/changePhone',
+      name: 'changePhone',
+      component: changePhoneV2,
+      meta: {
+        // title: '',
+        noDefaultLink: true,  // 不记录在defaultLink中
+        // requireAuth: false
+      }
+    },
+    {
+      path: '/login/set/authentication',
+      name: 'authentication',
+      component: authenticationV2,
+      meta: {
+        // title: '',
         noDefaultLink: true,  // 不记录在defaultLink中
         // requireAuth: false
       }
@@ -251,6 +355,7 @@ export default new Router({
       component: personal,
       meta: {
         title: '个人中心',
+        keepAlive: false,
         requireAuth: false // 需要登录才能进入的页面可以增加一个meta属性
       },
       beforeEnter: (to, from, next) => {
@@ -533,19 +638,19 @@ export default new Router({
     //   name: 'cancel',
     //   component: cancel,
     // },
-    {
-      path: '/personal/set/password',
-      name: 'setpassword',
-      component: setpassword,
-      //beforeEnter 在进入这个路由之前，先判断是从哪个路由跳转的
-      // beforeEnter: (to, from, next) => {
-      //   from.path == '/login/index' ? next('/personal/index') : next();
-      // },
-      meta: {
-        title: '',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
-      }
-    },
+    // {
+    //   path: '/personal/set/password',
+    //   name: 'setpassword',
+    //   component: setpassword,
+    //   //beforeEnter 在进入这个路由之前，先判断是从哪个路由跳转的
+    //   // beforeEnter: (to, from, next) => {
+    //   //   from.path == '/login/index' ? next('/personal/index') : next();
+    //   // },
+    //   meta: {
+    //     title: '',
+    //     requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+    //   }
+    // },
     {
       path: '/personal/set/phone',
       name: 'setphone',
@@ -563,7 +668,6 @@ export default new Router({
       component: help,
       meta: {
         title: '帮助与反馈',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
       }
     },
     {
@@ -572,7 +676,6 @@ export default new Router({
       component: helpdetail,
       meta: {
         title: '帮助与反馈',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
       }
     },
     {
@@ -708,6 +811,7 @@ export default new Router({
       component: brand,
       meta: {
         keepAlive: false,  // false不需要被缓存，true需要缓存
+        unreload: true,
       },
     },
     //优惠券
@@ -925,6 +1029,15 @@ export default new Router({
       path: '/redeem/coupons',
       name: 'redeemCoupons',
       component: redeemCoupons
-    }
+    },
+    // 活动 - 问卷调查
+    {
+      path: '/activity/interest',
+      name: 'interest',
+      component: interest,
+      meta: {
+        title: '火把知识',
+      }
+    },
   ]
 })

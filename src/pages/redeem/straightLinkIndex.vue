@@ -11,8 +11,7 @@
     name: "straight-link-index",
     data() {
       return {
-        redeem: '',
-        secShare: '' //  是否允许二次分享
+        redeem: ''
       };
     },
     methods: {
@@ -25,7 +24,6 @@
         let res = await REDEEM_ITEM_GET(data);
         // this.$toast(res);
         if (res.hasOwnProperty("response_code")) {
-          this.secShare = res.response_data.sec_share;
           let encryptRedeem = encodeURIComponent(res.response_data.redeem_id);
           console.log(encryptRedeem);
           // 判断是商品还是优惠券
@@ -42,14 +40,10 @@
     },
     created() {
       this.redeem = this.$route.query.redeem;
-      sessionStorage.setItem('originLink', 1);
+      localStorage.setItem('originLink', 1);
     },
     mounted() {
       this.getDetail();
     }
   }
 </script>
-
-<style lang="scss">
-
-</style>

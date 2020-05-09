@@ -287,14 +287,14 @@ export default {
     },
     //页面分享信息获取方法
     pageShareInfo() {
-      if (this.isWxLogin)
-        this.$getWxShareData(
-          "assist/index",
-          JSON.stringify({
-            launch_id: this.launch_id,
-            activity_id: this.helpinitData.activity_id
-          })
-        );
+      // if (this.isWxLogin)
+      //   this.$getWxShareData(
+      //     "assist/index",
+      //     JSON.stringify({
+      //       launch_id: this.launch_id,
+      //       activity_id: this.helpinitData.activity_id
+      //     })
+      //   );
     },
     //验证用户为新用户还是老用户
     async supportCheck() {
@@ -305,14 +305,14 @@ export default {
         localStorage.getItem("unionid") == null ||
         localStorage.getItem("unionid") == ""
       ) {
-        sessionStorage.setItem("gotoLogin", "no");
-        sessionStorage.setItem("isWxLogin", "no");
+        localStorage.setItem("gotoLogin", "no");
+        localStorage.setItem("isWxLogin", "no");
 
         if (
           window.navigator.userAgent.toLowerCase().match(/MicroMessenger/i) ==
           "micromessenger"
         ) {
-          sessionStorage.setItem("isWxLogin", "yes");
+          localStorage.setItem("isWxLogin", "yes");
           if (
             localStorage.getItem("openid") == "undefined" ||
             localStorage.getItem("openid") == undefined ||

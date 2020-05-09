@@ -113,14 +113,14 @@
           localStorage.getItem("unionid") == null ||
           localStorage.getItem("unionid") == ""
         ) {
-          sessionStorage.setItem("gotoLogin", "no");
-          sessionStorage.setItem("isWxLogin", "no");
+          localStorage.setItem("gotoLogin", "no");
+          localStorage.setItem("isWxLogin", "no");
 
           if (
             window.navigator.userAgent.toLowerCase().match(/MicroMessenger/i) ==
             "micromessenger"
           ) {
-            sessionStorage.setItem("isWxLogin", "yes");
+            localStorage.setItem("isWxLogin", "yes");
             if (
               localStorage.getItem("openid") == "undefined" ||
               localStorage.getItem("openid") == undefined ||
@@ -217,7 +217,7 @@
           type: 2,
           mobile: this.phone,
           auth_code: this.code,
-          source_url: sessionStorage.getItem("hash").replace("#",""),
+          source_url: localStorage.getItem("hash").replace("#",""),
           outer_id: localStorage.getItem("unionid"),
           outer_name: localStorage.getItem("nickname"),
           header_pic: localStorage.getItem("headimg"),
@@ -234,6 +234,8 @@
         if (res.hasOwnProperty("response_code")) {
         // if (true) { // 测试
           console.log(res);
+          localStorage.setItem("loginState", '1');
+          sessionStorage.setItem('fromRedeemLogin', '1');
           this.$router.go(-1);
         } else {
           this.$toast(res.error_message);

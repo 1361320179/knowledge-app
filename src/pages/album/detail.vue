@@ -750,8 +750,7 @@ import {
   FOCUS_CANCEL,
   COMMENT,
   COMMENT_ADD,
-  RECOMMEND,
-  WX_SHARE
+  RECOMMEND
 } from "../../apis/public.js";
 
 export default {
@@ -911,37 +910,6 @@ export default {
     }
   },
   methods: {
-    // 获取页面分享信息
-    // async wxShareData() {
-    //   var tStamp = this.$getTimeStamp();
-    //   var tmp = {};
-    //   tmp.goods_id = this.$route.query.goods_id;
-    //   if (this.$route.query.pid != null) tmp.album_id = this.$route.query.pid;
-
-    //   var data = {
-    //     page_name: "goods/detail",
-    //     params: JSON.stringify({
-    //       goods_id: this.$route.query.goods_id,
-    //       album_id: this.$route.query.pid
-    //     }),
-    //     version: "1.0",
-    //     timestamp: tStamp
-    //   };
-    //   data.sign = this.$getSign(data);
-    //   let res = await WX_SHARE(data);
-    //   if (res.hasOwnProperty("response_code")) {
-    //     // console.log(res.response_data)
-    //     // 微信分享
-    //     this.$getWxData(
-    //       res.response_data.share_info.title,
-    //       res.response_data.share_info.desc,
-    //       res.response_data.share_info.pic,
-    //       res.response_data.share_info.url
-    //     );
-    //   } else {
-    //     this.$toast(res.error_message);
-    //   }
-    // },
     // 判断视频播放是否收费
     videoPlay() {
       // 含有试听视频，播放该试听视频
@@ -1393,7 +1361,7 @@ export default {
           for (var i = 0; i < this.couponInfo.groupbuy.open_list.length; i++) {
             this.remain_time.push({
               time: this.couponInfo.groupbuy.open_list[i].remain_time,
-              date: "",
+              date: ""
             });
             this.$timeCountDown(this.remain_time[i]);
           }
@@ -1406,12 +1374,12 @@ export default {
 
         // 获取页面分享信息
         // if (this.isWxLogin) this.wxShareData();
-        var _pageName = "goods/detail";
-        var _params = JSON.stringify({
-          goods_id: this.$route.query.goods_id,
-          album_id: this.$route.query.pid
-        });
-        if (this.isWxLogin) this.$getWxShareData(_pageName, _params);
+        // var _pageName = "goods/detail";
+        // var _params = JSON.stringify({
+        //   goods_id: this.$route.query.goods_id,
+        //   album_id: this.$route.query.pid
+        // });
+        // if (this.isWxLogin) this.$getWxShareData(_pageName, _params);
 
         // 是否显示底部购买按钮
         this.showBuyButton = !(
@@ -1683,6 +1651,9 @@ export default {
             timestamp: tStamp,
             goods_id: this.baseData.goods_id,
             content: this.contentModel,
+            goods_pid: this.$route.query.pid
+              ? Number(this.$route.query.pid)
+              : 0,
             version: "1.0"
           };
           break;
@@ -1692,6 +1663,9 @@ export default {
             goods_id: this.baseData.goods_id,
             comment_pid: this.commentId,
             content: this.contentModel,
+            goods_pid: this.$route.query.pid
+              ? Number(this.$route.query.pid)
+              : 0,
             version: "1.0"
           };
           break;
@@ -1863,10 +1837,10 @@ export default {
         this.$router.push({ name: "login", params: {} });
         this.$toast("用户未登录!");
       } else {
-        this.ticketLink(item.ticket_id,index);
+        this.ticketLink(item.ticket_id, index);
       }
     },
-    async ticketLink(ticket_id,index) {
+    async ticketLink(ticket_id, index) {
       this.requestState = false;
       var tStamp = this.$getTimeStamp();
       let data = {
