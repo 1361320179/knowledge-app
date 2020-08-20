@@ -1,0 +1,588 @@
+/*
+ * author: zhuboyu
+ * date:2020/8/12
+ */
+
+@charset "UTF-8";
+
+html {
+  background-color: $white;
+}
+
+#resultPage{
+  background-color: $greyLight ;
+  min-height: 100%;
+  box-sizing: border-box;
+
+  .searhResult{
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-bottom: 5px solid $greyLight;
+    box-sizing: border-box;
+    padding: 8px 15px;
+    .cancel-back{
+      flex-shrink: 0;
+      width: 20px;
+    }
+    .search_input{
+      position: relative;
+      flex-grow: 1;
+      input{
+        width: 100%;
+        height: 28px;
+        box-sizing: border-box;
+        border: none;
+        padding-left:30px;
+        padding-right: 15px;
+        background-color: $greyLight;
+        border-radius: 14px;
+      }
+      .icon.searchIcon{
+        position: absolute;
+        left: 10px;
+        color: $cl9;
+        top: 50%;
+        margin-top: -6px;
+      }
+      .input-text-1{
+        position: absolute;
+        top: 4px;
+        left: 30px;
+        background-color: #9A9A9A;
+        border-radius: 10px;
+        padding: 0 10px 0 5px;
+        color: $white;
+        .input-close-de{
+          width: 8px;
+          top: -1px;
+          color: $white;
+        }
+      }
+    }
+    .tileView{
+      flex-shrink: 0;
+      padding-left: 10px;
+      .icon {
+        font-size: 24px;
+        top: 0;
+      }
+    }
+  }
+  .book_text_title {
+    display: inline-block;
+    padding: 2px 3px;
+    background-color: #FFB26E;
+    border-radius: 3px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 10px;
+    color: #fff;
+  }
+  .etc_box {
+    display: flex;
+    flex-wrap: wrap;
+    .etc_inbox {
+      width: 50%;
+      .content {
+        background-color: #fff;
+        padding: 0;
+        margin: 10px;
+        border-radius: 5px;
+        display: block;
+        .text{
+          -webkit-line-clamp: 1;
+          padding-top: 5px;
+        }
+        .pinpai{
+          display: block;
+          .price{
+            padding-top: 5px;
+          }
+          .preferent_active{
+            .active_1 {
+              font-size: 12px;
+              padding-right: 5px;
+              display: block;
+              padding-top: 10px;
+            }
+          }
+        }
+        .nice {
+          padding-top: 10px;
+          padding-bottom: 10px;
+        }
+      }
+    }
+  }
+  .book_box {
+    display: flex;
+    flex-wrap: wrap;
+    .book_inbox {
+      width: 50%;
+      .content {
+        background-color: #fff;
+        padding: 0;
+        margin: 10px;
+        border-radius: 5px;
+        display: block;
+        .text{
+          -webkit-line-clamp: 1;
+          padding-top: 5px;
+        }
+        .pinpai{
+          display: block;
+          position: relative;
+          .price{
+            padding-top: 5px;
+          }
+          .preferent_active{
+            .active_1 {
+              font-size: 12px;
+              padding-right: 5px;
+              display: block;
+              padding-top: 10px;
+            }
+          }
+          .shopCar {
+            display: inline-block;
+            position: absolute;
+            right: 5px;
+            top: 10px;
+          }
+        }
+        .nice.bookflex{
+          padding-top: 10px;
+          padding-bottom: 10px;
+          display: block;
+          .shopShow_1{
+            display: block;
+            padding-top: 5px;
+          }
+        }
+      }
+    }
+  }
+  .content{
+    @include displayFlex(flex, null, null);
+    background-color: #fff;
+    padding: 15px;
+    .ratiobox {
+      min-width: 95px;
+      .bookImg {
+        display: block;
+        @include ratioBox (100%, 61.58%, 1px solid $greyLight, contain, $white, null);
+        border-radius: 2.5px;
+      }
+    }
+    .right{
+      flex-grow: 1;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-content: space-between;
+      .text{
+        @include font("PingFangBold", $fontSize, $cl3);
+        @include twoColtextOverflow;
+      }
+      .pinpai{
+        display: flex;
+        align-items: center;
+        .price{
+          color: #F05654;
+          flex-shrink: 0;
+          padding-right: 10px;
+          font-size: 16px;
+        }
+        .preferent_active{
+          flex-grow: 1;
+          .active_1{
+            font-size: 12px;
+            padding-right: 5px;
+            .active_text_1{
+              color: $white;
+              background-color: #F05654;
+              margin-right: 10px;
+              padding: 2px;
+              border-radius: 10px;
+            }
+            .active_text_2{
+              color: #F05653;
+              border: 1px solid #F05654;
+              padding: 2px;
+              border-radius: 8px;
+            }
+          }
+        }
+        .shopCar {
+          flex-shrink: 0;
+          background-color: #EF5553;
+          border-radius: 50%;
+          .icon {
+            font-size: 32px;
+            color: $white;
+          }
+        }
+      }
+      .nice{
+        color: $cl9;
+        font-size: $fontSize - 2;
+        .price{
+          @include font(null, $fontSize, $redLight);
+        }
+        .comment,
+        .good{
+          margin-right: 10px;
+        }
+      }
+      .bookflex {
+        display: flex;
+        .bookgrow{
+          flex-grow: 1;
+          .bookShop {
+            color: #333;
+          }
+          .icon {
+            color: #333;
+          }
+        }
+      }
+    }
+  }
+  .content.book{
+    .ratiobook {
+      min-width: 95px;
+      position: relative;
+      .bookimg {
+        display: block;
+        @include ratioBox (100%, 100%, 1px solid $greyLight, contain, $white, null);
+        border-radius: 2.5px;
+      }
+    }
+  }
+  .content.audio{
+    .ratiobox {
+      min-width: 95px;
+      .bookImg {
+        display: block;
+        @include ratioBox (100%, 61.8%, 1px solid $greyLight, contain, $white, null);
+        border-radius: 2.5px;
+      }
+    }
+    .nice{
+      @include displayFlex(flex, space-between, flex-end);
+      .price{
+        color:$redLight;
+      }
+    }
+  }
+  .content.ebook{
+    .ratiobox {
+      min-width: 25%;
+      position: relative;
+      .bookImg {
+        display: block;
+        @include ratioBox (100%, 133.33%, 1px solid $greyLight, contain, $white, null);
+        border-radius: 2.5px;
+      }
+    }
+    .nice{
+      @include displayFlex(flex, space-between, flex-end);
+      .price{
+        color:$redLight;
+      }
+    }
+  }
+  .van-tabs__wrap--scrollable .van-tab{
+    flex:0;
+  }
+  // 二级筛选
+  .screenSecond{
+    position: relative;
+    display: flex;
+    background-color: $white;
+    height: 40px;
+    align-items: center;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,.06);
+    border-bottom: 1px solid #eee;
+    .sort_box{
+      flex-basis: 22%;
+      overflow: hidden;
+      .sort_text{
+        position: relative;
+        font-size: 14px;
+        padding-left: 10px;
+        color: #333333;
+        display: flex;
+        .icon{
+          font-size: 12px;
+          top: 5px;
+        }
+      }
+      ul{
+        position: absolute;
+        top: 41px;
+        background-color: $white;
+        width: 100%;
+        line-height: 30px;
+        z-index: 2001;
+        box-shadow: 0 0 10px 0 rgba(0,0,0,.06);
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+        li{
+          padding: 0 10px;
+        }
+        li:active{
+          background-color: #F4F4F4;
+        }
+      }
+    }
+    .price_box{
+      flex-basis: 22%;
+      overflow: hidden;
+      .price_text{
+        position: relative;
+        font-size: 14px;
+        padding-left: 10px;
+        color: #333333;
+        display: flex;
+        .icon{
+          font-size: 12px;
+          top: 5px;
+        }
+      }
+      .price_keyboard{
+        position: absolute;
+        top: 41px;
+        left: 0;
+        background-color: $white;
+        width: 100%;
+        height: 95px;
+        z-index: 2001;
+        box-shadow: 0 0 10px 0 rgba(0,0,0,.06);
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+        .price_input{
+          display: flex;
+          align-items: center;
+          .price_line{
+            flex-grow: 1;
+            .line{
+              border-bottom: 1px solid #999;
+              width: 20px;
+            }
+          }
+        }
+        .price-button{
+          display: flex;
+          align-items: center;
+          line-height: 35px;
+          text-align: center;
+          color: rgb(84, 172, 240);
+          .reset-button{
+            flex-grow: 1;
+            border-top: 1px solid #eee;
+          }
+          .sure-button{
+            flex-grow: 1;
+            background-color: rgba(17, 142, 233, 1);
+            color: $white;
+            border-bottom-right-radius: 15px;
+          }
+        }
+      }
+    }
+    .huoba_box{
+      flex-basis: 25%;
+      overflow: hidden;
+      .huoba_text{
+        position: relative;
+        font-size: 14px;
+        padding-left: 10px;
+        color: #333333;
+        display: flex;
+        .icon{
+          font-size: 12px;
+          top: 5px;
+        }
+      }
+      .huoba_radio{
+        position: absolute;
+        top: 41px;
+        left: 0;
+        background-color: $white;
+        width: 100%;
+        z-index: 2001;
+        box-shadow: 0 0 10px 0 rgba(0,0,0,.06);
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+        .radios{
+          padding: 0 15px;
+          line-height: 40px;
+          max-height: 160px;
+          overflow: scroll;
+        }
+        .huoba-button{
+          display: flex;
+          align-items: center;
+          line-height: 35px;
+          text-align: center;
+          color: rgb(84, 172, 240);
+          .reset-button{
+            flex-grow: 1;
+            border-top: 1px solid #eee;
+          }
+          .sure-button{
+            flex-grow: 1;
+            background-color: rgba(17, 142, 233, 1);
+            color: $white;
+            border-bottom-right-radius: 15px;
+          }
+        }
+      }
+    }
+    .huobashop_box{
+      flex-basis: 22%;
+      overflow: hidden;
+      .huobashop_text{
+        position: relative;
+        font-size: 14px;
+        padding-left: 10px;
+        color: #333333;
+        display: flex;
+        .icon{
+          font-size: 12px;
+          top: 5px;
+        }
+      }
+      .huobashop_radio{
+        position: absolute;
+        top: 41px;
+        left: 0;
+        background-color: $white;
+        width: 100%;
+        z-index: 2001;
+        box-shadow: 0 0 10px 0 rgba(0,0,0,.06);
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+        .radios{
+          padding: 0 15px;
+          line-height: 40px;
+          max-height: 160px;
+          overflow: scroll;
+        }
+        .huobashop-button{
+          display: flex;
+          align-items: center;
+          line-height: 35px;
+          text-align: center;
+          color: rgb(84, 172, 240);
+          .reset-button{
+            flex-grow: 1;
+            border-top: 1px solid #eee;
+          }
+          .sure-button{
+            flex-grow: 1;
+            background-color: rgba(17, 142, 233, 1);
+            color: $white;
+            border-bottom-right-radius: 15px;
+          }
+        }
+      }
+    }
+    .only_pay {
+      padding-left: 10px;
+      flex-shrink: 0;
+    }
+    .only_shop {
+      padding-left: 10px;
+      flex-shrink: 0;
+    }
+    .screen_text{
+      @include textOverflow;
+    }
+  }
+  .screenOverflow{
+    position: fixed;
+    background-color: rgba(0,0,0,.4);
+    width: 100%;
+    height: 100%;
+    z-index: 2000;
+  }
+
+  // 综合列表
+  .summaryList.huoba{
+    margin-top: 0;
+  }
+  .summaryList{
+    background-color: #fff;
+    margin-top: 10px;
+    padding: 15px;
+    .head{
+      @include textOverflow;
+      .verticleLine{
+        display: inline-block;
+        width: 2.5px;
+        height: 11px;
+        background-color: $redLight;
+        border-radius: 2.5px;
+      }
+      .brandName{
+        font-size: $fontSize + 2;
+        .title_name {
+          color: #999999;
+          padding-left: 5px;
+        }
+      }
+    }
+    .brandContent{
+      padding:10px 0;
+      @include displayFlex(flex, null, center);
+      img{border-radius: 50%;}
+      .huobaName {
+        flex-grow: 1;
+        .bname{
+          font-size: $fontSize + 1;
+          margin-left: 10px;
+          @include textOverflow;
+          color: #333333;
+        }
+        .sname{
+          font-size: 12px;
+          margin-left: 10px;
+          @include textOverflow;
+          color: #999999;
+        }
+      }
+      .huobabG{
+        flex-shrink: 0;
+        text-align: center;
+        flex-basis: 15%;
+        color: #EF5553;
+        .icon{
+          font-size: 26px;
+        }
+      }
+      .huobaG{
+        flex-shrink: 0;
+        flex-basis: 15%;
+        text-align: center;
+        color: #999999;
+        .icon{
+          font-size: 26px;
+        }
+      }
+    }
+    .readMore{
+      color: $cl9;
+      text-align: center;
+      margin-top: 15px;
+      .icon{font-size: $fontSize - 2;}
+    }
+    .content{
+      padding: 15px 0;
+    }
+  }
+}
