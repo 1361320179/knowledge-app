@@ -14,6 +14,7 @@
         @search="onSearch"
         @input="showList"
         @cancel="onCancel"
+        id='inputId'
       >
         <div slot="action" @click="onSearch">搜索</div>
         <div slot="left-icon">
@@ -78,6 +79,7 @@
       }
       this.home_id = localStorage.getItem("home_id");
       this.getLocalItem();
+      document.getElementById('inputId').focus();
     },
     methods: {
       onCancel(){
@@ -144,7 +146,7 @@
             break;
           case "coupon":
             this.$router.push({
-              path: "/coupon/result",
+              path: "/coupon/resultCorrent",
               query: {
                 type: "coupon",
                 ticket_id: this.$route.query.ticket_id,
@@ -155,7 +157,7 @@
             break;
           case "multi":
             this.$router.push({
-              path: "/multiresult",
+              path: "/multiresultCorrent",
               query: {
                 type: "multi",
                 multi_id: this.$route.query.multi_id,

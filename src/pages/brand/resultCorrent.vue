@@ -118,11 +118,11 @@
                 </div>
                 <div class="huoba_radio" v-if="huoba_show">
                   <div class="radios" v-if="brand_list_length">
-                    <van-radio-group v-model="huoba_radio">
+                    <van-checkbox-group v-model="huoba_radio">
                       <div v-for="(item,index) in brand_list" :key="index">
-                        <van-radio :name="index+1">{{ item.brand_name }}</van-radio>
+                        <van-checkbox :name="index">{{ item.brand_name }}</van-checkbox>
                       </div>
-                    </van-radio-group>
+                    </van-checkbox-group>
                   </div>
                   <div class="radios" v-else>
                     无可选火把号
@@ -146,11 +146,11 @@
                 </div>
                 <div class="huobashop_radio" v-if="huobashop_show">
                   <div class="radios" v-if="brand_list_length">
-                    <van-radio-group v-model="huobashop_radio">
+                    <van-checkbox-group v-model="huobashop_radio">
                       <div v-for="(item,index) in brand_list" :key="index">
-                        <van-radio :name="index+1">{{ item.brand_name }}</van-radio>
+                        <van-checkbox :name="index">{{ item.brand_name }}</van-checkbox>
                       </div>
-                    </van-radio-group>
+                    </van-checkbox-group>
                   </div>
                   <div class="radios" v-else>
                     无可选火把店铺
@@ -541,9 +541,10 @@
             v-if="items.column_type > 0 && items.search_type && items.search_type == 'book' && activekey == index"
           >
             <div :class="{book_box: is_book_box}">
-              <div class="book_inbox" v-for="(item,index) in brandData" :key="index">
+              <template v-for="(item,index) in brandData">
                 <!-- 图书 -->
-                <div
+                <div class="book_inbox" :key="`${index}`">
+                  <div
                     class="content book"
                     @click="gotoDetail(item)"
                     v-if="item.goods_type == 3"
@@ -593,8 +594,9 @@
                       </div>
                     </div>
                   </div>
+                </div>
                 <!--展开店铺-->
-                <div v-for="(zitem,zindex) in item.goods" :key="zindex">
+                <div class="book_inbox" v-for="(zitem,zindex) in item.goods" :key="`${index}-${zindex}`" v-show="zitem.goods_type == 3 && shopZindex == index">
                   <div
                     class="content book"
                     @click="gotoDetail(zitem)"
@@ -637,7 +639,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </template>
             </div>
           </template>
         </van-tab>
@@ -685,10 +687,6 @@
     border-color: #F05654 ;
     background-color: #FFF7F7;
   }
-  .van-checkbox__label {
-    color: #F05654;
-    margin-left: 2px;
-  }
   .van-checkbox__icon .van-icon {
     font-size: 12px;
     line-height: initial;
@@ -727,9 +725,13 @@
         sort_text_1: '综合排序',
         price_text_1: '价格区间',
         huoba_text: '所属火把号',
-        huoba_radio: '',
+        huoba_radio: [],
+        huoba_name: [],
+        huoba_id: [],
         huobashop_text: '所属店铺',
-        huobashop_radio: '',
+        huobashop_radio: [],
+        huobashop_name: [],
+        huobashop_id: [],
         screen_choose: 0,
         price_zone: '',
         title: null,
@@ -793,22 +795,27 @@
       setTimeout(() => {
         window.scrollTo(0, 0);
       }, 100);
-      window.addEventListener('scroll', this.getScroll);
     },
-    destroyed(){
-      window.removeEventListener('scroll', this.getScroll);
+    updated() {
+      if (this.has_stock == 0) {
+        $('.only_shop').find('.van-checkbox__label').css('color','#333');
+      } else {
+        $('.only_shop').find('.van-checkbox__label').css('color','#F05654');
+      }
+      if (this.needs_pay == 0) {
+        $('.only_pay').find('.van-checkbox__label').css('color','#333');
+      } else {
+        $('.only_pay').find('.van-checkbox__label').css('color','#F05654');
+      }
     },
     methods: {
-      getScroll () {
-        this.stop_shade();
-      },
       // 仅看有货
       is_shop () {
         if (this.has_stock == 0) {
-          document.getElementsByClassName('van-checkbox__label')[0].style.cssText = "color: #F05654";
+          $('.only_shop').find('.van-checkbox__label').css('color','#F05654');
           this.has_stock = 1;
         } else {
-          document.getElementsByClassName('van-checkbox__label')[0].style.cssText = "color: #333";
+          $('.only_shop').find('.van-checkbox__label').css('color','#333');
           this.has_stock = 0;
         }
         this.is_brandData = true;
@@ -818,10 +825,10 @@
       // 仅看付费
       is_pay () {
         if (this.needs_pay == 0) {
-          document.getElementsByClassName('van-checkbox__label')[0].style.cssText = "color: #F05654";
+          $('.only_pay').find('.van-checkbox__label').css('color','#F05654');
           this.needs_pay = 1;
         } else {
-          document.getElementsByClassName('van-checkbox__label')[0].style.cssText = "color: #333";
+          $('.only_pay').find('.van-checkbox__label').css('color','#333');
           this.needs_pay = 0;
         }
         this.is_brandData = true;
@@ -852,22 +859,29 @@
         this.price_show = false;
       },
       huobashop_reset () {
-        this.huobashop_radio = '';
+        this.huobashop_radio = [];
       },
       huobashop_sure () {
-        if (this.huobashop_radio == '') {
+        this.huobashop_name = [];
+        this.huobashop_id = [];
+        if (this.huobashop_radio.length == 0) {
           this.huobashop_show_color = false;
           this.huobashop_text = '所属店铺';
           this.isbrand_id = this.$route.query.brand_id;
         } else {
+          for (var i = 0; i < this.huobashop_radio.length; i++) {
+            this.huobashop_name.push(this.brand_list[this.huobashop_radio[i]].brand_name);
+            this.huobashop_id.push(this.brand_list[this.huobashop_radio[i]].brand_id);
+          }
           this.huobashop_show_color = true;
-          this.huobashop_text = this.brand_list[this.huobashop_radio - 1].brand_name;
-          this.isbrand_id = this.brand_list[this.huobashop_radio - 1].brand_id;
+          this.huobashop_text = this.huobashop_name.join(',');
+          this.isbrand_id = this.huobashop_id.join(',');
         }
         this.is_brandData = true;
         this.page = 1;
         this.getBooks();
         this.huobashop_show = false;
+        this.huobashop_radio = [];
       },
       // 火把号筛选
       huoba_choose () {
@@ -893,22 +907,29 @@
         this.price_show = false;
       },
       huoba_reset () {
-        this.huoba_radio = '';
+        this.huoba_radio = [];
       },
       huoba_sure () {
-        if (this.huoba_radio == '') {
+        this.huoba_name = [];
+        this.huoba_id = [];
+        if (this.huoba_radio.length == 0) {
           this.huoba_show_color = false;
           this.huoba_text = '所属火把号';
           this.isbrand_id = this.$route.query.brand_id;
         } else {
+          for (var i = 0; i < this.huoba_radio.length; i++) {
+            this.huoba_name.push(this.brand_list[this.huoba_radio[i]].brand_name);
+            this.huoba_id.push(this.brand_list[this.huoba_radio[i]].brand_id);
+          }
           this.huoba_show_color = true;
-          this.huoba_text = this.brand_list[this.huoba_radio - 1].brand_name;
-          this.isbrand_id = this.brand_list[this.huoba_radio - 1].brand_id;
+          this.huoba_text = this.huoba_name.join(',');
+          this.isbrand_id = this.huoba_id.join(',');
         }
         this.is_brandData = true;
         this.page = 1;
         this.getGoods();
         this.huoba_show = false;
+        this.huoba_radio = [];
       },
       // 关闭遮罩
       stop_shade () {
@@ -1333,7 +1354,6 @@
             }
             this.is_brandData = false;
           }, 1);
-
         } else {
           this.$toast(res.error_message);
         }

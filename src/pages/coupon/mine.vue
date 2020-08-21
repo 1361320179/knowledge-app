@@ -296,7 +296,7 @@ export default {
       // console.log(item);
       sessionStorage.setItem('saveSearchContent',"")
       this.$router.push({
-        name: "couponresult",
+        name: "couponresultcorrent",
         query: {
           ticket_id: item.ticket_id
         }

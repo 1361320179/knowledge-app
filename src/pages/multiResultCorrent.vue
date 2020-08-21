@@ -85,11 +85,11 @@
               </div>
               <div class="huobashop_radio" v-if="huobashop_show">
                 <div class="radios" v-if="brand_list_length">
-                  <van-radio-group v-model="huobashop_radio">
+                  <van-checkbox-group v-model="huobashop_radio">
                     <div v-for="(item,index) in brand_list" :key="index">
-                      <van-radio :name="index+1">{{ item.brand_name }}</van-radio>
+                      <van-checkbox :name="index">{{ item.brand_name }}</van-checkbox>
                     </div>
-                  </van-radio-group>
+                  </van-checkbox-group>
                 </div>
                 <div class="radios" v-else>
                   无可选火把店铺
@@ -248,10 +248,6 @@
       border-color: #F05654 ;
       background-color: #FFF7F7;
     }
-    .van-checkbox__label {
-      color: #F05654;
-      margin-left: 2px;
-    }
     .van-checkbox__icon .van-icon {
       font-size: 12px;
       line-height: initial;
@@ -266,36 +262,6 @@
     }
     .van-field__control{
       padding-left: 10px;
-    }
-    .van-icon{
-      padding-right: 10px;
-    }
-    .van-field__body{
-      border-radius: 30px;
-      background-color: rgba(242, 242, 242, 1);
-    }
-    .van-cell:not(:last-child):after{
-      border-bottom: none;
-    }
-    .van-radio__icon--checked .van-icon {
-      color: #F05654;
-      border-color: #F05654 ;
-      background-color: #FFF7F7;
-    }
-    .van-checkbox__icon--checked .van-icon {
-      color: #F05654;
-      border-color: #F05654 ;
-      background-color: #FFF7F7;
-    }
-    .van-checkbox__label {
-      color: #F05654;
-      margin-left: 2px;
-    }
-    .van-checkbox__icon .van-icon {
-      font-size: 12px;
-      line-height: initial;
-      width: 15px;
-      height: 15px;
     }
   }
 </style>
@@ -327,7 +293,9 @@
         price_text_1: '价格区间',
         huoba_text: '所属火把号',
         huobashop_text: '所属店铺',
-        huobashop_radio: '',
+        huobashop_radio: [],
+        huobashop_name: [],
+        huobashop_id: [],
         huoba_radio: '',
         screen_choose: 0,
         price_zone: '',
@@ -367,28 +335,28 @@
       this.brand_ids = this.$route.query.brand_id;
       if(this.$route.query.searchContent){
         this.searchContent = this.$route.query.searchContent;
-      }else if(sessionStorage.getItem('saveSearchOnly')){
-        this.searchContent = sessionStorage.getItem('saveSearchOnly')
+      }else if(sessionStorage.getItem('saveFullreduction')){
+        this.searchContent = sessionStorage.getItem('saveFullreduction')
         this.placeholder = '';
       }
-      window.addEventListener('scroll', this.getScroll);
       this.getBottomInfo();
       this.getList();
     },
-    destroyed(){
-      window.removeEventListener('scroll', this.getScroll);
+    updated() {
+      if (this.has_stock == 0) {
+        $('.only_shop').find('.van-checkbox__label').css('color','#333');
+      } else {
+        $('.only_shop').find('.van-checkbox__label').css('color','#F05654');
+      }
     },
     methods: {
-      getScroll () {
-        this.stop_shade();
-      },
       // 仅看有货
       is_shop () {
         if (this.has_stock == 0) {
-          document.getElementsByClassName('van-checkbox__label')[0].style.cssText = "color: #F05654";
+          $('.only_shop').find('.van-checkbox__label').css('color','#F05654');
           this.has_stock = 1;
         } else {
-          document.getElementsByClassName('van-checkbox__label')[0].style.cssText = "color: #333";
+          $('.only_shop').find('.van-checkbox__label').css('color','#333');
           this.has_stock = 0;
         }
         this.page = 1;
@@ -418,21 +386,28 @@
         this.price_show = false;
       },
       huobashop_reset () {
-        this.huobashop_radio = '';
+        this.huobashop_radio = [];
       },
       huobashop_sure () {
-        if (this.huobashop_radio == '') {
+        this.huobashop_name = [];
+        this.huobashop_id = [];
+        if (this.huobashop_radio.length == 0) {
           this.huobashop_show_color = false;
           this.huobashop_text = '所属店铺';
           this.brand_ids = this.$route.query.brand_id;
         } else {
+          for (var i = 0; i < this.huobashop_radio.length; i++) {
+            this.huobashop_name.push(this.brand_list[this.huobashop_radio[i]].brand_name);
+            this.huobashop_id.push(this.brand_list[this.huobashop_radio[i]].brand_id);
+          }
           this.huobashop_show_color = true;
-          this.huobashop_text = this.brand_list[this.huobashop_radio - 1].brand_name;
-          this.brand_ids = this.brand_list[this.huobashop_radio - 1].brand_id;
+          this.huobashop_text = this.huobashop_name.join(',');
+          this.brand_ids = this.huobashop_id.join(',');
         }
         this.page = 1;
         this.getList();
         this.huobashop_show = false;
+        this.huobashop_radio = [];
       },
       // 关闭遮罩
       stop_shade () {
@@ -568,7 +543,7 @@
       // 返回按钮
       cancelBack () {
         this.$router.go(-1);
-        sessionStorage.setItem('saveSearchOnly','');
+        sessionStorage.setItem('saveFullreduction','');
       },
       // 删除按钮按钮
       deleteInput () {
@@ -579,7 +554,7 @@
             multi_id: this.$route.query.multi_id
           }
         });
-        sessionStorage.setItem('saveSearchOnly','');
+        sessionStorage.setItem('saveFullreduction','');
       },
       addCart(item, index) {
         // console.log(222);

@@ -516,7 +516,7 @@ export default {
     collectBills(gItem, gIndex) {
       sessionStorage.setItem('saveSearchContent',"")
       this.$router.push({
-        name: "multiresult",
+        name: "multiresultcorrent",
         query: {
           multi_id: gItem.multi_id
         }

@@ -54,8 +54,14 @@
     mounted() {
       this.type = this.$route.query.type;
       this.searchHintData.type = this.$route.query.type;
-      if(sessionStorage.getItem('saveSearchOnly')){
-        this.searchHintData.search = sessionStorage.getItem('saveSearchOnly')
+      if (this.type == 'coupon') {
+        if(sessionStorage.getItem('saveCouponKey')){
+          this.searchHintData.search = sessionStorage.getItem('saveCouponKey')
+        }
+      } else {
+        if(sessionStorage.getItem('saveFullreduction')){
+          this.searchHintData.search = sessionStorage.getItem('saveFullreduction')
+        }
       }
     },
     methods: {
@@ -67,9 +73,9 @@
       },
       // 搜索按钮
       searchTo(_type) {
-        sessionStorage.setItem('saveSearchOnly',this.searchHintData.search);
         switch (_type) {
           case "coupon":
+            sessionStorage.setItem('saveCouponKey',this.searchHintData.search);
             this.$router.push({
               path: "/coupon/resultCorrent",
               query: {
@@ -79,6 +85,7 @@
             });
             break;
           case "multi":
+            sessionStorage.setItem('saveFullreduction',this.searchHintData.search);
             this.$router.push({
               path: "/multiresultCorrent",
               query: {

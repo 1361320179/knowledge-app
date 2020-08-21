@@ -188,7 +188,7 @@ export default {
         home: true,
         homeLink: "/brand/index",
         search: true,
-        searchLink: "/search",
+        searchLink: "/searchCorrent",
         personal: true,
         personalLink: "/personal/index",
         cart: true,

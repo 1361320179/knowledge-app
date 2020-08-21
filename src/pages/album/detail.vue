@@ -51,7 +51,7 @@
                 <use xlink:href="#icon-video-play" />
               </svg>
             </div>
-            <div class="box">
+            <div class="box" @contextmenu.prevent="menuPlayer()">
               <video
                 id="myVideo"
                 @play="videoPlay"
@@ -60,11 +60,12 @@
                 width="100%"
                 height="100%"
                 :poster="baseData.pic[0]"
+                controlslist="nodownload"
               ></video>
             </div>
           </div>
           <!-- 不需要支付 -->
-          <div v-else class="box">
+          <div v-else class="box" @contextmenu.prevent="menuPlayer()">
             <video
               id="myVideo"
               @play="videoPlay"
@@ -73,6 +74,7 @@
               width="100%"
               height="100%"
               :poster="baseData.pic[0]"
+              controlslist="nodownload"
             ></video>
           </div>
         </div>
@@ -127,6 +129,7 @@
         <van-tab v-for="(item, key) in tabData" :title="item.title" :key="key">
           <template v-if="activeKey == 0">
             <div
+              class="htmlContent"
               v-html="baseData.desc"
               style="background-color: #fff;padding: 10px;"
             >{{ baseData.desc }}</div>
@@ -739,6 +742,12 @@
       border-width: 1px 0 0 1px;
     }
   }
+  & .htmlContent{
+      & a{
+        text-decoration: underline;
+        color: #01AAED;
+      }
+    }
 }
 </style>
 
@@ -916,6 +925,9 @@ export default {
     }
   },
   methods: {
+    menuPlayer(){
+      console.log('ffff')
+    },
     // 用户播放进度记录
     async currentTimeData() {
       // 已登录账号才存储到数据库
