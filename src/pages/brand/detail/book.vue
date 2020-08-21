@@ -34,7 +34,6 @@
         </swiper-slide>
       </swiper>
     </div>
-    <div><van-button @click="toMiniProgram">测试跳转小程序</van-button></div>
     <!-- 出版媒体信息模块 -->
     <div class="publish">
       <div class="from">
@@ -436,9 +435,6 @@
       };
     },
     methods: {
-      toMiniProgram(){
-        this.$linkToMiniProgram()
-      },
       collection() {
         this.collect = true;
       },

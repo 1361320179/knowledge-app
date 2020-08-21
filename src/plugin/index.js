@@ -164,21 +164,6 @@ export default {
         "&state=STATE#wechat_redirect";
 
     }
-    //微信跳转小程序
-    Vue.prototype.$linkToMiniProgram = async function () {
-      wx.miniProgram.navigateTo({
-        url: '/pages/index/index',
-        success: function () {
-          console.log('success')
-        },
-        fail: function () {
-          console.log('fail');
-        },
-        complete: function () {
-          console.log('complete');
-        }
-      });
-    }
     // 微信分享
     Vue.prototype.$getWxData = async function (_title, _desc, _imgUrl, _route) {
       let url = window.location.protocol + "//" + window.location.hostname + '/callback/weixin/jssdk?url=' + encodeURIComponent(window.location.href.split('#')[0]); //去掉签名
@@ -356,6 +341,22 @@ export default {
         }
       } else {
         this.$toast(res.error_message);
+      }
+    }
+    // 跳转App链接，微信端引导跳转app下载
+    Vue.prototype.$linkToApp = function () {
+      var u = navigator.userAgent,
+        app = navigator.appVersion;
+      var _ios = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+      var _android = u.indexOf("Android") > -1 || u.indexOf("Adr") > -1;
+      console.log(u, app, _ios, _android);
+      if (_ios) {
+        window.location.href =
+          "https://apps.apple.com/cn/app/%E7%81%AB%E6%8A%8A%E7%9F%A5%E8%AF%86/id1473766311";
+        // www.huoba.net://huoba
+      } else if (_android) {
+        window.location.href =
+          "https://a.app.qq.com/o/simple.jsp?pkgname=com.huoba.Huoba";
       }
     }
 
@@ -1395,22 +1396,6 @@ export default {
       return __json;
     }
 
-    // 跳转App链接，微信端引导跳转app下载
-    Vue.prototype.$linkToApp = function () {
-      var u = navigator.userAgent,
-        app = navigator.appVersion;
-      var _ios = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
-      var _android = u.indexOf("Android") > -1 || u.indexOf("Adr") > -1;
-      console.log(u, app, _ios, _android);
-      if (_ios) {
-        window.location.href =
-          "https://apps.apple.com/cn/app/%E7%81%AB%E6%8A%8A%E7%9F%A5%E8%AF%86/id1473766311";
-        // www.huoba.net://huoba
-      } else if (_android) {
-        window.location.href =
-          "https://a.app.qq.com/o/simple.jsp?pkgname=com.huoba.Huoba";
-      }
-    }
 
     // 获取当前设备信息，微信端第一次访问提示授权
     Vue.prototype.$setLoginData = async function () {
