@@ -604,7 +604,11 @@
           // 异步更新数据
           var result = res.response_data.result;
           if (this.page == 1) {
-            this.brand_list = res.response_data.brand_list;
+            if (res.response_data.brand_list == undefined) {
+              this.brand_list = [];
+            } else {
+              this.brand_list = res.response_data.brand_list;
+            }
           }
           if (this.brand_list.length == 0) {
             this.brand_list_length = false;

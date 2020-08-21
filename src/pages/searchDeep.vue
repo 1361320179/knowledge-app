@@ -14,6 +14,7 @@
         @search="onSearch"
         @input="showList"
         @cancel="onCancel"
+        id='inputId'
       >
         <div slot="action" @click="onSearch">搜索</div>
         <div slot="left-icon">
@@ -153,6 +154,7 @@
       this.home_id = localStorage.getItem("home_id");
       this.getHotKey();
       this.getLocalItem();
+      document.getElementById('inputId').focus();
     },
     methods: {
       clear() {

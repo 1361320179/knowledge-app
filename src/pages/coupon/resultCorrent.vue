@@ -771,13 +771,20 @@
           }
           // 异步更新数据
           var result = res.response_data.result;
-          if (result[0].goods_type == 3) {
-            this.couponChange = true;
+          if (result.length == 0) {
           } else {
-            this.couponChange = false;
+            if (result[0].goods_type == 3) {
+              this.couponChange = true;
+            } else {
+              this.couponChange = false;
+            }
           }
           if (this.page == 1) {
-            this.brand_list = res.response_data.brand_list;
+            if (res.response_data.brand_list == undefined) {
+              this.brand_list = [];
+            } else {
+              this.brand_list = res.response_data.brand_list;
+            }
           }
           if (this.brand_list.length == 0) {
             this.brand_list_length = false;

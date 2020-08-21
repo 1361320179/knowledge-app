@@ -14,6 +14,7 @@
         @search="onSearch"
         @input="showList"
         @cancel="onCancel"
+        id='inputId'
       >
         <div slot="action" @click="onSearch">搜索</div>
         <div slot="left-icon">
@@ -63,6 +64,7 @@
           this.searchHintData.search = sessionStorage.getItem('saveFullreduction')
         }
       }
+      document.getElementById('inputId').focus();
     },
     methods: {
       onCancel(){
