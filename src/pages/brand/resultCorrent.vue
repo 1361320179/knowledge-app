@@ -1564,6 +1564,7 @@
         var _index = this.getArrayIndex(this.column_list, item);
         this.activekey = _index;
         this.goods_type = this.column_list[_index].column_type;
+        this.screen_choose = this.column_list[_index].column_type;
         this.brandData = [];
         this.huobaList = [];
         this.page = 1;

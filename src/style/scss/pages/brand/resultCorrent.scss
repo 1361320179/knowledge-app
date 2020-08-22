@@ -505,6 +505,7 @@ html {
     }
     .screen_text{
       @include textOverflow;
+      width: 85%;
     }
   }
   .screenOverflow{
