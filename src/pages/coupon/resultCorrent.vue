@@ -420,9 +420,11 @@
         minute: '',
         second: '',
         promiseTimer: '',
+        brand_list_once: false,
       };
     },
     mounted() {
+      this.brand_list_once = true;
       this.ticket_id = this.$route.query.ticket_id;
       this.brand_ids = this.$route.query.brand_id;
       if(this.$route.query.searchContent){
@@ -499,7 +501,7 @@
         this.page = 1;
         this.getList();
         this.huobashop_show = false;
-        this.huobashop_radio = [];
+        // this.huobashop_radio = [];
       },
       // 火把号筛选
       huoba_choose () {
@@ -546,7 +548,7 @@
         this.page = 1;
         this.getList();
         this.huoba_show = false;
-        this.huoba_radio = [];
+        // this.huoba_radio = [];
       },
       // 关闭遮罩
       stop_shade () {
@@ -612,16 +614,16 @@
       price_sure () {
         if (this.sdigit || this.edigit !== '') {
           if (this.sdigit == '') {
-            this.price_text_1 = parseInt(this.edigit) + '元以上';
-            this.search_price = parseInt(this.edigit) + '_';
+            this.price_text_1 = '0-'+ parseInt(this.edigit) + '元';
+            this.search_price = '0_'+ parseInt(this.edigit);
             this.price_show_color = true;
           } else if (this.edigit == '') {
             this.price_text_1 = parseInt(this.sdigit) + '元以上';
             this.search_price = parseInt(this.sdigit) + '_';
             this.price_show_color = true;
           } else if (this.sdigit == this.edigit) {
-            this.price_text_1 = parseInt(this.sdigit) + '元以上';
-            this.search_price = parseInt(this.sdigit) + '_';
+            this.price_text_1 = '0-'+ parseInt(this.sdigit) + '元';
+            this.search_price = '0_'+ parseInt(this.sdigit);
             this.price_show_color = true;
           } else if (this.sdigit > this.edigit) {
             this.price_text_1 = parseInt(this.edigit) + '-' + parseInt(this.sdigit) + '元';
@@ -632,13 +634,13 @@
             this.search_price = parseInt(this.sdigit) + '_' + parseInt(this.edigit);
             this.price_show_color = true;
           }
-          this.page = 1;
-          this.getList();
         } else {
           this.price_text_1 = '价格区间';
           this.search_price = '';
           this.price_show_color = false;
         }
+        this.page = 1;
+        this.getList();
         this.price_show ? (this.price_show = 0) : (this.price_show = 1);
       },
       // 综合排序
@@ -779,7 +781,7 @@
               this.couponChange = false;
             }
           }
-          if (this.page == 1) {
+          if (this.brand_list_once) {
             if (res.response_data.brand_list == undefined) {
               this.brand_list = [];
             } else {
@@ -804,14 +806,15 @@
             }
             // console.log(this.couponList)
           }, 1);
+          this.brand_list_once = false;
         } else {
           this.$toast(res.error_message);
         }
       },
       // 倒计时
       countDown (time) {
-        this.hour = Math.floor((time / 3600) % 24);
-        this.minute = Math.floor((time / 60) % 60);
+        this.hour = Math.floor((time / 3600));
+        this.minute = Math.floor((time % 3600) / 60);
         this.second = Math.floor(time % 60);
         var self = this
         clearInterval(this.promiseTimer)

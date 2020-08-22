@@ -62,6 +62,8 @@
           brand_id:this.$route.query.brand_id,
           supplier_id:this.$route.query.supplier_id,
           goods_type:this.$route.query.goods_type,
+          ticket_id:this.$route.query.ticket_id,
+          multi_id:this.$route.query.multi_id,
           version: "1.1",
           timestamp: tStamp
         };

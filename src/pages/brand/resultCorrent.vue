@@ -765,9 +765,11 @@
         sdigit: '',
         edigit: '',
         brand_list_length: true,
+        brand_list_once: false,
       };
     },
     mounted() {
+      this.brand_list_once = true;
       this.isbrand_id = this.$route.query.brand_id;
       if(this.$route.query.searchContent){
         this.searchContent = this.$route.query.searchContent;
@@ -818,7 +820,8 @@
           $('.only_shop').find('.van-checkbox__label').css('color','#333');
           this.has_stock = 0;
         }
-        this.is_brandData = true;
+        this.brandData = [];
+        this.shopZindex = 1000;
         this.page = 1;
         this.getBooks();
       },
@@ -831,7 +834,8 @@
           $('.only_pay').find('.van-checkbox__label').css('color','#333');
           this.needs_pay = 0;
         }
-        this.is_brandData = true;
+        this.brandData = [];
+        this.shopZindex = 1000;
         this.page = 1;
         this.getGoods();
       },
@@ -877,11 +881,12 @@
           this.huobashop_text = this.huobashop_name.join(',');
           this.isbrand_id = this.huobashop_id.join(',');
         }
-        this.is_brandData = true;
+        this.brandData = [];
+        this.shopZindex = 1000;
         this.page = 1;
         this.getBooks();
         this.huobashop_show = false;
-        this.huobashop_radio = [];
+        // this.huobashop_radio = [];
       },
       // 火把号筛选
       huoba_choose () {
@@ -925,11 +930,12 @@
           this.huoba_text = this.huoba_name.join(',');
           this.isbrand_id = this.huoba_id.join(',');
         }
-        this.is_brandData = true;
+        this.brandData = [];
+        this.shopZindex = 1000;
         this.page = 1;
         this.getGoods();
         this.huoba_show = false;
-        this.huoba_radio = [];
+        // this.huoba_radio = [];
       },
       // 关闭遮罩
       stop_shade () {
@@ -995,16 +1001,16 @@
       price_sure () {
         if (this.sdigit || this.edigit !== '') {
           if (this.sdigit == '') {
-            this.price_text_1 = parseInt(this.edigit) + '元以上';
-            this.search_price = parseInt(this.edigit) + '_';
+            this.price_text_1 = '0-'+ parseInt(this.edigit) + '元';
+            this.search_price = '0_'+ parseInt(this.edigit);
             this.price_show_color = true;
           } else if (this.edigit == '') {
             this.price_text_1 = parseInt(this.sdigit) + '元以上';
             this.search_price = parseInt(this.sdigit) + '_';
             this.price_show_color = true;
           } else if (this.sdigit == this.edigit) {
-            this.price_text_1 = parseInt(this.sdigit) + '元以上';
-            this.search_price = parseInt(this.sdigit) + '_';
+            this.price_text_1 = '0-'+ parseInt(this.sdigit) + '元';
+            this.search_price = '0_'+ parseInt(this.sdigit);
             this.price_show_color = true;
           } else if (this.sdigit > this.edigit) {
             this.price_text_1 = parseInt(this.edigit) + '-' + parseInt(this.sdigit) + '元';
@@ -1015,17 +1021,18 @@
             this.search_price = parseInt(this.sdigit) + '_' + parseInt(this.edigit);
             this.price_show_color = true;
           }
-          this.is_brandData = true;
-          this.page = 1;
-          if (this.goods_type == 3) {
-            this.getBooks();
-          } else {
-            this.getGoods();
-          }
         } else {
           this.price_text_1 = '价格区间';
           this.search_price = '';
           this.price_show_color = false;
+        }
+        this.brandData = [];
+        this.shopZindex = 1000;
+        this.page = 1;
+        if (this.goods_type == 3) {
+          this.getBooks();
+        } else {
+          this.getGoods();
         }
         this.price_show ? (this.price_show = 0) : (this.price_show = 1);
       },
@@ -1065,7 +1072,8 @@
         this.sort_show ? (this.sort_show = 1) : (this.sort_show = 0);
         this.sort_text_1 = item;
         this.search_sort = sort;
-        this.is_brandData = true;
+        this.brandData = [];
+        this.shopZindex = 1000;
         this.page = 1;
         if (this.goods_type == 3) {
           this.getBooks();
@@ -1224,9 +1232,9 @@
           if (this.supplier_id) {
             data.supplier_id = this.supplier_id;
           }
-          if (this.$route.query.type == "brand") {
+          if (this.$route.query.type == "brand" && this.$route.query.brand_id) {
             data.scene = "brand";
-          } else if (this.$route.query.type == "mall") {
+          } else if (this.$route.query.type == "mall" && this.$route.query.supplier_id) {
             data.scene = "mall";
           } else {
             data.scene = "platform";
@@ -1236,7 +1244,7 @@
         let res = await SEARCH_BOOK_GETS(data);
         if (res.hasOwnProperty("response_code")) {
           var result = res.response_data.result;
-          if (this.page == 1) {
+          if (this.brand_list_once) {
             if (res.response_data.brand_list == undefined) {
               this.brand_list = [];
             } else {
@@ -1251,9 +1259,6 @@
           console.log(111,result);
           // this.column_list = res.response_data.column;
           setTimeout(() => {
-            if (this.is_brandData) {
-              this.brandData = [];
-            }
             for (let i = 0; i < result.length; i++) {
               this.brandData.push(result[i]);
               this.contentData.push(result[i]);
@@ -1266,8 +1271,8 @@
               this.programFinished = true;
               this.page = 1;
             }
-            this.is_brandData = false;
           }, 1);
+          this.brand_list_once = false;
         } else {
           this.$toast(res.error_message);
         }
@@ -1317,9 +1322,9 @@
           if (this.supplier_id) {
             data.supplier_id = this.supplier_id;
           }
-          if (this.$route.query.type == "brand") {
+          if (this.$route.query.type == "brand" && this.$route.query.brand_id) {
             data.scene = "brand";
-          } else if (this.$route.query.type == "mall") {
+          } else if (this.$route.query.type == "mall" && this.$route.query.supplier_id) {
             data.scene = "mall";
           } else {
             data.scene = "platform";
@@ -1330,7 +1335,7 @@
 
         if (res.hasOwnProperty("response_code")) {
           var result = res.response_data.result;
-          if (this.page == 1) {
+          if (this.brand_list_once) {
             if (res.response_data.brand_list == undefined) {
               this.brand_list = [];
             } else {
@@ -1345,9 +1350,6 @@
           console.log(111,result);
           // this.column_list = res.response_data.column;
           setTimeout(() => {
-            if (this.is_brandData) {
-              this.brandData = [];
-            }
             for (let i = 0; i < result.length; i++) {
               this.brandData.push(result[i]);
               this.contentData.push(result[i]);
@@ -1360,8 +1362,8 @@
               this.programFinished = true;
               this.page = 1;
             }
-            this.is_brandData = false;
           }, 1);
+          this.brand_list_once = false;
         } else {
           this.$toast(res.error_message);
         }
@@ -1385,9 +1387,9 @@
             version: "1.1",
             timestamp: tStamp
           };
-          if (this.$route.query.type == "brand") {
+          if (this.$route.query.type == "brand" && this.$route.query.brand_id) {
             data.scene = "brand";
-          } else if (this.$route.query.type == "mall") {
+          } else if (this.$route.query.type == "mall" && this.$route.query.supplier_id) {
             data.scene = "mall";
           } else {
             data.scene = "platform";
@@ -1404,14 +1406,20 @@
                 this.searchSummaryGets();
               } else if (this.column_list[i].column_type == '9') {
                 this.activekey = i;
+                this.screen_choose = this.column_list[i].column_type;
+                this.goods_type = this.column_list[i].column_type;
                 this.tileViewShow = true;
                 this.getGoods();
               } else if (this.column_list[i].column_type == '4') {
                 this.activekey = i;
+                this.screen_choose = this.column_list[i].column_type;
+                this.goods_type = this.column_list[i].column_type;
                 this.tileViewShow = true;
                 this.getGoods();
               } else if (this.column_list[i].column_type == '3') {
                 this.activekey = i;
+                this.screen_choose = this.column_list[i].column_type;
+                this.goods_type = this.column_list[i].column_type;
                 this.tileViewShow = true;
                 this.getBooks();
               } else if (this.column_list[i].column_type == '6') {
@@ -1452,9 +1460,9 @@
           if (this.supplier_id) {
             data.supplier_id = this.supplier_id;
           }
-          if (this.$route.query.type == "brand") {
+          if (this.$route.query.type == "brand" && this.$route.query.brand_id) {
             data.scene = "brand";
-          } else if (this.$route.query.type == "mall") {
+          } else if (this.$route.query.type == "mall" && this.$route.query.supplier_id) {
             data.scene = "mall";
           } else {
             data.scene = "platform";
@@ -1580,6 +1588,7 @@
       },
       // 点击tab页切换
       tabChange(index, title) {
+        this.brand_list_once = true;
         this.activekey = index;
         this.is_tap = 1;
         this.goods_type = Number(this.column_list[index].column_type);
@@ -1594,6 +1603,7 @@
         this.sort_text_1 = '综合排序';
         this.sort_show_color = false;
         this.sort_show = 0;
+        this.sort_num = 0;
         this.price_show = 0;
         this.huoba_show = 0;
         this.huobashop_show = 0;
@@ -1606,6 +1616,8 @@
         this.tilings = 1;
         this.is_etc_box = false;
         this.is_book_box = false;
+        this.huoba_radio = [];
+        this.huobashop_radio = [];
         switch (this.goods_type) {
           case 9:
             this.tileViewShow = true;
