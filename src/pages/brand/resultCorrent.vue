@@ -56,7 +56,7 @@
           <template v-if="items.column_type == 9 || items.column_type == 4 || items.column_type == 3 && activekey == index">
             <div class="screenSecond" v-if="screen_choose == items.column_type">
               <div class="sort_box" @click="sort_choose">
-                <div class="sort_text" :style="{'color': sort_show_color?'#EF5755':''}">
+                <div class="sort_text" :style="{'color': sort_show_color?'#EF5755':'','background-color': sort_show_color?'#FFF7F7':'','border': sort_show_color?'1px solid  #F05654':''}">
                   <div class="screen_text">{{ sort_text_1 }}</div>
                   <svg class="icon" aria-hidden="true" v-if="sort_show">
                     <use xlink:href="#icon-unfold-line" />
@@ -74,7 +74,7 @@
                 </ul>
               </div>
               <div class="price_box">
-                <div class="price_text" @click="price_choose" :style="{'color': price_show_color?'#EF5755':''}">
+                <div class="price_text" @click="price_choose" :style="{'color': price_show_color?'#EF5755':'','background-color': price_show_color?'#FFF7F7':'','border': price_show_color?'1px solid  #F05654':''}">
                   <div class="screen_text">{{ price_text_1 }}</div>
                   <svg class="icon" aria-hidden="true" v-if="price_show">
                     <use xlink:href="#icon-unfold-line" />
@@ -107,7 +107,7 @@
               </div>
               <!--火把号筛选-->
               <div class="huoba_box" v-if="items.column_type == 9 || items.column_type == 4">
-                <div class="huoba_text" @click="huoba_choose" :style="{'color': huoba_show_color?'#EF5755':''}">
+                <div class="huoba_text" @click="huoba_choose" :style="{'color': huoba_show_color?'#EF5755':'','background-color': huoba_show_color?'#FFF7F7':'','border': huoba_show_color?'1px solid  #F05654':''}">
                   <div class="screen_text">{{ huoba_text }}</div>
                   <svg class="icon" aria-hidden="true" v-if="huoba_show">
                     <use xlink:href="#icon-unfold-line" />
@@ -135,7 +135,7 @@
               </div>
               <!--店铺筛选-->
               <div class="huobashop_box" v-else>
-                <div class="huobashop_text" @click="huobashop_choose" :style="{'color': huobashop_show_color?'#EF5755':''}">
+                <div class="huobashop_text" @click="huobashop_choose" :style="{'color': huobashop_show_color?'#EF5755':'','background-color': huobashop_show_color?'#FFF7F7':'','border': huobashop_show_color?'1px solid  #F05654':''}">
                   <div class="screen_text">{{ huobashop_text }}</div>
                   <svg class="icon" aria-hidden="true" v-if="huobashop_show">
                     <use xlink:href="#icon-unfold-line" />
@@ -692,6 +692,10 @@
     line-height: initial;
     width: 15px;
     height: 15px;
+  }
+  .van-checkbox__label {
+    margin-right: 10px;
+    margin-left: 3px;
   }
 </style>
 <script>

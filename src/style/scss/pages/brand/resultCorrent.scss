@@ -308,7 +308,7 @@ html {
     box-shadow: 0 0 10px 0 rgba(0,0,0,.06);
     border-bottom: 1px solid #eee;
     .sort_box{
-      flex-basis: 22%;
+      flex-basis: 28%;
       overflow: hidden;
       .sort_text{
         position: relative;
@@ -316,8 +316,12 @@ html {
         padding-left: 10px;
         color: #333333;
         display: flex;
+        margin-left: 5px;
+        border-radius: 12px;
+        background-color: #F5F5F5;
         .icon{
           font-size: 12px;
+          right: 5px;
           top: 5px;
         }
       }
@@ -340,7 +344,7 @@ html {
       }
     }
     .price_box{
-      flex-basis: 22%;
+      flex-basis: 28%;
       overflow: hidden;
       .price_text{
         position: relative;
@@ -348,8 +352,12 @@ html {
         padding-left: 10px;
         color: #333333;
         display: flex;
+        margin-left: 5px;
+        border-radius: 12px;
+        background-color: #F5F5F5;
         .icon{
           font-size: 12px;
+          right: 5px;
           top: 5px;
         }
       }
@@ -396,7 +404,7 @@ html {
       }
     }
     .huoba_box{
-      flex-basis: 25%;
+      flex-basis: 28%;
       overflow: hidden;
       .huoba_text{
         position: relative;
@@ -404,9 +412,13 @@ html {
         padding-left: 10px;
         color: #333333;
         display: flex;
+        margin-left: 5px;
+        border-radius: 12px;
+        background-color: #F5F5F5;
         .icon{
           font-size: 12px;
           top: 5px;
+          right: 5px;
         }
       }
       .huoba_radio{
@@ -446,7 +458,7 @@ html {
       }
     }
     .huobashop_box{
-      flex-basis: 22%;
+      flex-basis: 28%;
       overflow: hidden;
       .huobashop_text{
         position: relative;
@@ -454,9 +466,13 @@ html {
         padding-left: 10px;
         color: #333333;
         display: flex;
+        margin-left: 5px;
+        border-radius: 12px;
+        background-color: #F5F5F5;
         .icon{
           font-size: 12px;
           top: 5px;
+          right: 5px;
         }
       }
       .huobashop_radio{

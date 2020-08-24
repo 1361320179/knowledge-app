@@ -23,7 +23,7 @@
       <template>
         <div class="screenSecond">
             <div class="sort_box" @click="sort_choose">
-              <div class="sort_text" :style="{'color': sort_show_color?'#EF5755':''}">
+              <div class="sort_text" :style="{'color': sort_show_color?'#EF5755':'','background-color': sort_show_color?'#FFF7F7':'','border': sort_show_color?'1px solid  #F05654':''}">
                 <div class="screen_text">{{ sort_text_1 }}</div>
                 <svg class="icon" aria-hidden="true" v-if="sort_show">
                   <use xlink:href="#icon-unfold-line" />
@@ -41,7 +41,7 @@
               </ul>
             </div>
             <div class="price_box">
-              <div class="price_text" @click="price_choose" :style="{'color': price_show_color?'#EF5755':''}">
+              <div class="price_text" @click="price_choose" :style="{'color': price_show_color?'#EF5755':'','background-color': price_show_color?'#FFF7F7':'','border': price_show_color?'1px solid  #F05654':''}">
                 <div class="screen_text">{{ price_text_1 }}</div>
                 <svg class="icon" aria-hidden="true" v-if="price_show">
                   <use xlink:href="#icon-unfold-line" />
@@ -74,7 +74,7 @@
             </div>
             <!--店铺筛选-->
             <div class="huobashop_box">
-              <div class="huobashop_text" @click="huobashop_choose" :style="{'color': huobashop_show_color?'#EF5755':''}">
+              <div class="huobashop_text" @click="huobashop_choose" :style="{'color': huobashop_show_color?'#EF5755':'','background-color': huobashop_show_color?'#FFF7F7':'','border': huobashop_show_color?'1px solid  #F05654':''}">
                 <div class="screen_text">{{ huobashop_text }}</div>
                 <svg class="icon" aria-hidden="true" v-if="huobashop_show">
                   <use xlink:href="#icon-unfold-line" />
@@ -262,6 +262,10 @@
     }
     .van-field__control{
       padding-left: 10px;
+    }
+    .van-checkbox__label {
+      margin-right: 10px;
+      margin-left: 3px;
     }
   }
 </style>
