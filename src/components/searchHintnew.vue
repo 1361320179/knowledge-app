@@ -43,14 +43,19 @@
     methods: {
       select(item, index) {
         console.log(item);
-        this.searchHintData.search = item;
+        this.searchHintData.search = item.toString();
         this.searchHintData.state = 0;
+        this.searchHintData.bottomShow = true;
+        this.$emit('showLists');
       },
       async showList() {
         if (this.searchHintData.search.trim() == "") {
           // this.searchData();
+          this.searchHintData.bottomShow = true;
           this.searchHintData.state = 0;
           return;
+        } else {
+          this.searchHintData.bottomShow = false;
         }
         // console.log(this.searchHintData.search.trim() == "");
 

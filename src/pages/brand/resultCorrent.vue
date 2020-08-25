@@ -1,6 +1,6 @@
 <template>
   <div id="resultPage">
-    <div
+    <!--<div
       class="nullBox"
       v-if="programFinished && contentData.length == 0 && summaryList.length == 0 && huobaList.length == 0"
     >
@@ -9,6 +9,13 @@
     </div>
     <van-list
       v-else
+      v-model="programLoading"
+      :finished="programFinished"
+      finished-text="没有更多了"
+      @load="programLoad"
+      class="list"
+    >-->
+    <van-list
       v-model="programLoading"
       :finished="programFinished"
       finished-text="没有更多了"
@@ -582,7 +589,7 @@
                         </svg>
                       </span>
                     </span>
-                        <span v-if="item.goods.length > 0" class="shopShow_1" :id="'zShop_'+index" @click.stop="shopDevelop(index)">
+                        <span v-if="item.goods.length > 0" class="shopShow_1" :id="'zShop_'+index" @click.stop="shopDevelop(index,item.goods.length)">
                       其他{{ item.goods.length }}家店铺
                         <svg class="icon" aria-hidden="true" v-if="is_book_box">
                           <use xlink:href="#icon-next-line" />
@@ -596,14 +603,15 @@
                   </div>
                 </div>
                 <!--展开店铺-->
-                <div class="book_inbox" v-for="(zitem,zindex) in item.goods" :key="`${index}-${zindex}`" v-show="zitem.goods_type == 3 && shopZindex == index">
+                <div class="book_inbox" :id="'showBook_'+index+zindex" v-for="(zitem,zindex) in item.goods" :key="`${index}-${zindex}`" v-show="zitem.goods_type == 3 && shopZindex == index">
                   <div
                     class="content book"
                     @click="gotoDetail(zitem)"
-                    v-if="zitem.goods_type == 3 && shopZindex == index"
+                    v-if="zitem.goods_type == 3"
                   >
                     <div class="ratiobook">
-                      <div class="bookimg" v-lazy:background-image="zitem.pic"></div>
+                      <!--<div class="bookimg" v-lazy:background-image="zitem.pic"></div>-->
+                      <div class="bookimg" :style="{'background-image': 'url('+zitem.pic+')'}"></div>
                       <span class="book_text_title">图书</span>
                     </div>
                     <div class="right">
@@ -1277,6 +1285,7 @@
             }
           }, 1);
           this.brand_list_once = false;
+          this.is_tap = 0;
         } else {
           this.$toast(res.error_message);
         }
@@ -1368,6 +1377,7 @@
             }
           }, 1);
           this.brand_list_once = false;
+          this.is_tap = 0;
         } else {
           this.$toast(res.error_message);
         }
@@ -1380,6 +1390,8 @@
           data = {
             scene: "platform",
             keywords: this.searchContent,
+            brand_id: this.isbrand_id,
+            supplier_id: this.$route.query.supplier_id,
             column_type: this.goods_type,
             version: "1.1",
             timestamp: tStamp
@@ -1388,6 +1400,8 @@
           data = {
             keywords: this.searchContent,
             column_type: this.goods_type,
+            brand_id: this.isbrand_id,
+            supplier_id: this.$route.query.supplier_id,
             version: "1.1",
             timestamp: tStamp
           };
@@ -1407,6 +1421,7 @@
             if (this.column_list[i].selected == '1') {
               if (this.column_list[i].column_type == '0') {
                 this.activekey = i;
+                this.goods_type = this.column_list[i].column_type;
                 this.searchSummaryGets();
               } else if (this.column_list[i].column_type == '9') {
                 this.activekey = i;
@@ -1428,9 +1443,11 @@
                 this.getBooks();
               } else if (this.column_list[i].column_type == '6') {
                 this.activekey = i;
+                this.goods_type = this.column_list[i].column_type;
                 this.getGoods();
               } else if (this.column_list[i].column_type == '-1') {
                 this.activekey = i;
+                this.goods_type = this.column_list[i].column_type;
                 this.huobaBrand();
               }
             }
@@ -1478,6 +1495,7 @@
           this.summaryList = res.response_data;
           this.programFinished = true;
           this.programLoading = false;
+          this.is_tap = 0;
         } else {
           this.$toast(res.error_message);
         }
@@ -1511,6 +1529,7 @@
               this.page = 1;
             }
           }, 1);
+          this.is_tap = 0;
         } else {
           this.$toast(res.error_message);
         }
@@ -1658,10 +1677,14 @@
         this.$router.go(-1);
       },
       // 图书展开店铺
-      shopDevelop (index) {
-        this.shopZindex = index;
+      shopDevelop (index,leng) {
+        // this.shopZindex = index;
         var shopText_1 = 'zShop_'+index;
         document.getElementById(shopText_1).style.cssText = "display: none";
+        for (var i = 0; i < leng; i++) {
+          var show_bookid = 'showBook_'+index+i;
+          document.getElementById(show_bookid).style.cssText = "display: ";
+        }
       },
       // 平铺切换
       tilingMethods () {

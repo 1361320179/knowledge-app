@@ -23,7 +23,7 @@
           </svg>
         </div>
       </van-search>
-      <search-hintnew :searchHintData="searchHintData" ref="searchHintnew"></search-hintnew>
+      <search-hintnew :searchHintData="searchHintData" ref="searchHintnew" @showLists="showLists"></search-hintnew>
     </div>
     <div class="searchAppoint" v-if="showAppoint">
       <div class="appoint-text">搜索指定内容</div>
@@ -57,7 +57,8 @@
           placeholderText: "搜索专辑/电子书/图书/文章/火把号",
           list: [],
           type: "",
-          state:0
+          state:0,
+          bottomShow: true,
         },
         showAppoint: true,
         brand_type: 0,
@@ -72,7 +73,7 @@
       this.type = this.$route.query.type;
       this.searchHintData.type = this.$route.query.type;
       if (this.type == "order") {
-        this.searchHintData.placeholderText = "搜索专辑/电子书/图书/文章/火把号";
+        this.searchHintData.placeholderText = "搜索商品名称/订单编号";
       }
       if(sessionStorage.getItem('saveSearchContent')){
         this.searchHintData.search = sessionStorage.getItem('saveSearchContent')
@@ -87,7 +88,14 @@
       },
       showList (){
         this.$refs.searchHintnew.showList();
-        if (this.searchHintData.search === '') {
+        if (this.searchHintData.bottomShow) {
+          this.showAppoint = true;
+        } else {
+          this.showAppoint = false;
+        }
+      },
+      showLists () {
+        if (this.searchHintData.bottomShow) {
           this.showAppoint = true;
         } else {
           this.showAppoint = false;

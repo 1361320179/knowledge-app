@@ -323,7 +323,6 @@
         huoba_show: 0,
         huoba_show_color: 0,
         sort_num: 0,
-        is_tap: 0,
         is_etc_box: false,
         is_book_box: false,
         sdigit: '',

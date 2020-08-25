@@ -38,7 +38,7 @@
           </svg>
         </div>
       </van-search>
-      <search-hintnew :searchHintData="searchHintData" ref="searchHintnew"></search-hintnew>
+      <search-hintnew :searchHintData="searchHintData" ref="searchHintnew" @showLists="showLists"></search-hintnew>
     </div>
     <!-- 最近订单搜索 -->
     <div class="searchRecommend searchHistory" v-if="type=='order' && order_list.length>0 && showSearchContent">
@@ -113,7 +113,8 @@
           placeholderText: "搜索专辑/电子书/图书/文章/火把号",
           list: [],
           type: "",
-          state:0
+          state:0,
+          bottomShow: true,
         },
         showSearchContent: true,
         brand_type: 0,
@@ -182,7 +183,14 @@
       },
       showList (){
         this.$refs.searchHintnew.showList();
-        if (this.searchHintData.search === '') {
+        if (this.searchHintData.bottomShow) {
+          this.showSearchContent = true;
+        } else {
+          this.showSearchContent = false;
+        }
+      },
+      showLists () {
+        if (this.searchHintData.bottomShow) {
           this.showSearchContent = true;
         } else {
           this.showSearchContent = false;
