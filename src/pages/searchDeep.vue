@@ -76,18 +76,38 @@
       v-if="(type == 'brand' || type == 'mall') && hotSearch.length > 0 && home_id == 'all' && showSearchContent"
     >
       <p class="recommend">热门搜索</p>
-      <van-row type="flex" gutter="15">
-        <van-col span="12" v-for="(item,index) in hotSearch" :key="index">
-          <!-- <span class="tag" @click="hotSearchItem(item)">{{item}}</span> -->
-          <div class="hotContent" @click="hotSearchItem(item)">
-            <span class="hotSort first" v-if="index == 0">{{index+1}}</span>
-            <span class="hotSort second" v-if="index == 1">{{index+1}}</span>
-            <span class="hotSort third" v-if="index == 2">{{index+1}}</span>
-            <span class="hotSort" v-if="index > 2">{{index+1}}</span>
-            <span class="hotDesc">{{item}}</span>
+      <!--<van-row type="flex" gutter="15">-->
+        <!--<van-col span="12" v-for="(item,index) in hotSearch" :key="index">-->
+          <!--<div class="hotContent" @click="hotSearchItem(item)">-->
+            <!--<span class="hotSort first" v-if="index == 0">{{index+1}}</span>-->
+            <!--<span class="hotSort second" v-if="index == 1">{{index+1}}</span>-->
+            <!--<span class="hotSort third" v-if="index == 2">{{index+1}}</span>-->
+            <!--<span class="hotSort" v-if="index > 2">{{index+1}}</span>-->
+            <!--<span class="hotDesc">{{item}}</span>-->
+          <!--</div>-->
+        <!--</van-col>-->
+      <!--</van-row>-->
+      <div class="hot_box">
+        <div class="hot_left">
+          <div v-for="(item,index) in hotSearch" :key="index">
+            <div class="hotContent" @click="hotSearchItem(item)" v-if="index <= 4">
+              <span class="hotSort first" v-if="index == 0">{{index+1}}</span>
+              <span class="hotSort second" v-if="index == 1">{{index+1}}</span>
+              <span class="hotSort third" v-if="index == 2">{{index+1}}</span>
+              <span class="hotSort" v-if="index > 2">{{index+1}}</span>
+              <span class="hotDesc">{{item}}</span>
+            </div>
           </div>
-        </van-col>
-      </van-row>
+        </div>
+        <div class="hot_right">
+          <div v-for="(item,index) in hotSearch" :key="index">
+            <div class="hotContent" @click="hotSearchItem(item)" v-if="index >= 5">
+              <span class="hotSort" v-if="index > 2">{{index+1}}</span>
+              <span class="hotDesc">{{item}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <EazyNav type="brand" :isShow="true"></EazyNav>

@@ -51,6 +51,18 @@
       margin-right: 13px;
       margin-bottom: 13px;
     }
+    & .hot_box {
+      line-height: 35px;
+      margin-top: 10px;
+      .hot_left {
+        float: left;
+        width: 50%;
+      }
+      .hot_right {
+        float: left;
+        width: 50%;
+      }
+    }
     & .hotContent{
       @include textOverflow;
       text-align: left;
@@ -60,16 +72,16 @@
         font-size: $fontSize - 2;
         width: 17px;
         line-height: 17px;
-        background-color: #DEDEDE;
+        background-color: #F5F5F5;
         text-align: center;
         border-radius: 3px;
-        color: $cl9;
+        color: #999999;
       }
       .hotSort.first,.hotSort.second,.hotSort.third{
         color:$white;
       }
       .hotSort.first{
-        background-color: $redLight;
+        background-color: #F05654;
       }
       .hotSort.second{
         background-color: #FFA22A;
