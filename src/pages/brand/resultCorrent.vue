@@ -356,7 +356,7 @@
                         <div class="price" v-else>免费</div>
                         <div class="preferent_active">
                         <span v-for="(titems,indexs) in gitem.tag_list" :key="indexs">
-                          <span class="active_1" v-if="indexs<2">
+                          <span class="active_1" v-if="indexs<1">
                             <span class="active_text_1" v-if="titems.type == 1 || titems.type == 2">{{ titems.name }}</span>
                             <span class="active_text_2" v-if="titems.type == 3 || titems.type == 4">{{ titems.name }}</span>
                           </span>
@@ -440,7 +440,7 @@
                       <div class="price" v-else>免费</div>
                       <div class="preferent_active">
                       <span v-for="(titems,indexs) in item.tag_list" :key="indexs">
-                          <span class="active_1" v-if="indexs<2">
+                          <span class="active_1" v-if="indexs<1">
                             <span class="active_text_1" v-if="titems.type == 1 || titems.type == 2">{{ titems.name }}</span>
                             <span class="active_text_2" v-if="titems.type == 3 || titems.type == 4">{{ titems.name }}</span>
                           </span>
@@ -522,7 +522,7 @@
                       <div class="price" v-else>免费</div>
                       <div class="preferent_active">
                       <span v-for="(titems,indexs) in item.tag_list" :key="indexs">
-                          <span class="active_1" v-if="indexs<2">
+                          <span class="active_1" v-if="indexs<1">
                             <span class="active_text_1" v-if="titems.type == 1 || titems.type == 2">{{ titems.name }}</span>
                             <span class="active_text_2" v-if="titems.type == 3 || titems.type == 4">{{ titems.name }}</span>
                           </span>
