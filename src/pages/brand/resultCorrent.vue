@@ -177,7 +177,7 @@
             </div>
           </template>
           <template v-if="sort_show || price_show || huoba_show || huobashop_show">
-            <div class="screenOverflow" @click="stop_shade"></div>
+            <div class="screenOverflow" @touchstart="stop_shade()"></div>
           </template>
           <template
             v-if="items.column_type == 0 && items.search_type && items.search_type == 'summary' && activekey == index"
@@ -951,6 +951,7 @@
       },
       // 关闭遮罩
       stop_shade () {
+        event.preventDefault();
         this.sort_show = 0;
         this.price_show = 0;
         this.huoba_show = 0;

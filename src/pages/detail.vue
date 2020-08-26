@@ -917,7 +917,7 @@ export default {
     toMultiResult() {
       sessionStorage.setItem('saveSearchContent',"")
       this.$router.push({
-        name: "multiresult",
+        name: "multiresultcorrent",
         query: {
           multi_id: this.couponInfo.multi.activity_id
         }
