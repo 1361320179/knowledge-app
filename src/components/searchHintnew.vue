@@ -44,8 +44,8 @@
     },
     methods: {
       select(item, index) {
-        console.log(item);
-        this.searchHintData.search = item.toString();
+        console.log(this.resultList[index]);
+        this.searchHintData.search = this.resultList[index].toString();
         this.searchHintData.state = 0;
         this.searchHintData.bottomShow = true;
         this.$emit('showLists');
