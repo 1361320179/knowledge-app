@@ -105,7 +105,7 @@
             </div>
           </div>
         <template v-if="sort_show || price_show || huobashop_show">
-          <div class="screenOverflow" @click="stop_shade"></div>
+          <div class="screenOverflow" @touchstart="stop_shade()"></div>
         </template>
         <div class="activityName">
           <span class="text_title">满减</span>
@@ -416,6 +416,7 @@
       },
       // 关闭遮罩
       stop_shade () {
+        event.preventDefault();
         this.sort_show = 0;
         this.price_show = 0;
         this.huobashop_show = 0;

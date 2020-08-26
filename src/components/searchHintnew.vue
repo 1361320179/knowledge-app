@@ -5,7 +5,8 @@
         v-for="(item,index) in searchHintData.list"
         :key="index"
         @click="select(item,index)"
-      >{{item}}</li>
+        v-html="item"
+      ></li>
     </ul>
   </div>
 </template>
@@ -34,7 +35,8 @@
     props: ["searchHintData"],
     data(){
       return{
-
+        resultList: [],
+        resultLists: [],
       }
     },
     mounted(){
@@ -76,7 +78,14 @@
         let res = await SEARCH_SUGGEST(data);
         if (res.hasOwnProperty("response_code")) {
           // console.log(res)
-          this.searchHintData.list = res.response_data;
+          this.resultList = res.response_data;
+          this.resultLists = [];
+          for (var i = 0; i < this.resultList.length; i++) {
+            var value = this.searchHintData.search;
+            var values = this.resultList[i].toString().split(value);
+            this.resultLists.push(values.join("<span style='color:#F05654;'>" + value + "</span>"));
+          }
+          this.searchHintData.list = this.resultLists;
           this.searchHintData.state = 1;
         } else {
           this.$toast(res.error_message);

@@ -133,7 +133,7 @@
           </div>
         </div>
         <template v-if="sort_show || price_show || huobashop_show || huoba_show">
-          <div class="screenOverflow" @click="stop_shade"></div>
+          <div class="screenOverflow" @touchstart="stop_shade()"></div>
         </template>
         <div class="activityName">
           <span class="text_name">{{activity_name}}</span>
@@ -429,7 +429,6 @@
     mounted() {
       this.brand_list_once = true;
       this.ticket_id = this.$route.query.ticket_id;
-      this.brand_ids = this.$route.query.brand_id;
       if(this.$route.query.searchContent){
         this.searchContent = this.$route.query.searchContent;
       }else if(sessionStorage.getItem('saveCouponKey')){
@@ -491,7 +490,7 @@
         if (this.huobashop_radio.length == 0) {
           this.huobashop_show_color = false;
           this.huobashop_text = '所属店铺';
-          this.brand_ids = this.$route.query.brand_id;
+          this.brand_ids = '0';
         } else {
           for (var i = 0; i < this.huobashop_radio.length; i++) {
             this.huobashop_name.push(this.brand_list[this.huobashop_radio[i]].brand_name);
@@ -538,7 +537,7 @@
         if (this.huoba_radio.length == 0) {
           this.huoba_show_color = false;
           this.huoba_text = '所属火把号';
-          this.brand_ids = this.$route.query.brand_id;
+          this.brand_ids = '0';
         } else {
           for (var i = 0; i < this.huoba_radio.length; i++) {
             this.huoba_name.push(this.brand_list[this.huoba_radio[i]].brand_name);
@@ -555,6 +554,7 @@
       },
       // 关闭遮罩
       stop_shade () {
+        event.preventDefault();
         this.sort_show = 0;
         this.price_show = 0;
         this.huobashop_show = 0;
