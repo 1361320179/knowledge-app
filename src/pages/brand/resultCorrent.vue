@@ -247,7 +247,7 @@
                     <div class="right">
                       <div class="text">{{gitem.title}}</div>
                       <div class="pinpai">
-                        <div class="price" v-if="gitem.price">￥{{gitem.price}}</div>
+                        <div class="price" v-if="gitem.price">￥{{gitem.price.toFixed(2)}}</div>
                         <div class="price" v-else>免费</div>
                         <div class="preferent_active">
                           <span v-for="(titems,indexs) in gitem.tag_list" :key="indexs">
@@ -353,7 +353,7 @@
                     <div class="right">
                       <div class="text">{{gitem.title}}</div>
                       <div class="pinpai">
-                        <div class="price" v-if="gitem.price">￥{{gitem.price}}</div>
+                        <div class="price" v-if="gitem.price">￥{{gitem.price.toFixed(2)}}</div>
                         <div class="price" v-else>免费</div>
                         <div class="preferent_active">
                         <span v-for="(titems,indexs) in gitem.tag_list" :key="indexs">
@@ -438,7 +438,7 @@
                   <div class="right">
                     <div class="text">{{item.title}}</div>
                     <div class="pinpai">
-                      <div class="price" v-if="item.price">￥{{item.price}}</div>
+                      <div class="price" v-if="item.price">￥{{item.price.toFixed(2)}}</div>
                       <div class="price" v-else>免费</div>
                       <div class="preferent_active">
                       <span v-for="(titems,indexs) in item.tag_list" :key="indexs">
@@ -521,7 +521,7 @@
                   <div class="right">
                     <div class="text">{{item.title}}</div>
                     <div class="pinpai">
-                      <div class="price" v-if="item.price">￥{{item.price}}</div>
+                      <div class="price" v-if="item.price">￥{{item.price.toFixed(2)}}</div>
                       <div class="price" v-else>免费</div>
                       <div class="preferent_active">
                       <span v-for="(titems,indexs) in item.tag_list" :key="indexs">
@@ -567,7 +567,7 @@
                     <div class="right">
                       <div class="text">{{item.title}}</div>
                       <div class="pinpai">
-                        <div class="price" v-if="item.price">￥{{item.price}}</div>
+                        <div class="price" v-if="item.price">￥{{item.price.toFixed(2)}}</div>
                         <div class="price" v-else>免费</div>
                         <div class="preferent_active">
                           <span v-for="(titems,indexs) in item.tag_list" :key="indexs">
@@ -622,7 +622,7 @@
                     <div class="right">
                       <div class="text">{{zitem.title}}</div>
                       <div class="pinpai">
-                        <div class="price" v-if="zitem.price">￥{{zitem.price}}</div>
+                        <div class="price" v-if="zitem.price">￥{{zitem.price.toFixed(2)}}</div>
                         <div class="price" v-else>免费</div>
                         <div class="preferent_active">
                         <span v-for="(titems,indexs) in zitem.tag_list" :key="indexs">
@@ -1289,6 +1289,8 @@
             if (this.page > res.response_data.total_page) {
               this.programFinished = true;
               this.page = 1;
+              } else {
+              this.programFinished = false;
             }
           }, 1);
           this.brand_list_once = false;
@@ -1381,6 +1383,8 @@
             if (this.page > res.response_data.total_page) {
               this.programFinished = true;
               this.page = 1;
+            } else {
+              this.programFinished = false;
             }
           }, 1);
           this.brand_list_once = false;

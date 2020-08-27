@@ -134,7 +134,7 @@
             <div class="right">
               <div class="text">{{item.title}}</div>
               <div class="pinpai">
-                <div class="price" v-if="item.price">￥{{item.price}}</div>
+                <div class="price" v-if="item.price">￥{{item.price.toFixed(2)}}</div>
                 <div class="price" v-else>免费</div>
                 <div class="preferent_active">
                   <span v-for="(titems,indexs) in item.tag_list" :key="indexs">
