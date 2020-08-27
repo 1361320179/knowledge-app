@@ -101,6 +101,7 @@ html {
             padding-top: 5px;
           }
           .preferent_active{
+            flex-shrink: 0;
             .active_1 {
               font-size: 12px;
               padding-right: 5px;
@@ -138,6 +139,7 @@ html {
             padding-top: 5px;
           }
           .preferent_active{
+            flex-shrink: 0;
             .active_1 {
               font-size: 12px;
               padding-right: 5px;
@@ -198,6 +200,7 @@ html {
         }
         .preferent_active{
           flex-grow: 1;
+          flex-shrink: 0;
           .active_1{
             font-size: 12px;
             padding-right: 5px;
