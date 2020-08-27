@@ -198,9 +198,6 @@
     .van-submit-bar__bar {
       border-top: 1px solid #F5F5F5;
     }
-    .van-list {
-      padding: 0 15px;
-    }
     .van-list .van-button--danger {
       font-size: $fontSize - 4;
       background-color: transparent;
