@@ -651,7 +651,7 @@ export default {
   methods: {
     inputText() {
       this.$router.push({
-        name: "search",
+        name: "searchcorrent",
         query: {
           type: "mall",
           brand_id: this.brand_id,

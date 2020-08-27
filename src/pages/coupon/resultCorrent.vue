@@ -1,6 +1,12 @@
 <template>
   <div id="couponResultPage">
     <div>
+      <van-list
+        v-model="programLoading"
+        :finished="programFinished"
+        finished-text="没有更多了"
+        @load="programLoad"
+      >
       <div class="searhResult">
         <div class="cancel-back" @click="cancelBack">
           <svg class="icon" aria-hidden="true">
@@ -141,7 +147,7 @@
             <span v-if="activity_boolean">{{hour? hourString+':'+minuteString+':'+secondString : minuteString+':'+secondString}}</span><span v-else>{{ activity_time }}</span><span style="color: #9A9A9A;">后失效</span>
           </div>
         </div>
-        <div class="noMore" v-if="couponList.length == 0">没有更多了</div>
+        <!--<div class="noMore" v-if="couponList.length == 0">没有更多了</div>-->
         <div v-for="(item,index) in couponList" :key="index">
           <!--图书-->
           <div
@@ -162,7 +168,8 @@
                   <span v-for="(titems,indexs) in item.tag_list" :key="indexs">
                     <span class="active_1" v-if="indexs<1">
                       <span class="active_text_1" v-if="titems.type == 1 || titems.type == 2">{{ titems.name }}</span>
-                      <span class="active_text_2" v-if="titems.type == 3 || titems.type == 4">{{ titems.name }}</span>
+                      <span class="active_text_2" v-if="titems.type == 3">{{ titems.name }}</span>
+                      <span class="active_text_3" v-if="titems.type == 4">{{ titems.name }}</span>
                     </span>
                   </span>
               </div>
@@ -200,7 +207,8 @@
                       <span v-for="(titems,indexs) in item.tag_list" :key="indexs">
                           <span class="active_1" v-if="indexs<1">
                             <span class="active_text_1" v-if="titems.type == 1 || titems.type == 2">{{ titems.name }}</span>
-                            <span class="active_text_2" v-if="titems.type == 3 || titems.type == 4">{{ titems.name }}</span>
+                              <span class="active_text_2" v-if="titems.type == 3">{{ titems.name }}</span>
+                              <span class="active_text_3" v-if="titems.type == 4">{{ titems.name }}</span>
                           </span>
                         </span>
                 </div>
@@ -236,7 +244,8 @@
                   <span v-for="(titems,indexs) in item.tag_list" :key="indexs">
                     <span class="active_1" v-if="indexs<1">
                       <span class="active_text_1" v-if="titems.type == 1 || titems.type == 2">{{ titems.name }}</span>
-                      <span class="active_text_2" v-if="titems.type == 3 || titems.type == 4">{{ titems.name }}</span>
+                      <span class="active_text_2" v-if="titems.type == 3">{{ titems.name }}</span>
+                      <span class="active_text_3" v-if="titems.type == 4">{{ titems.name }}</span>
                     </span>
                   </span>
                 </div>
@@ -255,6 +264,7 @@
           </div>
         </div>
       </template>
+      </van-list>
       <!-- 底部 -->
       <div v-if="this.isIphx" style="height: 34px;"></div>
       <div style="height: 50px;"></div>
@@ -290,7 +300,6 @@
     }
     .van-list {
       padding: 0 15px;
-      padding-bottom: 50px;
     }
     .van-list .van-button--danger {
       font-size: $fontSize - 4;
@@ -365,6 +374,8 @@
     data() {
       return {
         page: 1,
+        programLoading: false,
+        programFinished: false,
         searchContent: "",
         ticket_id: "",
         priceSort: 0,
@@ -446,6 +457,9 @@
       }
     },
     methods: {
+      programLoad() {
+        this.getList();
+      },
       // 仅看有货
       is_shop () {
         if (this.has_stock == 0) {
@@ -456,6 +470,7 @@
           this.has_stock = 0;
         }
         this.page = 1;
+        this.couponList = [];
         this.getList();
       },
       // 火把号店铺筛选
@@ -501,6 +516,7 @@
           this.brand_ids = this.huobashop_id.join(',');
         }
         this.page = 1;
+        this.couponList = [];
         this.getList();
         this.huobashop_show = false;
         // this.huobashop_radio = [];
@@ -548,6 +564,7 @@
           this.brand_ids = this.huoba_id.join(',');
         }
         this.page = 1;
+        this.couponList = [];
         this.getList();
         this.huoba_show = false;
         // this.huoba_radio = [];
@@ -628,11 +645,11 @@
             this.price_text_1 = '0-'+ parseInt(this.sdigit) + '元';
             this.search_price = '0_'+ parseInt(this.sdigit);
             this.price_show_color = true;
-          } else if (this.sdigit > this.edigit) {
+          } else if (parseInt(this.sdigit) > parseInt(this.edigit)) {
             this.price_text_1 = parseInt(this.edigit) + '-' + parseInt(this.sdigit) + '元';
             this.search_price = parseInt(this.edigit) + '_' + parseInt(this.sdigit);
             this.price_show_color = true;
-          } else if (this.sdigit < this.edigit) {
+          } else if (parseInt(this.sdigit) < parseInt(this.edigit)) {
             this.price_text_1 = parseInt(this.sdigit) + '-' + parseInt(this.edigit) + '元';
             this.search_price = parseInt(this.sdigit) + '_' + parseInt(this.edigit);
             this.price_show_color = true;
@@ -643,6 +660,7 @@
           this.price_show_color = false;
         }
         this.page = 1;
+        this.couponList = [];
         this.getList();
         this.price_show ? (this.price_show = 0) : (this.price_show = 1);
       },
@@ -683,6 +701,7 @@
         this.sort_text_1 = item;
         this.search_sort = sort;
         this.page = 1;
+        this.couponList = [];
         this.getList();
       },
       // 跳转店铺
@@ -797,15 +816,18 @@
             this.brand_list_length = true;
           }
           setTimeout(() => {
-            this.couponList = [];
             for (let i = 0; i < result.length; i++) {
               this.couponList.push(result[i]);
             }
+            // 加载状态结束
+            this.programLoading = false;
             this.page++;
             // 数据全部加载完成
             if (this.page > res.response_data.total_page) {
               this.programFinished = true;
               this.page = 1;
+            } else {
+              this.programFinished = false;
             }
             // console.log(this.couponList)
           }, 1);
