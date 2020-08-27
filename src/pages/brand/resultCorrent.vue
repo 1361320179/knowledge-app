@@ -794,8 +794,8 @@
       }else if(sessionStorage.getItem('saveSearchContent')){
         this.searchContent = sessionStorage.getItem('saveSearchContent')
       }
-      this.goods_type = this.$route.query.brand_type;
-      this.screen_choose = this.$route.query.brand_type;
+      this.goods_type = this.$route.query.goods_type;
+      this.screen_choose = this.$route.query.goods_type;
       this.supplier_id = this.$route.query.supplier_id
         ? parseInt(this.$route.query.supplier_id)
         : 0;

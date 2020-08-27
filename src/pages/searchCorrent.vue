@@ -61,7 +61,7 @@
           bottomShow: true,
         },
         showAppoint: true,
-        brand_type: 0,
+        goods_type: 0,
         type: "",
         home_id: "",
         hotSearch: [],
@@ -123,7 +123,7 @@
               path: "/brand/resultCorrent",
               query: {
                 type: "brand",
-                brand_type: this.brand_type,
+                goods_type: this.goods_type,
                 // searchContent: _searchContent
               }
             });
@@ -134,7 +134,7 @@
               path: "/brand/resultCorrent",
               query: {
                 type: "mall",
-                brand_type: this.brand_type,
+                goods_type: this.goods_type,
                 // searchContent: _searchContent,
                 supplier_id: this.$route.query.supplier_id?this.$route.query.supplier_id:0,
               }
@@ -146,7 +146,7 @@
               path: "/brand/resultCorrent",
               query: {
                 type: "index",
-                brand_type: this.brand_type,
+                goods_type: this.goods_type,
                 // searchContent: _searchContent
               }
             });
@@ -256,7 +256,7 @@
             path: "/brand/resultCorrent",
             query:{
               type: this.type,
-              brand_type: this.brand_type,
+              goods_type: this.goods_type,
               // searchContent: _hotContent,
             }
           })
@@ -265,7 +265,7 @@
             path: "/brand/resultCorrent",
             query:{
               type: this.type,
-              brand_type: this.brand_type,
+              goods_type: this.goods_type,
               // searchContent: _hotContent,
               supplier_id: this.$route.query.supplier_id?this.$route.query.supplier_id:0,
             }

@@ -18,19 +18,19 @@
       >
         <div slot="action" @click="onSearch">搜索</div>
         <div slot="left-icon">
-          <svg class="icon" aria-hidden="true" v-if="this.brand_type == 9">
+          <svg class="icon" aria-hidden="true" v-if="this.goods_type == 9">
             <use xlink:href="#icon-zhuanji" />
           </svg>
-          <svg class="icon" aria-hidden="true" v-else-if="this.brand_type == 4">
+          <svg class="icon" aria-hidden="true" v-else-if="this.goods_type == 4">
             <use xlink:href="#icon-dianzishu" />
           </svg>
-          <svg class="icon" aria-hidden="true" v-else-if="this.brand_type == 3">
+          <svg class="icon" aria-hidden="true" v-else-if="this.goods_type == 3">
             <use xlink:href="#icon-tushu" />
           </svg>
-          <svg class="icon" aria-hidden="true" v-else-if="this.brand_type == 6">
+          <svg class="icon" aria-hidden="true" v-else-if="this.goods_type == 6">
             <use xlink:href="#icon-wenzhang1" />
           </svg>
-          <svg class="icon" aria-hidden="true" v-else-if="this.brand_type == -1">
+          <svg class="icon" aria-hidden="true" v-else-if="this.goods_type == -1">
             <use xlink:href="#icon-huobahao" />
           </svg>
           <svg class="icon" aria-hidden="true" v-else>
@@ -137,9 +137,8 @@
           bottomShow: true,
         },
         showSearchContent: true,
-        brand_type: 0,
+        goods_type: 0,
         type: "",
-        goods_type: "",
         home_id: "",
         hotSearch: [],
         list: [],
@@ -152,22 +151,22 @@
       this.searchHintData.type = this.$route.query.type;
       if (this.type == "order") {
         this.searchHintData.placeholderText = "搜索专辑/电子书/图书/文章/火把号";
-        this.brand_type = 0;
+        this.goods_type = 0;
       } else if (this.goods_type == '9') {
         this.searchHintData.placeholderText = "搜索专辑名称";
-        this.brand_type = 9;
+        this.goods_type = 9;
       } else if (this.goods_type == '4') {
         this.searchHintData.placeholderText = "搜索电子书名称、作者";
-        this.brand_type = 4;
+        this.goods_type = 4;
       } else if (this.goods_type == '3') {
         this.searchHintData.placeholderText = "搜索图书名称、作者、ISBN";
-        this.brand_type = 3;
+        this.goods_type = 3;
       } else if (this.goods_type == '6') {
         this.searchHintData.placeholderText = "搜索文章名称";
-        this.brand_type = 6;
+        this.goods_type = 6;
       } else if (this.goods_type == '-1') {
         this.searchHintData.placeholderText = "搜索火把号名称";
-        this.brand_type = -1;
+        this.goods_type = -1;
       }
       if(sessionStorage.getItem('saveSearchContent')){
         this.searchHintData.search = sessionStorage.getItem('saveSearchContent')
@@ -238,7 +237,7 @@
               path: "/brand/resultCorrent",
               query: {
                 type: "brand",
-                brand_type: this.brand_type,
+                goods_type: this.goods_type,
                 // searchContent: _searchContent
               }
             });
@@ -249,7 +248,7 @@
               path: "/brand/resultCorrent",
               query: {
                 type: "mall",
-                brand_type: this.brand_type,
+                goods_type: this.goods_type,
                 // searchContent: _searchContent,
                 supplier_id: this.$route.query.supplier_id?this.$route.query.supplier_id:0,
               }
@@ -261,7 +260,7 @@
               path: "/brand/resultCorrent",
               query: {
                 type: "index",
-                brand_type: this.brand_type,
+                goods_type: this.goods_type,
                 // searchContent: _searchContent
               }
             });
@@ -385,7 +384,7 @@
             path: "/brand/resultCorrent",
             query:{
               type: this.type,
-              brand_type: this.brand_type,
+              goods_type: this.goods_type,
               // searchContent: _hotContent,
             }
           })
@@ -394,7 +393,7 @@
             path: "/brand/resultCorrent",
             query:{
               type: this.type,
-              brand_type: this.brand_type,
+              goods_type: this.goods_type,
               // searchContent: _hotContent,
               supplier_id: this.$route.query.supplier_id?this.$route.query.supplier_id:0,
             }
