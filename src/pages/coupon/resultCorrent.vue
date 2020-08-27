@@ -393,7 +393,7 @@
         huoba_name: [],
         huoba_id: [],
         screen_choose: 0,
-        couponChange: true,
+        couponChange: false,
         price_zone: '',
         title: null,
         page_size: 10,
