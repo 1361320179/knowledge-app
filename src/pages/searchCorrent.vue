@@ -305,7 +305,7 @@
             goods_type: index
           }
         })
-        sessionStorage.setItem('saveSearchContent','');
+        sessionStorage.setItem('saveSearchContent',this.searchHintData.search);
       }
     }
   };
