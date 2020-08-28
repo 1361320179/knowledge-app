@@ -127,7 +127,7 @@
                   <div class="radios" v-if="brand_list_length">
                     <van-checkbox-group v-model="huoba_radio">
                       <div v-for="(item,index) in brand_list" :key="index">
-                        <van-checkbox :name="index">{{ item.brand_name }}</van-checkbox>
+                        <van-checkbox :name="index" checked-color="#F05654">{{ item.brand_name }}</van-checkbox>
                       </div>
                     </van-checkbox-group>
                   </div>
@@ -155,7 +155,7 @@
                   <div class="radios" v-if="brand_list_length">
                     <van-checkbox-group v-model="huobashop_radio">
                       <div v-for="(item,index) in brand_list" :key="index">
-                        <van-checkbox :name="index">{{ item.brand_name }}</van-checkbox>
+                        <van-checkbox :name="index" checked-color="#F05654">{{ item.brand_name }}</van-checkbox>
                       </div>
                     </van-checkbox-group>
                   </div>
@@ -169,10 +169,10 @@
                 </div>
               </div>
               <div class="only_pay" @click="is_pay" v-if="items.column_type == 9 || items.column_type == 4">
-                <van-checkbox v-model="needs_pay">仅看付费</van-checkbox>
+                <van-checkbox v-model="needs_pay" checked-color="#F05654">仅看付费</van-checkbox>
               </div>
               <div class="only_shop" @click="is_shop" v-else>
-                <van-checkbox v-model="needs_pay">仅看有货</van-checkbox>
+                <van-checkbox v-model="needs_pay" checked-color="#F05654">仅看有货</van-checkbox>
               </div>
             </div>
           </template>
@@ -690,16 +690,6 @@
   }
   .van-cell:not(:last-child):after{
     border-bottom: none;
-  }
-  .van-radio__icon--checked .van-icon {
-    color: #F05654;
-    border-color: #F05654 ;
-    background-color: #FFF7F7;
-  }
-  .van-checkbox__icon--checked .van-icon {
-    color: #F05654;
-    border-color: #F05654 ;
-    background-color: #FFF7F7;
   }
   .van-checkbox__icon .van-icon {
     font-size: 12px;
