@@ -630,18 +630,22 @@
         this.edigit = '';
       },
       price_sure () {
-        if (this.sdigit || this.edigit !== '') {
-          if (parseInt(this.sdigit) == '') {
+        if (!isNaN(this.sdigit) && !isNaN(this.edigit)) {
+          if (this.sdigit == '' && this.edigit == '') {
+            this.price_text_1 = '价格区间';
+            this.search_price = '';
+            this.price_show_color = false;
+          } else if (this.sdigit == '') {
             this.price_text_1 = '0-'+ parseInt(this.edigit) + '元';
             this.search_price = '0_'+ parseInt(this.edigit);
             this.price_show_color = true;
-          } else if (parseInt(this.edigit) == '') {
+          } else if (this.edigit == '') {
             this.price_text_1 = parseInt(this.sdigit) + '元以上';
             this.search_price = parseInt(this.sdigit) + '_';
             this.price_show_color = true;
           } else if (parseInt(this.sdigit) == parseInt(this.edigit)) {
-            this.price_text_1 = '0-'+ parseInt(this.sdigit) + '元';
-            this.search_price = '0_'+ parseInt(this.sdigit);
+            this.price_text_1 = parseInt(this.sdigit) + '-' + parseInt(this.edigit) + '元';
+            this.search_price = parseInt(this.sdigit) + '_' + parseInt(this.edigit);
             this.price_show_color = true;
           } else if (parseInt(this.sdigit) > parseInt(this.edigit)) {
             this.price_text_1 = parseInt(this.edigit) + '-' + parseInt(this.sdigit) + '元';
