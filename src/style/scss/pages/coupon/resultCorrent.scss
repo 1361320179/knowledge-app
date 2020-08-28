@@ -5,6 +5,10 @@
 @charset "utf-8";
 
 #couponResultPage{
+  .van-cell{
+    padding: 15px 35px;
+    line-height: 30px;
+  }
   .searhResult{
     display: flex;
     align-items: center;
@@ -441,10 +445,12 @@
     }
     .only_pay {
       padding-left: 10px;
+      padding-right: 10px;
       flex-shrink: 0;
     }
     .only_shop {
       padding-left: 10px;
+      padding-right: 10px;
       flex-shrink: 0;
     }
     .screen_text{
@@ -458,5 +464,22 @@
     width: 100%;
     height: 100%;
     z-index: 2000;
+  }
+  .noMore {
+    color: #969799;
+    font-size: 13px;
+    line-height: 50px;
+    text-align: center;
+  }
+  .multi_bottom{
+    font-size:$fontSize + 1;
+    padding:0 15px;
+    .price{
+      font-size: $fontSize - 1;
+      color:$redLight;
+    }
+    .desc{
+      font-size: $fontSize - 2;
+    }
   }
 }

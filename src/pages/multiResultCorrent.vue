@@ -205,61 +205,12 @@
       color: $redLight;
       padding: 0 3px;
     }
-    .noMore {
-      color: #969799;
-      font-size: 13px;
-      line-height: 50px;
-      text-align: center;
-    }
-    .multi_bottom{
-      font-size:$fontSize + 1;
-      padding:0 15px;
-      .price{
-        font-size: $fontSize - 1;
-        color:$redLight;
-      }
-      .desc{
-        font-size: $fontSize - 2;
-      }
-    }
-    .van-tabs__content--animated {
-      overflow: unset;
-    }
-    .van-cell{
-      padding: 15px 35px;
-      line-height: 30px;
-    }
     .van-field__control{
       padding-left: 10px;
-    }
-    .van-icon{
-      padding-right: 10px;
     }
     .van-field__body{
       border-radius: 30px;
       background-color: rgba(242, 242, 242, 1);
-    }
-    .van-cell:not(:last-child):after{
-      border-bottom: none;
-    }
-    .van-checkbox__icon .van-icon {
-      font-size: 12px;
-      line-height: initial;
-      width: 15px;
-      height: 15px;
-    }.van-tabs__content--animated {
-       overflow: unset;
-     }
-    .van-cell{
-      padding: 15px 35px;
-      line-height: 30px;
-    }
-    .van-field__control{
-      padding-left: 10px;
-    }
-    .van-checkbox__label {
-      margin-right: 10px;
-      margin-left: 3px;
     }
   }
 </style>

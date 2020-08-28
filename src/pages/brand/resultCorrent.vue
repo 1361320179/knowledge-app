@@ -667,39 +667,15 @@
 </template>
 
 <style src="@/style/scss/pages/brand/resultCorrent.scss" scoped lang="scss"></style>
-<style>
-  html {
-    overflow-x: hidden;
-  }
-  .van-tabs__content--animated {
-    overflow: unset;
-  }
-  .van-cell{
-    padding: 15px 35px;
-    line-height: 30px;
-  }
-  .van-field__control{
-    padding-left: 10px;
-  }
-  .van-icon{
-    padding-right: 10px;
-  }
-  .van-field__body{
-    border-radius: 30px;
-    background-color: rgba(242, 242, 242, 1);
-  }
-  .van-cell:not(:last-child):after{
-    border-bottom: none;
-  }
-  .van-checkbox__icon .van-icon {
-    font-size: 12px;
-    line-height: initial;
-    width: 15px;
-    height: 15px;
-  }
-  .van-checkbox__label {
-    margin-right: 10px;
-    margin-left: 3px;
+<style lang="scss">
+  #resultPage {
+    .van-field__control{
+      padding-left: 10px;
+    }
+    .van-field__body{
+      border-radius: 30px;
+      background-color: rgba(242, 242, 242, 1);
+    }
   }
 </style>
 <script>

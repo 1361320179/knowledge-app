@@ -13,7 +13,10 @@ html {
   background-color: $greyLight ;
   min-height: 100%;
   box-sizing: border-box;
-
+  .van-cell{
+    padding: 15px 35px;
+    line-height: 30px;
+  }
   .searhResult{
     display: flex;
     align-items: center;
@@ -560,10 +563,12 @@ html {
     }
     .only_pay {
       padding-left: 10px;
+      padding-right: 10px;
       flex-shrink: 0;
     }
     .only_shop {
       padding-left: 10px;
+      padding-right: 10px;
       flex-shrink: 0;
     }
     .screen_text{
