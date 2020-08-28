@@ -841,6 +841,7 @@
         this.brandData = [];
         this.shopZindex = 1000;
         this.page = 1;
+        this.brand_list_once = true;
         this.getBooks();
       },
       // 仅看付费
@@ -855,6 +856,7 @@
         this.brandData = [];
         this.shopZindex = 1000;
         this.page = 1;
+        this.brand_list_once = true;
         this.getGoods();
       },
       // 火把号店铺筛选
@@ -902,6 +904,7 @@
         this.brandData = [];
         this.shopZindex = 1000;
         this.page = 1;
+        this.brand_list_once = true;
         this.getBooks();
         this.huobashop_show = false;
         // this.huobashop_radio = [];
@@ -951,6 +954,7 @@
         this.brandData = [];
         this.shopZindex = 1000;
         this.page = 1;
+        this.brand_list_once = true;
         this.getGoods();
         this.huoba_show = false;
         // this.huoba_radio = [];
@@ -1274,8 +1278,19 @@
           if (this.brand_list_once) {
             if (res.response_data.brand_list == undefined) {
               this.brand_list = [];
+              this.huobashop_radio = [];
             } else {
               this.brand_list = res.response_data.brand_list;
+              if (this.huobashop_id.length > 0) {
+                this.huobashop_radio = [];
+                for (var n = 0; n < this.huobashop_id.length; n++) {
+                  for (var m = 0; m < this.brand_list.length; m++) {
+                    if (this.huobashop_id[n] == this.brand_list[m].brand_id) {
+                      this.huobashop_radio.push(m);
+                    }
+                  }
+                }
+              }
             }
           }
           if (this.brand_list.length == 0) {
@@ -1368,8 +1383,19 @@
           if (this.brand_list_once) {
             if (res.response_data.brand_list == undefined) {
               this.brand_list = [];
+              this.huoba_radio = [];
             } else {
               this.brand_list = res.response_data.brand_list;
+              if (this.huoba_id.length > 0) {
+                this.huoba_radio = [];
+                for (var n = 0; n < this.huoba_id.length; n++) {
+                  for (var m = 0; m < this.brand_list.length; m++) {
+                    if (this.huoba_id[n] == this.brand_list[m].brand_id) {
+                      this.huoba_radio.push(m);
+                    }
+                  }
+                }
+              }
             }
           }
           if (this.brand_list.length == 0) {

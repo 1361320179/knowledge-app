@@ -23,7 +23,7 @@
           </svg>
         </div>
       </van-search>
-      <search-hintnew :searchHintData="searchHintData" ref="searchHintnew"></search-hintnew>
+      <search-hintnew :searchHintData="searchHintData" ref="searchHintnew" @onSearch="onSearch"></search-hintnew>
     </div>
     <EazyNav type="brand" :isShow="true"></EazyNav>
     <!--通用弹窗-->
@@ -57,11 +57,13 @@
       this.searchHintData.type = this.$route.query.type;
       if (this.type == 'coupon') {
         if(sessionStorage.getItem('saveCouponKey')){
-          this.searchHintData.search = sessionStorage.getItem('saveCouponKey')
+          this.searchHintData.search = sessionStorage.getItem('saveCouponKey');
+          this.showList();
         }
       } else {
         if(sessionStorage.getItem('saveFullreduction')){
-          this.searchHintData.search = sessionStorage.getItem('saveFullreduction')
+          this.searchHintData.search = sessionStorage.getItem('saveFullreduction');
+          this.showList();
         }
       }
       document.getElementById('inputId').focus();

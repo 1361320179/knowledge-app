@@ -220,6 +220,7 @@ export default {
   },
   methods: {
     flushCom () {
+      sessionStorage.setItem('saveSearchContent','')
       this.$router.go(0);
     },
     gotoLink() {

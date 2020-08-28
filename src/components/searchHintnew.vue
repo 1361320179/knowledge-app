@@ -49,12 +49,14 @@
         this.searchHintData.state = 0;
         this.searchHintData.bottomShow = true;
         this.$emit('showLists');
+        this.$emit('onSearch');
       },
       async showList() {
         if (this.searchHintData.search.trim() == "") {
           // this.searchData();
           this.searchHintData.bottomShow = true;
           this.searchHintData.state = 0;
+          this.searchHintData.list = [];
           return;
         } else {
           this.searchHintData.bottomShow = false;

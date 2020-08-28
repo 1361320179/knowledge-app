@@ -294,7 +294,7 @@ export default {
     },
     toresult(item, index) {
       // console.log(item);
-      sessionStorage.setItem('saveSearchContent',"")
+      sessionStorage.setItem('saveCouponKey',"")
       this.$router.push({
         name: "couponresultcorrent",
         query: {

@@ -352,7 +352,6 @@
         this.placeholder = '';
       }
       this.getBottomInfo();
-      this.getList();
     },
     updated() {
       if (this.has_stock == 0) {
@@ -375,6 +374,7 @@
           this.has_stock = 0;
         }
         this.page = 1;
+        this.brand_list_once = true;
         this.couponList = [];
         this.getList();
       },
@@ -422,6 +422,7 @@
         }
         this.page = 1;
         this.couponList = [];
+        this.brand_list_once = true;
         this.getList();
         this.huobashop_show = false;
         // this.huobashop_radio = [];
@@ -635,8 +636,19 @@
           if (this.brand_list_once) {
             if (res.response_data.brand_list == undefined) {
               this.brand_list = [];
+              this.huobashop_radio = [];
             } else {
               this.brand_list = res.response_data.brand_list;
+              if (this.huobashop_id.length > 0) {
+                this.huobashop_radio = [];
+                for (var n = 0; n < this.huobashop_id.length; n++) {
+                  for (var m = 0; m < this.brand_list.length; m++) {
+                    if (this.huobashop_id[n] == this.brand_list[m].brand_id) {
+                      this.huobashop_radio.push(m);
+                    }
+                  }
+                }
+              }
             }
           }
           if (this.brand_list.length == 0) {

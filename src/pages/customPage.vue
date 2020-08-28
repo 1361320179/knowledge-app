@@ -650,6 +650,7 @@ export default {
   },
   methods: {
     inputText() {
+      sessionStorage.setItem('saveSearchContent','');
       this.$router.push({
         name: "searchcorrent",
         query: {

@@ -23,7 +23,7 @@
           </svg>
         </div>
       </van-search>
-      <search-hintnew :searchHintData="searchHintData" ref="searchHintnew" @showLists="showLists"></search-hintnew>
+      <search-hintnew :searchHintData="searchHintData" ref="searchHintnew" @showLists="showLists" @onSearch="onSearch"></search-hintnew>
     </div>
     <div class="searchAppoint" v-if="showAppoint">
       <div class="appoint-text">搜索指定内容</div>
@@ -77,6 +77,7 @@
       }
       if(sessionStorage.getItem('saveSearchContent')){
         this.searchHintData.search = sessionStorage.getItem('saveSearchContent')
+        this.showList();
       }
       this.home_id = localStorage.getItem("home_id");
       this.getLocalItem();
@@ -123,7 +124,6 @@
               path: "/brand/resultCorrent",
               query: {
                 type: "brand",
-                goods_type: this.goods_type,
                 // searchContent: _searchContent
               }
             });
@@ -134,7 +134,6 @@
               path: "/brand/resultCorrent",
               query: {
                 type: "mall",
-                goods_type: this.goods_type,
                 // searchContent: _searchContent,
                 supplier_id: this.$route.query.supplier_id?this.$route.query.supplier_id:0,
               }
@@ -146,7 +145,6 @@
               path: "/brand/resultCorrent",
               query: {
                 type: "index",
-                goods_type: this.goods_type,
                 // searchContent: _searchContent
               }
             });
@@ -256,7 +254,6 @@
             path: "/brand/resultCorrent",
             query:{
               type: this.type,
-              goods_type: this.goods_type,
               // searchContent: _hotContent,
             }
           })
@@ -265,7 +262,6 @@
             path: "/brand/resultCorrent",
             query:{
               type: this.type,
-              goods_type: this.goods_type,
               // searchContent: _hotContent,
               supplier_id: this.$route.query.supplier_id?this.$route.query.supplier_id:0,
             }

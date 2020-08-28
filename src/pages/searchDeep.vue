@@ -38,7 +38,7 @@
           </svg>
         </div>
       </van-search>
-      <search-hintnew :searchHintData="searchHintData" ref="searchHintnew" @showLists="showLists"></search-hintnew>
+      <search-hintnew :searchHintData="searchHintData" ref="searchHintnew" @showLists="showLists" @onSearch="onSearch"></search-hintnew>
     </div>
     <!-- 最近订单搜索 -->
     <div class="searchRecommend searchHistory" v-if="type=='order' && order_list.length>0 && showSearchContent">
@@ -170,6 +170,7 @@
       }
       if(sessionStorage.getItem('saveSearchContent')){
         this.searchHintData.search = sessionStorage.getItem('saveSearchContent')
+        this.showList();
       }
       this.home_id = localStorage.getItem("home_id");
       this.getHotKey();

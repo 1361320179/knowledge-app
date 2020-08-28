@@ -445,7 +445,6 @@
         this.placeholder = '';
       }
       this.getBottomInfo();
-      this.getList();
     },
     updated() {
       if (this.has_stock == 0) {
@@ -468,6 +467,7 @@
           this.has_stock = 0;
         }
         this.page = 1;
+        this.brand_list_once = true;
         this.couponList = [];
         this.getList();
       },
@@ -515,6 +515,7 @@
         }
         this.page = 1;
         this.couponList = [];
+        this.brand_list_once = true;
         this.getList();
         this.huobashop_show = false;
         // this.huobashop_radio = [];
@@ -563,6 +564,7 @@
         }
         this.page = 1;
         this.couponList = [];
+        this.brand_list_once = true;
         this.getList();
         this.huoba_show = false;
         // this.huoba_radio = [];
@@ -775,6 +777,7 @@
         }
       },
       async getList() {
+        console.log(112)
         var tStamp = this.$getTimeStamp();
         let data = {
           timestamp: tStamp,
@@ -813,8 +816,20 @@
           if (this.brand_list_once) {
             if (res.response_data.brand_list == undefined) {
               this.brand_list = [];
+              this.huoba_radio = [];
             } else {
               this.brand_list = res.response_data.brand_list;
+              if (this.huoba_id.length > 0) {
+                console.log(1212);
+                this.huoba_radio = [];
+                for (var n = 0; n < this.huoba_id.length; n++) {
+                  for (var m = 0; m < this.brand_list.length; m++) {
+                    if (this.huoba_id[n] == this.brand_list[m].brand_id) {
+                      this.huoba_radio.push(m);
+                    }
+                  }
+                }
+              }
             }
           }
           if (this.brand_list.length == 0) {
