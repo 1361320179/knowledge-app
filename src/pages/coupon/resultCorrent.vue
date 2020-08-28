@@ -144,7 +144,7 @@
         <div class="activityName">
           <span class="text_name">{{activity_name}}</span>
           <div class="count_name">
-            <span v-if="activity_boolean">{{hour? hourString+':'+minuteString+':'+secondString : minuteString+':'+secondString}}</span><span v-else>{{ activity_time }}</span><span style="color: #9A9A9A;">后失效</span>
+            <span v-if="activity_boolean">{{hour? hourString+':'+minuteString+':'+secondString : minuteString+':'+secondString}}</span><span v-else>{{ activity_time }}</span><span style="color: #9A9A9A;">{{ couponDownTime }}</span>
           </div>
         </div>
         <!--<div class="noMore" v-if="couponList.length == 0">没有更多了</div>-->
@@ -374,6 +374,7 @@
         programLoading: false,
         programFinished: false,
         searchContent: "",
+        couponDownTime: '',
         ticket_id: "",
         priceSort: 0,
         couponList: [],
@@ -630,15 +631,15 @@
       },
       price_sure () {
         if (this.sdigit || this.edigit !== '') {
-          if (this.sdigit == '') {
+          if (parseInt(this.sdigit) == '') {
             this.price_text_1 = '0-'+ parseInt(this.edigit) + '元';
             this.search_price = '0_'+ parseInt(this.edigit);
             this.price_show_color = true;
-          } else if (this.edigit == '') {
+          } else if (parseInt(this.edigit) == '') {
             this.price_text_1 = parseInt(this.sdigit) + '元以上';
             this.search_price = parseInt(this.sdigit) + '_';
             this.price_show_color = true;
-          } else if (this.sdigit == this.edigit) {
+          } else if (parseInt(this.sdigit) == parseInt(this.edigit)) {
             this.price_text_1 = '0-'+ parseInt(this.sdigit) + '元';
             this.search_price = '0_'+ parseInt(this.sdigit);
             this.price_show_color = true;
@@ -650,6 +651,10 @@
             this.price_text_1 = parseInt(this.sdigit) + '-' + parseInt(this.edigit) + '元';
             this.search_price = parseInt(this.sdigit) + '_' + parseInt(this.edigit);
             this.price_show_color = true;
+          } else {
+            this.price_text_1 = '价格区间';
+            this.search_price = '';
+            this.price_show_color = false;
           }
         } else {
           this.price_text_1 = '价格区间';
@@ -783,6 +788,7 @@
         if (res.hasOwnProperty("response_code")) {
           // console.log(res);
           this.activity_name = res.response_data.activity_name;
+          this.couponDownTime = '后失效';
           if (res.response_data.count_down == 1 && res.response_data.remain_time > 0) {
             this.countDown(res.response_data.remain_time);
             this.activity_boolean = true;
