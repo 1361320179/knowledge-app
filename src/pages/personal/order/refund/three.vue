@@ -172,7 +172,7 @@
               v-for="(item,index) in reasonList"
               :key="index"
             >
-              <van-radio :name="index" @click="radioCheck(item,index)" checked-color="#ff504e" />
+              <van-radio :name="index" @click="radioCheck(item,index)"/>
             </van-cell>
           </van-cell-group>
         </van-radio-group>

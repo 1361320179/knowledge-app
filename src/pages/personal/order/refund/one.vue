@@ -68,7 +68,7 @@
             :key="index"
             @click="radio_check(item,index)"
           >
-            <van-radio :name="index" @click="radio_check(item,index)" checked-color="#ff504e" />
+            <van-radio :name="index" @click="radio_check(item,index)" />
           </van-cell>
         </van-cell-group>
       </van-radio-group>
