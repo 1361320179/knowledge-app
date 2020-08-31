@@ -312,6 +312,9 @@
       border-radius: 30px;
       background-color: rgba(242, 242, 242, 1);
     }
+    .van-tabs__content--animated {
+      overflow: unset;
+    }
   }
 </style>
 <script>
@@ -417,7 +420,6 @@
           this.has_stock = 0;
         }
         this.page = 1;
-        this.brand_list_once = true;
         this.couponList = [];
         this.getList();
       },
@@ -465,7 +467,6 @@
         }
         this.page = 1;
         this.couponList = [];
-        this.brand_list_once = true;
         this.getList();
         this.huobashop_show = false;
         // this.huobashop_radio = [];
@@ -514,7 +515,6 @@
         }
         this.page = 1;
         this.couponList = [];
-        this.brand_list_once = true;
         this.getList();
         this.huoba_show = false;
         // this.huoba_radio = [];

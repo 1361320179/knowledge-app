@@ -676,6 +676,9 @@
       border-radius: 30px;
       background-color: rgba(242, 242, 242, 1);
     }
+    .van-tabs__content--animated {
+      overflow: unset;
+    }
   }
 </style>
 <script>
@@ -807,7 +810,6 @@
         this.brandData = [];
         this.shopZindex = 1000;
         this.page = 1;
-        this.brand_list_once = true;
         this.getBooks();
       },
       // 仅看付费
@@ -822,7 +824,6 @@
         this.brandData = [];
         this.shopZindex = 1000;
         this.page = 1;
-        this.brand_list_once = true;
         this.getGoods();
       },
       // 火把号店铺筛选
@@ -870,7 +871,6 @@
         this.brandData = [];
         this.shopZindex = 1000;
         this.page = 1;
-        this.brand_list_once = true;
         this.getBooks();
         this.huobashop_show = false;
         // this.huobashop_radio = [];
@@ -920,7 +920,6 @@
         this.brandData = [];
         this.shopZindex = 1000;
         this.page = 1;
-        this.brand_list_once = true;
         this.getGoods();
         this.huoba_show = false;
         // this.huoba_radio = [];
