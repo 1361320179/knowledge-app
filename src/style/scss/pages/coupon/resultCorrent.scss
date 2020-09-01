@@ -137,13 +137,13 @@
           color: #F05654;
           flex-shrink: 0;
           padding-right: 10px;
-          font-size: 16px;
+          font-size: 11px;
         }
         .preferent_active{
           flex-grow: 1;
           flex-shrink: 0;
           .active_1{
-            font-size: 12px;
+            font-size: 10px;
             padding-right: 5px;
             .active_text_1{
               color: $white;
@@ -200,14 +200,14 @@
           background-color: #EF5553;
           border-radius: 50%;
           .icon {
-            font-size: 32px;
+            font-size: 28px;
             color: $white;
           }
         }
       }
       .nice{
         color: $cl9;
-        font-size: $fontSize - 2;
+        font-size: $fontSize - 4;
         .price{
           @include font(null, $fontSize, $redLight);
         }
@@ -240,12 +240,13 @@
     box-shadow: 0 0 10px 0 rgba(0,0,0,.06);
     border-bottom: 1px solid #eee;
     .sort_box{
-      flex-basis: 28%;
+      flex-basis: 23%;
       overflow: hidden;
+      margin-right: 10px;
       .sort_text{
         position: relative;
-        font-size: 14px;
-        padding-left: 10px;
+        font-size: 11px;
+        padding: 4px 0 4px 10px;
         color: #333333;
         display: flex;
         margin-left: 5px;
@@ -254,7 +255,7 @@
         .icon{
           font-size: 12px;
           right: 5px;
-          top: 5px;
+          top: 4px;
         }
       }
       ul{
@@ -262,11 +263,12 @@
         top: 41px;
         background-color: $white;
         width: 100%;
-        line-height: 30px;
+        line-height: 40px;
         z-index: 2001;
         box-shadow: 0 0 10px 0 rgba(0,0,0,.06);
         border-bottom-left-radius: 15px;
         border-bottom-right-radius: 15px;
+        font-size: 13px;
         li{
           padding: 0 10px;
         }
@@ -276,12 +278,13 @@
       }
     }
     .price_box{
-      flex-basis: 28%;
+      flex-basis: 23%;
       overflow: hidden;
+      margin-right: 10px;
       .price_text{
         position: relative;
-        font-size: 14px;
-        padding-left: 10px;
+        font-size: 11px;
+        padding: 4px 0 4px 10px;
         color: #333333;
         display: flex;
         margin-left: 5px;
@@ -290,7 +293,7 @@
         .icon{
           font-size: 12px;
           right: 5px;
-          top: 5px;
+          top: 4px;
         }
       }
       .price_keyboard{
@@ -304,6 +307,7 @@
         box-shadow: 0 0 10px 0 rgba(0,0,0,.06);
         border-bottom-left-radius: 15px;
         border-bottom-right-radius: 15px;
+        font-size: 12px;
         .price_input{
           display: flex;
           align-items: center;
@@ -321,6 +325,7 @@
           line-height: 35px;
           text-align: center;
           color: rgb(84, 172, 240);
+          font-size: 15px;
           .reset-button{
             flex-grow: 1;
             border-top: 1px solid #E5E5E5;
@@ -336,12 +341,13 @@
       }
     }
     .huoba_box{
-      flex-basis: 28%;
+      flex-basis: 24%;
       overflow: hidden;
+      margin-right: 10px;
       .huoba_text{
         position: relative;
-        font-size: 14px;
-        padding-left: 10px;
+        font-size: 11px;
+        padding: 4px 0 4px 10px;
         color: #333333;
         display: flex;
         margin-left: 5px;
@@ -350,7 +356,7 @@
         .icon{
           font-size: 12px;
           right: 5px;
-          top: 5px;
+          top: 4px;
         }
       }
       .huoba_radio{
@@ -363,6 +369,7 @@
         box-shadow: 0 0 10px 0 rgba(0,0,0,.06);
         border-bottom-left-radius: 15px;
         border-bottom-right-radius: 15px;
+        font-size: 13px;
         .radios{
           padding: 0 15px;
           line-height: 40px;
@@ -375,6 +382,7 @@
           line-height: 35px;
           text-align: center;
           color: rgb(84, 172, 240);
+          font-size: 15px;
           .reset-button{
             flex-grow: 1;
             border-top: 1px solid #E5E5E5;
@@ -390,12 +398,13 @@
       }
     }
     .huobashop_box{
-      flex-basis: 28%;
+      flex-basis: 23%;
       overflow: hidden;
+      margin-right: 10px;
       .huobashop_text{
         position: relative;
-        font-size: 14px;
-        padding-left: 10px;
+        font-size: 11px;
+        padding: 4px 0 4px 10px;
         color: #333333;
         display: flex;
         margin-left: 5px;
@@ -404,7 +413,7 @@
         .icon{
           font-size: 12px;
           right: 5px;
-          top: 5px;
+          top: 4px;
         }
       }
       .huobashop_radio{
@@ -417,6 +426,7 @@
         box-shadow: 0 0 10px 0 rgba(0,0,0,.06);
         border-bottom-left-radius: 15px;
         border-bottom-right-radius: 15px;
+        font-size: 13px;
         .radios{
           padding: 0 15px;
           line-height: 40px;
@@ -429,6 +439,7 @@
           line-height: 35px;
           text-align: center;
           color: rgb(84, 172, 240);
+          font-size: 15px;
           .reset-button{
             flex-grow: 1;
             border-top: 1px solid #E5E5E5;
@@ -447,11 +458,13 @@
       padding-left: 10px;
       padding-right: 10px;
       flex-shrink: 0;
+      font-size: 11px;
     }
     .only_shop {
       padding-left: 10px;
       padding-right: 10px;
       flex-shrink: 0;
+      font-size: 11px;
     }
     .screen_text{
       @include textOverflow;
