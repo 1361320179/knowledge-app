@@ -423,12 +423,7 @@
         this.hotSearchItem(item.content)
       },
       cancelBack () {
-        this.$router.push({
-          path: "/searchcorrent",
-          query:{
-            type: this.type
-          }
-        })
+        this.$router.go(-1);
         sessionStorage.setItem('saveSearchContent','');
       }
     }
