@@ -434,7 +434,7 @@
                   </div>
                   <!-- 文章 -->
                   <div class="content" @click="gotoDetail(gitem)" v-if="gitem.goods_type == 6">
-                    <div class="right">
+                    <div class="right" style="margin-left: 0;">
                       <div class="text">{{gitem.title}}</div>
                       <div class="nice">
                         <span class="good" v-if="gitem.goods_type == 6">
@@ -608,7 +608,7 @@
                 </div>
                 <!-- 文章 -->
                 <div class="content" @click="gotoDetail(item)" v-if="item.goods_type == 6">
-                  <div class="right">
+                  <div class="right" style="margin-left: 0;">
                     <div class="text">{{item.title}}</div>
                     <div class="nice">
                     <span class="good" v-if="item.goods_type == 6">

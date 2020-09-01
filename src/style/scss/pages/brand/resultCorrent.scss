@@ -116,6 +116,9 @@ html {
             position: relative;
           }
         }
+        .right {
+          margin: 0 8px;
+        }
         .text{
           -webkit-line-clamp: 1;
           padding-top: 5px;
@@ -199,13 +202,13 @@ html {
       min-width: 110px;
       .bookImg {
         display: block;
-        @include ratioBox (100%, 61.58%, 1px solid $greyLight, contain, $white, null);
+        @include ratioBox (100%, 61.58%, 1px solid transparent, contain, $white, null);
         border-radius: 2.5px;
       }
     }
     .right{
       flex-grow: 1;
-      margin-left: 10px;
+      margin-left: 15px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -320,7 +323,7 @@ html {
       position: relative;
       .bookimg {
         display: block;
-        @include ratioBox (100%, 100%, 1px solid $greyLight, contain, $white, null);
+        @include ratioBox (100%, 100%, 1px solid transparent, contain, $white, null);
         border-radius: 2.5px;
       }
     }
@@ -330,7 +333,7 @@ html {
       min-width: 95px;
       .bookImg {
         display: block;
-        @include ratioBox (100%, 61.8%, 1px solid $greyLight, contain, $white, null);
+        @include ratioBox (100%, 61.8%, 1px solid transparent, contain, $white, null);
         border-radius: 2.5px;
       }
     }
@@ -355,7 +358,7 @@ html {
       position: relative;
       .bookImg {
         display: block;
-        @include ratioBox (100%, 133.33%, 1px solid $greyLight, contain, $white, null);
+        @include ratioBox (100%, 133.33%, 1px solid transparent, contain, $white, null);
         border-radius: 2.5px;
       }
     }
