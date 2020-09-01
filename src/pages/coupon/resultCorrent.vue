@@ -194,9 +194,11 @@
         </div>
           <!-- 电子书 -->
           <div class="content ebook" @click="toDetail(item,index)" v-if="item.goods_type == 4">
-            <div class="ratiobox">
-              <div class="bookImg" v-lazy:background-image="item.pic"></div>
-              <span class="book_text_title">电子书</span>
+            <div class="ebook_border">
+              <div class="ratiobox">
+                <div class="bookImg" v-lazy:background-image="item.pic"></div>
+                <span class="book_text_title">电子书</span>
+              </div>
             </div>
             <div class="right">
               <div class="text">{{item.title}}</div>

@@ -103,6 +103,19 @@ html {
         margin: 10px;
         border-radius: 5px;
         display: block;
+        .ebook_border{
+          position: relative;
+          min-width: 167px;
+          min-height: 167px;
+          width: auto;
+          height: auto;
+          display: flex;
+          justify-content: center;
+          .ratiobox {
+            min-width: 125px;
+            position: relative;
+          }
+        }
         .text{
           -webkit-line-clamp: 1;
           padding-top: 5px;
@@ -183,7 +196,7 @@ html {
     background-color: #fff;
     padding: 15px;
     .ratiobox {
-      min-width: 95px;
+      min-width: 110px;
       .bookImg {
         display: block;
         @include ratioBox (100%, 61.58%, 1px solid $greyLight, contain, $white, null);
@@ -303,7 +316,7 @@ html {
   }
   .content.book{
     .ratiobook {
-      min-width: 95px;
+      min-width: 96px;
       position: relative;
       .bookimg {
         display: block;
@@ -329,8 +342,16 @@ html {
     }
   }
   .content.ebook{
+    .ebook_border{
+      position: relative;
+      width: 98px;
+      height: 98px;
+      display: flex;
+      justify-content: center;
+    }
     .ratiobox {
-      min-width: 25%;
+      min-width: 72px;
+      width: 72px;
       position: relative;
       .bookImg {
         display: block;

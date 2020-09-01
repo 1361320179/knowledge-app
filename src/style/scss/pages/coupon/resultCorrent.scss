@@ -230,6 +230,25 @@
       }
     }
   }
+  .content.ebook {
+    .ebook_border {
+      position: relative;
+      width: 98px;
+      height: 98px;
+      display: flex;
+      justify-content: center;
+      .ratiobox {
+        min-width: 72px;
+        width: 72px;
+        position: relative;
+        .bookImg {
+          display: block;
+          @include ratioBox (100%, 133.33%, 1px solid $greyLight, contain, $white, null);
+          border-radius: 2.5px;
+        }
+      }
+    }
+  }
   // 二级筛选
   .screenSecond{
     position: relative;

@@ -485,9 +485,11 @@
                     @click="gotoDetail(gitem)"
                     v-if="gitem.goods_type == 4"
                   >
-                    <div class="ratiobox">
-                      <div class="bookImg" v-lazy:background-image="gitem.pic"></div>
-                      <span class="book_text_title">电子书</span>
+                    <div class="ebook_border">
+                      <div class="ratiobox">
+                        <div class="bookImg" v-lazy:background-image="gitem.pic"></div>
+                        <span class="book_text_title">电子书</span>
+                      </div>
                     </div>
                     <div class="right">
                       <div class="text">{{gitem.title}}</div>
@@ -653,9 +655,11 @@
                 </div>
                 <!-- 电子书 -->
                 <div class="content ebook" @click="gotoDetail(item)" v-if="item.goods_type == 4">
-                  <div class="ratiobox">
-                    <div class="bookImg" v-lazy:background-image="item.pic"></div>
-                    <span class="book_text_title">电子书</span>
+                  <div class="ebook_border">
+                    <div class="ratiobox">
+                      <div class="bookImg" v-lazy:background-image="item.pic"></div>
+                      <span class="book_text_title">电子书</span>
+                    </div>
                   </div>
                   <div class="right">
                     <div class="text">{{item.title}}</div>
@@ -2109,6 +2113,9 @@
         this.is_tap = 1;
         this.goods_type = Number(this.column_list[index].column_type);
         this.screen_choose = this.goods_type;
+        this.is_etc_box = false;
+        this.is_book_box = false;
+        this.tilings = true;
         this.stop_shade();
         switch (this.goods_type) {
           case 9:
