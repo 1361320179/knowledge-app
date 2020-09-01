@@ -60,41 +60,41 @@
         v-model="activekey"
       >
         <van-tab :title="items.name" v-for="(items,index) in column_list" :key="index">
-          <template v-if="items.column_type == 9 || items.column_type == 4 || items.column_type == 3 && activekey == index">
+          <template v-if="items.column_type == 9">
             <div class="screenSecond" v-if="screen_choose == items.column_type">
-              <div class="sort_box" @click="sort_choose">
-                <div class="sort_text" :style="{'color': sort_show_color?'#EF5755':'','background-color': sort_show_color?'#FFF7F7':'','border': sort_show_color?'1px solid  #F05654':''}">
+              <div class="sort_box" @click="sort_choose('9')">
+                <div class="sort_text" :style="{'color': sort_show_color_1?'#EF5755':'','background-color': sort_show_color_1?'#FFF7F7':'','border': sort_show_color_1?'1px solid  #F05654':''}">
                   <div class="screen_text">{{ sort_text_1 }}</div>
-                  <svg class="icon" aria-hidden="true" v-if="sort_show">
+                  <svg class="icon" aria-hidden="true" v-if="sort_show_1">
                     <use xlink:href="#icon-unfold-line" />
                   </svg>
                   <svg class="icon" aria-hidden="true" v-else>
                     <use xlink:href="#icon-fold-line" />
                   </svg>
                 </div>
-                <ul v-if="sort_show">
-                  <li @click="sort_choosetext('综合排序','')">综合排序</li>
-                  <li @click="sort_choosetext('销量从高到低','buynum_desc')">销量从高到低</li>
-                  <li @click="sort_choosetext('销量从低到高','buynum_asc')">销量从低到高</li>
-                  <li @click="sort_choosetext('价格从高到低','price_desc')">价格从高到低</li>
-                  <li @click="sort_choosetext('价格从低到高','price_asc')">价格从低到高</li>
+                <ul v-if="sort_show_1">
+                  <li @click="sort_choosetext('综合排序','','9')">综合排序</li>
+                  <li @click="sort_choosetext('销量从高到低','buynum_desc','9')">销量从高到低</li>
+                  <li @click="sort_choosetext('销量从低到高','buynum_asc','9')">销量从低到高</li>
+                  <li @click="sort_choosetext('价格从高到低','price_desc','9')">价格从高到低</li>
+                  <li @click="sort_choosetext('价格从低到高','price_asc','9')">价格从低到高</li>
                 </ul>
               </div>
               <div class="price_box">
-                <div class="price_text" @click="price_choose" :style="{'color': price_show_color?'#EF5755':'','background-color': price_show_color?'#FFF7F7':'','border': price_show_color?'1px solid  #F05654':''}">
+                <div class="price_text" @click="price_choose('9')" :style="{'color': price_show_color_1?'#EF5755':'','background-color': price_show_color_1?'#FFF7F7':'','border': price_show_color_1?'1px solid  #F05654':''}">
                   <div class="screen_text">{{ price_text_1 }}</div>
-                  <svg class="icon" aria-hidden="true" v-if="price_show">
+                  <svg class="icon" aria-hidden="true" v-if="price_show_1">
                     <use xlink:href="#icon-unfold-line" />
                   </svg>
                   <svg class="icon" aria-hidden="true" v-else>
                     <use xlink:href="#icon-fold-line" />
                   </svg>
                 </div>
-                <div class="price_keyboard" v-if="price_show">
+                <div class="price_keyboard" v-if="price_show_1">
                   <div class="price_input">
                     <van-field
                       type="digit"
-                      v-model="sdigit"
+                      v-model="sdigit_1"
                       placeholder="最低价"
                     />
                     <div class="price_line">
@@ -102,30 +102,30 @@
                     </div>
                     <van-field
                       type="digit"
-                      v-model="edigit"
+                      v-model="edigit_1"
                       placeholder="最高价"
                     />
                   </div>
                   <div class="price-button">
-                    <div class="reset-button" @click="price_reset">重置</div>
-                    <div class="sure-button" @click="price_sure">确定</div>
+                    <div class="reset-button" @click="price_reset('9')">重置</div>
+                    <div class="sure-button" @click="price_sure('9')">确定</div>
                   </div>
                 </div>
               </div>
               <!--火把号筛选-->
-              <div class="huoba_box" v-if="items.column_type == 9 || items.column_type == 4">
-                <div class="huoba_text" @click="huoba_choose" :style="{'color': huoba_show_color?'#EF5755':'','background-color': huoba_show_color?'#FFF7F7':'','border': huoba_show_color?'1px solid  #F05654':''}">
-                  <div class="screen_text">{{ huoba_text }}</div>
-                  <svg class="icon" aria-hidden="true" v-if="huoba_show">
+              <div class="huoba_box">
+                <div class="huoba_text" @click="huoba_choose('9')" :style="{'color': huoba_show_color_1?'#EF5755':'','background-color': huoba_show_color_1?'#FFF7F7':'','border': huoba_show_color_1?'1px solid  #F05654':''}">
+                  <div class="screen_text">{{ huoba_text_1 }}</div>
+                  <svg class="icon" aria-hidden="true" v-if="huoba_show_1">
                     <use xlink:href="#icon-unfold-line" />
                   </svg>
                   <svg class="icon" aria-hidden="true" v-else>
                     <use xlink:href="#icon-fold-line" />
                   </svg>
                 </div>
-                <div class="huoba_radio" v-if="huoba_show">
-                  <div class="radios" v-if="brand_list_length">
-                    <van-checkbox-group v-model="huoba_radio">
+                <div class="huoba_radio" v-if="huoba_show_1">
+                  <div class="radios" v-if="brand_list_length_1">
+                    <van-checkbox-group v-model="huoba_radio_1">
                       <div v-for="(item,index) in brand_list" :key="index">
                         <van-checkbox :name="index" checked-color="#F05654">{{ item.brand_name }}</van-checkbox>
                       </div>
@@ -135,25 +135,167 @@
                     无可选火把号
                   </div>
                   <div class="huoba-button">
-                    <div class="reset-button" @click="huoba_reset">重置</div>
-                    <div class="sure-button" @click="huoba_sure">确定</div>
+                    <div class="reset-button" @click="huoba_reset('9')">重置</div>
+                    <div class="sure-button" @click="huoba_sure('9')">确定</div>
                   </div>
                 </div>
               </div>
-              <!--店铺筛选-->
-              <div class="huobashop_box" v-else>
-                <div class="huobashop_text" @click="huobashop_choose" :style="{'color': huobashop_show_color?'#EF5755':'','background-color': huobashop_show_color?'#FFF7F7':'','border': huobashop_show_color?'1px solid  #F05654':''}">
-                  <div class="screen_text">{{ huobashop_text }}</div>
-                  <svg class="icon" aria-hidden="true" v-if="huobashop_show">
+              <div class="only_pay_1" @click="is_pay('9')">
+                <van-checkbox v-model="needs_pay_1" checked-color="#F05654">仅看付费</van-checkbox>
+              </div>
+            </div>
+          </template>
+          <template v-if="items.column_type == 4 && activekey == index">
+            <div class="screenSecond" v-if="screen_choose == items.column_type">
+              <div class="sort_box" @click="sort_choose('4')">
+                <div class="sort_text" :style="{'color': sort_show_color_2?'#EF5755':'','background-color': sort_show_color_2?'#FFF7F7':'','border': sort_show_color_2?'1px solid  #F05654':''}">
+                  <div class="screen_text">{{ sort_text_2 }}</div>
+                  <svg class="icon" aria-hidden="true" v-if="sort_show_2">
                     <use xlink:href="#icon-unfold-line" />
                   </svg>
                   <svg class="icon" aria-hidden="true" v-else>
                     <use xlink:href="#icon-fold-line" />
                   </svg>
                 </div>
-                <div class="huobashop_radio" v-if="huobashop_show">
-                  <div class="radios" v-if="brand_list_length">
-                    <van-checkbox-group v-model="huobashop_radio">
+                <ul v-if="sort_show_2">
+                  <li @click="sort_choosetext('综合排序','','4')">综合排序</li>
+                  <li @click="sort_choosetext('销量从高到低','buynum_desc','4')">销量从高到低</li>
+                  <li @click="sort_choosetext('销量从低到高','buynum_asc','4')">销量从低到高</li>
+                  <li @click="sort_choosetext('价格从高到低','price_desc','4')">价格从高到低</li>
+                  <li @click="sort_choosetext('价格从低到高','price_asc','4')">价格从低到高</li>
+                </ul>
+              </div>
+              <div class="price_box">
+                <div class="price_text" @click="price_choose('4')" :style="{'color': price_show_color_2?'#EF5755':'','background-color': price_show_color_2?'#FFF7F7':'','border': price_show_color_2?'1px solid  #F05654':''}">
+                  <div class="screen_text">{{ price_text_2 }}</div>
+                  <svg class="icon" aria-hidden="true" v-if="price_show_2">
+                    <use xlink:href="#icon-unfold-line" />
+                  </svg>
+                  <svg class="icon" aria-hidden="true" v-else>
+                    <use xlink:href="#icon-fold-line" />
+                  </svg>
+                </div>
+                <div class="price_keyboard" v-if="price_show_2">
+                  <div class="price_input">
+                    <van-field
+                      type="digit"
+                      v-model="sdigit_2"
+                      placeholder="最低价"
+                    />
+                    <div class="price_line">
+                      <div class="line"></div>
+                    </div>
+                    <van-field
+                      type="digit"
+                      v-model="edigit_2"
+                      placeholder="最高价"
+                    />
+                  </div>
+                  <div class="price-button">
+                    <div class="reset-button" @click="price_reset('4')">重置</div>
+                    <div class="sure-button" @click="price_sure('4')">确定</div>
+                  </div>
+                </div>
+              </div>
+              <!--火把号筛选-->
+              <div class="huoba_box">
+                <div class="huoba_text" @click="huoba_choose('4')" :style="{'color': huoba_show_color_2?'#EF5755':'','background-color': huoba_show_color_2?'#FFF7F7':'','border': huoba_show_color_2?'1px solid  #F05654':''}">
+                  <div class="screen_text">{{ huoba_text_2 }}</div>
+                  <svg class="icon" aria-hidden="true" v-if="huoba_show_2">
+                    <use xlink:href="#icon-unfold-line" />
+                  </svg>
+                  <svg class="icon" aria-hidden="true" v-else>
+                    <use xlink:href="#icon-fold-line" />
+                  </svg>
+                </div>
+                <div class="huoba_radio" v-if="huoba_show_2">
+                  <div class="radios" v-if="brand_list_length_2">
+                    <van-checkbox-group v-model="huoba_radio_2">
+                      <div v-for="(item,index) in brand_list" :key="index">
+                        <van-checkbox :name="index" checked-color="#F05654">{{ item.brand_name }}</van-checkbox>
+                      </div>
+                    </van-checkbox-group>
+                  </div>
+                  <div class="radios" v-else>
+                    无可选火把号
+                  </div>
+                  <div class="huoba-button">
+                    <div class="reset-button" @click="huoba_reset('4')">重置</div>
+                    <div class="sure-button" @click="huoba_sure('4')">确定</div>
+                  </div>
+                </div>
+              </div>
+              <div class="only_pay_2" @click="is_pay('4')">
+                <van-checkbox v-model="needs_pay_2" checked-color="#F05654">仅看付费</van-checkbox>
+              </div>
+            </div>
+          </template>
+          <template v-if="items.column_type == 3 && activekey == index">
+            <div class="screenSecond" v-if="screen_choose == items.column_type">
+              <div class="sort_box" @click="sort_choose('3')">
+                <div class="sort_text" :style="{'color': sort_show_color_3?'#EF5755':'','background-color': sort_show_color_3?'#FFF7F7':'','border': sort_show_color_3?'1px solid  #F05654':''}">
+                  <div class="screen_text">{{ sort_text_3 }}</div>
+                  <svg class="icon" aria-hidden="true" v-if="sort_show_3">
+                    <use xlink:href="#icon-unfold-line" />
+                  </svg>
+                  <svg class="icon" aria-hidden="true" v-else>
+                    <use xlink:href="#icon-fold-line" />
+                  </svg>
+                </div>
+                <ul v-if="sort_show_3">
+                  <li @click="sort_choosetext('综合排序','','3')">综合排序</li>
+                  <li @click="sort_choosetext('销量从高到低','buynum_desc','3')">销量从高到低</li>
+                  <li @click="sort_choosetext('销量从低到高','buynum_asc','3')">销量从低到高</li>
+                  <li @click="sort_choosetext('价格从高到低','price_desc','3')">价格从高到低</li>
+                  <li @click="sort_choosetext('价格从低到高','price_asc','3')">价格从低到高</li>
+                </ul>
+              </div>
+              <div class="price_box">
+                <div class="price_text" @click="price_choose('3')" :style="{'color': price_show_color_3?'#EF5755':'','background-color': price_show_color_3?'#FFF7F7':'','border': price_show_color_3?'1px solid  #F05654':''}">
+                  <div class="screen_text">{{ price_text_3 }}</div>
+                  <svg class="icon" aria-hidden="true" v-if="price_show_3">
+                    <use xlink:href="#icon-unfold-line" />
+                  </svg>
+                  <svg class="icon" aria-hidden="true" v-else>
+                    <use xlink:href="#icon-fold-line" />
+                  </svg>
+                </div>
+                <div class="price_keyboard" v-if="price_show_3">
+                  <div class="price_input">
+                    <van-field
+                      type="digit"
+                      v-model="sdigit_3"
+                      placeholder="最低价"
+                    />
+                    <div class="price_line">
+                      <div class="line"></div>
+                    </div>
+                    <van-field
+                      type="digit"
+                      v-model="edigit_3"
+                      placeholder="最高价"
+                    />
+                  </div>
+                  <div class="price-button">
+                    <div class="reset-button" @click="price_reset('3')">重置</div>
+                    <div class="sure-button" @click="price_sure('3')">确定</div>
+                  </div>
+                </div>
+              </div>
+              <!--店铺筛选-->
+              <div class="huobashop_box">
+                <div class="huobashop_text" @click="huobashop_choose" :style="{'color': huobashop_show_color_1?'#EF5755':'','background-color': huobashop_show_color_1?'#FFF7F7':'','border': huobashop_show_color_1?'1px solid  #F05654':''}">
+                  <div class="screen_text">{{ huobashop_text_1 }}</div>
+                  <svg class="icon" aria-hidden="true" v-if="huobashop_show_1">
+                    <use xlink:href="#icon-unfold-line" />
+                  </svg>
+                  <svg class="icon" aria-hidden="true" v-else>
+                    <use xlink:href="#icon-fold-line" />
+                  </svg>
+                </div>
+                <div class="huobashop_radio" v-if="huobashop_show_1">
+                  <div class="radios" v-if="brand_list_length_3">
+                    <van-checkbox-group v-model="huobashop_radio_1">
                       <div v-for="(item,index) in brand_list" :key="index">
                         <van-checkbox :name="index" checked-color="#F05654">{{ item.brand_name }}</van-checkbox>
                       </div>
@@ -168,15 +310,12 @@
                   </div>
                 </div>
               </div>
-              <div class="only_pay" @click="is_pay" v-if="items.column_type == 9 || items.column_type == 4">
-                <van-checkbox v-model="needs_pay" checked-color="#F05654">仅看付费</van-checkbox>
-              </div>
-              <div class="only_shop" @click="is_shop" v-else>
-                <van-checkbox v-model="needs_pay" checked-color="#F05654">仅看有货</van-checkbox>
+              <div class="only_shop" @click="is_shop">
+                <van-checkbox v-model="has_stock_1" checked-color="#F05654">仅看有货</van-checkbox>
               </div>
             </div>
           </template>
-          <template v-if="sort_show || price_show || huoba_show || huobashop_show">
+          <template v-if="sort_show_1 || sort_show_2 || sort_show_3 || price_show_1 || price_show_2 || price_show_3 || huoba_show_1 || huoba_show_2 || huobashop_show_1">
             <div class="screenOverflow" @touchstart="stop_shade()"></div>
           </template>
           <template
@@ -668,6 +807,9 @@
 
 <style src="@/style/scss/pages/brand/resultCorrent.scss" scoped lang="scss"></style>
 <style lang="scss">
+  html {
+    overflow-x: hidden;
+  }
   #resultPage {
     .van-field__control{
       padding-left: 10px;
@@ -710,15 +852,59 @@
         searchContent: "",
         activekey: 0,
         sort_text_1: '综合排序',
+        sort_text_2: '综合排序',
+        sort_text_3: '综合排序',
+        sort_num_1: 0,
+        sort_num_2: 0,
+        sort_num_3: 0,
+        sort_show_1: 0,
+        sort_show_2: 0,
+        sort_show_3: 0,
+        sort_show_color_1: 0,
+        sort_show_color_2: 0,
+        sort_show_color_3: 0,
+        search_sort_1: '',
+        search_sort_2: '',
+        search_sort_3: '',
         price_text_1: '价格区间',
-        huoba_text: '所属火把号',
-        huoba_radio: [],
-        huoba_name: [],
-        huoba_id: [],
-        huobashop_text: '所属店铺',
-        huobashop_radio: [],
-        huobashop_name: [],
-        huobashop_id: [],
+        price_text_2: '价格区间',
+        price_text_3: '价格区间',
+        price_show_color_1: 0,
+        price_show_color_2: 0,
+        price_show_color_3: 0,
+        price_show_1: 0,
+        price_show_2: 0,
+        price_show_3: 0,
+        search_price_1: '',
+        search_price_2: '',
+        search_price_3: '',
+        sdigit_1: '',
+        sdigit_2: '',
+        sdigit_3: '',
+        edigit_1: '',
+        edigit_2: '',
+        edigit_3: '',
+        huoba_text_1: '所属火把号',
+        huoba_text_2: '所属火把号',
+        huoba_show_1: 0,
+        huoba_show_2: 0,
+        huoba_show_color_1: 0,
+        huoba_show_color_2: 0,
+        huoba_radio_1: [],
+        huoba_radio_2: [],
+        huoba_name_1: [],
+        huoba_name_2: [],
+        huoba_id_1: [],
+        huoba_id_2: [],
+        needs_pay_1: 1,
+        needs_pay_2: 1,
+        huobashop_text_1: '所属店铺',
+        huobashop_show_1: 0,
+        huobashop_show_color_1: 0,
+        huobashop_radio_1: [],
+        huobashop_name_1: [],
+        huobashop_id_1: [],
+        has_stock_1: 1,
         screen_choose: 0,
         price_zone: '',
         title: null,
@@ -730,34 +916,26 @@
         summaryList: [],
         huobapage: 1,
         page: 1,
-        needs_pay: 1,
         huobaList: [],
         judgehome_id: null,
-        sort_show: 0,
-        sort_show_color: 0,
-        price_show: 0,
-        has_stock: 1,
-        price_show_color: 0,
-        huoba_show: 0,
         sort: '',
-        huoba_show_color: 0,
-        huobashop_show: 0,
-        huobashop_show_color: 0,
-        sort_num: 0,
         is_tap: 0,
         shopZindex: 1000,
         tilings: 1,
         is_etc_box: false,
         is_book_box: false,
-        sdigit: '',
-        edigit: '',
-        brand_list_length: true,
+        brand_list_length_1: true,
+        brand_list_length_2: true,
+        brand_list_length_3: true,
         brand_list_once: false,
       };
     },
     mounted() {
       this.brand_list_once = true;
       this.isbrand_id = this.$route.query.brand_id;
+      this.isbrand_id_1 = this.$route.query.brand_id;
+      this.isbrand_id_2 = this.$route.query.brand_id;
+      this.isbrand_id_3 = this.$route.query.brand_id;
       if(this.$route.query.searchContent){
         this.searchContent = this.$route.query.searchContent;
       }else if(sessionStorage.getItem('saveSearchContent')){
@@ -786,26 +964,31 @@
       }, 100);
     },
     updated() {
-      if (this.has_stock == 0) {
+      if (this.has_stock_1 == 0) {
         $('.only_shop').find('.van-checkbox__label').css('color','#333');
       } else {
         $('.only_shop').find('.van-checkbox__label').css('color','#F05654');
       }
-      if (this.needs_pay == 0) {
-        $('.only_pay').find('.van-checkbox__label').css('color','#333');
+      if (this.needs_pay_1 == 0) {
+        $('.only_pay_1').find('.van-checkbox__label').css('color','#333');
       } else {
-        $('.only_pay').find('.van-checkbox__label').css('color','#F05654');
+        $('.only_pay_1').find('.van-checkbox__label').css('color','#F05654');
+      }
+      if (this.needs_pay_2 == 0) {
+        $('.only_pay_2').find('.van-checkbox__label').css('color','#333');
+      } else {
+        $('.only_pay_2').find('.van-checkbox__label').css('color','#F05654');
       }
     },
     methods: {
       // 仅看有货
       is_shop () {
-        if (this.has_stock == 0) {
+        if (this.has_stock_1 == 0) {
           $('.only_shop').find('.van-checkbox__label').css('color','#F05654');
-          this.has_stock = 1;
+          this.has_stock_1 = 1;
         } else {
           $('.only_shop').find('.van-checkbox__label').css('color','#333');
-          this.has_stock = 0;
+          this.has_stock_1 = 0;
         }
         this.brandData = [];
         this.shopZindex = 1000;
@@ -813,13 +996,23 @@
         this.getBooks();
       },
       // 仅看付费
-      is_pay () {
-        if (this.needs_pay == 0) {
-          $('.only_pay').find('.van-checkbox__label').css('color','#F05654');
-          this.needs_pay = 1;
+      is_pay (id) {
+        if (id == '9') {
+          if (this.needs_pay_1 == 0) {
+            $('.only_pay_1').find('.van-checkbox__label').css('color','#F05654');
+            this.needs_pay_1 = 1;
+          } else {
+            $('.only_pay_1').find('.van-checkbox__label').css('color','#333');
+            this.needs_pay_1 = 0;
+          }
         } else {
-          $('.only_pay').find('.van-checkbox__label').css('color','#333');
-          this.needs_pay = 0;
+          if (this.needs_pay_2 == 0) {
+            $('.only_pay_2').find('.van-checkbox__label').css('color','#F05654');
+            this.needs_pay_2 = 1;
+          } else {
+            $('.only_pay_2').find('.van-checkbox__label').css('color','#333');
+            this.needs_pay_2 = 0;
+          }
         }
         this.brandData = [];
         this.shopZindex = 1000;
@@ -828,199 +1021,395 @@
       },
       // 火把号店铺筛选
       huobashop_choose () {
-        this.huobashop_show ? (this.huobashop_show = 0) : (this.huobashop_show = 1);
-        if (this.huobashop_text == '所属店铺') {
-          this.huobashop_show_color ? (this.huobashop_show_color = 0) : (this.huobashop_show_color = 1);
+        this.huobashop_show_1 ? (this.huobashop_show_1 = 0) : (this.huobashop_show_1 = 1);
+        if (this.huobashop_text_1 == '所属店铺') {
+          this.huobashop_show_color_1 ? (this.huobashop_show_color_1 = 0) : (this.huobashop_show_color_1 = 1);
         } else {
-          this.huobashop_show_color = true;
+          this.huobashop_show_color_1 = true;
         }
         // 综合排序关闭
-        if (this.sort_num > 0) {
-          this.sort_show_color = true;
+        if (this.sort_num_3 > 0) {
+          this.sort_show_color_3 = true;
         } else {
-          this.sort_show_color = false;
+          this.sort_show_color_3 = false;
         }
-        this.sort_show = false;
+        this.sort_show_3 = false;
         // 价格区间关闭
-        if (this.price_text_1 == '价格区间') {
-          this.price_show_color = false;
+        if (this.price_text_3 == '价格区间') {
+          this.price_show_color_3 = false;
         } else {
-          this.price_show_color = true;
+          this.price_show_color_3 = true;
         }
-        this.price_show = false;
+        this.price_show_3 = false;
       },
       huobashop_reset () {
-        this.huobashop_radio = [];
+        this.huobashop_radio_1 = [];
       },
       huobashop_sure () {
-        this.huobashop_name = [];
-        this.huobashop_id = [];
-        if (this.huobashop_radio.length == 0) {
-          this.huobashop_show_color = false;
-          this.huobashop_text = '所属店铺';
-          this.isbrand_id = this.$route.query.brand_id;
+        this.huobashop_name_1 = [];
+        this.huobashop_id_1 = [];
+        if (this.huobashop_radio_1.length == 0) {
+          this.huobashop_show_color_1 = false;
+          this.huobashop_text_1 = '所属店铺';
+          this.isbrand_id_3 = this.$route.query.brand_id;
         } else {
-          for (var i = 0; i < this.huobashop_radio.length; i++) {
-            this.huobashop_name.push(this.brand_list[this.huobashop_radio[i]].brand_name);
-            this.huobashop_id.push(this.brand_list[this.huobashop_radio[i]].brand_id);
+          for (var i = 0; i < this.huobashop_radio_1.length; i++) {
+            this.huobashop_name_1.push(this.brand_list[this.huobashop_radio_1[i]].brand_name);
+            this.huobashop_id_1.push(this.brand_list[this.huobashop_radio_1[i]].brand_id);
           }
-          this.huobashop_show_color = true;
-          this.huobashop_text = this.huobashop_name.join(',');
-          this.isbrand_id = this.huobashop_id.join(',');
+          this.huobashop_show_color_1 = true;
+          this.huobashop_text_1 = this.huobashop_name_1.join(',');
+          this.isbrand_id_3 = this.huobashop_id_1.join(',');
         }
         this.brandData = [];
         this.shopZindex = 1000;
         this.page = 1;
         this.getBooks();
-        this.huobashop_show = false;
-        // this.huobashop_radio = [];
+        this.huobashop_show_1 = false;
       },
       // 火把号筛选
-      huoba_choose () {
-        this.huoba_show ? (this.huoba_show = 0) : (this.huoba_show = 1);
-        if (this.huoba_text == '所属火把号') {
-          this.huoba_show_color ? (this.huoba_show_color = 0) : (this.huoba_show_color = 1);
-        } else {
-          this.huoba_show_color = true;
-        }
-        // 综合排序关闭
-        if (this.sort_num > 0) {
-          this.sort_show_color = true;
-        } else {
-          this.sort_show_color = false;
-        }
-        this.sort_show = false;
-        // 价格区间关闭
-        if (this.price_text_1 == '价格区间') {
-          this.price_show_color = false;
-        } else {
-          this.price_show_color = true;
-        }
-        this.price_show = false;
-      },
-      huoba_reset () {
-        this.huoba_radio = [];
-      },
-      huoba_sure () {
-        this.huoba_name = [];
-        this.huoba_id = [];
-        if (this.huoba_radio.length == 0) {
-          this.huoba_show_color = false;
-          this.huoba_text = '所属火把号';
-          this.isbrand_id = this.$route.query.brand_id;
-        } else {
-          for (var i = 0; i < this.huoba_radio.length; i++) {
-            this.huoba_name.push(this.brand_list[this.huoba_radio[i]].brand_name);
-            this.huoba_id.push(this.brand_list[this.huoba_radio[i]].brand_id);
+      huoba_choose (id) {
+        if (id == '9') {
+          this.huoba_show_1 ? (this.huoba_show_1 = 0) : (this.huoba_show_1 = 1);
+          if (this.huoba_text_1 == '所属火把号') {
+            this.huoba_show_color_1 ? (this.huoba_show_color_1 = 0) : (this.huoba_show_color_1 = 1);
+          } else {
+            this.huoba_show_color_1 = true;
           }
-          this.huoba_show_color = true;
-          this.huoba_text = this.huoba_name.join(',');
-          this.isbrand_id = this.huoba_id.join(',');
+          // 综合排序关闭
+          if (this.sort_num_1 > 0) {
+            this.sort_show_color_1 = true;
+          } else {
+            this.sort_show_color_1 = false;
+          }
+          this.sort_show_1 = false;
+          // 价格区间关闭
+          if (this.price_text_1 == '价格区间') {
+            this.price_show_color_1 = false;
+          } else {
+            this.price_show_color_1 = true;
+          }
+          this.price_show_1 = false;
+        } else {
+          this.huoba_show_2 ? (this.huoba_show_2 = 0) : (this.huoba_show_2 = 1);
+          if (this.huoba_text_2 == '所属火把号') {
+            this.huoba_show_color_2 ? (this.huoba_show_color_2 = 0) : (this.huoba_show_color_2 = 1);
+          } else {
+            this.huoba_show_color_2 = true;
+          }
+          // 综合排序关闭
+          if (this.sort_num_2 > 0) {
+            this.sort_show_color_2 = true;
+          } else {
+            this.sort_show_color_2 = false;
+          }
+          this.sort_show_2 = false;
+          // 价格区间关闭
+          if (this.price_text_2 == '价格区间') {
+            this.price_show_color_2 = false;
+          } else {
+            this.price_show_color_2 = true;
+          }
+          this.price_show_2 = false;
+        }
+      },
+      huoba_reset (id) {
+        if (id == '9') {
+          this.huoba_radio_1 = [];
+        } else {
+          this.huoba_radio_2 = [];
+        }
+      },
+      huoba_sure (id) {
+        if (id == '9') {
+          this.huoba_name_1 = [];
+          this.huoba_id_1 = [];
+          if (this.huoba_radio_1.length == 0) {
+            this.huoba_show_color_1 = false;
+            this.huoba_text_1 = '所属火把号';
+            this.isbrand_id_1 = this.$route.query.brand_id;
+          } else {
+            for (var i = 0; i < this.huoba_radio_1.length; i++) {
+              this.huoba_name_1.push(this.brand_list[this.huoba_radio_1[i]].brand_name);
+              this.huoba_id_1.push(this.brand_list[this.huoba_radio_1[i]].brand_id);
+            }
+            this.huoba_show_color_1 = true;
+            this.huoba_text_1 = this.huoba_name_1.join(',');
+            this.isbrand_id_1 = this.huoba_id_1.join(',');
+          }
+        } else {
+          this.huoba_name_2 = [];
+          this.huoba_id_2 = [];
+          if (this.huoba_radio_2.length == 0) {
+            this.huoba_show_color_2 = false;
+            this.huoba_text_2 = '所属火把号';
+            this.isbrand_id_2 = this.$route.query.brand_id;
+          } else {
+            for (var i = 0; i < this.huoba_radio_2.length; i++) {
+              this.huoba_name_2.push(this.brand_list[this.huoba_radio_2[i]].brand_name);
+              this.huoba_id_2.push(this.brand_list[this.huoba_radio_2[i]].brand_id);
+            }
+            this.huoba_show_color_2 = true;
+            this.huoba_text_2 = this.huoba_name_2.join(',');
+            this.isbrand_id_2 = this.huoba_id_2.join(',');
+          }
         }
         this.brandData = [];
         this.shopZindex = 1000;
         this.page = 1;
         this.getGoods();
-        this.huoba_show = false;
-        // this.huoba_radio = [];
+        this.huoba_show_1 = false;
+        this.huoba_show_2 = false;
       },
       // 关闭遮罩
       stop_shade () {
         event.preventDefault();
-        this.sort_show = 0;
-        this.price_show = 0;
-        this.huoba_show = 0;
-        this.huobashop_show = 0;
-        if (this.sort_num > 0) {
-          this.sort_show_color = true;
+        this.sort_show_1 = 0;
+        this.sort_show_2 = 0;
+        this.sort_show_3 = 0;
+        this.price_show_1 = 0;
+        this.price_show_2 = 0;
+        this.price_show_3 = 0;
+        this.huoba_show_1 = 0;
+        this.huoba_show_2 = 0;
+        this.huobashop_show_1 = 0;
+        if (this.sort_num_1 > 0) {
+          this.sort_show_color_1 = true;
         } else {
-          this.sort_show_color = false;
+          this.sort_show_color_1 = false;
+        }
+        if (this.sort_num_2 > 0) {
+          this.sort_show_color_2 = true;
+        } else {
+          this.sort_show_color_2 = false;
+        }
+        if (this.sort_num_3 > 0) {
+          this.sort_show_color_3 = true;
+        } else {
+          this.sort_show_color_3 = false;
         }
         if (this.price_text_1 == '价格区间') {
-          this.price_show_color = false;
+          this.price_show_color_1 = false;
         } else {
-          this.price_show_color = true;
+          this.price_show_color_1 = true;
         }
-        if (this.huoba_text == '所属火把号') {
-          this.huoba_show_color = false;
+        if (this.price_text_2 == '价格区间') {
+          this.price_show_color_2 = false;
         } else {
-          this.huoba_show_color = true;
+          this.price_show_color_2 = true;
         }
-        if (this.huobashop_text == '所属店铺') {
-          this.huobashop_show_color = false;
+        if (this.price_text_3 == '价格区间') {
+          this.price_show_color_3 = false;
         } else {
-          this.huobashop_show_color = true;
+          this.price_show_color_3 = true;
+        }
+        if (this.huoba_text_1 == '所属火把号') {
+          this.huoba_show_color_1 = false;
+        } else {
+          this.huoba_show_color_1 = true;
+        }
+        if (this.huoba_text_2 == '所属火把号') {
+          this.huoba_show_color_2 = false;
+        } else {
+          this.huoba_show_color_2 = true;
+        }
+        if (this.huobashop_text_1 == '所属店铺') {
+          this.huobashop_show_color_1 = false;
+        } else {
+          this.huobashop_show_color_1 = true;
         }
       },
       // 价格区间
-      price_choose () {
-        this.price_show ? (this.price_show = 0) : (this.price_show = 1);
-        if (this.price_text_1 == '价格区间') {
-          this.price_show_color ? (this.price_show_color = 0) : (this.price_show_color = 1);
+      price_choose (id) {
+        if (id == '9') {
+          this.price_show_1 ? (this.price_show_1 = 0) : (this.price_show_1 = 1);
+          if (this.price_text_1 == '价格区间') {
+            this.price_show_color_1 ? (this.price_show_color_1 = 0) : (this.price_show_color_1 = 1);
+          } else {
+            this.price_show_color_1 = true;
+          }
+          // 综合排序关闭
+          if (this.sort_num_1 > 0) {
+            this.sort_show_color_1 = true;
+          } else {
+            this.sort_show_color_1 = false;
+          }
+          this.sort_show_1 = false;
+          // 所属火把号关闭
+          if (this.huoba_text_1 == '所属火把号') {
+            this.huoba_show_color_1 = false;
+          } else {
+            this.huoba_show_color_1 = true;
+          }
+          this.huoba_show_1 = false;
+        } else if (id == '4') {
+          this.price_show_2 ? (this.price_show_2 = 0) : (this.price_show_2 = 1);
+          if (this.price_text_2 == '价格区间') {
+            this.price_show_color_2 ? (this.price_show_color_2 = 0) : (this.price_show_color_2 = 1);
+          } else {
+            this.price_show_color_2 = true;
+          }
+          // 综合排序关闭
+          if (this.sort_num_2 > 0) {
+            this.sort_show_color_2 = true;
+          } else {
+            this.sort_show_color_2 = false;
+          }
+          this.sort_show_2 = false;
+          // 所属火把号关闭
+          if (this.huoba_text_2 == '所属火把号') {
+            this.huoba_show_color_2 = false;
+          } else {
+            this.huoba_show_color_2 = true;
+          }
+          this.huoba_show_2 = false;
         } else {
-          this.price_show_color = true;
+          this.price_show_3 ? (this.price_show_3 = 0) : (this.price_show_3 = 1);
+          if (this.price_text_3 == '价格区间') {
+            this.price_show_color_3 ? (this.price_show_color_3 = 0) : (this.price_show_color_3 = 1);
+          } else {
+            this.price_show_color_3 = true;
+          }
+          // 综合排序关闭
+          if (this.sort_num_3 > 0) {
+            this.sort_show_color_3 = true;
+          } else {
+            this.sort_show_color_3 = false;
+          }
+          this.sort_show_3 = false;
+          // 所属火把店铺关闭
+          if (this.huobashop_text_1 == '所属店铺') {
+            this.huobashop_show_color_1 = false;
+          } else {
+            this.huobashop_show_color_1 = true;
+          }
+          this.huobashop_show_1 = false;
         }
-        // 综合排序关闭
-        if (this.sort_num > 0) {
-          this.sort_show_color = true;
-        } else {
-          this.sort_show_color = false;
-        }
-        this.sort_show = false;
-        // 所属火把号关闭
-        if (this.huoba_text == '所属火把号') {
-          this.huoba_show_color = false;
-        } else {
-          this.huoba_show_color = true;
-        }
-        this.huoba_show = false;
-        // 所属火把店铺关闭
-        if (this.huobashop_text == '所属店铺') {
-          this.huobashop_show_color = false;
-        } else {
-          this.huobashop_show_color = true;
-        }
-        this.huobashop_show = false;
       },
-      price_reset () {
-        this.sdigit = '';
-        this.edigit = '';
+      price_reset (id) {
+        if (id == '9') {
+          this.sdigit_1 = '';
+          this.edigit_1 = '';
+        } else if (id == '4') {
+          this.sdigit_2 = '';
+          this.edigit_2 = '';
+        } else {
+          this.sdigit_3 = '';
+          this.edigit_3 = '';
+        }
       },
-      price_sure () {
-        if (!isNaN(this.sdigit) && !isNaN(this.edigit)) {
-          if (this.sdigit == '' && this.edigit == '') {
-            this.price_text_1 = '价格区间';
-            this.search_price = '';
-            this.price_show_color = false;
-          } else if (this.sdigit == '') {
-            this.price_text_1 = '0-'+ parseInt(this.edigit) + '元';
-            this.search_price = '0_'+ parseInt(this.edigit);
-            this.price_show_color = true;
-          } else if (this.edigit == '') {
-            this.price_text_1 = parseInt(this.sdigit) + '元以上';
-            this.search_price = parseInt(this.sdigit) + '_';
-            this.price_show_color = true;
-          } else if (parseInt(this.sdigit) == parseInt(this.edigit)) {
-            this.price_text_1 = parseInt(this.sdigit) + '-' + parseInt(this.edigit) + '元';
-            this.search_price = parseInt(this.sdigit) + '_' + parseInt(this.edigit);
-            this.price_show_color = true;
-          } else if (parseInt(this.sdigit) > parseInt(this.edigit)) {
-            this.price_text_1 = parseInt(this.edigit) + '-' + parseInt(this.sdigit) + '元';
-            this.search_price = parseInt(this.edigit) + '_' + parseInt(this.sdigit);
-            this.price_show_color = true;
-          } else if (parseInt(this.sdigit) < parseInt(this.edigit)) {
-            this.price_text_1 = parseInt(this.sdigit) + '-' + parseInt(this.edigit) + '元';
-            this.search_price = parseInt(this.sdigit) + '_' + parseInt(this.edigit);
-            this.price_show_color = true;
+      price_sure (id) {
+        if (id == '9') {
+          if (!isNaN(this.sdigit_1) && !isNaN(this.edigit_1)) {
+            if (this.sdigit_1 == '' && this.edigit_1 == '') {
+              this.price_text_1 = '价格区间';
+              this.search_price_1 = '';
+              this.price_show_color_1 = false;
+            } else if (this.sdigit_1 == '') {
+              this.price_text_1 = '0-'+ parseInt(this.edigit_1) + '元';
+              this.search_price_1 = '0_'+ parseInt(this.edigit_1);
+              this.price_show_color_1 = true;
+            } else if (this.edigit_1 == '') {
+              this.price_text_1 = parseInt(this.sdigit_1) + '元以上';
+              this.search_price_1 = parseInt(this.sdigit_1) + '_';
+              this.price_show_color_1 = true;
+            } else if (parseInt(this.sdigit_1) == parseInt(this.edigit_1)) {
+              this.price_text_1 = parseInt(this.sdigit_1) + '-' + parseInt(this.edigit_1) + '元';
+              this.search_price_1 = parseInt(this.sdigit_1) + '_' + parseInt(this.edigit_1);
+              this.price_show_color_1 = true;
+            } else if (parseInt(this.sdigit_1) > parseInt(this.edigit_1)) {
+              this.price_text_1 = parseInt(this.edigit_1) + '-' + parseInt(this.sdigit_1) + '元';
+              this.search_price_1 = parseInt(this.edigit_1) + '_' + parseInt(this.sdigit_1);
+              this.price_show_color_1 = true;
+            } else if (parseInt(this.sdigit_1) < parseInt(this.edigit_1)) {
+              this.price_text_1 = parseInt(this.sdigit_1) + '-' + parseInt(this.edigit_1) + '元';
+              this.search_price_1 = parseInt(this.sdigit_1) + '_' + parseInt(this.edigit_1);
+              this.price_show_color_1 = true;
+            } else {
+              this.price_text_1 = '价格区间';
+              this.search_price_1 = '';
+              this.price_show_color_1 = false;
+            }
           } else {
             this.price_text_1 = '价格区间';
-            this.search_price = '';
-            this.price_show_color = false;
+            this.search_price_1 = '';
+            this.price_show_color_1 = false;
           }
+          this.price_show_1 ? (this.price_show_1 = 0) : (this.price_show_1 = 1);
+        } else if (id == '4') {
+          if (!isNaN(this.sdigit_2) && !isNaN(this.edigit_2)) {
+            if (this.sdigit_2 == '' && this.edigit_2 == '') {
+              this.price_text_2 = '价格区间';
+              this.search_price_2 = '';
+              this.price_show_color_2 = false;
+            } else if (this.sdigit_2 == '') {
+              this.price_text_2 = '0-'+ parseInt(this.edigit_2) + '元';
+              this.search_price_2 = '0_'+ parseInt(this.edigit_2);
+              this.price_show_color_2 = true;
+            } else if (this.edigit_2 == '') {
+              this.price_text_2 = parseInt(this.sdigit_2) + '元以上';
+              this.search_price_2 = parseInt(this.sdigit_2) + '_';
+              this.price_show_color_2 = true;
+            } else if (parseInt(this.sdigit_2) == parseInt(this.edigit_2)) {
+              this.price_text_2 = parseInt(this.sdigit_2) + '-' + parseInt(this.edigit_2) + '元';
+              this.search_price_2 = parseInt(this.sdigit_2) + '_' + parseInt(this.edigit_2);
+              this.price_show_color_2 = true;
+            } else if (parseInt(this.sdigit_2) > parseInt(this.edigit_2)) {
+              this.price_text_2 = parseInt(this.edigit_2) + '-' + parseInt(this.sdigit_2) + '元';
+              this.search_price_2 = parseInt(this.edigit_2) + '_' + parseInt(this.sdigit_2);
+              this.price_show_color_2 = true;
+            } else if (parseInt(this.sdigit_2) < parseInt(this.edigit_2)) {
+              this.price_text_2 = parseInt(this.sdigit_2) + '-' + parseInt(this.edigit_2) + '元';
+              this.search_price_2 = parseInt(this.sdigit_2) + '_' + parseInt(this.edigit_2);
+              this.price_show_color_2 = true;
+            } else {
+              this.price_text_2 = '价格区间';
+              this.search_price_2 = '';
+              this.price_show_color_2 = false;
+            }
+          } else {
+            this.price_text_2 = '价格区间';
+            this.search_price_2 = '';
+            this.price_show_color_2 = false;
+          }
+          this.price_show_2 ? (this.price_show_2 = 0) : (this.price_show_2 = 1);
         } else {
-          this.price_text_1 = '价格区间';
-          this.search_price = '';
-          this.price_show_color = false;
+          if (!isNaN(this.sdigit_3) && !isNaN(this.edigit_3)) {
+            if (this.sdigit_3 == '' && this.edigit_3 == '') {
+              this.price_text_3 = '价格区间';
+              this.search_price_3 = '';
+              this.price_show_color_3 = false;
+            } else if (this.sdigit_3 == '') {
+              this.price_text_3 = '0-'+ parseInt(this.edigit_3) + '元';
+              this.search_price_3 = '0_'+ parseInt(this.edigit_3);
+              this.price_show_color_3 = true;
+            } else if (this.edigit_3 == '') {
+              this.price_text_3 = parseInt(this.sdigit_3) + '元以上';
+              this.search_price_3 = parseInt(this.sdigit_3) + '_';
+              this.price_show_color_3 = true;
+            } else if (parseInt(this.sdigit_3) == parseInt(this.edigit_3)) {
+              this.price_text_3 = parseInt(this.sdigit_3) + '-' + parseInt(this.edigit_3) + '元';
+              this.search_price_3 = parseInt(this.sdigit_3) + '_' + parseInt(this.edigit_3);
+              this.price_show_color_3 = true;
+            } else if (parseInt(this.sdigit_3) > parseInt(this.edigit_3)) {
+              this.price_text_3 = parseInt(this.edigit_3) + '-' + parseInt(this.sdigit_3) + '元';
+              this.search_price_3 = parseInt(this.edigit_3) + '_' + parseInt(this.sdigit_3);
+              this.price_show_color_3 = true;
+            } else if (parseInt(this.sdigit_3) < parseInt(this.edigit_3)) {
+              this.price_text_3 = parseInt(this.sdigit_3) + '-' + parseInt(this.edigit_3) + '元';
+              this.search_price_3 = parseInt(this.sdigit_3) + '_' + parseInt(this.edigit_3);
+              this.price_show_color_3 = true;
+            } else {
+              this.price_text_3 = '价格区间';
+              this.search_price_3 = '';
+              this.price_show_color_3 = false;
+            }
+          } else {
+            this.price_text_3 = '价格区间';
+            this.search_price_3 = '';
+            this.price_show_color_3 = false;
+          }
+          this.price_show_3 ? (this.price_show_3 = 0) : (this.price_show_3 = 1);
         }
         this.brandData = [];
         this.shopZindex = 1000;
@@ -1030,44 +1419,92 @@
         } else {
           this.getGoods();
         }
-        this.price_show ? (this.price_show = 0) : (this.price_show = 1);
       },
       // 综合排序
-      sort_choose () {
-        this.sort_show ? (this.sort_show = 0) : (this.sort_show = 1);
-        if (this.sort_num > 0) {
-          this.sort_show_color ? (this.sort_show_color = 1) : (this.sort_show_color = 1);
+      sort_choose (id) {
+        if (id == '9') {
+          this.sort_show_1 ? (this.sort_show_1 = 0) : (this.sort_show_1 = 1);
+          if (this.sort_num_1 > 0) {
+            this.sort_show_color_1 ? (this.sort_show_color_1 = 1) : (this.sort_show_color_1 = 1);
+          } else {
+            this.sort_show_color_1 ? (this.sort_show_color_1 = 0) : (this.sort_show_color_1 = 1);
+          }
+          // 价格区间关闭
+          if (this.price_text_1 == '价格区间') {
+            this.price_show_color_1 = false;
+          } else {
+            this.price_show_color_1 = true;
+          }
+          this.price_show_1 = false;
+          // 所属火把号关闭
+          if (this.huoba_text_1 == '所属火把号') {
+            this.huoba_show_color_1 = false;
+          } else {
+            this.huoba_show_color_1 = true;
+          }
+          this.huoba_show_1 = false;
+        } else if (id == '4') {
+          this.sort_show_2 ? (this.sort_show_2 = 0) : (this.sort_show_2 = 1);
+          if (this.sort_num_2 > 0) {
+            this.sort_show_color_2 ? (this.sort_show_color_2 = 1) : (this.sort_show_color_2 = 1);
+          } else {
+            this.sort_show_color_2 ? (this.sort_show_color_2 = 0) : (this.sort_show_color_2 = 1);
+          }
+          // 价格区间关闭
+          if (this.price_text_2 == '价格区间') {
+            this.price_show_color_2 = false;
+          } else {
+            this.price_show_color_2 = true;
+          }
+          this.price_show_2 = false;
+          // 所属火把号关闭
+          if (this.huoba_text_2 == '所属火把号') {
+            this.huoba_show_color_2 = false;
+          } else {
+            this.huoba_show_color_2 = true;
+          }
+          this.huoba_show_2 = false;
         } else {
-          this.sort_show_color ? (this.sort_show_color = 0) : (this.sort_show_color = 1);
+          this.sort_show_3 ? (this.sort_show_3 = 0) : (this.sort_show_3 = 1);
+          if (this.sort_num_3 > 0) {
+            this.sort_show_color_3 ? (this.sort_show_color_3 = 1) : (this.sort_show_color_3 = 1);
+          } else {
+            this.sort_show_color_3 ? (this.sort_show_color_3 = 0) : (this.sort_show_color_3 = 1);
+          }
+          // 价格区间关闭
+          if (this.price_text_3 == '价格区间') {
+            this.price_show_color_3 = false;
+          } else {
+            this.price_show_color_3 = true;
+          }
+          this.price_show_3 = false;
+          // 所属火把店铺关闭
+          if (this.huobashop_text_1 == '所属店铺') {
+            this.huobashop_show_color_1 = false;
+          } else {
+            this.huobashop_show_color_1 = true;
+          }
+          this.huobashop_show_1 = false;
         }
-        // 价格区间关闭
-        if (this.price_text_1 == '价格区间') {
-          this.price_show_color = false;
-        } else {
-          this.price_show_color = true;
-        }
-        this.price_show = false;
-        // 所属火把号关闭
-        if (this.huoba_text == '所属火把号') {
-          this.huoba_show_color = false;
-        } else {
-          this.huoba_show_color = true;
-        }
-        this.huoba_show = false;
-        // 所属火把店铺关闭
-        if (this.huobashop_text == '所属店铺') {
-          this.huobashop_show_color = false;
-        } else {
-          this.huobashop_show_color = true;
-        }
-        this.huobashop_show = false;
       },
-      // 综合排序
-      sort_choosetext (item,sort) {
-        this.sort_num++;
-        this.sort_show ? (this.sort_show = 1) : (this.sort_show = 0);
-        this.sort_text_1 = item;
-        this.search_sort = sort;
+      // 综合排序内容点击
+      sort_choosetext (item,sort,id) {
+        if (id == '9') {
+          this.sort_num_1++;
+          this.sort_show_1 ? (this.sort_show_1 = 1) : (this.sort_show_1 = 0);
+          this.sort_text_1 = item;
+          this.search_sort_1 = sort;
+        } else if (id == '4') {
+          this.sort_num_2++;
+          this.sort_show_2 ? (this.sort_show_2 = 1) : (this.sort_show_2 = 0);
+          this.sort_text_2 = item;
+          this.search_sort_2 = sort;
+        } else {
+          this.sort_num_3++;
+          this.sort_show_3 ? (this.sort_show_3 = 3) : (this.sort_show_3 = 0);
+          this.sort_text_3 = item;
+          this.search_sort_3 = sort;
+        }
         this.brandData = [];
         this.shopZindex = 1000;
         this.page = 1;
@@ -1190,10 +1627,10 @@
       },
       // 图书搜索结果
       async getBooks() {
-        if (this.has_stock) {
-          this.has_stock = 1;
+        if (this.has_stock_1) {
+          this.has_stock_1 = 1;
         } else {
-          this.has_stock = 0;
+          this.has_stock_1 = 0;
         }
         var tStamp = this.$getTimeStamp();
         var data = {};
@@ -1201,11 +1638,11 @@
           data = {
             scene: "platform",
             keywords: this.searchContent,
-            brand_id: this.isbrand_id,
+            brand_id: this.isbrand_id_3,
             // supplier_id: this.supplier_id,
-            has_stock: this.has_stock,
-            price_zone: this.search_price,
-            sort: this.search_sort,
+            has_stock: this.has_stock_1,
+            price_zone: this.search_price_3,
+            sort: this.search_sort_3,
             page: this.page,
             page_size: this.page_size,
             is_tap: this.is_tap,
@@ -1215,10 +1652,10 @@
         } else {
           data = {
             keywords: this.searchContent,
-            brand_id: this.isbrand_id,
-            has_stock: this.has_stock,
-            price_zone: this.search_price,
-            sort: this.search_sort,
+            brand_id: this.isbrand_id_3,
+            has_stock: this.has_stock_1,
+            price_zone: this.search_price_3,
+            sort: this.search_sort_3,
             page: this.page,
             page_size: this.page_size,
             is_tap: this.is_tap,
@@ -1243,15 +1680,15 @@
           if (this.brand_list_once) {
             if (res.response_data.brand_list == undefined) {
               this.brand_list = [];
-              this.huobashop_radio = [];
+              this.huobashop_radio_1 = [];
             } else {
               this.brand_list = res.response_data.brand_list;
-              if (this.huobashop_id.length > 0) {
-                this.huobashop_radio = [];
-                for (var n = 0; n < this.huobashop_id.length; n++) {
+              if (this.huobashop_id_1.length > 0) {
+                this.huobashop_radio_1 = [];
+                for (var n = 0; n < this.huobashop_id_1.length; n++) {
                   for (var m = 0; m < this.brand_list.length; m++) {
-                    if (this.huobashop_id[n] == this.brand_list[m].brand_id) {
-                      this.huobashop_radio.push(m);
+                    if (this.huobashop_id_1[n] == this.brand_list[m].brand_id) {
+                      this.huobashop_radio_1.push(m);
                     }
                   }
                 }
@@ -1259,9 +1696,9 @@
             }
           }
           if (this.brand_list.length == 0) {
-            this.brand_list_length = false;
+            this.brand_list_length_3 = false;
           } else {
-            this.brand_list_length = true;
+            this.brand_list_length_3 = true;
           }
           console.log(111,result);
           // this.column_list = res.response_data.column;
@@ -1289,13 +1726,33 @@
       },
       // 电子书专辑文章
       async getGoods () {
-        if (this.needs_pay) {
-          this.needs_pay = 1;
-        } else {
-          this.needs_pay = 0;
-        }
+        var needsPay;
+        var searchPrice = '';
+        var searchSort = '';
+        var isbrandId;
         if (this.goods_type == 6) {
-          this.needs_pay = 0;
+          needsPay = 0;
+          isbrandId = this.isbrand_id;
+        } else if (this.goods_type == 9) {
+          if (this.needs_pay_1) {
+            this.needs_pay_1 = 1;
+          } else {
+            this.needs_pay_1 = 0;
+          }
+          needsPay = this.needs_pay_1;
+          searchPrice = this.search_price_1;
+          searchSort = this.search_sort_1;
+          isbrandId = this.isbrand_id_1;
+        } else if (this.goods_type == 4) {
+          if (this.needs_pay_2) {
+            this.needs_pay_2 = 1;
+          } else {
+            this.needs_pay_2 = 0;
+          }
+          needsPay = this.needs_pay_2;
+          searchPrice = this.search_price_2;
+          searchSort = this.search_sort_2;
+          isbrandId = this.isbrand_id_2;
         }
         var tStamp = this.$getTimeStamp();
         var data = {};
@@ -1304,11 +1761,11 @@
             scene: "platform",
             keywords: this.searchContent,
             column_type: this.goods_type,
-            brand_id: this.isbrand_id,
+            brand_id: isbrandId,
             // supplier_id: this.supplier_id,
-            need_pay: this.needs_pay,
-            price_zone: this.search_price,
-            sort: this.search_sort,
+            need_pay: needsPay,
+            price_zone: searchPrice,
+            sort: searchSort,
             page: this.page,
             page_size: this.page_size,
             is_tap: this.is_tap,
@@ -1319,10 +1776,10 @@
           data = {
             keywords: this.searchContent,
             column_type: this.goods_type,
-            brand_id: this.isbrand_id,
-            need_pay: this.needs_pay,
-            price_zone: this.search_price,
-            sort: this.search_sort,
+            brand_id: isbrandId,
+            need_pay: needsPay,
+            price_zone: searchPrice,
+            sort: searchSort,
             page: this.page,
             page_size: this.page_size,
             is_tap: this.is_tap,
@@ -1348,15 +1805,32 @@
           if (this.brand_list_once) {
             if (res.response_data.brand_list == undefined) {
               this.brand_list = [];
-              this.huoba_radio = [];
+              if (this.goods_type == 9) {
+                this.huoba_radio_1 = [];
+              } else if (this.goods_type == 4) {
+                this.huoba_radio_2 = [];
+              }
             } else {
               this.brand_list = res.response_data.brand_list;
-              if (this.huoba_id.length > 0) {
-                this.huoba_radio = [];
-                for (var n = 0; n < this.huoba_id.length; n++) {
-                  for (var m = 0; m < this.brand_list.length; m++) {
-                    if (this.huoba_id[n] == this.brand_list[m].brand_id) {
-                      this.huoba_radio.push(m);
+              if (this.goods_type == 9) {
+                if (this.huoba_id_1.length > 0) {
+                  this.huoba_radio_1 = [];
+                  for (var n = 0; n < this.huoba_id_1.length; n++) {
+                    for (var m = 0; m < this.brand_list.length; m++) {
+                      if (this.huoba_id_1[n] == this.brand_list[m].brand_id) {
+                        this.huoba_radio_1.push(m);
+                      }
+                    }
+                  }
+                }
+              } else if (this.goods_type == 4) {
+                if (this.huoba_id_2.length > 0) {
+                  this.huoba_radio_2 = [];
+                  for (var n = 0; n < this.huoba_id_2.length; n++) {
+                    for (var m = 0; m < this.brand_list.length; m++) {
+                      if (this.huoba_id_2[n] == this.brand_list[m].brand_id) {
+                        this.huoba_radio_2.push(m);
+                      }
                     }
                   }
                 }
@@ -1364,9 +1838,17 @@
             }
           }
           if (this.brand_list.length == 0) {
-            this.brand_list_length = false;
+            if (this.goods_type == 9) {
+              this.brand_list_length_1 = false;
+            } else if (this.goods_type == 4) {
+              this.brand_list_length_2 = false;
+            }
           } else {
-            this.brand_list_length = true;
+            if (this.goods_type == 9) {
+              this.brand_list_length_1 = true;
+            } else if (this.goods_type == 4) {
+              this.brand_list_length_2 = true;
+            }
           }
           console.log(111,result);
           // this.column_list = res.response_data.column;
@@ -1627,31 +2109,7 @@
         this.is_tap = 1;
         this.goods_type = Number(this.column_list[index].column_type);
         this.screen_choose = this.goods_type;
-        // 筛选重置
-        this.huoba_text = '所属火把号';
-        this.huoba_show_color = false;
-        this.huobashop_text = '所属店铺';
-        this.huobashop_show_color = false;
-        this.price_text_1 = '价格区间';
-        this.price_show_color = false;
-        this.sort_text_1 = '综合排序';
-        this.sort_show_color = false;
-        this.sort_show = 0;
-        this.sort_num = 0;
-        this.price_show = 0;
-        this.huoba_show = 0;
-        this.huobashop_show = 0;
-        this.needs_pay = 1;
-        this.search_price = '';
-        this.search_sort = '';
-        this.isbrand_id = this.$route.query.brand_id;
-        this.has_stock = 1;
-        this.shopZindex = 1000;
-        this.tilings = 1;
-        this.is_etc_box = false;
-        this.is_book_box = false;
-        this.huoba_radio = [];
-        this.huobashop_radio = [];
+        this.stop_shade();
         switch (this.goods_type) {
           case 9:
             this.tileViewShow = true;

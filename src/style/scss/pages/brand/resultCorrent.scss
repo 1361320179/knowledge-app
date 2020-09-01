@@ -561,7 +561,12 @@ html {
         }
       }
     }
-    .only_pay {
+    .only_pay_1 {
+      padding-left: 10px;
+      padding-right: 10px;
+      flex-shrink: 0;
+    }
+    .only_pay_2 {
       padding-left: 10px;
       padding-right: 10px;
       flex-shrink: 0;
