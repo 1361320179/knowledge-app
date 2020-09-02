@@ -203,7 +203,7 @@ html {
       .bookImg {
         display: block;
         @include ratioBox (100%, 61.58%, 1px solid transparent, contain, $white, null);
-        border-radius: 2.5px;
+        border-radius: 10px;
       }
     }
     .right{
@@ -324,7 +324,7 @@ html {
       .bookimg {
         display: block;
         @include ratioBox (100%, 100%, 1px solid transparent, contain, $white, null);
-        border-radius: 2.5px;
+        border-radius: 10px;
       }
     }
   }
@@ -334,7 +334,7 @@ html {
       .bookImg {
         display: block;
         @include ratioBox (100%, 61.8%, 1px solid transparent, contain, $white, null);
-        border-radius: 2.5px;
+        border-radius: 10px;
       }
     }
     .nice{
@@ -359,7 +359,7 @@ html {
       .bookImg {
         display: block;
         @include ratioBox (100%, 133.33%, 1px solid transparent, contain, $white, null);
-        border-radius: 2.5px;
+        border-radius: 10px;
       }
     }
     .nice{
