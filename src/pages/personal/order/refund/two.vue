@@ -177,9 +177,9 @@
           </van-cell-group>
         </van-radio-group>
       </div>
-      <div class="huoba-selectRadio-bottom">
+      <!--<div class="huoba-selectRadio-bottom">
         <button class="huoba-btn huoba-btn-three" @click="close">关闭</button>
-      </div>
+      </div>-->
     </van-popup>
     <!-- 货物状态 -->
     <van-popup v-model="goods_show" position="bottom">
@@ -205,9 +205,9 @@
           </van-cell-group>
         </van-radio-group>
       </div>
-      <div class="huoba-selectRadio-bottom">
+      <!--<div class="huoba-selectRadio-bottom">
         <button class="huoba-btn huoba-btn-three" @click="close">关闭</button>
-      </div>
+      </div>-->
     </van-popup>
     <EazyNav type="order" :isShow="false"></EazyNav>
     <!--通用弹窗-->

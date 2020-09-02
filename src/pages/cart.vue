@@ -514,9 +514,9 @@ export default {
     },
     // 去凑单
     collectBills(gItem, gIndex) {
-      sessionStorage.setItem('saveSearchContent',"")
+      sessionStorage.setItem('saveFullreduction',"")
       this.$router.push({
-        name: "multiresult",
+        name: "multiresultcorrent",
         query: {
           multi_id: gItem.multi_id
         }

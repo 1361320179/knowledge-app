@@ -903,9 +903,9 @@ export default {
       }
     },
     toResult(item, index) {
-      sessionStorage.setItem('saveSearchContent',"")
+      sessionStorage.setItem('saveCouponKey',"")
       this.$router.push({
-        name: "couponresult",
+        name: "couponresultcorrent",
         query: {
           ticket_id: item.ticket_id
         }
@@ -915,9 +915,9 @@ export default {
       this.multiModel = true;
     },
     toMultiResult() {
-      sessionStorage.setItem('saveSearchContent',"")
+      sessionStorage.setItem('saveFullreduction',"")
       this.$router.push({
-        name: "multiresult",
+        name: "multiresultcorrent",
         query: {
           multi_id: this.couponInfo.multi.activity_id
         }

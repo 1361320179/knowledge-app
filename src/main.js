@@ -53,17 +53,9 @@ import openAppPage from './components/index'
 // 公共弹窗
 import publicPopup from './components/index';
 
-Vue.use(download)
-Vue.use(nav)
-Vue.use(loading)
-Vue.use(copyRight)
-Vue.use(openAppPage)
-Vue.use(publicPopup)
-
 // vant
 // import Vant from 'vant';
 // import 'vant/lib/index.css';
-
 // Vue.use(Vant);
 
 import {
@@ -85,6 +77,13 @@ import {
   Loading,
   Pagination, RadioGroup, Radio, Picker,
 } from 'vant'
+
+Vue.use(download)
+Vue.use(nav)
+Vue.use(loading)
+Vue.use(copyRight)
+Vue.use(openAppPage)
+Vue.use(publicPopup)
 Vue.use(Field)
 Vue.use(Toast)
 Vue.use(Button)

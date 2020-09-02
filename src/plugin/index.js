@@ -1063,8 +1063,8 @@ export default {
           break;
         // 商城商品搜索结果页
         case 'mall/goods/search':
-          __name = 'brandresult';
-          __action = 'brand/result';
+          __name = 'brandresultcorrent';
+          __action = '/brand/resultCorrent';
           queryTmp.supplier_id = parseInt(dataTmp.params.supplier_id);
           if (dataTmp.params.keywords) queryTmp.keywords = dataTmp.params.keywords;
           if (dataTmp.params.goods_type) queryTmp.goods_type = dataTmp.params.goods_type;
