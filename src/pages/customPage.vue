@@ -650,8 +650,9 @@ export default {
   },
   methods: {
     inputText() {
+      sessionStorage.setItem('saveSearchContent','');
       this.$router.push({
-        name: "search",
+        name: "searchcorrent",
         query: {
           type: "mall",
           brand_id: this.brand_id,
