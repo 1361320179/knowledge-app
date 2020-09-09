@@ -446,7 +446,7 @@ router.beforeEach((to, from, next) => {
     }
   }
   // 需要记录路径的中间页
-  if(to.neta.isPath) {
+  if(to.meta.isPath) {
     if (localStorage.getItem("isHuobaIosLogin") == "no" && localStorage.getItem("isHuobaAndroidLogin") == "no") {
       next();
       if (replaceUrl.indexOf("nullPage") == -1) {
