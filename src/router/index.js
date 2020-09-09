@@ -926,7 +926,7 @@ export default new Router({
       meta: {
         keepAlive: false,  // false不需要被缓存，true需要缓存
         title: '我的优惠券',
-        requireAuth: true
+        isPath: true
       },
     },
     {
