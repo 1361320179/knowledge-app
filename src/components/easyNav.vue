@@ -32,6 +32,7 @@
         v-if="type == 'brand' && navData.search"
         :to="{path:navData.searchLink,query:{type:type}}"
         class="link"
+        @click.native="flushCom"
       >
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-littleSearch-line" />
@@ -43,6 +44,7 @@
         v-if="type == 'order' && navData.search"
         :to="{path:navData.searchLink,query:{type:'order'}}"
         class="link"
+        @click.native="flushCom"
       >
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-littleSearch-line" />
@@ -52,8 +54,9 @@
       <!-- 优惠券 -->
       <router-link
         v-if="type == 'coupon' && navData.search"
-        :to="{path:navData.searchLink,query:{type:'coupon',ticket_id:$route.query.ticket_id}}"
+        :to="{path:'/searchOnly',query:{type:'coupon',ticket_id:$route.query.ticket_id}}"
         class="link"
+        @click.native="flushCom"
       >
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-littleSearch-line" />
@@ -65,6 +68,7 @@
         v-if="type == 'mall' && navData.search"
         :to="{path:navData.searchLink,query:{type:'mall', supplier_id: $route.query.supplier_id}}"
         class="link"
+        @click.native="flushCom"
       >
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-littleSearch-line" />
@@ -76,6 +80,7 @@
         v-if="type == 'index' && navData.search"
         :to="{path:navData.searchLink,query:{type:type}}"
         class="link"
+        @click.native="flushCom"
       >
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-littleSearch-line" />
@@ -188,7 +193,7 @@ export default {
         home: true,
         homeLink: "/brand/index",
         search: true,
-        searchLink: "/search",
+        searchLink: "/searchCorrent",
         personal: true,
         personalLink: "/personal/index",
         cart: true,
@@ -214,6 +219,10 @@ export default {
     this.navData.fold = false;
   },
   methods: {
+    flushCom () {
+      sessionStorage.setItem('saveSearchContent','')
+      this.$router.go(0);
+    },
     gotoLink() {
       if (this.home_id == "all") {
         this.$router.push({

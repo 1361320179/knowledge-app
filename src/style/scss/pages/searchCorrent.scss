@@ -1,0 +1,131 @@
+/*
+ * author: zhuboyu
+ * date:2020/8/11
+ */
+
+#searchPage{
+  .huoba-search{
+    @include displayFlex(flex,center,center);
+    .cancel-back{
+      flex-shrink: 0;
+      padding-left: 10px;
+    }
+    .van-search--show-action {
+      flex-grow: 1;
+      .van-search__action{
+        //color: #098AE8;
+      }
+    }
+  }
+  .van-row{
+    flex-wrap: wrap;
+  }
+  .searchRecommend{
+    padding-left: 15px;
+    padding-right: 15px;
+    & .recommend{
+      font-size: $fontSize + 1;
+      color: $cl0;
+      margin: 15px 0 0 0;
+    }
+    & .van-col{
+      margin-top: 15px;
+      @include textOverflow;
+      text-align: center;
+    }
+    & .overflow-2{
+      margin-top:17px;
+      height: 80px;
+      overflow: hidden;
+    }
+    & .tag{
+      display: inline-block;
+      background-color: $greyLight;
+      border-radius: 5px;
+      line-height: 29px;
+      max-width: 100%;
+      @include font(null,$fontSize - 1,$cl6);
+      @include textOverflow;
+      padding: 0 15px;
+      box-sizing: border-box;
+      margin-right: 13px;
+      margin-bottom: 13px;
+    }
+    & .hot_box {
+      line-height: 35px;
+      margin-top: 10px;
+      .hot_left {
+        float: left;
+        width: 50%;
+      }
+      .hot_right {
+        float: left;
+        width: 50%;
+      }
+    }
+    & .hotContent{
+      @include textOverflow;
+      text-align: left;
+      color: $cl6;
+      .hotSort{
+        display: inline-block;
+        font-size: $fontSize - 2;
+        width: 17px;
+        line-height: 17px;
+        background-color: #F5F5F5;
+        text-align: center;
+        border-radius: 3px;
+        color: #999999;
+      }
+      .hotSort.first,.hotSort.second,.hotSort.third{
+        color:$white;
+      }
+      .hotSort.first{
+        background-color: #F05654;
+      }
+      .hotSort.second{
+        background-color: #FFA22A;
+      }
+      .hotSort.third{
+        background-color: #FFCF2A;
+      }
+    }
+  }
+  .title{
+    @include displayFlex(flex,space-between,center);
+    .history{
+      font-size: $fontSize + 1;
+      color: $cl0;
+    }
+    .clear{
+      color: $cl6;
+      font-size: $fontSize - 1;
+    }
+  }
+  .searchAppoint{
+    margin: 30px 50px 0;
+    .appoint-text{
+      text-align: center;
+      color: #999999;
+      margin-bottom: 30px;
+    }
+    .appoint-content{
+      display: flex;
+      flex-wrap: wrap;
+      color: #FFB16D;
+      font-size: 14px;
+      text-align: center;
+      .appoint-detail:nth-child(3){
+        border-right: 0px solid #E5E5E5;
+      }
+      .appoint-detail:nth-child(5){
+        border-right: 0px solid #E5E5E5;
+      }
+      .appoint-detail{
+        @include flexBasis(32%);
+        border-right: 1px solid #E5E5E5;
+        margin-bottom: 30px;
+      }
+    }
+  }
+}

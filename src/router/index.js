@@ -80,6 +80,12 @@ import comment from '@/pages/personal/comment/index'
 
 // 搜索
 import search from '@/pages/search'
+// 搜索改版
+import searchcorrent from '@/pages/searchCorrent'
+// 搜索深一级
+import searchdeep from '@/pages/searchDeep'
+// 满减优惠劵专用搜索
+import searchonly from '@/pages/searchOnly'
 
 // 专辑
 // import album from '@/pages/album/index'
@@ -107,12 +113,15 @@ import mall from '@/pages/brand/mall'
 import article from '@/pages/brand/detail/article'
 import book from '@/pages/brand/detail/book'
 import brandresult from '@/pages/brand/result'
+import brandresultcorrent from '@/pages/brand/resultCorrent'
 import brand from '@/pages/brand/index'
 
 //优惠券
 import couponreceive from '@/pages/coupon/receive'
 import couponmine from '@/pages/coupon/mine'
 import couponresult from '@/pages/coupon/result'
+// 优惠劵改版
+import couponresultcorrent from '@/pages/coupon/resultCorrent'
 
 // 购物车
 import cart from '@/pages/cart'
@@ -149,6 +158,9 @@ import assisthelp from '@/pages/assist/help'
 
 //满减满折商品列表页
 import multiresult from '@/pages/multiResult'
+
+//满减满折商品列表页改版
+import multiresultcorrent from '@/pages/multiResultCorrent'
 
 // 资源图书
 import libraryindex from '@/pages/library/index'
@@ -761,6 +773,36 @@ export default new Router({
         title: '搜索'
       },
     },
+    // 搜索改版
+    {
+      path: '/searchcorrent',
+      name: 'searchcorrent',
+      component: searchcorrent,
+      meta: {
+        keepAlive: false,  // false不需要被缓存，true需要缓存
+        title: '搜索'
+      },
+    },
+    // 搜索改版深级
+    {
+      path: '/searchdeep',
+      name: 'searchdeep',
+      component: searchdeep,
+      meta: {
+        keepAlive: false,  // false不需要被缓存，true需要缓存
+        title: '搜索'
+      },
+    },
+    // 满减优惠劵专用搜索
+    {
+      path: '/searchonly',
+      name: 'searchonly',
+      component: searchonly,
+      meta: {
+        keepAlive: false,  // false不需要被缓存，true需要缓存
+        title: '搜索'
+      },
+    },
     // 专辑
     // {
     //   path: '/album/index',
@@ -897,6 +939,11 @@ export default new Router({
       component: brandresult
     },
     {
+      path: '/brand/resultCorrent',
+      name: 'brandresultcorrent',
+      component: brandresultcorrent
+    },
+    {
       path: '/brand/index',
       name: 'brand',
       component: brand,
@@ -929,6 +976,15 @@ export default new Router({
       path: '/coupon/result',
       name: 'couponresult',
       component: couponresult,
+      meta: {
+        keepAlive: false,  // false不需要被缓存，true需要缓存
+        title: '搜索结果'
+      },
+    },
+    {
+      path: '/coupon/resultCorrent',
+      name: 'couponresultcorrent',
+      component: couponresultcorrent,
       meta: {
         keepAlive: false,  // false不需要被缓存，true需要缓存
         title: '搜索结果'
@@ -1041,6 +1097,14 @@ export default new Router({
       path: '/multiresult',
       name: 'multiresult',
       component: multiresult,
+      meta: {
+        title: '活动列表'
+      }
+    },
+    {
+      path: '/multiresultcorrent',
+      name: 'multiresultcorrent',
+      component: multiresultcorrent,
       meta: {
         title: '活动列表'
       }
