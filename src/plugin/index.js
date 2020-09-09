@@ -475,7 +475,7 @@ export default {
       openAppPage();
     }
 
-    // 三端路由参数
+    // 三端路由参数(公共弹窗)
     Vue.prototype.$getRouterParams = function (_name) {
       _name = _name.toLowerCase();
       let linkData = {
@@ -503,7 +503,11 @@ export default {
         // 实物商品拼团页面
         linkData.groupbuy_id = parseInt(this.$route.query.groupbuy_id);
         linkData.brand_id = this.$route.query.brand_id;//??
-      } else if (_name == '/album/detail') {
+      } else if (_name == '/album/audio') {
+        // 专辑
+        linkData.goods_id = this.$route.query.goods_id;
+        linkData.pid = typeof(this.$route.query.pid) == 'object' ? this.$route.query.pid[0] : this.$route.query.pid;
+      } else if (_name == '/album/video') {
         // 专辑
         linkData.goods_id = this.$route.query.goods_id;
         linkData.pid = typeof(this.$route.query.pid) == 'object' ? this.$route.query.pid[0] : this.$route.query.pid;
@@ -600,7 +604,7 @@ export default {
       } else if (_name == '/activity/interest') {
         // 问卷调查
         linkData.page_name = 'activity/interest';
-      } else if (_name == '/album/detail') {
+      } else if (_name == '/album/audio' || _name == '/album/video') {
         // 专辑
         linkData.page_name = 'goods/detail';
         linkData.goods_id = this.$route.query.goods_id;
