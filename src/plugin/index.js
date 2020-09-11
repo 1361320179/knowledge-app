@@ -327,7 +327,7 @@ export default {
             share_info: this.share_info,
             link_data: _linkData,
             params: _params,
-            isJump: _isJump
+            isJump: _isJump,
           }));
         }
         // ios
@@ -336,7 +336,7 @@ export default {
             share_info: this.share_info,
             link_data: _linkData,
             params: _params,
-            isJump: _isJump
+            isJump: _isJump,
           })
         }
       } else {
