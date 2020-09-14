@@ -390,7 +390,11 @@ export default {
         // 登录首页
         linkData.page_name = '/login/phoneLogin';
         console.log('1',linkData.page_name);
-      } else if (_name == '/album/detail') {
+      } else if (_name == '/album/audio') {
+        // 专辑
+        linkData.goods_id = this.$route.query.goods_id;
+        linkData.pid = typeof(this.$route.query.pid) == 'object' ? this.$route.query.pid[0] : this.$route.query.pid;
+      } else if (_name == '/album/video') {
         // 专辑
         linkData.goods_id = this.$route.query.goods_id;
         linkData.pid = typeof(this.$route.query.pid) == 'object' ? this.$route.query.pid[0] : this.$route.query.pid;
