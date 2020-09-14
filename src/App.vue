@@ -9,7 +9,7 @@
         <EazyNav type="brand" :isShow="true"></EazyNav>
       </div>
     </template>
-    <template v-if="nullPage == 3">
+    <!-- <template v-if="nullPage == 3">
       <div class="nullBox">
 
         <img src="./assets/null/link.png" width="100%" />
@@ -17,7 +17,7 @@
         <div>{{ msg }}</div>
         <EazyNav type="brand" :isShow="true"></EazyNav>
       </div>
-    </template>
+    </template> -->
 
     <template v-else>
       <Download></Download>
