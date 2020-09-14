@@ -68,7 +68,7 @@
     <div v-for="(item, key) in payBank" :key="key">
       <div
         class="listBox"
-        :class="{disable: user_balance < (goodsInfo.price - discount_price) && item.bank_type == 'balance' || item.state == 0}"
+        :class="{disable: (user_balance < (goodsInfo.price - discount_price).toFixed(2)) && item.bank_type == 'balance' || item.state == 0}"
         style="padding: 8px 15px;"
         v-if="item.bank_type == 'balance' || (isWxLogin && item.bank_type == 'wxpay')"
       >
@@ -110,7 +110,7 @@
           </div>
         </div>
 
-        <div class="left two" v-if="item.bank_type == 'balance' && user_balance < goodsInfo.price">
+        <div class="left two" v-if="item.bank_type == 'balance' && user_balance < (goodsInfo.price - discount_price).toFixed(2)">
           <van-button round type="danger" @click="recharge">充值</van-button>
         </div>
       </div>
@@ -383,191 +383,456 @@
 <style src="@/style/scss/pages/pay.scss" scoped lang="scss"></style>
 
 <style lang="scss">
-#payaccountPage {
-  .van-button {
-    border-radius: 50px;
-  }
-
-  .bottomBox {
+  #payaccountPage {
     .van-button {
-      border-radius: 0;
+      border-radius: 50px;
+    }
+
+    .bottomBox {
+      .van-button {
+        border-radius: 0;
+      }
+    }
+
+    .van-button::before {
+      display: none;
+    }
+
+    .van-button--plain.van-button--danger {
+      background-color: #fff;
+    }
+
+    .van-button--danger {
+      background-color: #f05654;
+      border-color: #f05654;
+    }
+
+    .van-button--danger.van-button--disabled {
+      background-color: #d6d6d6;
+      border-color: #d6d6d6;
+      opacity: 1;
+    }
+
+    .van-button--small {
+      min-width: 80px;
+    }
+
+    .van-button--large {
+      height: 50px;
+      line-height: 50px;
+    }
+
+    .van-button--default {
+      color: #333;
+    }
+
+    .van-dialog__confirm,
+    .van-dialog__confirm:active,
+    .van-button::before {
+      display: none;
+    }
+    .couponCell {
+      .van-cell__title,
+      .van-cell__value {
+        @include textOverflow;
+        flex: auto;
+        -webkit-box-flex: 0;
+      }
+      .van-cell__value {
+        flex-shrink: 0;
+        color: $redLight !important;
+      }
     }
   }
-
-  .van-button::before {
-    display: none;
-  }
-
-  .van-button--plain.van-button--danger {
-    background-color: #fff;
-  }
-
-  .van-button--danger {
-    background-color: #f05654;
-    border-color: #f05654;
-  }
-
-  .van-button--danger.van-button--disabled {
-    background-color: #d6d6d6;
-    border-color: #d6d6d6;
-    opacity: 1;
-  }
-
-  .van-button--small {
-    min-width: 80px;
-  }
-
-  .van-button--large {
-    height: 50px;
-    line-height: 50px;
-  }
-
-  .van-button--default {
-    color: #333;
-  }
-
-  .van-dialog__confirm,
-  .van-dialog__confirm:active,
-  .van-button::before {
-    display: none;
-  }
-  .couponCell {
-    .van-cell__title,
-    .van-cell__value {
-      @include textOverflow;
-      flex: auto;
-      -webkit-box-flex: 0;
-    }
-    .van-cell__value {
-      flex-shrink: 0;
-      color: $redLight !important;
-    }
-  }
-}
 </style>
 
 
 <script>
-//  引入接口
-import {
-  ORDER_VIRTUAL_ADD,
-  ORDER_VIRTUAL_ADD_SENDCODE,
-  ORDER_VIRTUAL_ADD_PAY,
-  ORDER_VIRTUAL_ADDINFO
-} from "../../apis/shopping.js";
-import { CASHIER_PAY_ADD } from "../../apis/public.js";
+  //  引入接口
+  import {
+    ORDER_VIRTUAL_ADD,
+    ORDER_VIRTUAL_ADD_SENDCODE,
+    ORDER_VIRTUAL_ADD_PAY,
+    ORDER_VIRTUAL_ADDINFO
+  } from "../../apis/shopping.js";
+  import { CASHIER_PAY_ADD } from "../../apis/public.js";
 
-export default {
-  data() {
-    return {
-      // 商品id
-      goods_id: null,
-      // 当前账号余额
-      user_balance: null,
-      // 当前支付方式
-      activeIndex: 0,
-      goodsInfo: {
-        title: "",
-        pic: [],
-        goods_type: null,
-        price: 0,
-        sale_price: 0
-      },
-      // 支付方式
-      payBank: [],
-      // tip
-      descInfo: [],
-      // 验证码
-      codeData: {
-        disabled: false,
-        timeMsg: "获取验证码",
-        time: 120
-      },
-      showDialog: false,
-      // 密码输入框
-      value: "",
-      showKeyboard: false,
-      mobile: "",
-      code: "",
-      pay_mobilephone: "",
-      pay_money: "",
-      // 订单号
-      order_id: "",
-      pay_id: "",
-      pay_price: 0,
-      // 优惠券信息
-      couponInfo: null,
-      couponList: [],
-      couponModel: false,
-      nocouponModel: false,
-      active: 0,
-      active1: 1,
-      nouseCoupon: "",
-      useCoupon: "",
-      ticket_price: null,
-      ticket_lists: {
-        canuse: [],
-        nouse: []
-      },
-      ticket_num: 0,
-      discount_price: 0,
-      total_money: 0,
-      order_ticket_ids: "",
-      single_activity_id: null,
-      discount_price_desc:"",
-      groupbuy_id: null,
-      groupbuy_open_id: null,
-      open_id: null
-    };
-  },
-  mounted() {
-    // 上个页面携带必要信息
-    this.goods_id = this.$route.query.goods_id;
-    this.groupbuy_id = this.$route.query.groupbuy_id;
-    this.groupbuy_open_id = this.$route.query.groupbuy_open_id;
-    // 获取下单信息
-    this.infoData();
-  },
-  methods: {
-    // 获取下单信息
-    async infoData() {
-      var tStamp = this.$getTimeStamp();
-      var data = {};
-      data.timestamp = tStamp;
-      data.version = "1.0";
-      data.goods_id = this.goods_id;
-      if (this.$route.query.groupbuy_id)
-        data.groupbuy_id = this.$route.query.groupbuy_id;
-      if (this.$route.query.groupbuy_open_id)
-        data.groupbuy_open_id = this.$route.query.groupbuy_open_id;
-      if (this.$route.query.pid) data.album_id = this.$route.query.pid;
-      data.sign = this.$getSign(data);
-      let res = await ORDER_VIRTUAL_ADDINFO(data);
-      if (res.hasOwnProperty("response_code")) {
-        this.goodsInfo = res.response_data.goods_info;
-        this.payBank = res.response_data.pay_bank;
-        this.descInfo = res.response_data.desc;
-        this.user_balance = res.response_data.user_balance;
+  export default {
+    data() {
+      return {
+        // 商品id
+        goods_id: null,
+        // 当前账号余额
+        user_balance: null,
+        // 当前支付方式
+        activeIndex: 0,
+        goodsInfo: {
+          title: "",
+          pic: [],
+          goods_type: null,
+          price: 0,
+          sale_price: 0
+        },
+        // 支付方式
+        payBank: [],
+        // tip
+        descInfo: [],
+        // 验证码
+        codeData: {
+          disabled: false,
+          timeMsg: "获取验证码",
+          time: 120
+        },
+        showDialog: false,
+        // 密码输入框
+        value: "",
+        showKeyboard: false,
+        mobile: "",
+        code: "",
+        pay_mobilephone: "",
+        pay_money: "",
+        // 订单号
+        order_id: "",
+        pay_id: "",
+        pay_price: 0,
+        // 优惠券信息
+        couponInfo: null,
+        couponList: [],
+        couponModel: false,
+        nocouponModel: false,
+        active: 0,
+        active1: 1,
+        nouseCoupon: "",
+        useCoupon: "",
+        ticket_price: null,
+        ticket_lists: {
+          canuse: [],
+          nouse: []
+        },
+        ticket_num: 0,
+        discount_price: 0,
+        total_money: 0,
+        order_ticket_ids: "",
+        single_activity_id: null,
+        discount_price_desc:"",
+        groupbuy_id: null,
+        groupbuy_open_id: null,
+        open_id: null
+      };
+    },
+    mounted() {
+      // 上个页面携带必要信息
+      this.goods_id = this.$route.query.goods_id;
+      this.groupbuy_id = this.$route.query.groupbuy_id;
+      this.groupbuy_open_id = this.$route.query.groupbuy_open_id;
+      // 获取下单信息
+      this.infoData();
+    },
+    methods: {
+      // 获取下单信息
+      async infoData() {
+        var tStamp = this.$getTimeStamp();
+        var data = {};
+        data.timestamp = tStamp;
+        data.version = "1.0";
+        data.goods_id = this.goods_id;
+        if (this.$route.query.groupbuy_id)
+          data.groupbuy_id = this.$route.query.groupbuy_id;
+        if (this.$route.query.groupbuy_open_id)
+          data.groupbuy_open_id = this.$route.query.groupbuy_open_id;
+        if (this.$route.query.pid) data.album_id = this.$route.query.pid;
+        data.sign = this.$getSign(data);
+        let res = await ORDER_VIRTUAL_ADDINFO(data);
+        if (res.hasOwnProperty("response_code")) {
+          this.goodsInfo = res.response_data.goods_info;
+          this.payBank = res.response_data.pay_bank;
+          this.descInfo = res.response_data.desc;
+          this.user_balance = res.response_data.user_balance;
 
-        this.activeIndex = this.user_balance >= this.goodsInfo.price ? 0 : 1;
-        // 优惠券
-        this.total_money = res.response_data.goods_info.price;
-        this.ticket_price = res.response_data.ticket_price;
-        this.discount_price = res.response_data.ticket_price;
-        this.ticket_lists = res.response_data.ticket_lists;
-        this.single_activity_id = res.response_data.single_activity_id;
-        if (this.discount_price > 0) {
-          this.discount_price_desc = "优惠￥" + this.discount_price;
-        } else {
-          this.discount_price_desc =
-            this.ticket_lists.canuse.length + "张券可用";
-        }
-        // this.pay_price = this.total_money - this.discount_price;
-        for (var i = 0; i < this.ticket_lists.canuse.length; i++) {
-          if (this.ticket_lists.canuse[i].selected == 0) {
-            this.ticket_lists.canuse[i].state = 0;
+
+          // 优惠券
+          this.total_money = res.response_data.goods_info.price;
+          this.ticket_price = res.response_data.ticket_price;
+          this.discount_price = res.response_data.ticket_price;
+          this.ticket_lists = res.response_data.ticket_lists;
+          this.single_activity_id = res.response_data.single_activity_id;
+          this.activeIndex = this.user_balance >= (this.goodsInfo.price - this.discount_price) ? 0 : 1;
+          if (this.discount_price > 0) {
+            this.discount_price_desc = "优惠￥" + this.discount_price;
           } else {
+            this.discount_price_desc =
+              this.ticket_lists.canuse.length + "张券可用";
+          }
+          // this.pay_price = this.total_money - this.discount_price;
+          for (var i = 0; i < this.ticket_lists.canuse.length; i++) {
+            if (this.ticket_lists.canuse[i].selected == 0) {
+              this.ticket_lists.canuse[i].state = 0;
+            } else {
+              this.ticket_num++;
+              if (this.order_ticket_ids) {
+                this.order_ticket_ids += "," + this.ticket_lists.canuse[i].id;
+              } else {
+                this.order_ticket_ids += this.ticket_lists.canuse[i].id;
+              }
+            }
+          }
+          this.nouseCoupon =
+            "不可用优惠券（" + this.ticket_lists.nouse.length + "）";
+          this.useCoupon =
+            "可用优惠券（" + this.ticket_lists.canuse.length + "）";
+          console.log('测试',(this.user_balance - (this.goodsInfo.price - this.discount_price))<0);
+        } else {
+          this.$toast(res.error_message);
+        }
+      },
+      // 选择支付方式
+      payType(key, item) {
+        if (
+          item.bank_type == "balance" &&
+          this.user_balance < (this.goodsInfo.price - this.discount_price).toFixed(2)
+        ) {
+          this.$toast("余额不足以支付~");
+          return;
+        }
+        if (item.state == 0) {
+          this.$toast("暂不支持~");
+          return;
+        }
+        if (item.wxpay == "wxpay") {
+        }
+        this.activeIndex = key;
+      },
+      // 订单余额支付手机验证码发送
+      getCode() {
+        this.$countDown(this.codeData);
+        this.sms();
+      },
+      async sms() {
+        var tStamp = this.$getTimeStamp();
+        let data = {
+          timestamp: tStamp,
+          order_id: this.order_id,
+          version: "1.0"
+        };
+        data.sign = this.$getSign(data);
+        let res = await ORDER_VIRTUAL_ADD_SENDCODE(data);
+        if (res.hasOwnProperty("response_code")) {
+          console.log(123, res);
+        } else {
+          this.$toast(res.error_message);
+        }
+      },
+      keyboardShow() {
+        this.showKeyboard = true;
+        $(".van-number-keyboard").css("z-index", 10000);
+      },
+      onInput(key) {
+        this.value = (this.value + key).slice(0, 6);
+        if (this.value.length == 6) {
+          this.payData(this.value);
+        }
+      },
+      onDelete() {
+        this.value = this.value.slice(0, this.value.length - 1);
+      },
+      // 支付
+      payAction() {
+        // 余额支付
+        if (this.activeIndex == 0) {
+          if(this.user_balance < (this.goodsInfo.price - this.discount_price).toFixed(2)){
+            this.$toast('余额不足，请选择其他支付方式');
+            return;
+          }
+          this.value = "";
+          this.showDialog = true;
+          // 重置倒计时
+          clearInterval(this.clock);
+          this.clock = null;
+          this.codeData.disabled = false;
+          this.codeData.timeMsg = "获取验证码";
+        }
+        // 微信支付
+        if (this.activeIndex == 1) {
+        }
+        this.addOrderData(this.activeIndex);
+      },
+      // 交易支付请求发起
+      async cashierPayData(_payId) {
+        var tStamp = this.$getTimeStamp();
+        let data = {
+          pay_id: _payId,
+          openid: localStorage.getItem("openid"),
+          type: "WXJS",
+          timestamp: tStamp,
+          version: "1.0"
+        };
+        data.sign = this.$getSign(data);
+        let res = await CASHIER_PAY_ADD(data);
+
+        if (res.hasOwnProperty("response_code")) {
+          console.log(
+            res.response_data.pay_arr.timeStamp,
+            res.response_data.pay_arr.nonceStr,
+            res.response_data.pay_arr.sign
+          );
+          this.$onBridgeReady(
+            res.response_data.pay_arr.timeStamp,
+            res.response_data.pay_arr.nonceStr,
+            res.response_data.pay_arr.package,
+            res.response_data.pay_arr.sign,
+            this.order_id,
+            this.pay_money
+          );
+        } else {
+          this.$toast(res.error_message);
+        }
+      },
+      // 新增虚拟订单
+      async addOrderData(_index) {
+        var tStamp = this.$getTimeStamp();
+        var data = {};
+        data.timestamp = tStamp;
+        data.version = "1.0";
+        data.goods_id = this.goodsInfo.goods_id;
+        if (this.order_ticket_ids) data.ticket_id = this.order_ticket_ids;
+        if (this.groupbuy_id) data.groupbuy_id = this.groupbuy_id;
+        if (this.groupbuy_open_id) data.groupbuy_open_id = this.groupbuy_open_id;
+        data.sign = this.$getSign(data);
+        let res = await ORDER_VIRTUAL_ADD(data);
+        if (res.hasOwnProperty("response_code")) {
+          this.pay_mobilephone = res.response_data.pay_mobilephone;
+          this.pay_money = res.response_data.pay_money;
+          this.order_id = res.response_data.order_id;
+          this.pay_id = res.response_data.pay_id;
+          this.open_id = res.response_data.groupbuy_open_id;
+          // this.discount_price = res.response_data.ticket_price;
+
+          // 交易支付请求发起
+          if (_index == 1) this.cashierPayData(this.pay_id);
+        } else {
+          this.$toast(res.error_message);
+        }
+      },
+      // 输完验证码获取支付接口
+      async payData(__code) {
+        var tStamp = this.$getTimeStamp();
+        let data = {
+          timestamp: tStamp,
+          pay_id: this.pay_id,
+          type: "NORMAL",
+          code: __code,
+          version: "1.0"
+        };
+        data.sign = this.$getSign(data);
+        let res = await ORDER_VIRTUAL_ADD_PAY(data);
+        if (res.hasOwnProperty("response_code")) {
+          this.showDialog = false;
+          this.showKeyboard = false;
+          clearInterval(this.clock);
+          this.clock = null;
+          this.codeData.disabled = false;
+          this.codeData.timeMsg = "获取验证码";
+
+          this.$router.replace({
+            name: "paysuccess",
+            query: {
+              order_id: res.response_data.order_id,
+              pay_money: res.response_data.pay_money,
+              open_id: this.open_id
+            }
+          });
+        } else {
+          this.$toast(res.error_message);
+        }
+      },
+      // 充值
+      recharge() {
+        // localStorage.setItem('routerLink','/personal/remain/account');
+        this.$router.push({
+          name: "account",
+          query: { goods_id: this.goods_id, endAccountTo: "return" }
+        });
+      },
+      // 优惠券
+      showCoupon() {
+        this.couponModel = true;
+      },
+      shownoCoupon() {
+        this.nocouponModel = true;
+      },
+      closePopup() {
+        this.couponModel = false;
+        this.nocouponModel = false;
+      },
+      chooseTicket(item, index) {
+        this.ticket_lists.canuse = this.ticket_lists.canuse.map((value, key) => {
+          if (index == key) value.selected = value.selected == 1 ? 0 : 1;
+          return value;
+        });
+        if (item.selected == 1) {
+          this.judge(item, index, 0);
+        } else {
+          this.judge(item, index, 1);
+        }
+      },
+      judge(item, index, _state) {
+        var _goods = [];
+        var _count = 0;
+        for (var a = 0; a < this.ticket_lists.canuse.length; a++) {
+          if (this.ticket_lists.canuse[a].selected == 1) {
+            _goods = _goods.concat(this.ticket_lists.canuse[a].goods_ids);
+            _count++;
+          }
+        }
+        if (_count > 0) {
+          this.chooseMax = false;
+        } else {
+          this.chooseMax = true;
+        }
+        var tempArray1 = _goods;
+        var _arr = this.ticket_lists.canuse;
+        for (var j = 0; j < _arr.length; j++) {
+          if (_arr[j].selected == 0 && j !== index) {
+            var check_goods = _arr[j].goods_ids;
+            var tempArray2 = [];
+            var _length;
+            if (check_goods.length > tempArray1.length) {
+              _length = check_goods.length;
+            } else {
+              _length = tempArray1.length;
+            }
+            for (var k = 0; k < _length; k++) {
+              if (check_goods.includes(tempArray1[k])) {
+                tempArray2.push(check_goods[k]);
+              }
+            }
+
+            if (tempArray2.length > 0) {
+              this.ticket_lists.canuse = this.ticket_lists.canuse.map(
+                (value, key) => {
+                  if (index !== key && j == key) value.state = 0;
+                  return value;
+                }
+              );
+            } else {
+              this.ticket_lists.canuse = this.ticket_lists.canuse.map(
+                (value, key) => {
+                  if (index !== key && j == key) value.state = 1;
+                  return value;
+                }
+              );
+            }
+          }
+        }
+
+        this.discount_price = 0;
+        this.ticket_num = 0;
+        this.order_ticket_ids = "";
+        for (var i = 0; i < this.ticket_lists.canuse.length; i++) {
+          if (this.ticket_lists.canuse[i].selected == 1) {
             this.ticket_num++;
+            this.discount_price =
+              this.ticket_lists.canuse[i].money + this.discount_price;
             if (this.order_ticket_ids) {
               this.order_ticket_ids += "," + this.ticket_lists.canuse[i].id;
             } else {
@@ -575,309 +840,49 @@ export default {
             }
           }
         }
-        this.nouseCoupon =
-          "不可用优惠券（" + this.ticket_lists.nouse.length + "）";
-        this.useCoupon =
-          "可用优惠券（" + this.ticket_lists.canuse.length + "）";
-        // console.log(res);
-      } else {
-        this.$toast(res.error_message);
-      }
-    },
-    // 选择支付方式
-    payType(key, item) {
-      if (
-        item.bank_type == "balance" &&
-        this.user_balance < this.goodsInfo.price
-      ) {
-        this.$toast("余额不足以支付~");
-        return;
-      }
-      if (item.state == 0) {
-        this.$toast("暂不支持~");
-        return;
-      }
-      if (item.wxpay == "wxpay") {
-      }
-      this.activeIndex = key;
-    },
-    // 订单余额支付手机验证码发送
-    getCode() {
-      this.$countDown(this.codeData);
-      this.sms();
-    },
-    async sms() {
-      var tStamp = this.$getTimeStamp();
-      let data = {
-        timestamp: tStamp,
-        order_id: this.order_id,
-        version: "1.0"
-      };
-      data.sign = this.$getSign(data);
-      let res = await ORDER_VIRTUAL_ADD_SENDCODE(data);
-      if (res.hasOwnProperty("response_code")) {
-        console.log(123, res);
-      } else {
-        this.$toast(res.error_message);
-      }
-    },
-    keyboardShow() {
-      this.showKeyboard = true;
-      $(".van-number-keyboard").css("z-index", 10000);
-    },
-    onInput(key) {
-      this.value = (this.value + key).slice(0, 6);
-      if (this.value.length == 6) {
-        this.payData(this.value);
-      }
-    },
-    onDelete() {
-      this.value = this.value.slice(0, this.value.length - 1);
-    },
-    // 支付
-    payAction() {
-      // 余额支付
-      if (this.activeIndex == 0) {
-        this.value = "";
-        this.showDialog = true;
-        // 重置倒计时
-        clearInterval(this.clock);
-        this.clock = null;
-        this.codeData.disabled = false;
-        this.codeData.timeMsg = "获取验证码";
-      }
-      // 微信支付
-      if (this.activeIndex == 1) {
-      }
-      this.addOrderData(this.activeIndex);
-    },
-    // 交易支付请求发起
-    async cashierPayData(_payId) {
-      var tStamp = this.$getTimeStamp();
-      let data = {
-        pay_id: _payId,
-        openid: localStorage.getItem("openid"),
-        type: "WXJS",
-        timestamp: tStamp,
-        version: "1.0"
-      };
-      data.sign = this.$getSign(data);
-      let res = await CASHIER_PAY_ADD(data);
-
-      if (res.hasOwnProperty("response_code")) {
-        console.log(
-          res.response_data.pay_arr.timeStamp,
-          res.response_data.pay_arr.nonceStr,
-          res.response_data.pay_arr.sign
-        );
-        this.$onBridgeReady(
-          res.response_data.pay_arr.timeStamp,
-          res.response_data.pay_arr.nonceStr,
-          res.response_data.pay_arr.package,
-          res.response_data.pay_arr.sign,
-          this.order_id,
-          this.pay_money
-        );
-      } else {
-        this.$toast(res.error_message);
-      }
-    },
-    // 新增虚拟订单
-    async addOrderData(_index) {
-      var tStamp = this.$getTimeStamp();
-      var data = {};
-      data.timestamp = tStamp;
-      data.version = "1.0";
-      data.goods_id = this.goodsInfo.goods_id;
-      if (this.order_ticket_ids) data.ticket_id = this.order_ticket_ids;
-      if (this.groupbuy_id) data.groupbuy_id = this.groupbuy_id;
-      if (this.groupbuy_open_id) data.groupbuy_open_id = this.groupbuy_open_id;
-      data.sign = this.$getSign(data);
-      let res = await ORDER_VIRTUAL_ADD(data);
-      if (res.hasOwnProperty("response_code")) {
-        this.pay_mobilephone = res.response_data.pay_mobilephone;
-        this.pay_money = res.response_data.pay_money;
-        this.order_id = res.response_data.order_id;
-        this.pay_id = res.response_data.pay_id;
-        this.open_id = res.response_data.groupbuy_open_id;
-        // this.discount_price = res.response_data.ticket_price;
-
-        // 交易支付请求发起
-        if (_index == 1) this.cashierPayData(this.pay_id);
-      } else {
-        this.$toast(res.error_message);
-      }
-    },
-    // 输完验证码获取支付接口
-    async payData(__code) {
-      var tStamp = this.$getTimeStamp();
-      let data = {
-        timestamp: tStamp,
-        pay_id: this.pay_id,
-        type: "NORMAL",
-        code: __code,
-        version: "1.0"
-      };
-      data.sign = this.$getSign(data);
-      let res = await ORDER_VIRTUAL_ADD_PAY(data);
-      if (res.hasOwnProperty("response_code")) {
-        this.showDialog = false;
-        this.showKeyboard = false;
-        clearInterval(this.clock);
-        this.clock = null;
-        this.codeData.disabled = false;
-        this.codeData.timeMsg = "获取验证码";
-
-        this.$router.replace({
-          name: "paysuccess",
-          query: {
-            order_id: res.response_data.order_id,
-            pay_money: res.response_data.pay_money,
-            open_id: this.open_id
-          }
-        });
-      } else {
-        this.$toast(res.error_message);
-      }
-    },
-    // 充值
-    recharge() {
-      // localStorage.setItem('routerLink','/personal/remain/account');
-      this.$router.push({
-        name: "account",
-        query: { goods_id: this.goods_id, endAccountTo: "return" }
-      });
-    },
-    // 优惠券
-    showCoupon() {
-      this.couponModel = true;
-    },
-    shownoCoupon() {
-      this.nocouponModel = true;
-    },
-    closePopup() {
-      this.couponModel = false;
-      this.nocouponModel = false;
-    },
-    chooseTicket(item, index) {
-      this.ticket_lists.canuse = this.ticket_lists.canuse.map((value, key) => {
-        if (index == key) value.selected = value.selected == 1 ? 0 : 1;
-        return value;
-      });
-      if (item.selected == 1) {
-        this.judge(item, index, 0);
-      } else {
-        this.judge(item, index, 1);
-      }
-    },
-    judge(item, index, _state) {
-      var _goods = [];
-      var _count = 0;
-      for (var a = 0; a < this.ticket_lists.canuse.length; a++) {
-        if (this.ticket_lists.canuse[a].selected == 1) {
-          _goods = _goods.concat(this.ticket_lists.canuse[a].goods_ids);
-          _count++;
-        }
-      }
-      if (_count > 0) {
-        this.chooseMax = false;
-      } else {
-        this.chooseMax = true;
-      }
-      var tempArray1 = _goods;
-      var _arr = this.ticket_lists.canuse;
-      for (var j = 0; j < _arr.length; j++) {
-        if (_arr[j].selected == 0 && j !== index) {
-          var check_goods = _arr[j].goods_ids;
-          var tempArray2 = [];
-          var _length;
-          if (check_goods.length > tempArray1.length) {
-            _length = check_goods.length;
-          } else {
-            _length = tempArray1.length;
-          }
-          for (var k = 0; k < _length; k++) {
-            if (check_goods.includes(tempArray1[k])) {
-              tempArray2.push(check_goods[k]);
-            }
-          }
-
-          if (tempArray2.length > 0) {
-            this.ticket_lists.canuse = this.ticket_lists.canuse.map(
-              (value, key) => {
-                if (index !== key && j == key) value.state = 0;
-                return value;
-              }
-            );
-          } else {
-            this.ticket_lists.canuse = this.ticket_lists.canuse.map(
-              (value, key) => {
-                if (index !== key && j == key) value.state = 1;
-                return value;
-              }
-            );
-          }
-        }
-      }
-
-      this.discount_price = 0;
-      this.ticket_num = 0;
-      this.order_ticket_ids = "";
-      for (var i = 0; i < this.ticket_lists.canuse.length; i++) {
-        if (this.ticket_lists.canuse[i].selected == 1) {
-          this.ticket_num++;
-          this.discount_price =
-            this.ticket_lists.canuse[i].money + this.discount_price;
-          if (this.order_ticket_ids) {
-            this.order_ticket_ids += "," + this.ticket_lists.canuse[i].id;
-          } else {
-            this.order_ticket_ids += this.ticket_lists.canuse[i].id;
-          }
-        }
-      }
         if (this.discount_price > 0) {
           this.discount_price_desc = "优惠￥" + this.discount_price;
         } else {
           this.discount_price_desc =
             this.ticket_lists.canuse.length + "张券可用";
         }
-      // this.pay_price =
-      //   this.total_money + this.dispatch_price - this.discount_price;
-    },
-    noChooseTicket() {
-      this.$toast("请先取消已勾选优惠券再选择");
-    },
-    sureTicket() {
-      this.discount_price = 0;
-      this.ticket_num = 0;
-      this.order_ticket_ids = "";
-      for (var i = 0; i < this.ticket_lists.canuse.length; i++) {
-        if (this.ticket_lists.canuse[i].selected == 1) {
-          this.ticket_num++;
-          this.discount_price =
-            this.ticket_lists.canuse[i].money + this.discount_price;
-          if (this.order_ticket_ids) {
-            this.order_ticket_ids += "," + this.ticket_lists.canuse[i].id;
-          } else {
-            this.order_ticket_ids += this.ticket_lists.canuse[i].id;
+        // this.pay_price =
+        //   this.total_money + this.dispatch_price - this.discount_price;
+      },
+      noChooseTicket() {
+        this.$toast("请先取消已勾选优惠券再选择");
+      },
+      sureTicket() {
+        this.discount_price = 0;
+        this.ticket_num = 0;
+        this.order_ticket_ids = "";
+        for (var i = 0; i < this.ticket_lists.canuse.length; i++) {
+          if (this.ticket_lists.canuse[i].selected == 1) {
+            this.ticket_num++;
+            this.discount_price =
+              this.ticket_lists.canuse[i].money + this.discount_price;
+            if (this.order_ticket_ids) {
+              this.order_ticket_ids += "," + this.ticket_lists.canuse[i].id;
+            } else {
+              this.order_ticket_ids += this.ticket_lists.canuse[i].id;
+            }
           }
         }
+        if (this.discount_price > 0) {
+          this.discount_price_desc = "优惠￥" + this.discount_price;
+        } else {
+          this.discount_price_desc =
+            this.ticket_lists.canuse.length + "张券可用";
+        }
+        // this.pay_price =
+        //   this.total_money + this.dispatch_price - this.discount_price;
+        this.couponModel = false;
+      },
+      reflesh() {
+        console.log("取消了");
+        location.reload();
       }
-      if (this.discount_price > 0) {
-        this.discount_price_desc = "优惠￥" + this.discount_price;
-      } else {
-        this.discount_price_desc =
-          this.ticket_lists.canuse.length + "张券可用";
-      }
-      // this.pay_price =
-      //   this.total_money + this.dispatch_price - this.discount_price;
-      this.couponModel = false;
-    },
-    reflesh() {
-      console.log("取消了");
-      location.reload();
     }
-  }
-};
+  };
 </script>
 
