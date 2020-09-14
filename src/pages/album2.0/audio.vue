@@ -319,13 +319,13 @@
       // 设置音频播放信息
       setBaseData(_type, item) {
         if (_type == "base") {
-          this.baseData.duration_str = item.duration_str;
+          this.baseData.duration_str = this.$formatTime(item.duration);
           this.baseData.duration = item.duration;
           // this.sliderValue = (item.progress / item.duration) * 100;
           this.sliderValue = 0;
         }
         if (_type == "item") {
-          this.baseData.duration_str = item.duration;
+          this.baseData.duration_str = this.$formatTime(item.ori_duration);
           this.baseData.duration = item.ori_duration;
           this.activeGoodNo = item.goods_no;
           this.$router.replace({

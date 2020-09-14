@@ -68,7 +68,7 @@
     <div v-for="(item, key) in payBank" :key="key">
       <div
         class="listBox"
-        :class="{disable: user_balance < goodsInfo.price && item.bank_type == 'balance' || item.state == 0}"
+        :class="{disable: user_balance < (goodsInfo.price - discount_price) && item.bank_type == 'balance' || item.state == 0}"
         style="padding: 8px 15px;"
         v-if="item.bank_type == 'balance' || (isWxLogin && item.bank_type == 'wxpay')"
       >

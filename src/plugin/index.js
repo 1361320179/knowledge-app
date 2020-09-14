@@ -714,6 +714,32 @@ export default {
       this.diffTime = serverTime - localTime;
     }
 
+    // 时间格式转换
+    Vue.prototype.$formatTime = function(value) {
+      let secondTime = parseInt(value);
+      let minuteTime = 0;
+      let hourTime = 0;
+      if (secondTime > 60) {
+        minuteTime = parseInt(secondTime / 60);
+        secondTime = parseInt(secondTime % 60);
+        if (minuteTime > 60) {
+          hourTime = parseInt(minuteTime / 60);
+          minuteTime = parseInt(minuteTime % 60);
+        }
+      }
+      let result = secondTime > 9 ? secondTime : ('0' + secondTime);
+      if (minuteTime > 0) {
+        result = (minuteTime > 9 ? minuteTime : ('0' + minuteTime)) + ":" + result;
+      } else {
+        result = '00' + ":" + result;
+      }
+      if (hourTime > 0) {
+        result = (hourTime > 9 ? hourTime : ('0' + hourTime)) + ':' + result;
+      }
+      return result;
+    }
+
+
     // 计算时间戳
     Vue.prototype.$getTimeStamp = function () {
       let localTime = new Date().getTime();
