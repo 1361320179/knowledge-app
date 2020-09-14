@@ -8,6 +8,7 @@
       <div class="listBox">
         <div class="filter"
              :style="{backgroundImage: 'url(' + baseData.pic[0] + ')',backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}"></div>
+        <div class="shadow"></div>
         <div class="iconBox"></div>
         <div class="left">
           <div class="ratioBox">
@@ -75,7 +76,7 @@
               ref="scrollList"
             >
               <!--回页面顶部-->
-              <div class="toTop" @click="toTop" v-if="topIcon && (activeKey == 0)">
+              <div class="toTop" @click="toTop" v-show="topIcon && (activeKey == 0)">
                 <img src="./../../assets/album/to-top.png">
               </div>
               <div class="programContent">
@@ -171,10 +172,10 @@
                 <span class="text">赶快发表你的评论吧~</span>
               </div>
               <!--<div class="pic" v-if="discussData.length == 0">-->
-              <div class="pic" v-if="false">
-                <img src="./../../assets/album/no-comment.png">
-                <p class="text">来做第一个评论的人吧~</p>
-              </div>
+              <!--<div class="pic" v-if="false">-->
+                <!--<img src="./../../assets/album/no-comment.png">-->
+                <!--<p class="text">来做第一个评论的人吧~</p>-->
+              <!--</div>-->
 
               <van-list
                 v-model="commentLoading"
@@ -193,19 +194,19 @@
                       <div class="info">
                         <span class="time">{{ item.str_date }}</span>
                         <span class="up">
-                         <svg class="icon" aria-hidden="true" v-if="item.is_like == 0" @click="upComment(item)">
+                         <svg class="icon" aria-hidden="true" v-if="item.is_like == 0" @click="upComment(item, index)">
                             <use xlink:href="#icon-zan"/>
                           </svg>
-                          <svg class="icon icon-dianzan" aria-hidden="true" v-else @click="cancelUpComment(item)">
+                          <svg class="icon icon-dianzan" aria-hidden="true" v-else @click="cancelUpComment(item, index)">
                             <use xlink:href="#icon-dianzan"/>
                           </svg>
                         <span v-if="item.praise_num != 0">{{ item.praise_num }}</span>
                       </span>
                         <span class="down">
-                         <svg class="icon" aria-hidden="true" v-if="item.is_dislike == 0" @click="downComment(item)">
+                         <svg class="icon" aria-hidden="true" v-if="item.is_dislike == 0" @click="downComment(item, index)">
                            <use xlink:href="#icon-fandui"/>
                          </svg>
-                         <svg class="icon icon-diancai" aria-hidden="true" v-else @click="cancelDownComment(item)">
+                         <svg class="icon icon-diancai" aria-hidden="true" v-else @click="cancelDownComment(item, index)">
                            <use xlink:href="#icon-fandui1"/>
                          </svg>
                         <span v-if="item.dislike_num != 0">{{ item.dislike_num }}</span>
@@ -740,7 +741,6 @@
               } else {
                 this.simularStatus[__type].is_collect = 1;
               }
-              this.$toast("收藏成功");
             } else {
               this.$toast(res.error_message);
               if (res.hasOwnProperty("error_code") && res.error_code == 100) {
@@ -763,7 +763,6 @@
               } else {
                 this.simularStatus[__type].is_collect = 0;
               }
-              this.$toast("取消收藏");
             } else {
               this.$toast(res.error_message);
               if (res.hasOwnProperty("error_code") && res.error_code == 100) {
@@ -1383,17 +1382,24 @@
         }
       },
       publicComment() {
-        // this.discussData = [];
         this.addComment();
       },
-      upComment(item) {
-        this.commentUp(item, 'up');
+      upComment(item, index) {
+        if (this.isLogin == 0) {
+          this.informLoginShow = true;
+        } else {
+          this.commentUp(item, index, 'up');
+        }
       },
-      cancelUpComment(item) {
-        this.commentUp(item, 'cancelUp');
+      cancelUpComment(item, index) {
+        if (this.isLogin == 0) {
+          this.informLoginShow = true;
+        } else {
+          this.commentUp(item, index, 'cancelUp');
+        }
       },
       // 评论 (取消)赞
-      async commentUp(item, state) {
+      async commentUp(item, index, state) {
         var data = {};
         var tStamp = this.$getTimeStamp();
         if (state == 'up') {
@@ -1414,20 +1420,38 @@
         }
         let res = await COMMENT_PRAISE(data);
         if (res.hasOwnProperty("response_code")) {
-          this.discussData = [];
-          this.commentData();
+          if (state == 'up' && this.discussData[index].is_dislike == 1) {
+            this.discussData[index].is_like = 1;
+            this.discussData[index].is_dislike = 0;
+            this.discussData[index].praise_num += 1;
+            this.discussData[index].dislike_num -= 1;
+          } else if (state == 'up' && this.discussData[index].is_dislike == 0) {
+            this.discussData[index].is_like = 1;
+            this.discussData[index].praise_num += 1;
+          } else if (state == 'cancelUp') {
+            this.discussData[index].is_like = 0;
+            this.discussData[index].praise_num -= 1;
+          }
         } else {
-          this.$toast(res.error_message);
+          // this.$toast(res.error_message);
         }
       },
-      downComment(item) {
-        this.commentDown(item, 'down');
+      downComment(item, index) {
+        if (this.isLogin == 0) {
+          this.informLoginShow = true;
+        } else {
+          this.commentDown(item, index, 'down');
+        }
       },
-      cancelDownComment(item) {
-        this.commentDown(item, 'cancelDown');
+      cancelDownComment(item, index) {
+        if (this.isLogin == 0) {
+          this.informLoginShow = true;
+        } else {
+          this.commentDown(item, index, 'cancelDown');
+        }
       },
       // 评论 (取消)踩
-      async commentDown(item, state) {
+      async commentDown(item, index, state) {
         var data = {};
         var tStamp = this.$getTimeStamp();
         if (state == 'down') {
@@ -1448,10 +1472,20 @@
         }
         let res = await COMMENT_DISLIKE(data);
         if (res.hasOwnProperty("response_code")) {
-          this.discussData = [];
-          this.commentData();
+          if (state == 'down' && this.discussData[index].is_like == 1) {
+            this.discussData[index].is_dislike = 1;
+            this.discussData[index].is_like = 0;
+            this.discussData[index].dislike_num += 1;
+            this.discussData[index].praise_num -= 1;
+          } else if (state == 'down' && this.discussData[index].is_like == 0) {
+            this.discussData[index].is_dislike = 1;
+            this.discussData[index].dislike_num += 1;
+          } else if (state == 'cancelDown') {
+            this.discussData[index].is_dislike = 0;
+            this.discussData[index].dislike_num -= 1;
+          }
         } else {
-          this.$toast(res.error_message);
+          // this.$toast(res.error_message);
         }
       },
       // ----------------------------------相似------------------------------------
@@ -1599,8 +1633,8 @@
       },
       // 处理页面滚动
       handleScroll() {
-        // console.log('scroll',document.documentElement.scrollTop);
-        if (document.documentElement.scrollTop > 500) {
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+        if (scrollTop > 500) {
           this.topIcon = true;
         } else {
           this.topIcon = false;

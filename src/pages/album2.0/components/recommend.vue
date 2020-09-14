@@ -5,13 +5,13 @@
         <div class="ratioBox">
           <div class="box">
             <!--图片-->
-            <img :src="baseData.pic[0]"/>
+            <img :src="baseData.pic[0]" @click="toAlbumDetail($route.query.pid)"/>
           </div>
         </div>
       </div>
       <div class="center">
-        <h4 class="title">{{ baseData.title }}</h4>
-        <h5 class="subTitle">{{ brandInfoData.name }}</h5>
+        <h4 class="title" @click="toAlbumDetail($route.query.pid)"><span>{{ baseData.title }}</span></h4>
+        <h5 class="subTitle" @click="toAlbumDetail($route.query.pid)"><span>{{ brandInfoData.name }}</span></h5>
       </div>
       <div class="right huoba-btn">
         <button class="huoba-btn" v-if="albumInfo.collect_id > 0" @click="collectCancel($route.query.pid, 'present')">已收藏</button>
@@ -50,7 +50,7 @@
       </div>
     </section>
     <!--相似专辑-->
-    <section class="album">
+    <section class="album" v-if="recommendAlbum.length > 0">
       <h3 class="title">相似专辑</h3>
       <div class="huoba-goods-list huoba-goods-list-seven">
         <swiper class="swiperTags" :options="swiperOption" ref="mySwiper">
@@ -136,7 +136,7 @@
     watch: {
       message(val) {
         this.isFree = val;
-        console.log('val',this.isFree);
+        // console.log('val',this.isFree);
       }
     },
     methods: {
@@ -151,7 +151,7 @@
         };
         data.sign = this.$getSign(data);
         let res = await RECOMMEND(data);
-        console.log(666, res);
+        // console.log(666, res);
         if (res.hasOwnProperty("response_code")) {
           // 异步更新数据
           this.recommendAlbum = res.response_data.result;
@@ -237,11 +237,11 @@
         data.sign = this.$getSign(data);
         let res = await ALBUM(data);
         if (res.hasOwnProperty("response_code")) {
-          console.log(res);
+          // console.log(res);
           //专辑基础信息
           this.baseData = res.response_data.base;
           this.albumInfo = res.response_data.album_info;
-          console.log(this.baseData);
+          // console.log(this.baseData);
           // 推荐信息
           this.recommendInfo = res.response_data.recommend.content;
           // banner信息

@@ -7,12 +7,15 @@
 
 #playList {
   .van-popup {
-    height: 50vh;
+    height: 465px;
     border-radius: 15px 15px 0 0;
+    overflow: hidden;
   }
   .header {
-    position: relative;
+    position: absolute;
+    top: 0;
     height: 49px;
+    width: 100%;
     padding-left: 15px;
     font-size: 0;
     & .title {
@@ -34,7 +37,7 @@
     & .closeIcon {
       position: absolute;
       top: 12px;
-      right: 12px;
+      right: 20px;
       font-size: 22px;
     }
     & .play {
@@ -51,6 +54,13 @@
         border-radius: 13px;
       }
     }
+  }
+  .van-list {
+    position: absolute;
+    width: 100%;
+    overflow: auto;
+    top: 49px;
+    bottom: 0;
   }
   .programContent {
     .content {

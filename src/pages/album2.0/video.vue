@@ -2,8 +2,9 @@
   <div id="videoPage">
     <div class="videoBox" @contextmenu.prevent="menuPlayer()">
       <div class="filter"
-           v-if="(baseData.is_payed == 0 && albumBase.is_free == 0) || (( baseData.is_payed == 1 || albumBase.is_free == 1) && baseData.goods_type == 1)"
+           v-if="(baseData.is_payed == 0 && albumBase.is_free == 0 && baseData.is_free == 0) || (( baseData.is_payed == 1 || albumBase.is_free == 1) && baseData.goods_type == 1)"
            :style="{backgroundImage: 'url(' + baseData.pic[0] + ')',backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}">
+        <div class="shadow"></div>
       </div>
       <video
         id="myVideo"
@@ -23,7 +24,7 @@
         <!--<span class="info">试看中</span>-->
         <!--<span class="action" @click="buyAction(pid)">购买此专辑</span>-->
       <!--</div>-->
-      <div class="center" v-if="baseData.is_payed == 0 && albumBase.is_free == 0">
+      <div class="center" v-if="baseData.is_payed == 0 && albumBase.is_free == 0 && baseData.is_free == 0">
         <!--<span class="info" v-if="baseData.is_free == 1">试看中，购买后解锁完整专辑</span>-->
         <span class="info" v-if="baseData.is_free == 0" >购买后即可播放完整专辑</span>
         <span class="action" v-if="albumBase.single_activity_id"  @click="buyAction(pid)">限时促销价 ￥{{albumBase.price}}</span>
@@ -101,7 +102,7 @@
     <!--&gt;</audioList>-->
     <audioList
       :goodsId="pid"
-      :albumInfo="baseData"
+      :albumInfo="albumBase"
       :goodsNo="goods_no"
       :audioStatus="!playStatus"
       @programChange="changeVideo"
@@ -279,7 +280,7 @@
         if (res.hasOwnProperty("response_code")) {
           // 存放整个专辑信息
           this.albumBase = res.response_data.base;
-          console.log('albumBase', this.albumBase);
+          // console.log('albumBase', this.albumBase);
           // 推荐用券
           this.recommendTicket = res.response_data.recommend_ticket;
         } else {
@@ -294,13 +295,13 @@
       },
       // 视频播放
       videoPlay() {
-        console.log('videoPlay');
+        // console.log('videoPlay');
         // this.playStatus = true;
         // this.$refs.controlList.popupModel = false;
       },
       // 视频暂停
       videoPause() {
-        console.log('videoPause');
+        // console.log('videoPause');
         // this.playStatus = false;
       },
       // 展开标题
@@ -331,7 +332,7 @@
         // 关闭通用列表
         this.$refs.controlList.popupModel = false;
 
-        console.log('program',program);
+        // console.log('program',program);
         this.itemClass = [];
         this.itemClass.length = this.programList.length;
         this.itemClass[index] = 'percent';

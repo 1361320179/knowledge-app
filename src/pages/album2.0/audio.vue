@@ -1,8 +1,10 @@
 <template>
-  <div id="audioPage">
+  <div id="audioPage" @click="hideMore">
     <div class="filter"
          v-if="(baseData.is_payed == 0 && albumBase.is_free == 0) || ((baseData.is_payed == 1 || albumBase.is_free == 1) && baseData.type == 2)"
          :style="{backgroundImage: 'url(' + baseData.pic + ')',backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}">
+      <img class="pic" src="./../../assets/album/audio-bg.png" alt="">
+      <div class="shadow"></div>
     </div>
     <div class="normal"
          v-else
@@ -164,7 +166,7 @@
     <!-- 播放列表 -->
     <audioList
       :goodsId="pid"
-      :albumInfo="baseData"
+      :albumInfo="albumBase"
       :goodsNo="activeGoodNo"
       :audioStatus="!playStatus"
       @programChange="audioAction"
@@ -192,6 +194,7 @@
     data() {
       return {
         moreOperateShow: false,
+        moreFlag: false,
         // 存储是否新增
         isAdd: false,
         // 专辑节目信息
@@ -338,7 +341,7 @@
         this.baseData.is_free = item.is_free;
         this.baseData.is_payed = item.is_payed;
         this.baseData.type = item.type;
-        console.log('type',this.baseData.type);
+        // console.log('type',this.baseData.type);
         this.$refs.audio.src = item.file_path;
         document.title = "正在播放-" + item.title;
         this.title = item.title;
@@ -386,7 +389,7 @@
         this.audioTimeChange(second, _status);
         // 用户播放进度记录
         this.currentTimeData(__currentTime);
-        console.log("当前播放时间：", second);
+        // console.log("当前播放时间：", second);
       },
       // 播放中倒计时
       audioTimeChange(second, type) {
@@ -406,7 +409,7 @@
             this.currentTime__ = this.todate(second);
             // 绑定slider
             this.audiobindtoslider(second);
-            console.log("倒计时：", second, audio.currentTime);
+            // console.log("倒计时：", second, audio.currentTime);
           }
         }, 1000);
         // 音频实时播放进度，每5s更新
@@ -905,7 +908,19 @@
       },
       // 更多操作
       moreOperate() {
-        this.moreOperateShow = !this.moreOperateShow;
+        var _this = this;
+        setTimeout(function () {
+          if (!_this.moreOperateShow) {
+            _this.moreFlag = true;
+            _this.moreOperateShow = true;
+          }
+        }, 100);
+
+      },
+      hideMore() {
+        if (this.moreFlag) {
+          this.moreOperateShow = false;
+        }
       },
       collectAdd(goods_type, goods_id) {
         this.$refs.recommendContent.collectAdd(goods_type, goods_id, 'present');
