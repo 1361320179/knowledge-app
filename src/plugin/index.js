@@ -327,7 +327,7 @@ export default {
             share_info: this.share_info,
             link_data: _linkData,
             params: _params,
-            isJump: _isJump
+            isJump: _isJump,
           }));
         }
         // ios
@@ -336,7 +336,7 @@ export default {
             share_info: this.share_info,
             link_data: _linkData,
             params: _params,
-            isJump: _isJump
+            isJump: _isJump,
           })
         }
       } else {
@@ -390,7 +390,11 @@ export default {
         // 登录首页
         linkData.page_name = '/login/phoneLogin';
         console.log('1',linkData.page_name);
-      } else if (_name == '/album/detail') {
+      } else if (_name == '/album/audio') {
+        // 专辑
+        linkData.goods_id = this.$route.query.goods_id;
+        linkData.pid = typeof(this.$route.query.pid) == 'object' ? this.$route.query.pid[0] : this.$route.query.pid;
+      } else if (_name == '/album/video') {
         // 专辑
         linkData.goods_id = this.$route.query.goods_id;
         linkData.pid = typeof(this.$route.query.pid) == 'object' ? this.$route.query.pid[0] : this.$route.query.pid;
@@ -476,7 +480,7 @@ export default {
       openAppPage();
     }
 
-    // 三端路由参数
+    // 三端路由参数(公共弹窗)
     Vue.prototype.$getRouterParams = function (_name) {
       _name = _name.toLowerCase();
       let linkData = {
@@ -504,7 +508,11 @@ export default {
         // 实物商品拼团页面
         linkData.groupbuy_id = parseInt(this.$route.query.groupbuy_id);
         linkData.brand_id = this.$route.query.brand_id;//??
-      } else if (_name == '/album/detail') {
+      } else if (_name == '/album/audio') {
+        // 专辑
+        linkData.goods_id = this.$route.query.goods_id;
+        linkData.pid = typeof(this.$route.query.pid) == 'object' ? this.$route.query.pid[0] : this.$route.query.pid;
+      } else if (_name == '/album/video') {
         // 专辑
         linkData.goods_id = this.$route.query.goods_id;
         linkData.pid = typeof(this.$route.query.pid) == 'object' ? this.$route.query.pid[0] : this.$route.query.pid;
@@ -601,7 +609,7 @@ export default {
       } else if (_name == '/activity/interest') {
         // 问卷调查
         linkData.page_name = 'activity/interest';
-      } else if (_name == '/album/detail') {
+      } else if (_name == '/album/audio' || _name == '/album/video') {
         // 专辑
         linkData.page_name = 'goods/detail';
         linkData.goods_id = this.$route.query.goods_id;
@@ -705,6 +713,32 @@ export default {
       let serverTime = res.response_data.timestamp * 1000;
       this.diffTime = serverTime - localTime;
     }
+
+    // 时间格式转换
+    Vue.prototype.$formatTime = function(value) {
+      let secondTime = parseInt(value);
+      let minuteTime = 0;
+      let hourTime = 0;
+      if (secondTime > 60) {
+        minuteTime = parseInt(secondTime / 60);
+        secondTime = parseInt(secondTime % 60);
+        if (minuteTime > 60) {
+          hourTime = parseInt(minuteTime / 60);
+          minuteTime = parseInt(minuteTime % 60);
+        }
+      }
+      let result = secondTime > 9 ? secondTime : ('0' + secondTime);
+      if (minuteTime > 0) {
+        result = (minuteTime > 9 ? minuteTime : ('0' + minuteTime)) + ":" + result;
+      } else {
+        result = '00' + ":" + result;
+      }
+      if (hourTime > 0) {
+        result = (hourTime > 9 ? hourTime : ('0' + hourTime)) + ':' + result;
+      }
+      return result;
+    }
+
 
     // 计算时间戳
     Vue.prototype.$getTimeStamp = function () {

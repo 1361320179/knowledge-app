@@ -29,6 +29,7 @@
     "vue-axios": "^2.1.4",
     "vue-clipboard2": "^0.3.1",
     "vue-cookies": "^1.5.13",
+    "vue-hls-player": "^1.0.6",
     "vue-router": "^3.0.1",
     "vue-style-loader": "^3.1.2",
     "vue-video-player": "^5.0.2",

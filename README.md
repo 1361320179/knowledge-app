@@ -114,10 +114,13 @@ cnpm install vuex --save
 // 复制粘贴板
 cnpm install --save vue-clipboard2
 
-// 视频流vue-video-player（兼容m3u8）
-cnpm install vue-video-player --save
-cnpm install video.js -D
-cnpm install videojs-contrib-hls --save
+# // 视频流vue-video-player（兼容m3u8）
+# cnpm install vue-video-player --save
+# cnpm install video.js -D
+# cnpm install videojs-contrib-hls --save
+
+// 音视频流兼容m3u8
+cnpm install vue-hls-player
 
 // vue中使用AES加密(安装后需要替换依赖aes.js)
 cnpm install crypto-js --save-dev

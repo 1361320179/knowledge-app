@@ -51,12 +51,16 @@ import openAppPage from './components/index'
 import publicPopup from './components/index';
 
 // 视频流vue-video-player（兼容m3u8）
-import VideoPlayer from 'vue-video-player'
-require('video.js/dist/video-js.css')
-require('vue-video-player/src/custom-theme.css')
-Vue.use(VideoPlayer)
-import hls from 'videojs-contrib-hls'
-Vue.use(hls)
+// import VideoPlayer from 'vue-video-player'
+// require('video.js/dist/video-js.css')
+// require('vue-video-player/src/custom-theme.css')
+// Vue.use(VideoPlayer)
+// import hls from 'videojs-contrib-hls'
+// Vue.use(hls)
+
+// 音视频流兼容m3u8
+import player from 'vue-hls-player'
+Vue.use(player)
 
 // vant
 // import Vant from 'vant';
@@ -458,7 +462,6 @@ router.beforeEach((to, from, next) => {
           replaceUrl += '&nullPage=3';
           next();
         }
-
         next();
       }
       next();

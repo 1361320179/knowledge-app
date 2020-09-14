@@ -9,23 +9,21 @@
         <EazyNav type="brand" :isShow="true"></EazyNav>
       </div>
     </template>
-    <template v-if="nullPage == 3">
+    <!-- <template v-if="nullPage == 3">
       <div class="nullBox">
+
         <img src="./assets/null/link.png" width="100%" />
+
         <div>{{ msg }}</div>
         <EazyNav type="brand" :isShow="true"></EazyNav>
       </div>
-    </template>
+    </template> -->
 
     <template v-else>
       <Download></Download>
 
-      <!-- <video-player
-        @click.stop
-        class="video-player"
-        :playsinline="playsinline"
-        :options="playerOptions"
-      ></video-player> -->
+      <!-- <aplayer :playerOptions="aOption" muted="muted" /> -->
+      <!-- <vplayer :playerOptions="vOption" muted="muted" /> -->
 
       <!-- 页面缓存, $route.meta.keepAlive默认false -->
       <keep-alive>
@@ -105,12 +103,11 @@ body,
 }
 </style>
 <script>
-import "video.js/dist/video-js.css";
-import "vue-video-player/src/custom-theme.css";
 // aes加密解密
-import CryptoJS from 'crypto-js/crypto-js'
+// import CryptoJS from "crypto-js/crypto-js";
+// 音视频流兼容m3u8
+// import { aplayer, vplayer } from "vue-hls-player";
 
-import axios from "axios";
 // 微信分享，引入sdk
 import wx from "weixin-js-sdk";
 export default {
@@ -119,45 +116,39 @@ export default {
     return {
       nullPage: this.$route.query.nullPage ? this.$route.query.nullPage : 0,
       msg: "",
-      // playsinline: true,
-      // playerOptions: {
-      //   events: [],
-      //   playbackRates: [0.7, 1.0, 1.5, 2.0], // 播放速度
-      //   autoplay: true, // 如果true,浏览器准备好时开始回放。
-      //   controls: true, //  控制条
-      //   preload: "auto", // 视频预加载
-      //   muted: false, //  默认情况下将会消除任何音频。
-      //   loop: false, // 导致视频一结束就重新开始。
-      //   language: "zh-CN",
-      //   controlBar: {
-      //     timeDivider: true,
-      //     durationDisplay: true,
-      //   },
-      //   aspectRatio: "16:9", // 将播放器置于流畅模式，并在计算播放器的动态大小时使用该值。值应该代表一个比例 - 用冒号分隔的两个数字（例如"16:9"或"4:3"）
-      //   fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
-      //   sources: [
-      //     {
-      //       type: "application/x-mpegURL",
-      //       src: "http://file.huoba.dev.zw/test/v1/output.m3u8",
-      //     },
-      //   ],
-      //   hls: true, // 启用hls？
-      //   poster: "", // 你的封面地址
-      //   width: document.documentElement.clientWidth,
-      //   notSupportedMessage: "此视频暂无法播放，请稍后再试", //  允许覆盖Video.js无法播放媒体源时显示的默认信息。
+      // aOption: {
+      //   type: "application/x-mpegURL",
+      //   src: "http://file.huoba.dev.zzy/test/v6/output.m3u8",
+      //   preload: true,
+      //   autoplay: true,
+      //   isLoop: false,
+      //   poster: "https://oimdztrab.qnssl.com/Frp4SyVe5PosdkUKRaE-krjK7B5z",
+      //   title: "音频播放器",
+      //   description: "",
+      //   controls: "progress,durration",
+      // },
+      // vOption: {
+      //   type: "application/x-mpegURL",
+      //   src:
+      //     "http://file.huoba.dev.zw/test/v1/output.m3u8",
+      //   preload: true,
+      //   autoplay: true,
+      //   isLoop: false,
+      //   poster: "https://oimdztrab.qnssl.com/FlRHT5-abdwNVXyBb-sYzUPIihoe",
+      //   playsinline: true,
+      //   title: "视频播放器",
+      //   controls: "progress,durration,volume",
       // },
     };
   },
-  computed: {
-    player() {
-      // return this.$refs.videoPlayer.player; //自定义播放
-    },
-  },
   mounted() {
-    // //hash值获取方式  KlgisfineKJ123@abc是前后台规定的key请改变的时候通知后端开发人员
+
+
+    // console.log("token:", this.$cookies.get("token"));
+
+    //hash值获取方式  KlgisfineKJ123@abc是前后台规定的key请改变的时候通知后端开发人员
     // var key = 'test';
     // var hash = CryptoJS.MD5(key).toString();
-
 
     // //加密
     // var username = "Sebaxtian";
@@ -167,12 +158,17 @@ export default {
     // var mensajeEncriptado = CryptoJS.AES.encrypt(mensajePlano, hash).toString();
     // console.log("Mensaje Encriptado: " + mensajeEncriptado);
 
-
     // //解密
-    // var data =
-    //   "U2FsdGVkX18VPEmp29pSCEntot/n6nMHk7DMk++7b8A=";
+    // var data = "U2FsdGVkX18VPEmp29pSCEntot/n6nMHk7DMk++7b8A=";
     // var plaintext = CryptoJS.AES.decrypt(data, hash);
-    // console.log("解密: " + plaintext.toString(CryptoJS.enc.Utf8), 'hash:', hash);
+    // console.log(
+    //   "解密: " + plaintext.toString(CryptoJS.enc.Utf8),
+    //   "hash:",
+    //   hash
+    // );
+
+
+
 
 
 

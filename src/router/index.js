@@ -88,10 +88,16 @@ import searchdeep from '@/pages/searchDeep'
 import searchonly from '@/pages/searchOnly'
 
 // 专辑
-import album from '@/pages/album/index'
-import albumdetail from '@/pages/album/detail'
-import player from '@/pages/album/player'
-import albumlist from '@/pages/album/list'
+// import album from '@/pages/album/index'
+// import albumdetail from '@/pages/album/detail'
+// import player from '@/pages/album/player'
+// import albumlist from '@/pages/album/list'
+
+// 专辑2.0
+import albumIndex from '@/pages/album2.0/index'
+import albumAudio from '@/pages/album2.0/audio'
+import albumVideo from '@/pages/album2.0/video'
+import albumComment from '@/pages/album2.0/comment'
 
 //电子书
 import ebookreader from '@/pages/ebook/reader'
@@ -802,38 +808,75 @@ export default new Router({
       },
     },
     // 专辑
+    // {
+    //   path: '/album/index',
+    //   name: 'album',
+    //   component: album,
+    //   meta: {
+    //     keepAlive: false,  // false不需要被缓存，true需要缓存
+    //     title: '专辑详情'
+    //   }
+    // },
+    // {
+    //   path: '/album/detail',
+    //   name: 'albumdetail',
+    //   component: albumdetail,
+    //   meta: {
+    //     keepAlive: false,  // false不需要被缓存，true需要缓存
+    //     title: '节目详情'
+    //   },
+    // },
+    // {
+    //   path: '/album/player',
+    //   name: 'player',
+    //   component: player,
+    //   meta: {
+    //     keepAlive: false,  // false不需要被缓存，true需要缓存
+    //     title: '正在播放'
+    //   },
+    // },
+    // {
+    //   path: '/album/list',
+    //   name: 'albumlist',
+    //   component: albumlist
+    // },
+    // 专辑2.0
     {
       path: '/album/index',
       name: 'album',
-      component: album,
+      component: albumIndex,
       meta: {
         keepAlive: false,  // false不需要被缓存，true需要缓存
         title: '专辑详情'
       }
     },
     {
-      path: '/album/detail',
-      name: 'albumdetail',
-      component: albumdetail,
+      path: '/album/audio',
+      name: 'albumAudio',
+      component: albumAudio,
       meta: {
         keepAlive: false,  // false不需要被缓存，true需要缓存
-        title: '节目详情'
-      },
+        title: '音频播放'
+      }
     },
     {
-      path: '/album/player',
-      name: 'player',
-      component: player,
+      path: '/album/video',
+      name: 'albumVideo',
+      component: albumVideo,
       meta: {
         keepAlive: false,  // false不需要被缓存，true需要缓存
-        title: '正在播放'
-      },
+        title: '视频播放'
+      }
     },
     {
-      path: '/album/list',
-      name: 'albumlist',
-      component: albumlist
+      path: '/album/comment',
+      name: 'albumComment',
+      component: albumComment,
+      meta: {
+        keepAlive: false,  // false不需要被缓存，true需要缓存
+      }
     },
+
     //电子书
     {
       path: '/ebook/reader',
@@ -930,7 +973,8 @@ export default new Router({
       meta: {
         keepAlive: false,  // false不需要被缓存，true需要缓存
         title: '我的优惠券',
-        isPath: true
+        requireAuth: true,
+        // isPath: true
       },
     },
     {
