@@ -186,6 +186,10 @@ import questionsPageTwo from '@/pages/gaokaoTest/questionsPageTwo'
 import resultPage from '@/pages/gaokaoTest/resultPage'
 import applet from '@/pages/gaokaoTest/applet'
 
+// 新人礼包
+import newGiftSexAge from '@/pages/newGift/sexAge'
+import newGiftSuccessDraw from '@/pages/newGift/successDraw'
+import newGiftUserGift from '@/pages/newGift/userGift'
 
 Vue.use(Router)
 
@@ -1205,6 +1209,31 @@ export default new Router({
       path: '/gaokaoTest/applet',
       name: 'applet',
       component: applet,
+      meta: {
+        title: '火把知识'
+      }
+    },
+    // 新人礼包
+    {
+      path: '/newGift/sexAge',
+      name: 'newGiftSexAge',
+      component: newGiftSexAge,
+      meta: {
+        title: '火把知识'
+      }
+    },
+    {
+      path: '/newGift/successDraw',
+      name: 'newGiftSuccessDraw',
+      component: newGiftSuccessDraw,
+      meta: {
+        title: '火把知识'
+      }
+    },
+    {
+      path: '/newGift/userGift',
+      name: 'newGiftUserGift',
+      component: newGiftUserGift,
       meta: {
         title: '火把知识'
       }
