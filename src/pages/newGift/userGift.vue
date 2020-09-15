@@ -13,11 +13,23 @@
         <div class="title_2">限量神劵奉上，好书好课随心购</div>
       </div>
       <div class="content_coupon">
-        <div class="couponImg">
-          <div class="bookimg" v-lazy:background-image="ceshi1[0]"></div>
-        </div>
-        <div class="couponImg">
-          <div class="bookimg" v-lazy:background-image="ceshi1[1]"></div>
+        <div class="coupon_img" v-for="(item,index) in ticketsData" :key="index">
+          <div class="toUse">
+            <div class="mid">
+              <div class="price-icon">
+                ￥
+                <span class="price">{{ item.money }}</span>
+              </div>
+              <div class="condition">满{{ item.use_min_money }}元可用</div>
+              <span class="circle top"></span>
+              <span class="circle bottom"></span>
+            </div>
+            <div class="right">
+              <div class="desc_top">{{ item.name }}</div>
+              <div class="desc_bottom">{{ item.end_time_str }}</div>
+            </div>
+            <div class="coupon_title_name">优惠劵</div>
+          </div>
         </div>
       </div>
     </div>
@@ -34,7 +46,8 @@
       </div>
       <div
         :class="[{content: content},{usedBook: item.is_buy == 1}]"
-        v-for="(item,index) in freeData" :key="index"
+        v-for="(item,index) in freeData"
+        :key="index"
         @click="freeClick(item,index)"
       >
         <div class="ratiobook">
@@ -141,15 +154,12 @@
         new_id: 0,
         freeData: [],
         chargeData: [],
+        ticketsData: [],
         free_icon: 100,
         charge_icon: 100,
         repeatclick: 0,
         isLoading: true,
         button_boolean: true,
-        ceshi1: [
-          'http://wap.huoba.dev.zby/static/img/newGift_coupon1.87d4de3.png',
-          'http://wap.huoba.dev.zby/static/img/newGift_coupon2.440de06.png'
-        ]
       };
     },
     mounted () {
@@ -202,6 +212,7 @@
         if (res.hasOwnProperty("response_code")) {
           this.freeData = res.response_data.free;
           this.chargeData = res.response_data.charge;
+          this.ticketsData = res.response_data.tickets;
           this.isLoading = false;
         } else {
           this.$toast(res.error_message);
