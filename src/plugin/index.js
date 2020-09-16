@@ -328,6 +328,7 @@ export default {
             link_data: _linkData,
             params: _params,
             isJump: _isJump,
+            url: localStorage.getItem("routerLink"),
           }));
         }
         // ios
@@ -337,6 +338,7 @@ export default {
             link_data: _linkData,
             params: _params,
             isJump: _isJump,
+            url: localStorage.getItem("routerLink"),
           })
         }
       } else {

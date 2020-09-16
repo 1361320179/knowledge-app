@@ -62,7 +62,7 @@
           <div class="bot">
             <div class="price" v-if="item.sales_price">￥{{item.sales_price.toFixed(2)}}</div>
             <div class="price" v-else>免费</div>
-            <del>￥{{ item.price }}</del>
+            <del>￥{{ item.price.toFixed(2)}}</del>
           </div>
           <span class="used" v-if="item.is_buy == 1">
             <svg aria-hidden="true" class="icon">
@@ -108,7 +108,7 @@
           <div class="bot">
             <div class="price" v-if="item.sales_price">￥{{item.sales_price.toFixed(2)}}</div>
             <div class="price" v-else>免费</div>
-            <del>￥{{ item.price }}</del>
+            <del>￥{{ item.price.toFixed(2) }}</del>
           </div>
           <span class="used" v-if="item.is_buy == 1">
             <svg aria-hidden="true" class="icon">
