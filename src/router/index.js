@@ -196,6 +196,7 @@ import applet from '@/pages/gaokaoTest/applet'
 import newGiftSexAge from '@/pages/newGift/sexAge'
 import newGiftSuccessDraw from '@/pages/newGift/successDraw'
 import newGiftUserGift from '@/pages/newGift/userGift'
+import blankPage from '@/pages/newGift/blankPage'
 
 Vue.use(Router)
 
@@ -1278,6 +1279,14 @@ export default new Router({
       path: '/newGift/userGift',
       name: 'newGiftUserGift',
       component: newGiftUserGift,
+      meta: {
+        title: '火把知识'
+      }
+    },
+    {
+      path: '/newGift/blankPage',
+      name: 'blankPage',
+      component: blankPage,
       meta: {
         title: '火把知识'
       }
