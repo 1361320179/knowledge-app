@@ -120,7 +120,7 @@
             this.programLoading = false;
             this.page++;
             // 数据全部加载完成
-            if (this.page > res.response_data.total_page) {
+            if (this.page > res.response_data.total_page || this.page > 5) {
               this.programFinished = true;
               this.page = 1;
             } else {

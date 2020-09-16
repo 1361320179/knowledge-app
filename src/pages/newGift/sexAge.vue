@@ -33,7 +33,10 @@
       </div>
     </div>
     <div class="next_page" @click="saveUrl1()" v-if="sexLink">继续</div>
-    <div class="next_page" @click="saveUrl2()" v-else>继续</div>
+    <div v-else>
+      <div class="next_page active" @click="saveUrl2()" v-if="skip_next">继续</div>
+      <div class="next_page" @click="saveUrl3()" v-else>继续</div>
+    </div>
     <EazyNav type="brand" :isShow="true"></EazyNav>
     <!--通用弹窗-->
     <PublicPopup></PublicPopup>
@@ -58,8 +61,9 @@
         man_text: true,
         men_text: false,
         men_light: false,
+        skip_next: true,
         sexLink: true,
-        active1: '95后',
+        active1: '',
         ageData: [],
         linkNum: 0,
         selectedItem: [],
@@ -134,7 +138,10 @@
         }
       },
       saveUrl2 () {
-        this.sendUrl()
+        this.$toast('请选择标签');
+      },
+      saveUrl3 () {
+        this.sendUrl();
       },
       // 年龄选择
       ageClick (name) {
@@ -154,6 +161,7 @@
         } else if (this.selectedItem.length >= 3) {
           this.$toast('最多选择3个');
         }
+        this.skip_next = false;
         this.linkNum = this.selectedItem.length;
         this.labelStr = this.selectedItem.join(',');
       },
@@ -169,7 +177,24 @@
         if (res.hasOwnProperty("response_code")) {
           this.ageData = res.response_data.age;
           var datas = res.response_data.label;
+          var user_info = res.response_data.user_info;
           this.labelData = [];
+          if (user_info.age == '') {
+            this.active1 = '95后';
+          } else {
+            this.active1 = user_info.age;
+          }
+          if (user_info.sex == '' || user_info.sex == '男') {
+            this.man_light = true;
+            this.man_text = true;
+            this.men_text = false;
+            this.men_light = false;
+          } else if (user_info.sex == '女') {
+            this.man_light = false;
+            this.man_text = false;
+            this.men_text = true;
+            this.men_light = true;
+          }
           for (var i = 0; i < datas.length; i++ ) {
             this.labelData.push({
               name: datas[i],
