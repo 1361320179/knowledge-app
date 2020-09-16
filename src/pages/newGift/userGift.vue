@@ -239,9 +239,20 @@
           });
           this.repeatclick = 0;
         } else {
-          this.$toast(res.error_message);
+          if (res.error_code === 100) {
+            this.$toast(res.error_message);
+            this.login();
+          } else {
+            this.$toast(res.error_message);
+          }
           this.repeatclick = 0;
         }
+      },
+      // 登陆
+      login () {
+        this.$router.push({
+          name: "login"
+        });
       },
     }
   };

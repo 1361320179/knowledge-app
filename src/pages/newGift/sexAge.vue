@@ -177,7 +177,12 @@
             });
           }
         } else {
-          this.$toast(res.error_message);
+          if (res.error_code === 100) {
+            this.$toast(res.error_message);
+            this.login();
+          } else {
+            this.$toast(res.error_message);
+          }
         }
       },
       // 传输接口
@@ -202,6 +207,12 @@
         } else {
           this.$toast(res.error_message);
         }
+      },
+      // 登陆
+      login () {
+        this.$router.push({
+          name: "login"
+        });
       },
     }
   };

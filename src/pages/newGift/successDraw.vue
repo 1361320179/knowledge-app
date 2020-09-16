@@ -129,7 +129,12 @@
           }, 1);
           this.isLoading = false;
         } else {
-          this.$toast(res.error_message);
+          if (res.error_code === 100) {
+            this.$toast(res.error_message);
+            this.login();
+          } else {
+            this.$toast(res.error_message);
+          }
         }
       },
       // 专辑跳转
@@ -188,6 +193,12 @@
         this.$router.push({
           name: "orderlist",
           query: {}
+        });
+      },
+      // 登陆
+      login () {
+        this.$router.push({
+          name: "login"
         });
       },
     }
