@@ -318,7 +318,28 @@ router.beforeEach((to, from, next) => {
       next()
       // 微信端，将参数nullPage屏蔽
       // 非微信端，不用屏蔽nullPage
-      if (i == 'nullPage') {
+      if (to.query.nullPage == 1) {
+        _bool = false;
+        next()
+      }
+      next()
+    }
+    next()
+    if(localStorage.getItem('isHuobaAndroidLogin') == 'yes' || localStorage.getItem('isHuobaIosLogin') == 'yes') {
+      next()
+      // 当前app环境，将参数nullPage屏蔽
+      if (to.query.nullPage == 2) {
+        _bool = false;
+        next()
+      }
+      next()
+    }
+    next()
+    if(localStorage.getItem('loginState') == 1) {
+      next()
+      // 已登录，将参数nullPage屏蔽
+      // 未登录，不用屏蔽nullPage
+      if (to.query.nullPage == 3) {
         _bool = false;
         next()
       }
@@ -451,7 +472,7 @@ router.beforeEach((to, from, next) => {
   }
   // 需要记录路径的中间页
   if(to.meta.isPath) {
-    if (localStorage.getItem("isHuobaIosLogin") == "no" && localStorage.getItem("isHuobaAndroidLogin") == "no") {
+    if (localStorage.getItem("isHuobaIosLogin") == "no" && localStorage.getItem("isHuobaAndroidLogin") == "no" && localStorage.getItem('loginState') == 0) {
       next();
       if (replaceUrl.indexOf("nullPage") == -1) {
         next();

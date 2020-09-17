@@ -129,12 +129,7 @@
           }, 1);
           this.isLoading = false;
         } else {
-          if (res.error_code === 100) {
-            this.$toast(res.error_message);
-            this.login();
-          } else {
-            this.$toast(res.error_message);
-          }
+          this.$toast(res.error_message);
         }
       },
       // 专辑跳转

@@ -173,7 +173,7 @@
           return;
         }
         this.free_icon = index;
-        this.album_id = item.goods_id;
+        this.cur_id = item.goods_id;
         this.button_click();
       },
       // 三重礼点击
@@ -182,7 +182,7 @@
           return;
         }
         this.charge_icon = index;
-        this.cur_id = item.goods_id;
+        this.album_id = item.goods_id;
         this.button_click();
       },
       // 领取新人礼包按钮
@@ -239,12 +239,7 @@
           });
           this.repeatclick = 0;
         } else {
-          if (res.error_code === 100) {
-            this.$toast(res.error_message);
-            this.login();
-          } else {
-            this.$toast(res.error_message);
-          }
+          this.$toast(res.error_message);
           this.repeatclick = 0;
         }
       },
