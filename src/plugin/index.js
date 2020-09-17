@@ -244,7 +244,7 @@ export default {
       // 在微信端
       if (this.isWxLogin ||
         localStorage.getItem("isHuobaIosLogin") == "yes" ||
-        localStorage.getItem("isHuobaAndroidLogin") == "yes" || true) {
+        localStorage.getItem("isHuobaAndroidLogin") == "yes") {
         let _href = window.location.href.split('#')[1];
         let _name = _href.split('?')[0].toLowerCase();
         let _params = this.$getPageParams(_name);
@@ -328,7 +328,7 @@ export default {
             link_data: _linkData,
             params: _params,
             isJump: _isJump,
-            last_url: localStorage.getItem("routerLink"),
+            // last_url: localStorage.getItem("routerLink"),
           }));
         }
         // ios
@@ -338,13 +338,39 @@ export default {
             link_data: _linkData,
             params: _params,
             isJump: _isJump,
-            last_url: localStorage.getItem("routerLink"),
+            // last_url: localStorage.getItem("routerLink"),
           })
         }
       } else {
         this.$toast(res.error_message);
       }
     }
+
+    // webview需要登錄但未登陆的页面调app的登陆流程
+    Vue.prototype.$gotoAppLogin = async function (name) {
+        // 进入安卓登陆流程
+        if (localStorage.getItem("isHuobaAndroidLogin") == "yes") {
+          window.JSWEB.RequestNative(JSON.stringify({
+            last_url: localStorage.getItem("routerLink"),
+          }));
+        }
+        // 进入ios登陆流程
+        else if (localStorage.getItem("isHuobaIosLogin") == "yes") {
+          window.webkit.messageHandlers.shareAndJump.postMessage({
+            last_url: localStorage.getItem("routerLink"),
+          })
+        }
+        else {
+          if(name == '/newGift/sexAge') {
+            // 引导进入web端登陆
+            this.$router.push({
+              name: "login"
+            });
+          }
+        }
+
+    }
+
     // 跳转App链接，微信端引导跳转app下载
     Vue.prototype.$linkToApp = function () {
       var u = navigator.userAgent,

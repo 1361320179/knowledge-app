@@ -38,13 +38,18 @@
       <div class="next_page" @click="saveUrl3()" v-else>继续</div>
     </div>
     <EazyNav type="brand" :isShow="true"></EazyNav>
+    <Loading :isLoading="isLoading"></Loading>
     <!--通用弹窗-->
     <PublicPopup></PublicPopup>
   </div>
 </template>
 <style src="@/style/scss/pages/newGift/sexAge.scss" scoped lang="scss"></style>
-<style lang="scss">
-  #newGiftSexAge {}
+<style lang="scss" scoped>
+  #newGiftSexAge {
+    #loadingPage {
+      background-color: #ffffff;
+    }
+  }
 </style>
 <script>
   import {
@@ -63,6 +68,7 @@
         men_light: false,
         skip_next: true,
         sexLink: true,
+        isLoading: true,
         active1: '',
         ageData: [],
         linkNum: 0,
@@ -178,6 +184,7 @@
           this.ageData = res.response_data.age;
           var datas = res.response_data.label;
           var user_info = res.response_data.user_info;
+          var is_new = res.response_data.is_new;
           this.labelData = [];
           if (user_info.age == '') {
             this.active1 = '95后';
@@ -201,7 +208,13 @@
               selected: false
             });
           }
+          if (is_new != 1) {
+            window.location.href = res.response_data.url;
+          } else {
+            this.isLoading = false;
+          }
         } else {
+          this.isLoading = false;
           this.$toast(res.error_message);
         }
       },

@@ -208,7 +208,12 @@ export default {
   mounted() {
     // 获取分享信息
     this.$getWxShareData();
-
+    // webview需要登錄但未登陆的页面调app的登陆流程
+    // nullPage == 3 && 获取当前路劲 _path(routerlink)
+    var routerLink = localStorage.getItem('routerLink');
+    if (routerLink.indexOf('nullPage=3') != -1 && routerLink.indexOf('/newGift/sexAge') != -1) {
+      this.$gotoAppLogin('/newGift/sexAge');
+    }
     this.home_id = localStorage.getItem("home_id");
     if (this.type === undefined) {
       this.type = this.navData.type;
