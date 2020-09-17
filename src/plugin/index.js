@@ -252,7 +252,6 @@ export default {
 
         this.page_name = _pageName;
         this.params = _params;
-
         if (!_pageName || _pageName == '' || !_params || _params == '') {
           return;
         }
@@ -328,7 +327,6 @@ export default {
             link_data: _linkData,
             params: _params,
             isJump: _isJump,
-            // last_url: localStorage.getItem("routerLink"),
           }));
         }
         // ios
@@ -338,7 +336,6 @@ export default {
             link_data: _linkData,
             params: _params,
             isJump: _isJump,
-            // last_url: localStorage.getItem("routerLink"),
           })
         }
       } else {
@@ -351,13 +348,23 @@ export default {
         // 进入安卓登陆流程
         if (localStorage.getItem("isHuobaAndroidLogin") == "yes") {
           window.JSWEB.RequestNative(JSON.stringify({
-            last_url: localStorage.getItem("routerLink"),
+            share_info: {},
+            link_data: {},
+            params: {
+              'last_url' : localStorage.getItem("routerLink"),
+            },
+            isJump: 0,
           }));
         }
         // 进入ios登陆流程
         else if (localStorage.getItem("isHuobaIosLogin") == "yes") {
           window.webkit.messageHandlers.shareAndJump.postMessage({
-            last_url: localStorage.getItem("routerLink"),
+            share_info: {},
+            link_data: {},
+            params: {
+              'last_url' : localStorage.getItem("routerLink"),
+            },
+            isJump: 0,
           })
         }
         else {
