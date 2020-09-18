@@ -22,7 +22,7 @@
       <img :src="bannerInfo.pic">
     </section>
     <!--知识讲义-->
-    <section class="knowledge" v-if="baseData.desc">
+    <section class="knowledge" v-if="baseData.media_content">
       <h3 class="title">知识讲义</h3>
       <div class="unfold"  v-show="(baseData.is_payed == 1 || isFree == 1) && foldState == 1">
         展开
@@ -38,13 +38,13 @@
       </div>
       <div class="content">
         <div class="text normal" v-show="(baseData.is_payed == 1 || isFree == 1) && foldState == 0">
-          <p v-html="baseData.desc"></p>
+          <p v-html="baseData.media_content"></p>
         </div>
         <div class="text foldText" v-show="(baseData.is_payed == 1 || isFree == 1) && foldState == 1">
-        <p v-html="baseData.desc"></p>
+        <p v-html="baseData.media_content"></p>
         </div>
         <div class="text unbought" v-show="baseData.is_payed == 0 && isFree == 0">
-          <p v-html="baseData.desc"></p>
+          <p v-html="baseData.media_content"></p>
         </div>
         <div class="info" v-if="baseData.is_payed == 0 && isFree == 0">***购买后解锁完整讲义***</div>
       </div>

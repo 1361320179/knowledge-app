@@ -1424,13 +1424,13 @@
             this.discussData[index].is_like = 1;
             this.discussData[index].is_dislike = 0;
             this.discussData[index].praise_num += 1;
-            this.discussData[index].dislike_num -= 1;
+            this.discussData[index].dislike_num > 0 ? this.discussData[index].dislike_num -= 1 : 0;
           } else if (state == 'up' && this.discussData[index].is_dislike == 0) {
             this.discussData[index].is_like = 1;
             this.discussData[index].praise_num += 1;
           } else if (state == 'cancelUp') {
             this.discussData[index].is_like = 0;
-            this.discussData[index].praise_num -= 1;
+            this.discussData[index].praise_num > 0 ? this.discussData[index].praise_num -= 1 : 0;
           }
         } else {
           // this.$toast(res.error_message);
@@ -1476,13 +1476,13 @@
             this.discussData[index].is_dislike = 1;
             this.discussData[index].is_like = 0;
             this.discussData[index].dislike_num += 1;
-            this.discussData[index].praise_num -= 1;
+            this.discussData[index].praise_num > 0 ? this.discussData[index].praise_num -= 1 : 0;
           } else if (state == 'down' && this.discussData[index].is_like == 0) {
             this.discussData[index].is_dislike = 1;
             this.discussData[index].dislike_num += 1;
           } else if (state == 'cancelDown') {
             this.discussData[index].is_dislike = 0;
-            this.discussData[index].dislike_num -= 1;
+            this.discussData[index].dislike_num > 0 ? this.discussData[index].dislike_num -= 1 : 0;
           }
         } else {
           // this.$toast(res.error_message);

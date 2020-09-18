@@ -92,7 +92,7 @@
         flex-basis: 30px;
         margin-top: 5px;
         margin-right: 10px;
-        padding: 2px 4px;
+        padding: 1px 2px;
         height: 15px;
         line-height: 15px;
         vertical-align: top;
@@ -101,11 +101,12 @@
         font-family: PingFang SC;
         font-weight: 500;
         color: #F05654;
-        border: 0.5px solid #F05654;
+        border: 1px solid #F05654;
         border-radius: 3px;
       }
       .carousel {
         overflow: hidden;
+        max-width: 70vw;
         display: inline-block;
         height: 30px;
         line-height: 30px;
@@ -130,7 +131,7 @@
       }
       .title {
         @include textOverflow();
-        max-width: 70vw;
+        max-width: 60vw;
         display: inline-block;
         height: 30px;
         line-height: 30px;

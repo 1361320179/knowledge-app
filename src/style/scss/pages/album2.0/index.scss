@@ -195,7 +195,7 @@
           font-family: PingFang SC;
           font-weight: 500;
           color: #F05654;
-          border: 0.5px solid #F05654;
+          border: 1px solid #F05654;
           border-radius: 3px;
         }
         .carousel {
@@ -310,6 +310,7 @@
           width: 60px;
           height: 27px;
           position: absolute;
+          z-index: 10;
           top: 10px;
           right: 15px;
           background: linear-gradient(90deg, rgba(241, 88, 86, 1), rgba(252, 128, 128, 1));
@@ -518,7 +519,7 @@
   }
   .getCoupon {
     width: 100%;
-    max-width: 100%;
+    max-width: 640px;
     position: fixed;
     //z-index: 10;
     bottom: 59px;
