@@ -170,6 +170,9 @@
         this.skip_next = false;
         this.linkNum = this.selectedItem.length;
         this.labelStr = this.selectedItem.join(',');
+        if (this.selectedItem.length == 0) {
+          this.skip_next = true;
+        }
       },
       // 初始化接口
       async initData () {

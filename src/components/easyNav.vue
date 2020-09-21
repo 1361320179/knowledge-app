@@ -202,18 +202,10 @@ export default {
         loginLink: "/login/index",
         goods_nums: 0
       },
-      is_Login: null
+      is_Login: null,
     };
   },
   mounted() {
-    // 获取分享信息
-    this.$getWxShareData();
-    // webview需要登錄但未登陆的页面调app的登陆流程
-    // nullPage == 3 && 获取当前路劲 _path(routerlink)
-    var routerLink = localStorage.getItem('routerLink');
-    if (routerLink.indexOf('nullPage=3') != -1 && routerLink.indexOf('/newGift/sexAge') != -1) {
-      this.$gotoAppLogin('/newGift/sexAge');
-    }
     this.home_id = localStorage.getItem("home_id");
     if (this.type === undefined) {
       this.type = this.navData.type;
@@ -253,17 +245,35 @@ export default {
       };
       data.sign = this.$getSign(data);
       let res = await USER_HOMEPAGE(data);
-
       if (res.hasOwnProperty("response_code")) {
         if (res.response_data.hasOwnProperty("is_login")) {
           this.is_Login = res.response_data.is_login;
           localStorage.setItem("loginState", res.response_data.is_login);
+          if (res.response_data.is_login == 1) {
+            this.cartData();
+            // 获取分享信息
+            this.$getWxShareData();
+          } else {
+            // webview需要登錄但未登陆的页面调app的登陆流程
+            // nullPage == 3 && 获取当前路劲 _path(routerlink)
+            var routerLink = localStorage.getItem('routerLink');
+            var last_url = routerLink.replace('nullPage=3', "");
+            if (routerLink.indexOf('/newGift/sexAge') != -1) {
+              this.$gotoAppLogin(last_url);
+            } else {
+              // 获取分享信息
+              this.$getWxShareData();
+            }
+          }
         }
-        if (res.response_data.is_login == 1) {
-          this.cartData();
-        }
+
+
+
       } else {
+        // 获取分享信息
+        this.$getWxShareData();
         localStorage.setItem("loginState", 0);
+
         this.$toast(res.error_message);
       }
     },

@@ -252,7 +252,9 @@ export default {
 
         this.page_name = _pageName;
         this.params = _params;
-        if (!_pageName || _pageName == '' || !_params || _params == '') {
+
+        // 新人礼不执行调起app传递分享等信息
+        if (!_pageName || _pageName == '' || !_params || _params == '' || _pageName == "" || _pageName == "/newgift/sexage") {
           return;
         }
 
@@ -344,31 +346,35 @@ export default {
     }
 
     // webview需要登錄但未登陆的页面调app的登陆流程
-    Vue.prototype.$gotoAppLogin = async function (name) {
+    Vue.prototype.$gotoAppLogin = async function (routerLink) {
         // 进入安卓登陆流程
+        var last_url = localStorage.getItem('routerLink');
+      last_url = last_url.replace('?nullPage=3', "");
+        last_url = last_url.replace('&nullPage=3', "");
         if (localStorage.getItem("isHuobaAndroidLogin") == "yes") {
+          if (last_url.indexOf("?") == -1) {
+            last_url += '?isLoginFromApp=1';
+          } else {
+            last_url += '&isLoginFromApp=1';
+          }
           window.JSWEB.RequestNative(JSON.stringify({
-            share_info: {},
-            link_data: {},
-            params: {
-              'last_url' : localStorage.getItem("routerLink"),
-            },
-            isJump: 0,
+            last_url: last_url
           }));
         }
         // 进入ios登陆流程
         else if (localStorage.getItem("isHuobaIosLogin") == "yes") {
+          last_url += 'isLoginFromApp=1';
+          if (last_url.indexOf("?") == -1) {
+            last_url += '?isLoginFromApp=1';
+          } else {
+            last_url += '&isLoginFromApp=1';
+          }
           window.webkit.messageHandlers.shareAndJump.postMessage({
-            share_info: {},
-            link_data: {},
-            params: {
-              'last_url' : localStorage.getItem("routerLink"),
-            },
-            isJump: 0,
+            last_url: last_url
           })
         }
         else {
-          if(name == '/newGift/sexAge') {
+          if(routerLink.indexOf('/newGift/sexAge') != -1) {
             // 引导进入web端登陆
             this.$router.push({
               name: "login"
