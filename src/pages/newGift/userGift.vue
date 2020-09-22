@@ -271,12 +271,6 @@
           this.repeatclick = 0;
         }
       },
-      // 登陆
-      login () {
-        this.$router.push({
-          name: "login"
-        });
-      },
     }
   };
 </script>
