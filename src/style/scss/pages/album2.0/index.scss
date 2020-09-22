@@ -116,6 +116,14 @@
         padding-left: 15px;
         font-size: 0;
       }
+      & .limited {
+        margin-left: 10px;
+        font-size: 13px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #999;
+      }
+
       & .bought {
         display: inline-block;
         width: 30px;

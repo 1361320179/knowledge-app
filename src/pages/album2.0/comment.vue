@@ -117,7 +117,10 @@
         commentPage: 1,
         totalCount: "评论 (" + 0 + ")",
         contentModel: '', // 评论内容
-
+        /*
+        * ----------------------------------限时免费----------------------------------
+        */
+        limitUse: {},
       }
     },
     methods: {
@@ -138,8 +141,8 @@
           // this.album_info = res.response_data.album_info;
           // 当前商品基础信息
           this.baseData = res.response_data.base;
-          // 账号信息，是否登录
-          this.isLogin = res.response_data.user_info.is_login;
+          // 限时免费
+          this.limitUse = res.response_data.activity.limituse;
           if (this.autofocus == 1) {
             this.editComment();
           }
@@ -151,7 +154,7 @@
         // 未登录跳转至登录页
         if (this.isLogin == 0) {  // 未登录
           this.informLoginShow = true;
-        } else if (this.baseData.is_payed == 0 && this.baseData.is_free == 0) { //  不免费且未购买
+        } else if (this.baseData.is_payed == 0 && this.baseData.is_free == 0 && JSON.stringify(this.limitUse) == '{}') { //  不免费且未购买 + 不限免
           this.informBuyShow = true;
         } else {
           this.commentShow = true;
@@ -359,6 +362,8 @@
       this.goods_id = parseInt(this.$route.query.goods_id);
       this.pid = parseInt(this.$route.query.pid);
       this.autofocus = parseInt(this.$route.query.autofocus);
+      // 账号信息，是否登录
+      this.isLogin = localStorage.getItem('loginState');
       this.albumData();
     }
   }

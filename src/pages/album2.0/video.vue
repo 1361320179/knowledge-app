@@ -2,13 +2,13 @@
   <div id="videoPage">
     <div class="videoBox" @contextmenu.prevent="menuPlayer()">
       <div class="filter"
-           v-if="(baseData.is_payed == 0 && albumBase.is_free == 0 && baseData.is_free == 0) || baseData.goods_type == 1"
+           v-if="(baseData.is_payed == 0 && albumBase.is_free == 0 && baseData.is_free == 0 && JSON.stringify(limitUse) == '{}') || baseData.goods_type == 1"
            :style="{backgroundImage: 'url(' + baseData.pic[0] + ')',backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}">
         <div class="shadow"></div>
       </div>
       <video
         id="myVideo"
-        v-if="(baseData.is_payed == 1 || baseData.is_free == 1) && baseData.goods_type == 2"
+        v-if="(baseData.is_payed == 1 || baseData.is_free == 1 || JSON.stringify(limitUse) != '{}') && baseData.goods_type == 2"
         autoplay
         @play="videoPlay"
         @pause="videoPause"
@@ -24,7 +24,7 @@
         <!--<span class="info">试看中</span>-->
         <!--<span class="action" @click="buyAction(pid)">购买此专辑</span>-->
       <!--</div>-->
-      <div class="center" v-if="baseData.is_payed == 0 && albumBase.is_free == 0 && baseData.is_free == 0">
+      <div class="center" v-if="baseData.is_payed == 0 && albumBase.is_free == 0 && baseData.is_free == 0 && JSON.stringify(limitUse) == '{}'">
         <span class="info" v-if="baseData.is_free == 0" >购买后即可播放完整专辑</span>
         <span class="action" v-if="albumBase.single_activity_id"  @click="buyAction(pid)">限时促销价 ￥{{albumBase.price}}</span>
         <span class="action" v-if="JSON.stringify(recommendTicket) != '{}'"  @click="buyAction(pid)">券后价 ￥{{recommendTicket.after_use_ticket_money}}</span>
@@ -105,6 +105,7 @@
       :albumInfo="albumBase"
       :goodsNo="goods_no"
       :audioStatus="!playStatus"
+      :limitUse="limitUse"
       @programChange="changeVideo"
       ref="controlList"
     ></audioList>
@@ -177,7 +178,8 @@
           //   }
           // }
         },
-        counter: '' // 评论数
+        counter: '', // 评论数
+        limitUse: {} // 限时免费
       }
     },
     methods: {
@@ -245,9 +247,9 @@
           // console.log('baseData',this.baseData);
           // 公号信息
           this.brandInfoData = res.response_data.brand_info;
-          // 账号信息，是否登录
-          this.isLogin = res.response_data.user_info.is_login;
 
+          // 限时免费
+          this.limitUse = res.response_data.activity.limituse;
 
           // console.log(7474,$('.van-goods-action-big-btn .van-button__text'))
 
@@ -344,7 +346,7 @@
           // this.baseData.goods_type = 1;
           this.videoPath = "";
           // this.$toast('音频');
-        } else if (program.goods_type == 2 && (this.baseData.is_free == 1 || this.baseData.is_payed == 1)) {
+        } else if (program.goods_type == 2 && (this.baseData.is_free == 1 || this.baseData.is_payed == 1 || JSON.stringify(this.limitUse) != '{}')) {
           // this.baseData.goods_type = 2;
           this.videoPath = program.file_path;
         }
@@ -425,6 +427,8 @@
           : this.$route.query.pid;
       this.goods_id = this.$route.query.goods_id;
       this.goods_no = this.$route.query.goods_no;
+      // 账号信息，是否登录
+      this.isLogin = localStorage.getItem('loginState');
 
       this.wholeAlbum();
       this.albumData().then(() => {

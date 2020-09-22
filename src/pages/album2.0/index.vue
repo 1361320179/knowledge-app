@@ -81,9 +81,15 @@
               </div>
               <div class="programContent">
                 <div class="header">
-                  <span class="bought" v-if="baseData.is_payed == 1">已购</span>
-                  <span class="bought" v-if="baseData.is_free == 1">免费</span>
                   <span class="total">共{{ programTotalCount }}集</span>
+                  <template v-if="JSON.stringify(limitUse) != '{}'">
+                    <span class="limited" v-if="limitInfo.exceedThree">{{limitUse.dead_str}}</span>
+                    <span class="limited" v-else>剩余收听时间: {{countDown}}</span>
+                  </template>
+                  <template v-else>
+                    <span class="bought" v-if="baseData.is_payed == 1">已购</span>
+                    <span class="bought" v-if="baseData.is_free == 1">免费</span>
+                  </template>
                   <span class="play">
                       <div
                         class="tag"
@@ -131,8 +137,11 @@
                   </div>
                   <div class="center">
                     <div class="flexBox">
-                      <div class="label" v-if="item.goods_type == 1 && item.is_free == 1 && baseData.is_payed == 0 && baseData.is_free == 0">试听</div>
-                      <div class="label" v-if="item.goods_type == 2 && item.is_free == 1 && baseData.is_payed == 0 && baseData.is_free == 0">试看</div>
+                      <div class="label" v-if="JSON.stringify(limitUse) != '{}'">限免</div>
+                      <template v-else>
+                        <div class="label" v-if="item.goods_type == 1 && item.is_free == 1 && baseData.is_payed == 0 && baseData.is_free == 0">试听</div>
+                        <div class="label" v-if="item.goods_type == 2 && item.is_free == 1 && baseData.is_payed == 0 && baseData.is_free == 0">试看</div>
+                      </template>
                       <div class="carousel" v-if="activeGoodNo == item.goods_no && audioPlaying">
                         <span class="title">{{ item.title }}</span>
                       </div>
@@ -507,6 +516,12 @@
         tabModel: 0,
         activeKey: 0,
         /*
+        * ----------------------------------限时免费----------------------------------
+        */
+        limitUse: {},
+        limitInfo: {},
+        countDown: '',
+        /*
          * ----------------------------------介绍----------------------------------
          */
         // 基础信息
@@ -635,6 +650,33 @@
           }
         });
       },
+
+      // --------------------------------限时免费----------------------------------
+      handleTime() {
+        console.log('handleTime');
+        let time = this.limitUse.dead_time;
+        // let time = 10;
+        if (time/3600 > 72) {
+          this.limitInfo.exceedThree = true;
+        } else {
+          clearInterval(this.timer);
+          this.limitInfo.exceedThree = false;
+          let formatTime = this.$formatTime(time);
+          this.countDown = formatTime;
+
+          // 处理倒计时
+           this.timer = setInterval(() => {
+            if (time > 0) {
+              time--;
+              let formatTime = this.$formatTime(time);
+              this.countDown = formatTime;
+              // console.log('1',this.countDown);
+            } else {
+              window.location.reload();
+            }
+          }, 1000);
+        }
+      },
       // --------------------------------专辑信息----------------------------------
       // 获取专辑接口信息
       async albumData() {
@@ -653,47 +695,20 @@
           // console.log(this.baseData);
           // 所属媒体信息
           this.brandInfoData = res.response_data.brand_info;
-          // 登录状态
-          this.isLogin = res.response_data.user_info.is_login;
           // title
           document.title = "节目详情-" + res.response_data.base.title;
           // 优惠券
           this.couponInfo = res.response_data.activity;
           // 推荐用券
           this.recommendTicket = res.response_data.recommend_ticket;
+          // 限时免费
+          this.limitUse = res.response_data.activity.limituse;
           this.onsale = 1;
 
-          //   if (
-          //     this.couponInfo.groupbuy &&
-          //     Object.keys(this.couponInfo.groupbuy).length > 0 &&
-          //     this.couponInfo.groupbuy.open_list.length > 0
-          //   ) {
-          //     if (this.couponInfo.groupbuy.open_list.length > 2) {
-          //       this.couponInfo.groupbuy.open_list = this.couponInfo.groupbuy.open_list.slice(
-          //         0,
-          //         2
-          //       );
-          //     }
-          //     for (var i = 0; i < this.couponInfo.groupbuy.open_list.length; i++) {
-          //       this.remain_time.push({
-          //         time: this.couponInfo.groupbuy.open_list[i].remain_time,
-          //         date: ""
-          //       });
-          //       this.$timeCountDown(this.remain_time[i]);
-          //     }
-          //   }
-          //   // 获取页面分享信息
-          //   // if (this.isWxLogin) this.wxShareData();
-          //   // var _pageName = "goods/detail";
-          //   // var _params = JSON.stringify({ goods_id: this.$route.query.goods_id });
-          //   // if (this.isWxLogin) this.$getWxShareData(_pageName, _params);
-          //
-          //   // 是否显示底部购买按钮
-          //   this.showBuyButton = !(
-          //     this.baseData.is_free == 0 &&
-          //     this.baseData.is_payed == 0 &&
-          //     this.baseData.sale_style == 1
-          //   );
+          // 处理限时免费时间
+          if (JSON.stringify(this.limitUse) != '{}' && this.limitUse.dead_time > 0) {
+            this.handleTime();
+          }
         } else {
           if (res.hasOwnProperty("error_code") && res.error_code == 401) {
             // 上下架状态, 1=> 在架, 0=> 下架
@@ -891,7 +906,8 @@
             eval(type1 + type2 + type3) > 1 ||
             (this.baseData.is_free == 0 &&
               this.baseData.is_payed == 0 &&
-              this.baseData.sale_style == 1)
+              this.baseData.sale_style == 1 &&
+              JSON.stringify(this.limitUse) == '{}')
           ) {
             this.autoPlay = false;
           } else {
@@ -1235,7 +1251,7 @@
       // 全部播放
       allAction() {
         // console.log('click');
-        if (this.baseData.is_free == 0 && this.baseData.is_payed == 0) {
+        if (this.baseData.is_free == 0 && this.baseData.is_payed == 0 && JSON.stringify(this.limitUse) == '{}') {
           this.$toast("专辑收费~");
           return;
         }
@@ -1284,7 +1300,7 @@
         // 未登录跳转至登录页
         if (this.isLogin == 0) {  // 未登录
           this.informLoginShow = true;
-        } else if (this.baseData.is_payed == 0 && this.baseData.is_free == 0) { //  不免费且未购买
+        } else if (this.baseData.is_payed == 0 && this.baseData.is_free == 0 && JSON.stringify(this.limitUse) == '{}') { //  不免费且未购买 + 不限免
           this.informBuyShow = true;
         } else {
           this.commentShow = true;
@@ -1655,6 +1671,8 @@
     },
     mounted() {
       this.baseData.goods_id = parseInt(this.$route.query.goods_id);
+      // 账号信息，是否登录
+      this.isLogin = localStorage.getItem('loginState');
       // 当前页接口信息
       this.albumData();
       this.commentCounter();

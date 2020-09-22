@@ -85,6 +85,7 @@ import {
   PasswordInput, NumberKeyboard,
   Loading,
   Pagination, RadioGroup, Radio, Picker,
+  // CountDown
 } from 'vant'
 
 Vue.use(download)
@@ -130,6 +131,7 @@ Vue.use(Loading)
 Vue.use(RadioGroup)
 Vue.use(Radio)
 Vue.use(Picker)
+// Vue.use(CountDown)
 
 // 插件
 Vue.use(plugin)
