@@ -32,7 +32,10 @@ export const REDEEM_ITEM_POST = query => req('post', '/activity/redeem/detail', 
 
 // 兑换物品（实物/虚拟/优惠券）详情
 
-export const REDEEM_LINK = query => req('post', '/activity/redeem/codecheck', query)
+export const REDEEM_CHECK = query => req('post', '/activity/redeem/codecheck', query)
 
 
 export const REDEEM_EXCHANGE = query => req('post', '/activity/redeem/exchange', query)
+
+
+export const REDEEM_RECOMMEND = query => req('post', '/user/goods/recommend', query)

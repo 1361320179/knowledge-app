@@ -143,7 +143,7 @@
                   <use xlink:href="#icon-uncheck-line" style="color:#E5E5E5;" />
                 </svg>
               </div>
- 
+
               <div
                 v-else
                 class="default"
@@ -259,7 +259,7 @@ export default {
       is_default: "0",
       is_owned: "1",
       secShare: "",
-      coupons_length:"",
+      coupons_length: "",
       has_link_s: "",
       disabled_true: "true",
       disabled_false: "false",
@@ -307,16 +307,17 @@ export default {
       } else if (localStorage.getItem("originLink")) {
         this.referer = localStorage.getItem("originLink");
       }
+      var tStamp = this.$getTimeStamp();
       let data = {
         code: this.code,
         redeem_id: this.redeem,
-        access: 1,
-        encrypt: 1,
+        timestamp: tStamp,
         referer: this.referer,
         is_captcha: 1,
         version: "1.1",
       };
       // console.log(data);
+      data.sign = this.$getSign(data);
       let res = await REDEEM_ITEM_POST(data);
 
       // console.log(res);
@@ -344,6 +345,7 @@ export default {
           case "此活动已结束":
           case "兑换码已过期":
           case "无效的兑换码！":
+          case "该码已经被兑换过！":
           case "该兑换码已经兑换过":
           case "字段[code]值不能为空":
             this.errMsg = res.error_message;
@@ -364,13 +366,6 @@ export default {
         }
       }
       let list = this.goodsDetail.goods_list;
-
-      list.forEach((item) => {
-        if (item.goods_num == item.used_num) {
-          item.state = 0; // 已领完
-        }
-      });
-
       this.goodsList = [];
 
       //  加载
@@ -511,17 +506,17 @@ export default {
       this.two_show = false;
     },
     async confirmEexchange() {
+      var tStamp = this.$getTimeStamp();
       let data = {
         code: this.code,
+        timestamp: tStamp,
         redeem_id: this.redeem,
-        access: 1,
-        encrypt: 1,
         target_ids: this.pick_a_few.join(","),
         referer: this.referer,
         is_captcha: 1,
         version: "1.1",
       };
-
+      data.sign = this.$getSign(data);
       let res = await REDEEM_EXCHANGE(data);
 
       if (res.error_code == 99) {
@@ -547,7 +542,7 @@ export default {
 
         if (this.goods_type == "2") {
           this.goodsNameType = "coupons";
-          this.coupons_length =this.percentGoods.length;
+          this.coupons_length = this.percentGoods.length;
         } else if (this.service_day > 0) {
           this.goodsNameType = "service_day";
         } else {
@@ -561,7 +556,7 @@ export default {
             query: {
               goodsName: this.percentGoods,
               resData: data,
-              coupons_length :this.coupons_length,
+              coupons_length: this.coupons_length,
               service_day: this.service_day,
               goodsNameType: this.goodsNameType,
             },
@@ -573,7 +568,7 @@ export default {
             query: {
               goodsName: this.percentGoods,
               service_day: this.service_day,
-              coupons_length :this.coupons_length,
+              coupons_length: this.coupons_length,
               goodsNameType: this.goodsNameType,
             },
           });
@@ -603,7 +598,7 @@ export default {
       this.submitRedeem();
     },
     // 是否是APP
-    isApp() {
+    isApp() {  
       if (
         localStorage.getItem("isHuobaIosLogin") == "yes" ||
         localStorage.getItem("isHuobaAndroidLogin") == "yes"

@@ -2,16 +2,20 @@
   <div id="wapSuccessPage">
     <div class="top_bg"></div>
     <h3 class="title">兑换成功</h3>
-    <p class="content" v-if="goodsNameType == 'goods'">
-      恭喜您获得商品名“{{goodsName}}”，快打开火把知识App，点击
+    <p class="content_goods" v-if="goodsNameType == 'goods'">
+      恭喜您获得商品名
+      <span style="color:#343434;">“{{goodsName}}”</span> ，快打开火把知识App，点击
       <span class="content_title">“我的-我的订单"</span>查看吧！
     </p>
-    <p class="content" v-if="goodsNameType == 'coupons'">
-      恭喜您获得优惠券X{{coupons_length}}，快打开火把知识App，点击
+    <p class="content_goods" v-if="goodsNameType == 'coupons'">
+      恭喜您获得
+      <span style="color:#343434;">“优惠券”</span>，快打开火把知识App，点击
       <span class="content_title">“我的-我的优惠券"</span>查看吧！
     </p>
-    <p class="content" v-if="goodsNameType == 'service_day'">
-      您已成功兑换的“{{goodsName}}”的{{serviceday}}天免费体验权，快打开火把知识app，点击底部
+    <p class="content_goods" v-if="goodsNameType == 'service_day'">
+      您已成功兑换的
+      <span style="color:#343434;">“{{goodsName}}”</span>
+      的{{serviceday}}天免费体验权，快打开火把知识app，点击底部
       <span class="content_title">"我听我看"</span>查看吧！
     </p>
     <div class="button_wrapper">
@@ -19,7 +23,7 @@
         type="primary"
         style="background:#F05654;border: 1px solid #F05654;"
         @click="download"
-      >打开火把知识App</van-button>
+      >去看看</van-button>
     </div>
 
     <div class="recommend">
@@ -32,68 +36,98 @@
         <span>首登APP专享110元新人礼</span>
       </div>
     </div>
-
-    <div class="content book">
-      <!-- v-if="gitem.goods_type == 3 || gitem.goods_type == 9"   v-if="gitem.goods_type == 9"@click="gotoDetail(gitem)"v-if="gitem.goods_type == 3"-->
-      <!--  v-lazy:background-image="gitem.pic" {{gitem.title}}v-if="gitem.price"v-else{{gitem.price.toFixed(2)}}-->
-      <div class="ratiobook">
-        <div class="bookimg"></div>
-        <span class="book_text_title">图书</span>
-        <span class="book_text_title">专辑</span>
-      </div>
-      <div class="right">
-        <div class="text"></div>
-        <div class="pinpai">
-          <div class="price">￥</div>
-          <div class="price">免费</div>
-          <div class="preferent_active">
-            <span>
-              <span class="active_1">
-                <span class="active_text_1"></span>
-                <!--v-if="titems.type == 1 || titems.type == 2" {{ titems.name }}v-if="indexs<1" v-for="(titems,indexs) in gitem.tag_list" :key="indexs"-->
-                <span class="active_text_2"></span>
-                <span class="active_text_3"></span>
-                <!-- v-if="titems.type == 3" {{ titems.name }} v-if="titems.type == 4"{{ titems.name }} -->
-              </span>
-            </span>
+    <div id="resultPage" style="padding: 10px;">
+      <div class="etc_box" style="justify-content: space-between;">
+        <div
+          class="etc_inbox"
+          v-for="(item,index) in goods_Lists"
+          :key="index"
+          style="width: 49%;margin-bottom: 10px;border-radius: 10px;"
+        >
+          <!-- 专辑 -->
+          <div class="content book" @click="gotoDetail(item)" style="margin:0px;">
+            <div class="ratiobook" style="width: 100%;overflow: hidden;">
+              <div
+                class="bookimg"
+                v-lazy:background-image=" item.pic[0]"
+                style="background-size: cover;border-radius: 10px 10px 0px 0px;"
+              ></div>
+              <span
+                class="book_text_title"
+                v-if="item.goods_type == 3"
+                style="border-radius: 10px 0px 10px 0px;padding: 2px 8px;"
+              >图书</span>
+              <span
+                class="book_text_title"
+                v-if="item.goods_type == 9"
+                style="border-radius: 10px 0px 10px 0px;padding: 2px 8px;"
+              >专辑</span>
+              <span
+                class="book_text_title"
+                v-if="item.goods_type == 4"
+                style="border-radius: 10px 0px 10px 0px;padding: 2px 8px;"
+              >电子书</span>
+            </div>
+            <div class="right">
+              <div class="text">{{item.title}}</div>
+              <div class="pinpai">
+                <div class="price" v-if="item.price">
+                  ￥
+                  <span style="font-size: 20px;">{{item.price.toFixed(2)}}</span>
+                </div>
+                <div class="price" v-else>免费</div>
+                <div class="preferent_active">
+                  <span v-for="(titems,indexs) in item.tag_list" :key="indexs">
+                    <span class="active_1" v-if="indexs<1">
+                      <span
+                        class="active_text_1"
+                        v-if="titems.type == 1 || titems.type == 2"
+                      >{{ titems.name }}</span>
+                      <span class="active_text_2" v-if="titems.type == 3">{{ titems.name }}</span>
+                      <span class="active_text_3" v-if="titems.type == 4">{{ titems.name }}</span>
+                    </span>
+                  </span>
+                </div>
+              </div>
+              <div class="nice">
+                <!-- <span class="price" v-if="item.goods_type == 3">
+                  <span>￥{{ item.price }}</span>
+                </span>-->
+                <span class="comment" v-if="item.goods_type == 9">
+                  <span @click.stop="toBrand(item,index)">
+                    {{ item.brand_name }}
+                    <svg class="icon" aria-hidden="true">
+                      <use xlink:href="#icon-next-line" />
+                    </svg>
+                  </span>
+                </span>
+                <p
+                  class="bookgrow"
+                  v-if="item.goods_type == 3"
+                  style="display: flex;justify-content: space-between;"
+                >
+                  {{ item.brand_name }}
+                  <span @click.stop="toBrandShop(item,index)">
+                    <span class="bookShop" style="color:#343434;">进店</span>
+                    <svg class="icon" aria-hidden="true" style="color:#343434;">
+                      <use xlink:href="#icon-next-line" />
+                    </svg>
+                  </span>
+                </p>
+                <span class="good" v-if="item.goods_type == 4">
+                  <span @click.stop="toBrand(item,index)">
+                    {{ item.brand_name }}
+                    <svg class="icon" aria-hidden="true">
+                      <use xlink:href="#icon-next-line" />
+                    </svg>
+                  </span>
+                </span>
+              </div>
+            </div>
           </div>
-          <div class="shopCar">
-            <!-- @click.stop="addToCart(gitem)" v-if="gitem.goods_type == 3" -->
-            <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-gouwuche2" />
-            </svg>
-          </div>
-        </div>
-        <div class="nice">
-          <span class="comment">
-            <span>
-              <!-- {{ gitem.brand_name }} v-if="gitem.goods_type == 9" @click.stop="toBrand(gitem,gindex)"-->
-              <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-next-line" />
-              </svg>
-            </span>
-          </span>
-        </div>
-        <div class="nice bookflex">
-          <span class="bookgrow">
-            <!-- {{ gitem.brand_name }}  @click.stop="toBrandShop(gitem,gindex)"v-if="gitem.goods_type == 3"-->
-            <span>
-              <span class="bookShop">进店</span>
-              <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-next-line" />
-              </svg>
-            </span>
-          </span>
-          <!--<span v-if="gitem.goods.length > 0" >-->
-          <!--其他{{ gitem.goods.length }}家店铺-->
-          <!--<svg class="icon" aria-hidden="true">-->
-          <!--<use xlink:href="#icon-fold-line" />-->
-          <!--</svg>-->
-          <!--</span>-->
         </div>
       </div>
     </div>
-
     <EazyNav type="brand" :isShow="false"></EazyNav>
     <!--通用弹窗-->
     <PublicPopup></PublicPopup>
@@ -103,14 +137,17 @@
 <style src="@/style/scss/pages/redeem/result/wapSuccess.scss" lang="scss">
 </style>
 
+<style src="@/style/scss/pages/brand/resultCorrent.scss" scoped lang="scss"></style>
 
 <script>
 import Utils from "@/components/util.js";
+import { REDEEM_RECOMMEND } from "@/apis/redeem.js";
 export default {
   name: "wap-success",
   data() {
     return {
       goodsName: "",
+      goods_Lists: [],
       goodsNameType: "",
       coupons_length: "",
       service_day: "",
@@ -118,23 +155,66 @@ export default {
     };
   },
   methods: {
+    async getGoodsDetail() {
+      var tStamp = this.$getTimeStamp();
+      let data = {
+        page: "1",
+        timestamp: tStamp,
+        page_size: "20",
+        version: "1.0",
+      };
+      data.sign = this.$getSign(data);
+      let res = await REDEEM_RECOMMEND(data);
+
+      console.log(res);
+      if (res.hasOwnProperty("response_code")) {
+        this.goods_Lists = res.response_data.result;
+      }
+      console.log(this.goods_Lists);
+    },
+    // 跳转公众号首页
+    toBrand(item, index) {
+      this.$router.push({
+        name: "brand",
+        query: {
+          brand_id: item.brand_id,
+        },
+      });
+    },
+    // 跳转店铺
+    toBrandShop(item, index) {
+      this.$router.push({
+        name: "custompage",
+        query: {
+          type: "mall",
+          supplier_id: item.supplier_id,
+        },
+      });
+    },
+    gotoDetail(item) {
+      var goodsType = item.goods_type;
+      if (goodsType == 9) {
+        // 专辑
+        this.$router.push({
+          name: "album",
+          query: { goods_id: item.goods_id },
+        });
+      } else if (goodsType == 3) {
+        // 图书
+        this.$router.push({
+          name: "detail",
+          query: { goods_id: item.goods_id },
+        });
+      } else if (goodsType == 4) {
+        // 电子书
+        this.$router.push({
+          name: "ebookdetail",
+          query: { goods_id: item.goods_id },
+        });
+      }
+    },
+
     download() {
-      //   // window.location.href = "https://a.app.qq.com/o/simple.jsp?pkgname=com.huoba.Huoba";
-      //   let u = navigator.userAgent,
-      //     app = navigator.appVersion;
-      //   let _ios = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
-      //   let _android = u.indexOf("Android") > -1 || u.indexOf("Adr") > -1;
-      //   console.log(u, app, _ios, _android);
-      //   if (_ios) {
-      //     window.location.href =
-      //       "https://apps.apple.com/cn/app/%E7%81%AB%E6%8A%8A%E7%9F%A5%E8%AF%86/id1473766311";
-      //
-      //       // "www.huoba.net://huoba";
-      //
-      //   } else if (_android) {
-      //     window.location.href =
-      //       "https://a.app.qq.com/o/simple.jsp?pkgname=com.huoba.Huoba";
-      //   }
       var params;
       if (this.goodsNameType == "goods") {
         params = "/personal/order/list";
@@ -151,6 +231,7 @@ export default {
     this.goodsNameType = this.$route.query.goodsNameType;
     this.service_day = this.$route.query.service_day;
     this.coupons_length = this.$route.query.coupons_length;
+    this.getGoodsDetail();
   },
 };
 </script>
