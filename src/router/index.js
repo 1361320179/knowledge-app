@@ -88,10 +88,16 @@ import searchdeep from '@/pages/searchDeep'
 import searchonly from '@/pages/searchOnly'
 
 // 专辑
-import album from '@/pages/album/index'
-import albumdetail from '@/pages/album/detail'
-import player from '@/pages/album/player'
-import albumlist from '@/pages/album/list'
+// import album from '@/pages/album/index'
+// import albumdetail from '@/pages/album/detail'
+// import player from '@/pages/album/player'
+// import albumlist from '@/pages/album/list'
+
+// 专辑2.0
+import albumIndex from '@/pages/album2.0/index'
+import albumAudio from '@/pages/album2.0/audio'
+import albumVideo from '@/pages/album2.0/video'
+import albumComment from '@/pages/album2.0/comment'
 
 //电子书
 import ebookreader from '@/pages/ebook/reader'
@@ -384,7 +390,7 @@ export default new Router({
       meta: {
         title: '个人中心',
         keepAlive: false,
-        requireAuth: false // 需要登录才能进入的页面可以增加一个meta属性
+        requireAuth: false, // 需要登录才能进入的页面可以增加一个meta属性
       },
       beforeEnter: (to, from, next) => {
         // ...
@@ -401,7 +407,8 @@ export default new Router({
       component: collect,
       meta: {
         title: '收藏',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     {
@@ -410,7 +417,8 @@ export default new Router({
       component: history,
       meta: {
         title: '历史',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     {
@@ -419,7 +427,8 @@ export default new Router({
       component: focus,
       meta: {
         title: '关注',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     // 个人中心 - 我的余额
@@ -430,7 +439,8 @@ export default new Router({
       meta: {
         keepAlive: false,
         title: '我的余额',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     {
@@ -439,7 +449,8 @@ export default new Router({
       component: record,
       meta: {
         title: '充值记录',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     {
@@ -448,7 +459,7 @@ export default new Router({
       component: account,
       meta: {
         title: '充值',
-        requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
         isWxLogin: true,   // 必须在微信端打开
       }
     },
@@ -458,7 +469,8 @@ export default new Router({
       component: remaindetail,
       meta: {
         title: '账单明细',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     // 个人中心 - 我的购买 - 下单
@@ -469,7 +481,8 @@ export default new Router({
       meta: {
         keepAlive: false,  // false不需要被缓存，true需要缓存
         title: '订单详情',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       },
     },
     {
@@ -478,7 +491,8 @@ export default new Router({
       component: orderlist,
       meta: {
         title: '我的订单',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     {
@@ -487,7 +501,8 @@ export default new Router({
       component: orderinvoice,
       meta: {
         title: '申请开票',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     {
@@ -502,7 +517,8 @@ export default new Router({
       component: ordercomment,
       meta: {
         title: '评价',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     {
@@ -511,7 +527,8 @@ export default new Router({
       component: commentpunish,
       meta: {
         title: '发布评价',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     {
@@ -525,7 +542,8 @@ export default new Router({
       // },
       meta: {
         title: '评价成功',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     // 个人中心 - 我的购买 - 退款
@@ -535,7 +553,8 @@ export default new Router({
       component: refundedit,
       meta: {
         title: '填写物流信息',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     {
@@ -544,7 +563,8 @@ export default new Router({
       component: logistics,
       meta: {
         title: '查看物流',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     {
@@ -553,7 +573,8 @@ export default new Router({
       component: ongoing,
       meta: {
         title: '退款进度',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     {
@@ -562,7 +583,8 @@ export default new Router({
       component: refundtype,
       meta: {
         title: '选择服务类型',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     {
@@ -571,7 +593,8 @@ export default new Router({
       component: refundone,
       meta: {
         title: '退款',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     {
@@ -580,7 +603,8 @@ export default new Router({
       component: refundtwo,
       meta: {
         title: '仅退款',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     {
@@ -589,7 +613,8 @@ export default new Router({
       component: refundthree,
       meta: {
         title: '退货退款',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     {
@@ -598,7 +623,8 @@ export default new Router({
       component: refundchoose,
       meta: {
         title: '选择退款商品',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     // 多包裹
@@ -608,7 +634,8 @@ export default new Router({
       component: packagedetail,
       meta: {
         title: '包裹详情',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     {
@@ -617,7 +644,8 @@ export default new Router({
       component: packageallgoods,
       meta: {
         title: '全部商品',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     // 个人中心 - 设置
@@ -632,7 +660,8 @@ export default new Router({
       // },
       meta: {
         title: '设置',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        // isPath: true
       }
     },
     {
@@ -645,7 +674,8 @@ export default new Router({
       // },
       meta: {
         title: '我的收货地址',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     {
@@ -654,7 +684,8 @@ export default new Router({
       component: addresslist,
       meta: {
         title: '我的收货地址',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     {
@@ -663,7 +694,8 @@ export default new Router({
       component: info,
       meta: {
         title: '个人资料',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     {
@@ -681,7 +713,8 @@ export default new Router({
       component: cropper,
       meta: {
         title: '头像裁切',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     {
@@ -690,7 +723,8 @@ export default new Router({
       component: bind,
       meta: {
         title: '账号绑定',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     // {
@@ -718,7 +752,8 @@ export default new Router({
       meta: {
         title: '手机绑定',
         noDefaultLink: true,  // 不记录在defaultLink中
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     // 个人中心 - 帮助与反馈
@@ -744,7 +779,8 @@ export default new Router({
       component: feedback,
       meta: {
         title: '我要反馈',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     // 个人中心 - 我的评论
@@ -754,7 +790,8 @@ export default new Router({
       component: comment,
       meta: {
         title: '我的评论',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       }
     },
     // 搜索
@@ -798,38 +835,75 @@ export default new Router({
       },
     },
     // 专辑
+    // {
+    //   path: '/album/index',
+    //   name: 'album',
+    //   component: album,
+    //   meta: {
+    //     keepAlive: false,  // false不需要被缓存，true需要缓存
+    //     title: '专辑详情'
+    //   }
+    // },
+    // {
+    //   path: '/album/detail',
+    //   name: 'albumdetail',
+    //   component: albumdetail,
+    //   meta: {
+    //     keepAlive: false,  // false不需要被缓存，true需要缓存
+    //     title: '节目详情'
+    //   },
+    // },
+    // {
+    //   path: '/album/player',
+    //   name: 'player',
+    //   component: player,
+    //   meta: {
+    //     keepAlive: false,  // false不需要被缓存，true需要缓存
+    //     title: '正在播放'
+    //   },
+    // },
+    // {
+    //   path: '/album/list',
+    //   name: 'albumlist',
+    //   component: albumlist
+    // },
+    // 专辑2.0
     {
       path: '/album/index',
       name: 'album',
-      component: album,
+      component: albumIndex,
       meta: {
         keepAlive: false,  // false不需要被缓存，true需要缓存
         title: '专辑详情'
       }
     },
     {
-      path: '/album/detail',
-      name: 'albumdetail',
-      component: albumdetail,
+      path: '/album/audio',
+      name: 'albumAudio',
+      component: albumAudio,
       meta: {
         keepAlive: false,  // false不需要被缓存，true需要缓存
-        title: '节目详情'
-      },
+        title: '音频播放'
+      }
     },
     {
-      path: '/album/player',
-      name: 'player',
-      component: player,
+      path: '/album/video',
+      name: 'albumVideo',
+      component: albumVideo,
       meta: {
         keepAlive: false,  // false不需要被缓存，true需要缓存
-        title: '正在播放'
-      },
+        title: '视频播放'
+      }
     },
     {
-      path: '/album/list',
-      name: 'albumlist',
-      component: albumlist
+      path: '/album/comment',
+      name: 'albumComment',
+      component: albumComment,
+      meta: {
+        keepAlive: false,  // false不需要被缓存，true需要缓存
+      }
     },
+
     //电子书
     {
       path: '/ebook/reader',
@@ -857,7 +931,8 @@ export default new Router({
       component: ebookshelf,
       meta: {
         title: '我的书架',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       },
     },
     {
@@ -926,7 +1001,8 @@ export default new Router({
       meta: {
         keepAlive: false,  // false不需要被缓存，true需要缓存
         title: '我的优惠券',
-        requireAuth: true
+        // requireAuth: true,
+        isPath: true
       },
     },
     {
@@ -954,7 +1030,8 @@ export default new Router({
       component: cart,
       meta: {
         title: '购物车',
-        requireAuth: true,
+        // requireAuth: true,
+        isPath: true
       }
     },
     // 商品详情
@@ -976,7 +1053,8 @@ export default new Router({
       component: groupdetail,
       meta: {
         title: '拼团详情',
-        requireAuth: true
+        // requireAuth: true,
+        isPath: true
       }
     },
     // 订单确认
@@ -986,7 +1064,8 @@ export default new Router({
       component: orderconfirm,
       meta: {
         title: '订单确认',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       },
       // beforeEnter: (to, from, next) => {
       //   from.path == '/pay/index' ? next('/personal/index') : next();
@@ -999,7 +1078,8 @@ export default new Router({
       component: orderconfirmdetail,
       meta: {
         title: '订单商品确认',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       },
     },
 
@@ -1009,7 +1089,7 @@ export default new Router({
       name: 'pay',
       component: pay,
       meta: {
-        requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
         isWxLogin: true,   // 必须在微信端打开
       },
       //beforeEnter 在进入这个路由之前，先判断是从哪个路由跳转的
@@ -1021,7 +1101,7 @@ export default new Router({
       meta: {
         keepAlive: false,  // false不需要被缓存，true需要缓存
         title: '结算',
-        requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
         isWxLogin: true,   // 必须在微信端打开
       },
       //beforeEnter 在进入这个路由之前，先判断是从哪个路由跳转的
@@ -1036,7 +1116,8 @@ export default new Router({
       meta: {
         keepAlive: false,  // false不需要被缓存，true需要缓存
         title: '支付成功',
-        requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        isPath: true
       },
     },
     // 助力活动
@@ -1078,6 +1159,7 @@ export default new Router({
       meta: {
         //   requireAuth: true // 需要登录才能进入的页面可以增加一个meta属性
         isWxLogin: false,        // 必须在微信端打开
+        isPath: true,
       },
     },
     // 兑换活动
