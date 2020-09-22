@@ -2,13 +2,13 @@
   <div id="videoPage">
     <div class="videoBox" @contextmenu.prevent="menuPlayer()">
       <div class="filter"
-           v-if="(baseData.is_payed == 0 && albumBase.is_free == 0 && baseData.is_free == 0) || (( baseData.is_payed == 1 || albumBase.is_free == 1) && baseData.goods_type == 1)"
+           v-if="(baseData.is_payed == 0 && albumBase.is_free == 0 && baseData.is_free == 0 && JSON.stringify(limitUse) == '{}') || baseData.goods_type == 1"
            :style="{backgroundImage: 'url(' + baseData.pic[0] + ')',backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}">
         <div class="shadow"></div>
       </div>
       <video
         id="myVideo"
-        v-else
+        v-if="(baseData.is_payed == 1 || baseData.is_free == 1 || JSON.stringify(limitUse) != '{}') && baseData.goods_type == 2"
         autoplay
         @play="videoPlay"
         @pause="videoPause"
@@ -24,31 +24,31 @@
         <!--<span class="info">试看中</span>-->
         <!--<span class="action" @click="buyAction(pid)">购买此专辑</span>-->
       <!--</div>-->
-      <div class="center" v-if="baseData.is_payed == 0 && albumBase.is_free == 0 && baseData.is_free == 0">
-        <!--<span class="info" v-if="baseData.is_free == 1">试看中，购买后解锁完整专辑</span>-->
+      <div class="center" v-if="baseData.is_payed == 0 && albumBase.is_free == 0 && baseData.is_free == 0 && JSON.stringify(limitUse) == '{}'">
         <span class="info" v-if="baseData.is_free == 0" >购买后即可播放完整专辑</span>
         <span class="action" v-if="albumBase.single_activity_id"  @click="buyAction(pid)">限时促销价 ￥{{albumBase.price}}</span>
         <span class="action" v-if="JSON.stringify(recommendTicket) != '{}'"  @click="buyAction(pid)">券后价 ￥{{recommendTicket.after_use_ticket_money}}</span>
         <span class="action" v-if="!albumBase.single_activity_id && JSON.stringify(recommendTicket) == '{}' && baseData.is_free == 0"  @click="buyAction(pid)">购买专辑 ￥{{albumBase.market_price}}</span>
       </div>
       <div class="center" v-else>
+        <!--<span class="info" v-if="baseData.is_free == 1">试看中，购买后解锁完整专辑</span>-->
         <span class="info" v-if="baseData.goods_type == 1">本节目为音频，点击观看</span>
         <span class="action" v-if="baseData.goods_type == 1"  @click="toAudio">前去观看</span>
       </div>
     </div>
     <div class="titleBox">
-      <p class="title" v-if="!foldState">
+      <p class="title unfoldState" v-show="!foldState">
         {{title}}
       </p>
-      <p class="title foldState" v-if="foldState">
+      <p class="title foldState" v-show="foldState">
         {{title}}
       </p>
-      <div class="unfold" v-if="foldState && title.length > 20">
+      <div class="unfold" v-show="foldState && beyondOne">
         <svg class="icon" aria-hidden="true" @click="unfoldTitle">
           <use xlink:href="#icon-fold-line"/>
         </svg>
       </div>
-      <div class="fold" v-if="!foldState && title.length > 20">
+      <div class="fold" v-show="!foldState && beyondOne">
         <svg class="icon" aria-hidden="true" @click="foldTitle">
           <use xlink:href="#icon-unfold-line"/>
         </svg>
@@ -105,10 +105,11 @@
       :albumInfo="albumBase"
       :goodsNo="goods_no"
       :audioStatus="!playStatus"
+      :limitUse="limitUse"
       @programChange="changeVideo"
       ref="controlList"
     ></audioList>
-    <EazyNav type="index" ref="nav" :isShow="false"></EazyNav>
+    <EazyNav type="index" ref="nav" :isShow="true"></EazyNav>
     <!--通用弹窗-->
     <PublicPopup></PublicPopup>
   </div>
@@ -121,6 +122,8 @@
   import {ALBUM, ALBUM_DETAIL} from "../../apis/album.js";
   import {COMMENT_COUNTER} from "@/apis/public.js";
 
+  // vue无刷新修改url参数
+  import merge from "webpack-merge";
   export default {
     data() {
       return {
@@ -164,7 +167,8 @@
           fans: 0,
           is_followed: null
         },
-        foldState: 1, // 0未折叠 1折叠
+        foldState: 0, // 0未折叠 1折叠
+        beyondOne: null,
         itemClass: [],  //  节目列表样式
         swiperOption: {
           slidesPerView: "auto",
@@ -174,7 +178,8 @@
           //   }
           // }
         },
-        counter: '' // 评论数
+        counter: '', // 评论数
+        limitUse: {} // 限时免费
       }
     },
     methods: {
@@ -242,9 +247,9 @@
           // console.log('baseData',this.baseData);
           // 公号信息
           this.brandInfoData = res.response_data.brand_info;
-          // 账号信息，是否登录
-          this.isLogin = res.response_data.user_info.is_login;
 
+          // 限时免费
+          this.limitUse = res.response_data.activity.limituse;
 
           // console.log(7474,$('.van-goods-action-big-btn .van-button__text'))
 
@@ -312,23 +317,47 @@
       foldTitle() {
         this.foldState = 1;
       },
+      handleTitle() {
+        if (this.title) {
+          const el = document.getElementsByClassName('unfoldState')[0];
+          const style = window.getComputedStyle(el, null);
+          const height = parseInt(style.height, 10);
+          const lineHeight = parseInt(style.lineHeight, 10);
+          // console.log('height',height);
+          // console.log('lineHeight',lineHeight);
+          if (height/ lineHeight > 1) {
+            this.beyondOne = true;
+            this.foldState = 1;
+            // console.log('be',this.beyondOne);
+          } else {
+            this.beyondOne = false;
+          }
+        }
+      },
+
       // 切换节目列表
       changeVideo(item) {
         var program = item;
         var index = this.programList.findIndex(element =>
           element.goods_id == program.goods_id
         );
+        this.baseData = program;
         if (program.goods_type == 1) {
-          this.baseData.goods_type = 1;
+          // this.baseData.goods_type = 1;
           this.videoPath = "";
           // this.$toast('音频');
-        } else if (program.goods_type == 2 && (this.baseData.is_free == 1 || this.baseData.is_payed == 1)) {
-          this.baseData.goods_type = 2;
+        } else if (program.goods_type == 2 && (this.baseData.is_free == 1 || this.baseData.is_payed == 1 || JSON.stringify(this.limitUse) != '{}')) {
+          // this.baseData.goods_type = 2;
           this.videoPath = program.file_path;
         }
         this.goods_id = program.goods_id;
         this.goods_no = program.goods_no;
+        // 处理节目标题
         this.title = program.title;
+        this.foldState = 0;
+        this.$nextTick(() => {
+          this.handleTitle();
+        });
         // 关闭通用列表
         this.$refs.controlList.popupModel = false;
 
@@ -336,6 +365,14 @@
         this.itemClass = [];
         this.itemClass.length = this.programList.length;
         this.itemClass[index] = 'percent';
+
+        // 更新url
+        this.$router.replace({
+          query: merge(this.$route.query, {
+            goods_id: this.goods_id,
+            goods_no: this.goods_no
+          })
+        });
       },
       // 去评论
       toComment(state) {
@@ -390,6 +427,8 @@
           : this.$route.query.pid;
       this.goods_id = this.$route.query.goods_id;
       this.goods_no = this.$route.query.goods_no;
+      // 账号信息，是否登录
+      this.isLogin = localStorage.getItem('loginState');
 
       this.wholeAlbum();
       this.albumData().then(() => {

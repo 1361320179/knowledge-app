@@ -22,31 +22,31 @@
       <img :src="bannerInfo.pic">
     </section>
     <!--知识讲义-->
-    <section class="knowledge" v-if="baseData.desc">
+    <section class="knowledge" v-if="baseData.media_content">
       <h3 class="title">知识讲义</h3>
-      <div class="unfold"  v-show="(baseData.is_payed == 1 || isFree == 1) && foldState == 1">
+      <div class="unfold"  v-show="(baseData.is_payed == 1 || isFree == 1 || JSON.stringify(limitUse) != '{}') && foldState == 1">
         展开
         <svg class="icon" aria-hidden="true" @click="unfold">
           <use xlink:href="#icon-fold-line"/>
         </svg>
       </div>
-      <div class="fold" v-show="(baseData.is_payed == 1 || isFree == 1) && foldState == 0">
+      <div class="fold" v-show="(baseData.is_payed == 1 || isFree == 1 || JSON.stringify(limitUse) != '{}') && foldState == 0">
         收起
         <svg class="icon" aria-hidden="true" @click="fold">
           <use xlink:href="#icon-unfold-line"/>
         </svg>
       </div>
       <div class="content">
-        <div class="text normal" v-show="(baseData.is_payed == 1 || isFree == 1) && foldState == 0">
-          <p v-html="baseData.desc"></p>
+        <div class="text normal" v-show="(baseData.is_payed == 1 || isFree == 1 || JSON.stringify(limitUse) != '{}') && foldState == 0">
+          <p v-html="baseData.media_content"></p>
         </div>
-        <div class="text foldText" v-show="(baseData.is_payed == 1 || isFree == 1) && foldState == 1">
-        <p v-html="baseData.desc"></p>
+        <div class="text foldText" v-show="(baseData.is_payed == 1 || isFree == 1 || JSON.stringify(limitUse) != '{}') && foldState == 1">
+        <p v-html="baseData.media_content"></p>
         </div>
-        <div class="text unbought" v-show="baseData.is_payed == 0 && isFree == 0">
-          <p v-html="baseData.desc"></p>
+        <div class="text unbought" v-show="baseData.is_payed == 0 && isFree == 0 && JSON.stringify(limitUse) == '{}'">
+          <p v-html="baseData.media_content"></p>
         </div>
-        <div class="info" v-if="baseData.is_payed == 0 && isFree == 0">***购买后解锁完整讲义***</div>
+        <div class="info" v-if="baseData.is_payed == 0 && isFree == 0 && JSON.stringify(limitUse) == '{}'">***购买后解锁完整讲义***</div>
       </div>
     </section>
     <!--相似专辑-->
@@ -129,7 +129,11 @@
           url: {},
           close_conf: {}
         },
-        recommendAlbum: []
+        recommendAlbum: [],
+        /*
+        * ----------------------------------限时免费----------------------------------
+        */
+        limitUse: {},
       }
     },
     props: ['message'],
@@ -248,6 +252,8 @@
           this.bannerInfo = res.response_data.banner;
           // 所属媒体信息
           this.brandInfoData = res.response_data.brand_info;
+          // 限时免费
+          this.limitUse = res.response_data.activity.limituse;
 
         }
       },

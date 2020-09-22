@@ -729,8 +729,8 @@ export default {
       this.diffTime = serverTime - localTime;
     }
 
-    // 时间格式转换
-    Vue.prototype.$formatTime = function (value) {
+    // 时间格式转换 秒数 -> 00:00:00
+    Vue.prototype.$formatTime = function(value) {
       let secondTime = parseInt(value);
       let minuteTime = 0;
       let hourTime = 0;

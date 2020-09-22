@@ -1,7 +1,7 @@
 <template>
   <div id="audioPage" @click="hideMore">
     <div class="filter"
-         v-if="(baseData.is_payed == 0 && albumBase.is_free == 0) || ((baseData.is_payed == 1 || albumBase.is_free == 1) && baseData.type == 2)"
+         v-if="(baseData.is_payed == 0 && albumBase.is_free == 0 && JSON.stringify(limitUse) == '{}') || ((baseData.is_payed == 1 || albumBase.is_free == 1 || JSON.stringify(limitUse) != '{}') && baseData.goods_type == 2)"
          :style="{backgroundImage: 'url(' + baseData.pic + ')',backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}">
       <img class="pic" src="./../../assets/album/audio-bg.png" alt="">
       <div class="shadow"></div>
@@ -11,19 +11,25 @@
          :style="{backgroundImage: 'url(' + baseData.pic + ')',backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}">
       <img class="pic" src="./../../assets/album/audio-bg.png" alt="">
     </div>
-    <div class="center" v-if="baseData.is_payed == 0 && albumBase.is_free == 0">
-      <span class="info" v-if="baseData.is_free == 1">试听中，购买后解锁完整专辑</span>
-      <span class="info" v-if="baseData.is_free == 0">购买后即可播放完整专辑</span>
+    <div class="center"
+         v-if="baseData.is_payed == 0 && albumBase.is_free == 0 && baseData.is_free == 1 && JSON.stringify(limitUse) != '{}' && baseData.goods_type == 1">
+      <span class="info" v-if="baseData.goods_type == 1">试听中，购买后解锁完整专辑</span>
       <span class="action" v-if="albumBase.single_activity_id" @click="buyAction(pid)">限时促销价 ￥{{albumBase.price}}</span>
       <span class="action" v-if="JSON.stringify(recommendTicket) != '{}'" @click="buyAction(pid)">券后价 ￥{{recommendTicket.after_use_ticket_money}}</span>
       <span class="action" v-if="!albumBase.single_activity_id && JSON.stringify(recommendTicket) == '{}'"
             @click="buyAction(pid)">购买专辑 ￥{{albumBase.market_price}}</span>
     </div>
-    <div class="center" v-else>
-      <span class="info" v-if="baseData.type == 2">本节目为视频，点击观看</span>
-      <span class="action" v-if="baseData.type == 2" @click="toVideo">前去观看</span>
+    <div class="center" v-if="baseData.is_payed == 0 && albumBase.is_free == 0 && baseData.is_free == 0 && JSON.stringify(limitUse) == '{}'">
+      <span class="info" v-if="baseData.is_free == 0 && JSON.stringify(limitUse) == '{}'">购买后即可播放完整专辑</span>
+      <span class="action" v-if="albumBase.single_activity_id" @click="buyAction(pid)">限时促销价 ￥{{albumBase.price}}</span>
+      <span class="action" v-if="JSON.stringify(recommendTicket) != '{}'" @click="buyAction(pid)">券后价 ￥{{recommendTicket.after_use_ticket_money}}</span>
+      <span class="action" v-if="!albumBase.single_activity_id && JSON.stringify(recommendTicket) == '{}'"
+            @click="buyAction(pid)">购买专辑 ￥{{albumBase.market_price}}</span>
     </div>
-
+    <div class="center" v-if="baseData.is_payed == 1 || albumBase.is_free == 1 || baseData.is_free == 1 || JSON.stringify(limitUse) != '{}'">
+      <span class="info" v-if="baseData.goods_type == 2">本节目为视频，点击观看</span>
+      <span class="action" v-if="baseData.goods_type == 2" @click="toVideo">前去观看</span>
+    </div>
     <audio ref="audio" id="musicPlayer" @ended="onEnded">
       <source :src="baseData.file_path"/>
       您的浏览器不支持 audio 元素。
@@ -73,13 +79,15 @@
         bar-height="2px"
         active-color="#f05654"
         inactive-color="#eee"
-        :disabled="baseData.is_payed == 0 && baseData.is_free == 0"
+        :disabled="(baseData.is_payed == 0 && baseData.is_free == 0 && JSON.stringify(limitUse) == '{}') || baseData.goods_type == 2"
       >
         <div
           slot="button"
           class="sliderButton"
         >
-          <span class="sliderText">{{ currentTime__ }}/{{ baseData.duration_str }}</span>
+          <span class="sliderText"
+                v-if="(baseData.is_payed == 1 || baseData.is_free == 1 || JSON.stringify(limitUse) != '{}') && baseData.goods_type == 1">{{ currentTime__ }}/{{ baseData.duration_str }}</span>
+          <span class="sliderText" v-else>00:00/{{ baseData.duration_str }}</span>
         </div>
       </van-slider>
       <div>
@@ -88,7 +96,8 @@
 
     <!--控件二-->
     <!--不可点击-->
-    <div class="controlBoxTwo" v-if="baseData.is_payed == 0 && baseData.is_free == 0">
+    <div class="controlBoxTwo"
+         v-if="baseData.is_payed == 0 && baseData.is_free == 0 && JSON.stringify(limitUse) == '{}' || baseData.goods_type == 2">
       <div class="backward">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-houtui"/>
@@ -169,11 +178,12 @@
       :albumInfo="albumBase"
       :goodsNo="activeGoodNo"
       :audioStatus="!playStatus"
+      :limitUse="limitUse"
       @programChange="audioAction"
       @progressListData="progressListData"
       ref="controlList"
     ></audioList>
-    <EazyNav type="index" ref="nav" :isShow="false"></EazyNav>
+    <EazyNav type="index" ref="nav" :isShow="true"></EazyNav>
     <!--通用弹窗-->
     <PublicPopup></PublicPopup>
   </div>
@@ -225,6 +235,8 @@
         programPage: 1,
         myAudioData: {},
         progressList: [],
+
+        limitUse: {} // 限时免费
       }
     },
     methods: {
@@ -256,10 +268,27 @@
           this.album_info = res.response_data.album_info;
           // 设置音频播放信息
           this.setBaseData("base", res.response_data.base);
-          // 账号信息，是否登录
-          this.isLogin = res.response_data.user_info.is_login;
-          if (this.isAutoPlay()) {
+
+          // 限时免费
+          this.limitUse = res.response_data.activity.limituse;
+
+          var u = navigator.userAgent;
+          var _ios = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+          if (this.isAutoPlay() && !_ios) {
             this.playAudio();
+            // var audio = document.getElementById("musicPlayer");
+            // audio.addEventListener('play', function () {
+            //   audio.load();
+            //   audio.play();
+            // });
+
+            // var _this = this;
+            // setTimeout(function () {
+            //   _this.pauseAudio();
+            //   _this.playAudio();
+            //   alert("11111");
+            // }, 10000);
+
           }
         } else {
           this.$toast(res.error_message);
@@ -305,7 +334,7 @@
         localStorage.setItem("miniAudio", JSON.stringify(info));
       },
       // 重置音频播放信息以及当前slider进度
-      resetAudioSliderInfo() {
+      resetAudioSliderInfo(item) {
         this.clearClock();
         var audio = document.getElementById("musicPlayer");
         audio.currentTime = 0;
@@ -313,8 +342,10 @@
         this.currentTime__ = this.todate(0);
         // 绑定slider
         this.audiobindtoslider(0);
-        this.pauseAudio();
-        this.playAudio();
+        if ((item.is_payed == 1 || item.is_free == 1 || JSON.stringify(this.limitUse) != '{}') && item.goods_type == 1) {
+          this.pauseAudio();
+          this.playAudio();
+        }
       },
       // 设置音频播放信息
       setBaseData(_type, item) {
@@ -337,17 +368,23 @@
         }
         this.baseData.title = item.title;
         this.baseData.pic = item.pic;
-        this.baseData.file_path = item.file_path;
         this.baseData.is_free = item.is_free;
         this.baseData.is_payed = item.is_payed;
-        this.baseData.type = item.type;
-        // console.log('type',this.baseData.type);
-        this.$refs.audio.src = item.file_path;
+        // console.log('isfree', this.baseData.is_free);
+        // console.log('ispayed', this.baseData.is_payed);
+        this.baseData.goods_type = item.goods_type;
+        if (item.goods_type == 1 && (this.baseData.is_free == 1 || this.baseData.is_payed == 1 || JSON.stringify(this.limitUse) != '{}')) {
+          this.baseData.file_path = item.file_path;
+          this.$refs.audio.src = item.file_path;
+        } else {
+          this.baseData.file_path = "";
+          this.$refs.audio.src = "";
+        }
         document.title = "正在播放-" + item.title;
+        this.goods_id = item.goods_id;
         this.title = item.title;
         // 更新localStorage:miniAudio数据
         this.updateMiniAudio(item);
-        // console.log('baseData', this.baseData);
       },
       // 清除倒计时
       clearClock() {
@@ -694,7 +731,8 @@
               // 节目已支付
               if (
                 this.allProgramList[prev].is_payed == 0 &&
-                this.allProgramList[prev].is_free == 0
+                this.allProgramList[prev].is_free == 0 &&
+                JSON.stringify(this.limitUse) == '{}'
               ) {
                 this.pauseAudio();
                 this.$toast("上一个节目收费");
@@ -706,7 +744,8 @@
               // 节目已支付
               if (
                 this.allProgramList[next].is_payed == 0 &&
-                this.allProgramList[next].is_free == 0
+                this.allProgramList[next].is_free == 0 &&
+                JSON.stringify(this.limitUse) == '{}'
               ) {
                 this.pauseAudio();
                 this.$toast("下一个节目收费");
@@ -717,7 +756,7 @@
             }
 
             // 重置音频播放信息以及当前slider进度
-            this.resetAudioSliderInfo();
+            this.resetAudioSliderInfo(item);
             // 设置音频播放信息
             this.setBaseData("item", item);
           } else {
@@ -787,19 +826,19 @@
       // 点击节目
       audioAction(item) {
         // 未支付
-        if (item.goods_id != null && item.is_payed == 0 && item.is_free == 0) {
-          var _goodsId = null;
-          if (item.sale_style == 1) {
-            _goodsId = this.pid;
-          } else {
-            _goodsId = item.goods_id;
-          }
-          this.$router.push({
-            name: "payaccount",
-            query: {goods_id: _goodsId}
-          });
-          return;
-        }
+        // if (item.goods_id != null && item.is_payed == 0 && item.is_free == 0) {
+        //   var _goodsId = null;
+        //   if (item.sale_style == 1) {
+        //     _goodsId = this.pid;
+        //   } else {
+        //     _goodsId = item.goods_id;
+        //   }
+        //   this.$router.push({
+        //     name: "payaccount",
+        //     query: {goods_id: _goodsId}
+        //   });
+        //   return;
+        // }
         // 切换节目设置当前播放器播放信息
         this.setAudioInfo(item);
       },
@@ -818,7 +857,7 @@
         });
 
         // 重置音频播放信息以及当前slider进度
-        this.resetAudioSliderInfo();
+        this.resetAudioSliderInfo(item);
       },
       // 关联播放列表
       listData(goods_no, _bool) {
@@ -897,10 +936,10 @@
       // 是否自动播放
       isAutoPlay() {
         // 播放
-        var type = this.baseData.type;
+        var type = this.baseData.goods_type;
         var is_payed = this.baseData.is_payed;
         var is_free = this.baseData.is_free;
-        if (type == 1 && (is_payed == 1 || is_free == 1)) {
+        if (type == 1 && (is_payed == 1 || is_free == 1 || JSON.stringify(this.limitUse) != '{}')) {
           return true;
         } else {
           return false;
@@ -940,13 +979,20 @@
       // 播放结束后销毁倒计时
       this.clearClock();
     },
-    mounted() {
+    // created() {
+    //   if (localStorage.getItem('isReload') && localStorage.getItem('isReload') == '1') {
+    //     localStorage.setItem('isReload', '0');
+    //   }
+    // },
+    created() {
       this.activeGoodNo = this.$route.query.goods_no;
       this.pid =
         this.$route.query.pid == "NaN" || this.$route.query.pid == null
           ? 0
           : this.$route.query.pid;
       this.goods_id = this.$route.query.goods_id;
+      // 账号信息，是否登录
+      this.isLogin = localStorage.getItem('loginState');
 
       this.wholeAlbum();
       this.albumData(this.pid, this.goods_id);
