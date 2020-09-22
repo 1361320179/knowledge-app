@@ -18,3 +18,21 @@ export const REDEEM_ITEM_GET = query => req('post', '/activity/redeem/get', quer
 // 商品兑换动作
 
 export const REDEEM_GOODS = query => req('post', '/activity/redeem/link', query)
+
+
+
+/*
+ * author: ym
+ * date:2020/9/16
+ */
+
+// 兑换物品（实物/虚拟/优惠券）详情
+
+export const REDEEM_ITEM_POST = query => req('post', '/activity/redeem/detail', query)
+
+// 兑换物品（实物/虚拟/优惠券）详情
+
+export const REDEEM_LINK = query => req('post', '/activity/redeem/codecheck', query)
+
+
+export const REDEEM_EXCHANGE = query => req('post', '/activity/redeem/exchange', query)

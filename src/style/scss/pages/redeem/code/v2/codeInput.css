@@ -1,0 +1,80 @@
+/*
+ * author: ym
+ * date:2020/9/14
+ */
+#codeInputPage {
+  padding: 0 15px;
+  overflow: hidden;
+}
+
+#codeInputPage .input_num_wrapper {
+  text-align: center;
+  font-size: 0;
+}
+
+#codeInputPage .code_num {
+  margin: 0 auto;
+  border-radius: 4px;
+  margin-top: 38px;
+  background: #F5F5F5;
+}
+
+#codeInputPage .code_num .van-field__control {
+  text-align: center;
+}
+
+#codeInputPage .validate_wrapper {
+  display: flex;
+}
+
+#codeInputPage .validate_num {
+  flex: 1;
+  margin-top: 10px;
+  background: #F5F5F5;
+}
+
+#codeInputPage .validate_image {
+  display: inline-block;
+  margin: 10px 0 0 10px;
+  vertical-align: top;
+  flex-basis: 120px;
+  height: 44px;
+  font-size: 14px;
+  line-height: 44px;
+}
+
+#codeInputPage .top_bg {
+  margin: 0 auto;
+  margin-top: 28px;
+  width: 144px;
+  height: 105px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+#codeInputPage .van-button--primary {
+  border-radius: 3px;
+}
+
+#codeInputPage .van-button--primary .van-button__text {
+  font-size: 15px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #FFFFFF;
+}
+
+#codeInputPage .notes_one, #codeInputPage .notes_two {
+  font-size: 13px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #333;
+  line-height: 18px;
+}
+
+#codeInputPage .notes_one {
+  margin-top: 29px;
+}
+
+#codeInputPage .notes_two {
+  margin-top: 18px;
+}
