@@ -4,11 +4,13 @@ import qs from "Qs";
 
 // 微信分享，引入sdk
 import wx from 'weixin-js-sdk';
+// aes加密解密
+import CryptoJS from "crypto-js/crypto-js";
 
 //  引入时间戳接口
 // import req from "./../apis/http.js";
-import {SERVER_TIME, WX_SHARE, WX_SHARE_LOG, ADDRESS, CASHIER_PAY_CHECK, APP_DOWNLOAD} from "./../apis/public.js";
-import {LOGIN_PARTERNER, PAGE_INFO} from "./../apis/passport.js";
+import { SERVER_TIME, WX_SHARE, WX_SHARE_LOG, ADDRESS, CASHIER_PAY_CHECK, APP_DOWNLOAD } from "./../apis/public.js";
+import { LOGIN_PARTERNER, PAGE_INFO } from "./../apis/passport.js";
 
 // 支持await async
 // import regeneratorRuntime from './../regenerator-runtime/runtime.js';
@@ -115,7 +117,7 @@ export default {
           // });
           this.$router.replace({
             name: "bindPhone",
-            query: {bindtype: _type, outerId: _unionid}
+            query: { bindtype: _type, outerId: _unionid }
           });
         }
         if (res.response_data.exist == 1) {
@@ -244,7 +246,7 @@ export default {
       // 在微信端
       if (this.isWxLogin ||
         localStorage.getItem("isHuobaIosLogin") == "yes" ||
-        localStorage.getItem("isHuobaAndroidLogin") == "yes" || true) {
+        localStorage.getItem("isHuobaAndroidLogin") == "yes") {
         let _href = window.location.href.split('#')[1];
         let _name = _href.split('?')[0].toLowerCase();
         let _params = this.$getPageParams(_name);
@@ -253,7 +255,8 @@ export default {
         this.page_name = _pageName;
         this.params = _params;
 
-        if (!_pageName || _pageName == '' || !_params || _params == '') {
+        // 新人礼不执行调起app传递分享等信息
+        if (!_pageName || _pageName == '' || !_params || _params == '' || _pageName == "" || _pageName == "/newgift/sexage") {
           return;
         }
 
@@ -327,7 +330,7 @@ export default {
             share_info: this.share_info,
             link_data: _linkData,
             params: _params,
-            isJump: _isJump
+            isJump: _isJump,
           }));
         }
         // ios
@@ -336,12 +339,65 @@ export default {
             share_info: this.share_info,
             link_data: _linkData,
             params: _params,
-            isJump: _isJump
+            isJump: _isJump,
           })
         }
       } else {
         this.$toast(res.error_message);
       }
+    }
+
+    // webview需要登錄但未登陆的页面调app的登陆流程
+    Vue.prototype.$gotoAppLogin = async function (routerLink) {
+        // 进入安卓登陆流程
+        var last_url = localStorage.getItem('routerLink');
+      last_url = last_url.replace('?nullPage=3', "");
+        last_url = last_url.replace('&nullPage=3', "");
+        if (localStorage.getItem("isHuobaAndroidLogin") == "yes") {
+          if (last_url.indexOf("?") == -1) {
+            last_url += '?isLoginFromApp=1';
+          } else {
+            last_url += '&isLoginFromApp=1';
+          }
+          window.JSWEB.RequestNative(JSON.stringify({
+            last_url: last_url
+          }));
+        }
+        // 进入ios登陆流程
+        else if (localStorage.getItem("isHuobaIosLogin") == "yes") {
+          last_url += 'isLoginFromApp=1';
+          if (last_url.indexOf("?") == -1) {
+            last_url += '?isLoginFromApp=1';
+          } else {
+            last_url += '&isLoginFromApp=1';
+          }
+          window.webkit.messageHandlers.shareAndJump.postMessage({
+            last_url: last_url
+          })
+        }
+        else {
+          if(routerLink.indexOf('/newGift/sexAge') != -1) {
+            // 引导进入web端登陆
+            this.$router.push({
+              name: "login"
+            });
+          }
+        }
+
+    }
+
+    // 音视频流解密
+    Vue.prototype.$aesDecrypt = function (data1, data2) {
+      var key = "huoba202009@..";
+      var hash = CryptoJS.MD5(key).toString();
+      var plaintext1 = CryptoJS.AES.decrypt(data1, hash).toString(
+        CryptoJS.enc.Utf8
+      );
+      var plaintext2 = CryptoJS.AES.decrypt(data2, hash).toString(
+        CryptoJS.enc.Utf8
+      );
+      var url = plaintext1 + "&playkey=" + plaintext2;
+      return url;
     }
     // 跳转App链接，微信端引导跳转app下载
     Vue.prototype.$linkToApp = function () {
@@ -389,11 +445,15 @@ export default {
       } else if (_name == '/login/phonelogin/phonelogin') {
         // 登录首页
         linkData.page_name = '/login/phoneLogin';
-        console.log('1',linkData.page_name);
-      } else if (_name == '/album/detail') {
+        console.log('1', linkData.page_name);
+      } else if (_name == '/album/audio') {
         // 专辑
         linkData.goods_id = this.$route.query.goods_id;
-        linkData.pid = typeof(this.$route.query.pid) == 'object' ? this.$route.query.pid[0] : this.$route.query.pid;
+        linkData.pid = typeof (this.$route.query.pid) == 'object' ? this.$route.query.pid[0] : this.$route.query.pid;
+      } else if (_name == '/album/video') {
+        // 专辑
+        linkData.goods_id = this.$route.query.goods_id;
+        linkData.pid = typeof (this.$route.query.pid) == 'object' ? this.$route.query.pid[0] : this.$route.query.pid;
       } else if (_name == '/album/index') {
         // 专辑
         linkData.goods_id = this.$route.query.goods_id;
@@ -461,7 +521,7 @@ export default {
           let timer = setTimeout(function () {
             let endTime = Date.now();
             if (endTime - startTime < 2200) { // 没有安装app,引导用户应用宝下载
-              _this.$appDownload().then(function(url) {
+              _this.$appDownload().then(function (url) {
                 // console.log('data',data);
                 window.location.href = url;
               });
@@ -476,7 +536,7 @@ export default {
       openAppPage();
     }
 
-    // 三端路由参数
+    // 三端路由参数(公共弹窗)
     Vue.prototype.$getRouterParams = function (_name) {
       _name = _name.toLowerCase();
       let linkData = {
@@ -504,10 +564,14 @@ export default {
         // 实物商品拼团页面
         linkData.groupbuy_id = parseInt(this.$route.query.groupbuy_id);
         linkData.brand_id = this.$route.query.brand_id;//??
-      } else if (_name == '/album/detail') {
+      } else if (_name == '/album/audio') {
         // 专辑
         linkData.goods_id = this.$route.query.goods_id;
-        linkData.pid = typeof(this.$route.query.pid) == 'object' ? this.$route.query.pid[0] : this.$route.query.pid;
+        linkData.pid = typeof (this.$route.query.pid) == 'object' ? this.$route.query.pid[0] : this.$route.query.pid;
+      } else if (_name == '/album/video') {
+        // 专辑
+        linkData.goods_id = this.$route.query.goods_id;
+        linkData.pid = typeof (this.$route.query.pid) == 'object' ? this.$route.query.pid[0] : this.$route.query.pid;
       } else if (_name == '/album/index') {
         // 专辑
         linkData.goods_id = this.$route.query.goods_id;
@@ -561,7 +625,7 @@ export default {
       } else if (_name == '/personal/order/detail') {
         // 订单详情
         linkData.order_id = this.$route.query.order_id;
-      }  else if (_name == '/pay/success') {
+      } else if (_name == '/pay/success') {
         // 支付成功
         linkData.order_id = this.$route.query.order_id;
       } else if (_name == '/gaokaotest/index' || _name == '/gaokaotest/questionspageone' || _name == '/gaokaotest/questionspagetwo' || _name == '/gaokaotest/resultpage') {
@@ -601,11 +665,11 @@ export default {
       } else if (_name == '/activity/interest') {
         // 问卷调查
         linkData.page_name = 'activity/interest';
-      } else if (_name == '/album/detail') {
+      } else if (_name == '/album/audio' || _name == '/album/video') {
         // 专辑
         linkData.page_name = 'goods/detail';
         linkData.goods_id = this.$route.query.goods_id;
-        linkData.pid = typeof(this.$route.query.pid) == 'object' ? this.$route.query.pid[0] : this.$route.query.pid;
+        linkData.pid = typeof (this.$route.query.pid) == 'object' ? this.$route.query.pid[0] : this.$route.query.pid;
       } else if (_name == '/album/index') {
         // 专辑
         linkData.page_name = 'goods/detail';
@@ -705,6 +769,32 @@ export default {
       let serverTime = res.response_data.timestamp * 1000;
       this.diffTime = serverTime - localTime;
     }
+
+    // 时间格式转换 秒数 -> 00:00:00
+    Vue.prototype.$formatTime = function(value) {
+      let secondTime = parseInt(value);
+      let minuteTime = 0;
+      let hourTime = 0;
+      if (secondTime > 60) {
+        minuteTime = parseInt(secondTime / 60);
+        secondTime = parseInt(secondTime % 60);
+        if (minuteTime > 60) {
+          hourTime = parseInt(minuteTime / 60);
+          minuteTime = parseInt(minuteTime % 60);
+        }
+      }
+      let result = secondTime > 9 ? secondTime : ('0' + secondTime);
+      if (minuteTime > 0) {
+        result = (minuteTime > 9 ? minuteTime : ('0' + minuteTime)) + ":" + result;
+      } else {
+        result = '00' + ":" + result;
+      }
+      if (hourTime > 0) {
+        result = (hourTime > 9 ? hourTime : ('0' + hourTime)) + ':' + result;
+      }
+      return result;
+    }
+
 
     // 计算时间戳
     Vue.prototype.$getTimeStamp = function () {
@@ -1159,10 +1249,10 @@ export default {
               if (self.$route.query.endAccountTo == 'return') {
                 self.$router.replace({
                   name: "payaccount",
-                  query: {goods_id: self.goods_id}
+                  query: { goods_id: self.goods_id }
                 })
               } else {
-                self.$router.push({name: "record"});
+                self.$router.push({ name: "record" });
               }
             }
             // 商品购买  虚拟 / 实物

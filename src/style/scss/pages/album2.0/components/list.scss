@@ -1,0 +1,167 @@
+/*
+ * author: lrf
+ * date:2020/8/17
+ */
+
+@charset "UTF-8";
+
+#playList {
+  .van-popup {
+    height: 465px;
+    border-radius: 15px 15px 0 0;
+    overflow: hidden;
+  }
+  .header {
+    position: absolute;
+    top: 0;
+    height: 49px;
+    width: 100%;
+    padding-left: 15px;
+    font-size: 0;
+    & .title {
+      margin-right: 10px;
+      font-size: 15px;
+      font-family: PingFang SC;
+      font-weight: bold;
+      color: #333;
+    }
+    & .total {
+      display: inline-block;
+      margin-left: 5px;
+      line-height: 49px;
+      font-size: 13px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      color: #333;
+    }
+    & .closeIcon {
+      position: absolute;
+      top: 12px;
+      right: 20px;
+      font-size: 22px;
+    }
+    & .play {
+      position: absolute;
+      top: 11px;
+      right: 15px;
+      .tag {
+        padding: 4px 9px;
+        font-size: 12px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #333;
+        background: #F5F5F5;
+        border-radius: 13px;
+      }
+    }
+  }
+  .van-list {
+    position: absolute;
+    width: 100%;
+    overflow: auto;
+    top: 49px;
+    bottom: 0;
+  }
+  .programContent {
+    .content {
+      display: flex;
+      height: 65px;
+    }
+    & .left {
+      flex-basis: 17px;
+      display: inline-block;
+      vertical-align: top;
+      margin-left: 15px;
+      line-height: 65px;
+      font-size: 15px;
+      font-family: PingFang SC;
+      font-weight: bold;
+      color: #999;
+    }
+    & .center {
+      flex: 1;
+      display: inline-block;
+      margin-left: 15px;
+      font-size: 0;
+      .flexBox {
+        @include displayFlex(flex, null, null);
+
+      }
+
+      .label {
+        flex-basis: 30px;
+        margin-top: 5px;
+        margin-right: 10px;
+        padding: 1px 2px;
+        height: 15px;
+        line-height: 15px;
+        vertical-align: top;
+        text-align: center;
+        font-size: 11px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #F05654;
+        border: 1px solid #F05654;
+        border-radius: 3px;
+      }
+      .carousel {
+        overflow: hidden;
+        max-width: 70vw;
+        display: inline-block;
+        height: 30px;
+        line-height: 30px;
+        font-size: 15px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #EF5553;
+        .title {
+          display: inline-block;
+          white-space: nowrap;
+          animation: horizontal-move 20s linear infinite;
+          transform: translate(100%);
+        }
+        @keyframes horizontal-move {
+        %0 {
+          transform: translate(-100%);
+        }
+        100% {
+          transform: translate(calc(-100%));
+        }
+      }
+      }
+      .title {
+        @include textOverflow();
+        max-width: 60vw;
+        display: inline-block;
+        height: 30px;
+        line-height: 30px;
+        font-size: 15px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #333;
+      }
+      .time {
+        height: 35px;
+        line-height: 35px;
+        font-size: 11px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #999;
+      }
+      & .text {
+
+      }
+    }
+    & .right {
+      flex-basis: 38px;
+      display: inline-block;
+      margin-right: 15px;
+      text-align: right;
+      vertical-align: top;
+      height: 65px;
+      line-height: 65px;
+      font-size: 26px;
+      color: #999;
+    }
+  }
+}
