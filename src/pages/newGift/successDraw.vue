@@ -63,7 +63,7 @@
       </van-list>
     </div>
     <Loading :isLoading="isLoading"></Loading>
-    <EazyNav type="brand" :isShow="true"></EazyNav>
+    <EazyNav type="brand" :isShow="isShows"></EazyNav>
     <!--通用弹窗-->
     <PublicPopup></PublicPopup>
   </div>
@@ -89,9 +89,15 @@
         page: 1,
         resultData: [],
         isLoading: true,
+        isShows: true,
       };
     },
     mounted () {
+      if (localStorage.getItem("isHuobaAndroidLogin") == "yes" || localStorage.getItem("isHuobaIosLogin") == "yes") {
+        this.isShows = false;
+      } else {
+        this.isShows = true;
+      }
       this.new_id = this.$route.query.new_id;
     },
     methods: {

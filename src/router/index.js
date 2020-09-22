@@ -394,7 +394,7 @@ export default new Router({
       meta: {
         title: '个人中心',
         keepAlive: false,
-        requireAuth: false // 需要登录才能进入的页面可以增加一个meta属性
+        requireAuth: false, // 需要登录才能进入的页面可以增加一个meta属性
       },
       beforeEnter: (to, from, next) => {
         // ...
@@ -463,7 +463,7 @@ export default new Router({
       component: account,
       meta: {
         title: '充值',
-        requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
         isWxLogin: true,   // 必须在微信端打开
       }
     },
@@ -1093,7 +1093,7 @@ export default new Router({
       name: 'pay',
       component: pay,
       meta: {
-        requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
         isWxLogin: true,   // 必须在微信端打开
       },
       //beforeEnter 在进入这个路由之前，先判断是从哪个路由跳转的
@@ -1105,7 +1105,7 @@ export default new Router({
       meta: {
         keepAlive: false,  // false不需要被缓存，true需要缓存
         title: '结算',
-        requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
+        // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
         isWxLogin: true,   // 必须在微信端打开
       },
       //beforeEnter 在进入这个路由之前，先判断是从哪个路由跳转的

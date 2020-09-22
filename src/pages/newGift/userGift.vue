@@ -129,7 +129,7 @@
     <div class="next_page active" v-if="button_boolean">领取新人礼包</div>
     <div class="next_page" @click="drawUrl()" v-else>领取新人礼包</div>
     <Loading :isLoading="isLoading"></Loading>
-    <EazyNav type="brand" :isShow="true"></EazyNav>
+    <EazyNav type="brand" :isShow="isShows"></EazyNav>
     <!--通用弹窗-->
     <PublicPopup></PublicPopup>
   </div>
@@ -160,9 +160,15 @@
         repeatclick: 0,
         isLoading: true,
         button_boolean: true,
+        isShows: true,
       };
     },
     mounted () {
+      if (localStorage.getItem("isHuobaAndroidLogin") == "yes" || localStorage.getItem("isHuobaIosLogin") == "yes") {
+        this.isShows = false;
+      } else {
+        this.isShows = true;
+      }
       this.new_id = this.$route.query.new_id;
       this.initData();
     },

@@ -37,7 +37,7 @@
       <div class="next_page active" @click="saveUrl2()" v-if="skip_next">继续</div>
       <div class="next_page" @click="saveUrl3()" v-else>继续</div>
     </div>
-    <EazyNav type="brand" :isShow="true"></EazyNav>
+    <EazyNav type="brand" :isShow="isShows"></EazyNav>
     <Loading :isLoading="isLoading"></Loading>
     <!--通用弹窗-->
     <PublicPopup></PublicPopup>
@@ -69,6 +69,7 @@
         skip_next: true,
         sexLink: true,
         isLoading: true,
+        isShows: true,
         active1: '',
         ageData: [],
         linkNum: 0,
@@ -80,6 +81,11 @@
       };
     },
     mounted () {
+      if (localStorage.getItem("isHuobaAndroidLogin") == "yes" || localStorage.getItem("isHuobaIosLogin") == "yes") {
+        this.isShows = false;
+      } else {
+        this.isShows = true;
+      }
       this.initData();
     },
     methods: {

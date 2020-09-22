@@ -19,8 +19,8 @@
 
     <template v-else>
       <Download></Download>
-      <!-- <aplayer :playerOptions="aOption" muted="muted" /> -->
-      <!-- <vplayer :playerOptions="vOption" muted="muted" /> -->
+      <aplayer :playerOptions="aOption" muted="muted" />
+      <vplayer :playerOptions="vOption" muted="muted" />
 
       <!-- 页面缓存, $route.meta.keepAlive默认false -->
       <keep-alive>
@@ -100,81 +100,104 @@
   }
 </style>
 <script>
-  // aes加密解密
-  import CryptoJS from "crypto-js/crypto-js";
-  // 音视频流兼容m3u8
-  import { aplayer, vplayer } from "vue-hls-player";
+// aes加密解密
+import CryptoJS from "crypto-js/crypto-js";
+// 音视频流兼容m3u8
+import { aplayer, vplayer } from "vue-hls-player";
 
-  // 微信分享，引入sdk
-  import wx from "weixin-js-sdk";
-  export default {
-    name: "App",
-    data() {
-      return {
-        nullPage: this.$route.query.nullPage ? this.$route.query.nullPage : 0,
-        msg: "",
-        // aOption: {
-        //   type: "application/x-mpegURL",
-        //   src: "http://file.huoba.dev.zzy/test/v6/output.m3u8",
-        //   preload: true,
-        //   autoplay: true,
-        //   isLoop: false,
-        //   poster: "",
-        //   title: "音频播放器",
-        //   description: "",
-        //   controls: "progress,durration",
-        // },
-        // vOption: {
-        //   type: "application/x-mpegURL",
-        //   src:
-        //     "http://wap.huoba.dev.zzy/callback/media/file?gid=10004771&playkey=123",
-        //   preload: true,
-        //   autoplay: true,
-        //   isLoop: false,
-        //   poster: "",
-        //   playsinline: true,
-        //   title: "视频播放器",
-        //   controls: "progress,durration,volume",
-        // },
+// 微信分享，引入sdk
+import wx from "weixin-js-sdk";
+export default {
+  name: "App",
+  data() {
+    return {
+      nullPage: this.$route.query.nullPage ? this.$route.query.nullPage : 0,
+      msg: "",
+      aOption: {
+        type: "application/x-mpegURL",
+        src:
+          "http://wap.huoba.dev.zzy/callback/media/file?gid=10004791&playkey=5e8d5719fcef6fe65f0a79111f1765bc",
+        preload: true,
+        autoplay: true,
+        isLoop: false,
+        poster: "",
+        title: "音频播放器",
+        description: "",
+        controls: "progress,durration",
+      },
+      vOption: {
+        type: "application/x-mpegURL",
+        src:
+          "http://wap.huoba.dev.zzy/callback/media/file?gid=10004771&playkey=123",
+        preload: true,
+        autoplay: true,
+        isLoop: false,
+        poster: "",
+        playsinline: true,
+        title: "视频播放器",
+        controls: "progress,durration,volume",
+      },
+    };
+  },
+  created() {
+    //解密
+    var data1 =
+      "U2FsdGVkX1+kio7qvgg85GTx+0NaWh+Ngt0bXu+o3FRccFgtc4JeTr86PFR6D41uluqd8IA45KvprH4+Yufrz9J9dOyAQW+QtjIxAI0aiq4=";
+    var data2 =
+      "U2FsdGVkX1/x5CixbFmvUKEmjyIXWx8xSW/tKqVQMKl8tuLLl++v8Lpk+HHwPQK1UAx92+ikF2fcuwc1zKC4qw==";
+
+    // var audio1 = "";
+    // var audio2 = "";
+    // this.vOption.src = this.$aesDecrypt(data1, data2);
+
+    this.aOption = {
+        type: "application/x-mpegURL",
+        src: "http://wap.huoba.dev.zzy/callback/media/file?gid=10004791&playkey=5e8d5719fcef6fe65f0a79111f1765bc",
+        preload: true,
+        autoplay: true,
+        isLoop: false,
+        poster: "",
+        title: "音频播放器",
+        description: "",
+        controls: "progress,durration",
       };
+
+    this.vOption = {
+      type: "application/x-mpegURL",
+      // src: "http://wap.huoba.dev.zzy/callback/media/file?gid=10004771&playkey=123",
+      src: this.$aesDecrypt(data1, data2),
+      preload: true,
+      autoplay: true,
+      isLoop: false,
+      poster: "",
+      playsinline: true,
+      title: "视频播放器",
+      controls: "progress,durration,volume",
+    };
+  },
+  mounted() {
+    //加密
+    // var username = "Sebaxtian";
+    // var password = "Contraseña";
+    // var json_obj = { username: username, password: password };
+    // var mensajePlano = JSON.stringify(json_obj);
+    // var mensajeEncriptado = CryptoJS.AES.encrypt(mensajePlano, hash).toString();
+    // console.log("Mensaje Encriptado: " + mensajeEncriptado);
+
+    if (this.$route.query.nullPage == 1) this.msg = "请在微信端打开~";
+    if (this.$route.query.nullPage == 2) this.msg = "请在app端打开~";
+    if (this.$route.query.nullPage == 3) this.msg = "请先登录";
+    // 获取适配信息，并微信授权
+    this.$setLoginData();
+  },
+  methods: {
+    gotoLogin() {
+      this.$router.push({
+        name: "phoneLogin",
+        query: {},
+      });
     },
-    mounted() {
-      // console.log("token:", this.$cookies.get("token"));
-
-      // // hash值获取方式  KlgisfineKJ123@abc是前后台规定的key请改变的时候通知后端开发人员
-      // var key = '123';
-      // var hash = CryptoJS.MD5(key).toString();
-
-      // //加密
-      // var username = "Sebaxtian";
-      // var password = "Contraseña";
-      // var json_obj = { username: username, password: password };
-      // var mensajePlano = JSON.stringify(json_obj);
-      // var mensajeEncriptado = CryptoJS.AES.encrypt(mensajePlano, hash).toString();
-      // console.log("Mensaje Encriptado: " + mensajeEncriptado);
-
-      // //解密
-      // var data = "U2FsdGVkX18VPEmp29pSCEntot/n6nMHk7DMk++7b8A=";
-      // var plaintext = CryptoJS.AES.decrypt(data, hash);
-      // console.log(
-      //   "解密: " + plaintext.toString(CryptoJS.enc.Utf8),
-      //   "hash:",
-      //   hash
-      // );
-
-      if (this.$route.query.nullPage == 1) this.msg = "请在微信端打开~";
-      if (this.$route.query.nullPage == 2) this.msg = "请在app端打开~";
-      if (this.$route.query.nullPage == 3) this.msg = "请先登录";
-      // 获取适配信息，并微信授权
-      this.$setLoginData();
-    },
-    methods: {
-      gotoLogin() {
-        this.$router.push({
-          name: "phoneLogin",
-          query: {}
-        });
-      }
-    },
-  };
+    async getM3u8Url() {},
+  },
+};
 </script>

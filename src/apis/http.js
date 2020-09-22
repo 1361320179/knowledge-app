@@ -13,13 +13,16 @@ var open_id = localStorage.getItem('openid');
 var obj = {};
 
 // run dev
-// obj.baseURL = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + '/apis';
+obj.baseURL = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + '/apis';
 
 // run build
-obj.baseURL =  window.location.protocol + "//" + window.location.hostname + '/apis';
+// obj.baseURL =  window.location.protocol + "//" + window.location.hostname + '/apis';
 
-// cache分支 81端口
+// run build 81端口
 // obj.baseURL =  window.location.protocol + "//" + window.location.hostname + ":81" + '/apis';
+
+// run build 170 8001端口
+// obj.baseURL =  window.location.protocol + "//" + window.location.hostname + ":8001" + '/apis';
 
 obj.timeout = 15000;
 

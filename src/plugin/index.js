@@ -4,11 +4,13 @@ import qs from "Qs";
 
 // 微信分享，引入sdk
 import wx from 'weixin-js-sdk';
+// aes加密解密
+import CryptoJS from "crypto-js/crypto-js";
 
 //  引入时间戳接口
 // import req from "./../apis/http.js";
-import {SERVER_TIME, WX_SHARE, WX_SHARE_LOG, ADDRESS, CASHIER_PAY_CHECK, APP_DOWNLOAD} from "./../apis/public.js";
-import {LOGIN_PARTERNER, PAGE_INFO} from "./../apis/passport.js";
+import { SERVER_TIME, WX_SHARE, WX_SHARE_LOG, ADDRESS, CASHIER_PAY_CHECK, APP_DOWNLOAD } from "./../apis/public.js";
+import { LOGIN_PARTERNER, PAGE_INFO } from "./../apis/passport.js";
 
 // 支持await async
 // import regeneratorRuntime from './../regenerator-runtime/runtime.js';
@@ -115,7 +117,7 @@ export default {
           // });
           this.$router.replace({
             name: "bindPhone",
-            query: {bindtype: _type, outerId: _unionid}
+            query: { bindtype: _type, outerId: _unionid }
           });
         }
         if (res.response_data.exist == 1) {
@@ -384,6 +386,19 @@ export default {
 
     }
 
+    // 音视频流解密
+    Vue.prototype.$aesDecrypt = function (data1, data2) {
+      var key = "huoba202009@..";
+      var hash = CryptoJS.MD5(key).toString();
+      var plaintext1 = CryptoJS.AES.decrypt(data1, hash).toString(
+        CryptoJS.enc.Utf8
+      );
+      var plaintext2 = CryptoJS.AES.decrypt(data2, hash).toString(
+        CryptoJS.enc.Utf8
+      );
+      var url = plaintext1 + "&playkey=" + plaintext2;
+      return url;
+    }
     // 跳转App链接，微信端引导跳转app下载
     Vue.prototype.$linkToApp = function () {
       var u = navigator.userAgent,
@@ -430,15 +445,15 @@ export default {
       } else if (_name == '/login/phonelogin/phonelogin') {
         // 登录首页
         linkData.page_name = '/login/phoneLogin';
-        console.log('1',linkData.page_name);
+        console.log('1', linkData.page_name);
       } else if (_name == '/album/audio') {
         // 专辑
         linkData.goods_id = this.$route.query.goods_id;
-        linkData.pid = typeof(this.$route.query.pid) == 'object' ? this.$route.query.pid[0] : this.$route.query.pid;
+        linkData.pid = typeof (this.$route.query.pid) == 'object' ? this.$route.query.pid[0] : this.$route.query.pid;
       } else if (_name == '/album/video') {
         // 专辑
         linkData.goods_id = this.$route.query.goods_id;
-        linkData.pid = typeof(this.$route.query.pid) == 'object' ? this.$route.query.pid[0] : this.$route.query.pid;
+        linkData.pid = typeof (this.$route.query.pid) == 'object' ? this.$route.query.pid[0] : this.$route.query.pid;
       } else if (_name == '/album/index') {
         // 专辑
         linkData.goods_id = this.$route.query.goods_id;
@@ -506,7 +521,7 @@ export default {
           let timer = setTimeout(function () {
             let endTime = Date.now();
             if (endTime - startTime < 2200) { // 没有安装app,引导用户应用宝下载
-              _this.$appDownload().then(function(url) {
+              _this.$appDownload().then(function (url) {
                 // console.log('data',data);
                 window.location.href = url;
               });
@@ -552,11 +567,11 @@ export default {
       } else if (_name == '/album/audio') {
         // 专辑
         linkData.goods_id = this.$route.query.goods_id;
-        linkData.pid = typeof(this.$route.query.pid) == 'object' ? this.$route.query.pid[0] : this.$route.query.pid;
+        linkData.pid = typeof (this.$route.query.pid) == 'object' ? this.$route.query.pid[0] : this.$route.query.pid;
       } else if (_name == '/album/video') {
         // 专辑
         linkData.goods_id = this.$route.query.goods_id;
-        linkData.pid = typeof(this.$route.query.pid) == 'object' ? this.$route.query.pid[0] : this.$route.query.pid;
+        linkData.pid = typeof (this.$route.query.pid) == 'object' ? this.$route.query.pid[0] : this.$route.query.pid;
       } else if (_name == '/album/index') {
         // 专辑
         linkData.goods_id = this.$route.query.goods_id;
@@ -610,7 +625,7 @@ export default {
       } else if (_name == '/personal/order/detail') {
         // 订单详情
         linkData.order_id = this.$route.query.order_id;
-      }  else if (_name == '/pay/success') {
+      } else if (_name == '/pay/success') {
         // 支付成功
         linkData.order_id = this.$route.query.order_id;
       } else if (_name == '/gaokaotest/index' || _name == '/gaokaotest/questionspageone' || _name == '/gaokaotest/questionspagetwo' || _name == '/gaokaotest/resultpage') {
@@ -654,7 +669,7 @@ export default {
         // 专辑
         linkData.page_name = 'goods/detail';
         linkData.goods_id = this.$route.query.goods_id;
-        linkData.pid = typeof(this.$route.query.pid) == 'object' ? this.$route.query.pid[0] : this.$route.query.pid;
+        linkData.pid = typeof (this.$route.query.pid) == 'object' ? this.$route.query.pid[0] : this.$route.query.pid;
       } else if (_name == '/album/index') {
         // 专辑
         linkData.page_name = 'goods/detail';
@@ -755,7 +770,7 @@ export default {
       this.diffTime = serverTime - localTime;
     }
 
-    // 时间格式转换
+    // 时间格式转换 秒数 -> 00:00:00
     Vue.prototype.$formatTime = function(value) {
       let secondTime = parseInt(value);
       let minuteTime = 0;
@@ -1234,10 +1249,10 @@ export default {
               if (self.$route.query.endAccountTo == 'return') {
                 self.$router.replace({
                   name: "payaccount",
-                  query: {goods_id: self.goods_id}
+                  query: { goods_id: self.goods_id }
                 })
               } else {
-                self.$router.push({name: "record"});
+                self.$router.push({ name: "record" });
               }
             }
             // 商品购买  虚拟 / 实物

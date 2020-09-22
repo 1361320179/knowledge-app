@@ -57,10 +57,11 @@
       width: 60px;
       height: 27px;
       position: absolute;
+      z-index: 10;
       top: 10px;
       right: 15px;
       background: linear-gradient(90deg, rgba(241, 88, 86, 1), rgba(252, 128, 128, 1));
-      box-shadow: 0 8px 16px 0 rgba(240, 86, 84, 0.3);
+      box-shadow: 0 4px 8px 0 rgba(240, 86, 84, 0.3);
       border-radius: 13.5px;
       font-size:13px;
       font-family:PingFang SC;
