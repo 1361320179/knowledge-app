@@ -19,8 +19,8 @@
 
     <template v-else>
       <Download></Download>
-      <aplayer :playerOptions="aOption" muted="muted" />
-      <vplayer :playerOptions="vOption" muted="muted" />
+      <!--<aplayer :playerOptions="aOption" muted="muted" />
+      <vplayer :playerOptions="vOption" muted="muted" />-->
 
       <!-- 页面缓存, $route.meta.keepAlive默认false -->
       <keep-alive>
