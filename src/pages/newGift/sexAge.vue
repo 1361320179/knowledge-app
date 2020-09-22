@@ -195,12 +195,17 @@
           var user_info = res.response_data.user_info;
           var is_new = res.response_data.is_new;
           this.labelData = [];
-          if (user_info.age == '') {
+          if (user_info.age == '' || user_info.age == null) {
             this.active1 = '95后';
           } else {
             this.active1 = user_info.age;
           }
-          if (user_info.sex == '' || user_info.sex == '男') {
+          if (user_info.sex == '' || user_info.sex == null) {
+            this.man_light = true;
+            this.man_text = true;
+            this.men_text = false;
+            this.men_light = false;
+          } else if (user_info.sex == '男') {
             this.man_light = true;
             this.man_text = true;
             this.men_text = false;
@@ -219,9 +224,8 @@
           }
           if (is_new != 1) {
             window.location.href = res.response_data.url;
-          } else {
-            this.isLoading = false;
           }
+          this.isLoading = false;
         } else {
           this.isLoading = false;
           this.$toast(res.error_message);

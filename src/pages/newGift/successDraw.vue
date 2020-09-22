@@ -29,9 +29,15 @@
         @click="gotoDetail(item)"
         v-for="(item,index) in resultData" :key="index"
       >
-        <div class="ratiobook">
+        <div class="ebook_border" v-if="item.goods_type == 4">
+          <div class="ratiobox">
+            <div class="bookImg" v-lazy:background-image="item.pic[0]"></div>
+            <span class="book_text_title">{{ item.type_desc }}</span>
+          </div>
+        </div>
+        <div class="ratiobook" v-else>
           <div class="bookimg" v-lazy:background-image="item.pic[0]"></div>
-          <span class="book_text_title">专辑</span>
+          <span class="book_text_title">{{ item.type_desc }}</span>
         </div>
         <div class="right">
           <div class="text">{{item.title}}</div>
@@ -135,8 +141,20 @@
           }, 1);
           this.isLoading = false;
         } else {
-          this.$toast(res.error_message);
+          this.isLoading = false;
+          if (res.error_code === 100) {
+            this.$toast(res.error_message);
+            this.login();
+          } else {
+            this.$toast(res.error_message);
+          }
         }
+      },
+      // 登陆
+      login () {
+        this.$router.push({
+          name: "login"
+        });
       },
       // 专辑跳转
       gotoDetail (item) {
