@@ -598,7 +598,7 @@ export default {
       this.submitRedeem();
     },
     // 是否是APP
-    isApp() {
+    isApp() { 
       if (
         localStorage.getItem("isHuobaIosLogin") == "yes" ||
         localStorage.getItem("isHuobaAndroidLogin") == "yes"
