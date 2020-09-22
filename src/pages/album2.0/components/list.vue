@@ -30,8 +30,11 @@
             </div>
             <div class="center">
               <div class="flexBox">
-                <div class="label" v-if="item.goods_type == 1 && item.is_free == 1 && albumInfo.is_payed == 0 && albumInfo.is_free == 0">试听</div>
-                <div class="label" v-if="item.goods_type == 2 && item.is_free == 1 && albumInfo.is_payed == 0 && albumInfo.is_free == 0">试看</div>
+                <div class="label" v-if="JSON.stringify(limitUse) != '{}'">限免</div>
+                <template v-else>
+                  <div class="label" v-if="item.goods_type == 1 && item.is_free == 1 && albumInfo.is_payed == 0 && albumInfo.is_free == 0">试听</div>
+                  <div class="label" v-if="item.goods_type == 2 && item.is_free == 1 && albumInfo.is_payed == 0 && albumInfo.is_free == 0">试看</div>
+                </template>
                 <div class="carousel" v-if="goodsNo == item.goods_no && audioStatus">
                   <span class="title">{{ item.title }}</span>
                 </div>
@@ -186,7 +189,7 @@
         this.popupModel = false;
       }
     },
-    props: ["albumInfo", "goodsNo", "audioStatus", "goodsId"],
+    props: ["albumInfo", "goodsNo", "audioStatus", "goodsId", "limitUse"],
 
   }
 </script>
