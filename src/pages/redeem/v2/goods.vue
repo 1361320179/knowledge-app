@@ -143,7 +143,7 @@
                   <use xlink:href="#icon-uncheck-line" style="color:#E5E5E5;" />
                 </svg>
               </div>
- 
+
               <div
                 v-else
                 class="default"
@@ -259,7 +259,7 @@ export default {
       is_default: "0",
       is_owned: "1",
       secShare: "",
-      coupons_length:"",
+      coupons_length: "",
       has_link_s: "",
       disabled_true: "true",
       disabled_false: "false",
@@ -344,6 +344,7 @@ export default {
           case "此活动已结束":
           case "兑换码已过期":
           case "无效的兑换码！":
+          case "该码已经被兑换过！":
           case "该兑换码已经兑换过":
           case "字段[code]值不能为空":
             this.errMsg = res.error_message;
@@ -547,7 +548,7 @@ export default {
 
         if (this.goods_type == "2") {
           this.goodsNameType = "coupons";
-          this.coupons_length =this.percentGoods.length;
+          this.coupons_length = this.percentGoods.length;
         } else if (this.service_day > 0) {
           this.goodsNameType = "service_day";
         } else {
@@ -561,7 +562,7 @@ export default {
             query: {
               goodsName: this.percentGoods,
               resData: data,
-              coupons_length :this.coupons_length,
+              coupons_length: this.coupons_length,
               service_day: this.service_day,
               goodsNameType: this.goodsNameType,
             },
@@ -573,7 +574,7 @@ export default {
             query: {
               goodsName: this.percentGoods,
               service_day: this.service_day,
-              coupons_length :this.coupons_length,
+              coupons_length: this.coupons_length,
               goodsNameType: this.goodsNameType,
             },
           });

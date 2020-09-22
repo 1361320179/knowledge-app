@@ -36,3 +36,6 @@ export const REDEEM_LINK = query => req('post', '/activity/redeem/codecheck', qu
 
 
 export const REDEEM_EXCHANGE = query => req('post', '/activity/redeem/exchange', query)
+
+
+export const REDEEM_RECOMMEND = query => req('post', '/user/goods/recommend', query)
