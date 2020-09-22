@@ -1,0 +1,517 @@
+/*
+ * author: lrf
+ * date:2019/12/03
+ */
+
+@charset "utf-8";
+
+#redeemGoodsPage {
+  overflow: hidden;
+  min-height: 100%;
+  background: #F5F5F5;
+
+  h3,
+  p {
+    margin: 0;
+  }
+
+  .propaganda {}
+
+  .goods_wrapper {
+    margin: 10px 15px 0 15px;
+    padding: 10px;
+    border-radius: 5px;
+    background: #FFFFFF;
+
+    .goods_intro {
+      display: flex;
+      position: relative;
+      text-overflow: ellipsis;
+      overflow: hidden;
+
+      .picture {
+        display: inline-block;
+        position: relative;
+        flex-basis: 85px;
+        flex-shrink: 0;
+        margin: 3px 0 3px 3px;
+        height: 85px;
+        border-radius: 3px;
+        background-size: cover;
+        background-repeat: no-repeat;
+
+        .nothing_left {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 50px;
+          height: 50px;
+          background: #000000;
+          opacity: 0.5;
+          border-radius: 50%;
+
+          .text {
+            text-align: center;
+            width: 50px;
+            height: 50px;
+            font-size: 12px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            color: #FFFFFF;
+            line-height: 50px;
+          }
+        }
+      }
+
+      .content {
+        flex: 1;
+        display: inline-block;
+        position: relative;
+        margin-left: 12px;
+
+        .title {
+          font-size: 14px;
+          font-family: PingFang SC;
+          font-weight: 500;
+          color: #333333;
+          line-height: 18px;
+          @include twoColtextOverflow;
+          white-space: pre-wrap;
+          word-break: break-all;
+        }
+
+        .sub_title {
+          margin-top: 3px;
+          font-size: 12px;
+          font-family: PingFang SC;
+          font-weight: 500;
+          color: #999999;
+          height: 18px;
+          line-height: 18px;
+
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          white-space: pre-wrap;
+          word-break: break-all;
+        }
+
+        .price {
+          position: absolute;
+          width: 100%;
+          right: 0;
+          bottom: 3px;
+          font-size: 12px;
+          font-family: PingFang SC;
+          font-weight: 500;
+          color: #999999;
+          line-height: 27px;
+          text-decoration: line-through;
+        }
+
+        .redeem_btn {
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          border-radius: 3px;
+          width: 80px;
+          height: 27px;
+        }
+
+        .van-button {
+          line-height: 25px;
+        }
+
+        .van-button--normal {
+          padding: 0;
+        }
+
+        .van-button__text {
+          width: 55px;
+          height: 13px;
+          font-size: 14px;
+          font-family: PingFang SC;
+          font-weight: 500;
+          color: #FFFFFF;
+        }
+      }
+    }
+
+    .goods_detail {
+      margin-top: 10px;
+      font-size: 12px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      color: #666666;
+      line-height: 19px;
+    }
+  }
+
+  .rule {
+    margin: 28px 15px 64px 15px;
+    font-size: 14px;
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: #333333;
+    line-height: 19px;
+  }
+
+  .addressPopup {
+    width: 74.67%;
+    height: 66.56%;
+    border-radius: 14px;
+    padding: 50px 30px 0;
+    overflow: hidden;
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      font-size: 13px;
+      color: #999;
+    }
+
+    .addressBox {
+      height: 77%;
+      overflow-y: auto;
+
+      .addressMember {
+        display: flex;
+        margin-bottom: 30px;
+        align-items: center;
+
+        .default {
+          flex-basis: 50px;
+        }
+
+        .active {
+          .icon {
+            color: #f05654;
+          }
+        }
+
+        .title {
+          flex-grow: 1;
+        }
+      }
+    }
+
+    .button {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 25px;
+
+      .addButton {
+        flex-grow: 1;
+        text-align: center;
+      }
+
+      .define {
+        flex-grow: 1;
+        text-align: center;
+      }
+
+      .van-button {
+        width: 125px;
+      }
+
+      .van-button--primary {
+        border-radius: 3px;
+
+        .van-button__text {
+          font-size: 15px;
+          font-family: PingFang SC;
+          font-weight: 500;
+          color: #FFFFFF;
+        }
+      }
+
+      .van-button--default {
+        border: 0.5px solid #F05654;
+        border-radius: 3px;
+
+        .van-button__text {
+          font-size: 15px;
+          font-family: PingFang SC;
+          font-weight: 500;
+          color: #F05654;
+        }
+      }
+    }
+  }
+
+  .limit_info {
+    overflow: hidden;
+    width: 214px;
+    height: 214px;
+    border-radius: 5px;
+
+    .limit_title {
+      margin: 0 auto;
+      text-align: center;
+      margin-top: 21px;
+      width: 186px;
+      height: 17px;
+      font-size: 15px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      color: #333333;
+      line-height: 28px;
+      background-size: 186px 17px;
+      background-repeat: no-repeat;
+      @include bgImageOne('../../../../../assets/redeem/title2');
+    }
+
+    .limit_img {
+      margin: 0 auto;
+      margin-top: 28px;
+      width: 105px;
+      height: 83px;
+      background-size: 105px 83px;
+      background-repeat: no-repeat;
+      @include bgImageOne('../../../../../assets/redeem/outdated');
+    }
+
+    .limit_remind {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 14px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      color: #999999;
+      line-height: 34px;
+    }
+  }
+
+  .receive_btn {
+    position: fixed;
+    width: 100%;
+    max-width: 640px;
+    border-radius: 0px;
+    background: #F05654;
+    border: 1px solid #F05654;
+    bottom: 0px;
+    z-index: 99;
+  }
+
+  .huoba-goods-list {
+    margin: 10px;
+    border-radius: 10px;
+    position: relative;
+    .ratioBox {
+      min-width: 100px;
+      border-radius: 10px;
+      box-shadow: 0 0 black;
+
+      .box {
+        background:#F5F5F5;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        border-radius: 10px;
+      }
+
+      .huoba-goods-list-label {
+        width: 35px;
+        height: 22px;
+        background: #ffb16e;
+        border-radius: 10px 0px 10px 0;
+        font-size: 14px;
+      }
+
+      .goods_list_ebook {
+        width: 45px;
+      }
+    }
+
+
+    .huoba-goods-list-mid {
+      .limited_immunity {
+        height: 20px;
+        position: relative;
+
+        .icon {
+          font-size: 65px;
+          position: absolute;
+          top: -30px;
+          left: -6px;
+        }
+
+        span {
+          font-size: 12px;
+          color: #fff;
+          position: absolute;
+          z-index: 1;
+          top: -6px;
+          left: 5px;
+        }
+      }
+
+      .prices {
+        font-size: 10px;
+        color: #343434;
+        font-weight: 500;
+        font-family: PingFang SC;
+        text-decoration: line-through;
+
+        span {
+          font-size: 14px;
+        }
+      }
+    }
+
+    .huoba-goods-list-right {
+      padding-left: 20px;
+      padding-top: 36px;
+
+      // .huoba-goods-list-check {
+      //   margin-right: 0px;
+        // .van-checkbox{
+          // overflow: inherit;
+          .icon {
+            width: 2.5em;
+            height: 2.5em;
+            // &:before{
+            //   padding-top: 3px;
+            //   padding-left: 2px;
+            // }
+          }
+        // }
+      // }
+    }
+
+    .huoba-goods-list-left {
+      .huoba-goods-list-imgs {
+        .ratioBox {
+          min-width: 70px;
+        }
+      }
+    }
+
+
+    .dotted_line {
+      height: 120px;
+      position: absolute;
+      right: 90px;
+      z-index: 4;
+      border-left: 1px dashed #CBCBCB;
+    }
+
+    .upper_semicircle {
+      position: absolute;
+      width: 26px;
+      height: 13px;
+      border: 1px solid #F5F5F5;
+      background-color: #F5F5F5;
+      border-radius: 100px 100px 0 0;
+      bottom: 0px;
+      right: 76px;
+      z-index: 8;
+
+    }
+
+    .lower_semicircle {
+      position: absolute;
+      width: 26px;
+      height: 13px;
+      border: 1px solid #f5f5f5;
+      background-color: #f5f5f5;
+      border-radius: 0 0 100px 100px;
+      top: 0;
+      right: 76px;
+      z-index: 8;
+
+    }
+    .owned{
+      width: 76px;
+      height: 76px;
+      background-repeat: no-repeat;
+      @include bgImageOne('./../../../../../assets/redeem/owned');
+      position: absolute;
+      right: 30px;
+      bottom: 15px;
+    }
+    .ebook_owned,.coupon_owned{
+      width: 76px;
+      height: 76px;
+      background-repeat: no-repeat;
+      @include bgImageOne('./../../../../../assets/redeem/lootall');
+      position: absolute;
+      right: 30px;
+      bottom: 15px;
+    }
+    .goods_title{
+      width: 70%;
+      position: absolute;
+      top: 8px;
+      overflow: hidden;
+      -o-text-overflow: ellipsis;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+  }
+  .disabled_true{
+    .goods_title,.huoba-goods-price,.huoba-goods-num,.huoba-goods-title,.prices{
+      color: #9A9A9A !important;
+    }
+    .van-checkbox__icon--disabled {
+      .van-icon{
+        border-color: #E5E5E5 !important;
+        background-color: #ffffff ;
+      }
+    }
+  }
+
+  .huoba-popup-two{
+    width: 70%;
+    height: 130px;
+    text-align: center;
+    background: #FFFFFF;
+    border-radius: 10px;
+    h3{
+      padding: 20px;
+    }
+    div{
+      display: inline-block;
+      width: 50%;
+      height: 40px;
+      line-height: 40px;
+      border-top: 1px solid #E5E5E5;
+      font-size: 16px;
+    }
+    .pop-two-text-two{
+      color: #999999;
+    }
+    .pop-two-text-three{
+      color: #2591D0;
+      border-left:1px solid #E5E5E5;
+      margin-left: -6px;
+    }
+  }
+  .huoba_goods_coupon{
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-size: 100% 100%;
+    @include bgImageOne('./../../../../../assets/redeem/bg13');
+    background-color: rgba(0,0,0,0);
+  }
+  .outdated_info{
+    background-color: rgba(0,0,0,0.5);
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  // .van-overlay{
+  //   background-color: rgba(0,0,0,0);
+  // }
+}
+
+.van-toast--text{
+  text-align: center;
+}
