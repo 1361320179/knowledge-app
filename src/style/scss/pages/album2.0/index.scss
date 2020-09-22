@@ -1,0 +1,803 @@
+/*
+ * author: lrf
+ * date:2020/8/5
+ */
+
+@charset "UTF-8";
+
+#albumIndex {
+  h3 {
+    margin: 0;
+  }
+  .listBox {
+    @include displayFlex (flex, flex-start, flex-start);
+    position: relative;
+    height: 156px;
+    overflow: hidden;
+    .filter {
+      position: absolute;
+      z-index: -10;
+      width: 100%;
+      height: 156px;
+      filter: blur(20px);
+    }
+    .shadow {
+      position: absolute;
+      z-index: -5;
+      width: 100%;
+      height: 156px;
+      background: #030303;
+      opacity: 0.2;
+    }
+    .left {
+      margin: 17px 12px 20px 15px;
+      .ratioBox {
+        width: 100px;
+        border-radius: 5px;
+        img {
+          border-radius: 5px;
+        }
+      }
+    }
+    .center {
+      margin-top: 17px;
+      margin-right: 89px;
+      .title {
+        @include twoColtextOverflow;
+        margin-top: -3px;
+        font-size: 16px;
+        font-family: PingFang SC;
+        font-weight: bold;
+        color: #fff;
+        line-height: 18px;
+      }
+      .info {
+        margin-top: 10px;
+        .tag {
+          display: inline-block;
+          padding: 0 4px;
+          background: rgba(0, 0, 0, 0.4);
+          border-radius: 2px;
+          font-size: 11px;
+          font-family: PingFang SC;
+          font-weight: 500;
+          color: #FFB16D;
+          &:first-of-type {
+            margin-right: 18px;
+          }
+          .count {
+            margin-right: 3px;
+          }
+        }
+        .brand {
+          margin-top: 20px;
+          .brandPic {
+            vertical-align: top;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+          }
+          .brandText {
+            display: inline-block;
+            margin-left: 8px;
+            vertical-align: top;
+            font-size: 13px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            color: #fff;
+          }
+        }
+      }
+    }
+    .collect {
+      position: absolute;
+      right: 15px;
+      bottom: 36px;
+      .van-tag {
+        width: 55px;
+        text-align: center;
+      }
+    }
+  }
+  .detail {
+    margin-top: -18px;
+    margin-bottom: 94px;
+    .commentNum {
+      font-size: 10px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      color: #999;
+      line-height: 10px;
+    }
+    .programContent {
+      .header {
+        position: relative;
+        height: 49px;
+        padding-left: 15px;
+        font-size: 0;
+      }
+      & .limited {
+        margin-left: 10px;
+        font-size: 13px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #999;
+      }
+
+      & .bought {
+        display: inline-block;
+        width: 30px;
+        height: 14px;
+        line-height: 14px;
+        text-align: center;
+        background: url('./../../../../assets/album/yigou.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+        font-size: 11px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #fff;
+      }
+      & .total {
+        display: inline-block;
+        margin-left: 5px;
+        line-height: 49px;
+        font-size: 13px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #333;
+      }
+      & .play {
+        position: absolute;
+        top: 11px;
+        right: 15px;
+        .bofang {
+          width: 10px;
+          height: 10px;
+        }
+        .tag {
+          padding: 4px 9px;
+          font-size: 12px;
+          font-family: PingFang SC;
+          font-weight: 500;
+          color: #333;
+          background: #F5F5F5;
+          border-radius: 13px;
+        }
+      }
+      .content {
+        display: flex;
+        height: 65px;
+      }
+      & .left {
+        flex-basis: 17px;
+        display: inline-block;
+        vertical-align: top;
+        margin-left: 15px;
+        line-height: 65px;
+        font-size: 15px;
+        font-family: PingFang SC;
+        font-weight: bold;
+        color: #999;
+      }
+      & .center {
+        flex: 1;
+        display: inline-block;
+        margin-left: 15px;
+        font-size: 0;
+        .flexBox {
+          @include displayFlex(flex, null, null);
+
+        }
+
+        .label {
+          flex-basis: 30px;
+          margin-top: 5px;
+          margin-right: 10px;
+          padding: 1px 2px;
+          height: 15px;
+          line-height: 15px;
+          vertical-align: top;
+          text-align: center;
+          font-size: 11px;
+          font-family: PingFang SC;
+          font-weight: 500;
+          color: #F05654;
+          border: 1px solid #F05654;
+          border-radius: 3px;
+        }
+        .carousel {
+          overflow: hidden;
+          max-width: 70vw;
+          display: inline-block;
+          height: 30px;
+          line-height: 30px;
+          font-size: 15px;
+          font-family: PingFang SC;
+          font-weight: 500;
+          color: #EF5553;
+          .title {
+            display: inline-block;
+            white-space: nowrap;
+            animation: horizontal-move 20s linear infinite;
+            transform: translate(100%);
+          }
+          @keyframes horizontal-move {
+          %0 {
+            transform: translate(-100%);
+          }
+          100% {
+            transform: translate(calc(-100%));
+          }
+        }
+        }
+        div.title {
+          @include textOverflow();
+          max-width: 60vw;
+          display: inline-block;
+          height: 30px;
+          line-height: 30px;
+          font-size: 15px;
+          font-family: PingFang SC;
+          font-weight: 500;
+          color: #333;
+        }
+        .time {
+          height: 35px;
+          line-height: 30px;
+          font-size: 11px;
+          font-family: PingFang SC;
+          font-weight: 500;
+          color: #999;
+        }
+        & .text {
+
+        }
+      }
+      & .right {
+        flex-basis: 38px;
+        display: inline-block;
+        margin-right: 15px;
+        text-align: right;
+        vertical-align: top;
+        height: 65px;
+        line-height: 65px;
+        font-size: 26px;
+        color: #999;
+      }
+    }
+    .commentContent {
+      p {
+        margin: 0;
+      }
+      .addComment {
+        margin: 10px 15px;
+        height: 33px;
+        background: #F5F5F5;
+        border-radius: 16.5px;
+        .icon {
+          margin: 0 10px 0 15px;
+          font-size: 15px;
+        }
+        .text {
+          font-size: 14px;
+          font-family: PingFang SC;
+          font-weight: 500;
+          color: #999999;
+          line-height: 33px;
+        }
+      }
+      .pic {
+        margin-top: 95px;
+        text-align: center;
+        img {
+          height: 155px;
+        }
+        .text {
+          margin-top: 18px;
+          text-align: center;
+          font-size: 14px;
+          line-height: 14px;
+          font-family: PingFang SC;
+          font-weight: 500;
+          color: #999;
+        }
+      }
+      .commentPopup {
+        .cancel {
+          display: inline-block;
+          margin: 16px 0 8px 15px;
+          font-size: 13px;
+          line-height: 13px;
+          font-family: PingFang SC;
+          font-weight: 500;
+          color: #999;
+        }
+        .btn {
+          display: inline-block;
+          width: 60px;
+          height: 27px;
+          position: absolute;
+          z-index: 10;
+          top: 10px;
+          right: 15px;
+          background: linear-gradient(90deg, rgba(241, 88, 86, 1), rgba(252, 128, 128, 1));
+          box-shadow: 0 8px 16px 0 rgba(240, 86, 84, 0.3);
+          border-radius: 13.5px;
+          font-size: 13px;
+          font-family: PingFang SC;
+          font-weight: 500;
+          color: #fff;
+          line-height: 27px;
+          text-align: center;
+        }
+      }
+      .commentList {
+        padding: 15px;
+        .commentItem {
+          display: flex;
+          margin-bottom: 30px;
+        }
+        & .photo {
+          flex-basis: 30px;
+          vertical-align: top;
+          margin-right: 15px;
+          img {
+            border-radius: 50%;
+          }
+        }
+        & .content {
+          flex: 1;
+          .nickname {
+            font-size: 13px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            color: #8B8B8B;
+          }
+          .comment {
+            margin: 9px 0;
+            font-size: 15px;
+            line-height: 20px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            color: #333;
+          }
+          .info {
+            .time {
+              margin-right: 15px;
+              font-size: 11px;
+              font-family: PingFang SC;
+              font-weight: 500;
+              color: #A3A3A3;
+              display: inline-block;
+              min-width: 60px;
+            }
+            .up {
+              //margin-right: 22px;
+              display: inline-block;
+              min-width: 60px;
+            }
+            .icon {
+              font-size: 22px;
+            }
+            .icon-dianzan {
+              color: #f05654;
+            }
+            .icon-diancai {
+              color: #ffb16d;
+            }
+          }
+        }
+      }
+      .informBox {
+        width: 255px;
+        height: 126px;
+        background: #FFFFFF;
+        border-radius: 5px;
+        .title {
+          margin: 10px 0 20px 0;
+          text-align: center;
+          font-size: 15px;
+          font-family: PingFang SC;
+          font-weight: bold;
+          color: #333;
+          line-height: 20px;
+        }
+        .inform {
+          margin-bottom: 20px;
+          text-align: center;
+          font-size: 13px;
+          font-family: PingFang SC;
+          font-weight: 500;
+          color: #999;
+          line-height: 13px;
+        }
+        .btn_wrapper {
+          display: flex;
+          height: 46px;
+          line-height: 46px;
+          border-top: 0.5px solid #E5E5E5;
+          .cancel {
+            flex: 1;
+            text-align: center;
+            border-right: 0.5px solid #E5E5E5;
+            font-size: 16px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            color: #999;
+          }
+          .confirm {
+            flex: 1;
+            text-align: center;
+            font-size: 16px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            color: #333;
+          }
+        }
+      }
+    }
+
+    .huoba-album-list-two {
+      .huoba-album-item {
+        @include displayFlex(flex, null, null);
+        flex-wrap: wrap;
+        margin: 15px;
+        .huoba-album-item-pic-box {
+          position: relative;
+          flex-basis: 98px;
+          height: 98px;
+          margin-right: 13px;
+          .huoba-album-item-pic {
+            width: 98px;
+            height: 98px;
+            border-radius: 3px;
+          }
+          .icon-one-box {
+            position: absolute;
+            left: 5px;
+            bottom: 5px;
+            width: 18px;
+            height: 18px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 6px;
+            .icon-one {
+              position: absolute;
+              left: 50%;
+              top: 50%;
+              transform: translate(-50%, -50%);
+              font-size: $fontSize - 1;
+              color: $clF;
+            }
+          }
+          .text-one {
+            position: absolute;
+            left: 31px;
+            bottom: 5px;
+            display: inline-block;
+            width: 26px;
+            height: 18px;
+            line-height: 18px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 3px;
+            font-size: $fontSize - 4;
+            color: $clF;
+            text-align: center;
+          }
+        }
+        .huoba-album-item-content {
+          flex: 1;
+          .huoba-album-item-des {
+            margin-top: 12px;
+            @include font(null, $fontSize + 1, $cl3);
+            font-weight: 500;
+            line-height: 19px;
+            min-height: 33px;
+            @include twoColtextOverflow();
+          }
+          .huoba-album-item-total {
+            position: relative;
+            font-weight: 500;
+            line-height: 15px;
+            .ellipsis-line {
+              position: absolute;
+              width: 15px;
+              height: 15px;
+              right: 0;
+              color: $cl0;
+            }
+          }
+          .not-end {
+            margin-top: 31px;
+            @include font(null, $fontSize - 2, $redDark);
+          }
+          .end {
+            margin-top: 31px;
+            @include font(null, $fontSize - 2, $cl9);
+            .total-text:not(:first-child) {
+              display: inline-block;
+              margin-left: 5px;
+            }
+          }
+
+        }
+      }
+    }
+
+  }
+  .getCoupon {
+    width: 100%;
+    max-width: 640px;
+    position: fixed;
+    //z-index: 10;
+    bottom: 59px;
+    height: 35px;
+    line-height: 35px;
+    background: #FFF6DF;
+    .text-one {
+      margin: 0 15px;
+      font-size: 14px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      color: #F05654;
+    }
+    .text-two {
+      display: inline-block;
+      margin-right: 10px;
+      width: 92px;
+      font-size: 11px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      text-align: center;
+      color: #F05654;
+      background: url('./../../../../assets/album/border.png');
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    .icon {
+      position: absolute;
+      right: 15px;
+      top: 10px;
+      color: #F05654;
+    }
+  }
+  .bottom-btn {
+    display: flex;
+    //z-index: 10;
+    position: fixed;
+    bottom: 0;
+    height: 59px;
+    width: 100%;
+    max-width: 640px;
+    line-height: 59px;
+    .left {
+      flex-basis: 100px;
+      border-top: 0.5px solid #d2d2d2;
+      text-align: center;
+      font-size: 13px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      color: #333;
+      background: #fff;
+      .icon {
+        font-size: 18px;
+      }
+    }
+    .right {
+      flex: 1;
+      text-align: center;
+      background: #F05654;
+      .discount {
+        font-size: 15px;
+        font-family: PingFang SC;
+        font-weight: bold;
+        color: #fff;
+      }
+      .origin {
+        margin-left: 20px;
+        font-size: 11px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #fff;
+        text-decoration: line-through;
+      }
+    }
+    .single {
+      width: 100%;
+      text-align: center;
+      background: #F05654;
+      .discount {
+        font-size: 15px;
+        font-family: PingFang SC;
+        font-weight: bold;
+        color: #fff;
+      }
+      .origin {
+        margin-left: 20px;
+        font-size: 11px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #fff;
+        text-decoration: line-through;
+      }
+    }
+  }
+  .couponPopup {
+    .header {
+      // background-color: #f5f5f5;
+      padding: 0 15px;
+      height: 40px;
+      @include displayFlex(flex, space-between, center);
+
+      .catalogWord {
+        font-size: $fontSize + 1;
+      }
+    }
+
+    .content {
+      // padding: 15px;
+      position: absolute;
+      top: 40px;
+      bottom: 0;
+      overflow-y: auto;
+      width: 100%;
+      box-sizing: border-box;
+      // background-color: #f5f5f5;
+      padding: 10px 15px;
+
+      .toUse.overdue {
+        .left {
+          background-color: $cl9;
+        }
+
+        .mid {
+          color: $cl9;
+        }
+
+        .right {
+
+          .shopCoupon,
+          .used {
+            color: $cl9;
+          }
+        }
+      }
+
+      // .toUse.overdue{
+      //   background-color: #A6A6A6;
+      // }
+      .toUse {
+        box-sizing: border-box;
+        background-color: $white;
+        @include displayFlex(flex, null, null);
+        align-items: stretch;
+
+        .left {
+          width: 8px;
+          background-color: $redLight;
+          border-radius: 6px 0 0 6px;
+        }
+
+        .mid {
+          text-align: center;
+          width: 30%;
+          padding: 10px 5px;
+          border-right: 1px dashed #bfbfbf;
+          box-sizing: border-box;
+          color: $redLight;
+          position: relative;
+
+          .price {
+            // font-size: $fontSize + 21;
+            @include font("PingFangBlod", $fontSize + 10, null);
+          }
+
+          .condition {
+            white-space: nowrap;
+            margin-top: 28px;
+          }
+
+          .circle {
+            width: 10px;
+            height: 10px;
+            background-color: #f5f5f5;
+            border-radius: 50%;
+            position: absolute;
+            right: -5px;
+          }
+
+          .circle.top {
+            top: -5px;
+          }
+
+          .circle.bottom {
+            bottom: -5px;
+          }
+        }
+
+        .right {
+          // width: 70%;
+          flex-grow: 1;
+          padding: 10px;
+          position: relative;
+          .shop {
+            margin-left: 70px;
+            font-size: $fontSize + 2;
+          }
+
+          .time {
+            margin-top: 5px;
+            font-size: $fontSize - 2;
+            color: $cl9;
+          }
+
+          .desc {
+            margin-top: 40px;
+          }
+
+          .used {
+            @include font("PingFangBlod", $fontSize + 46, $redLight);
+            position: absolute;
+            right: -15px;
+            bottom: -15px;
+          }
+          .shopCoupon{
+            position: absolute;
+            left: 5px;
+            top: -10px;
+            color:$redLight;
+            display: inline-block;
+            .icon{
+              font-size: 70px;
+            }
+            .dianpu{
+              display: inline-block;
+              width: 36px;
+              color:$white;
+              position: absolute;
+              top:50%;
+              left: 50%;
+              margin-top: -12px;
+              margin-left: -20px;
+              font-size: 12px;
+              @include textOverflow;
+            }
+          }
+        }
+      }
+    }
+    & .toMall {
+      display: inline-block;
+      // width: 65px;
+      // height: 24px;
+      border: 1px solid $redLight;
+      line-height: normal;
+      padding: 2px 5px;
+      text-align: center;
+      @include font(null, $fontSize - 2, $redLight);
+      border-radius: 12px;
+      margin-right: 5px;
+    }
+
+    & .toMall.btn {
+      position: absolute;
+      top: 45px;
+      right: 5px;
+    }
+
+    & .toMall.red {
+      background-color: $redLight;
+      color: $white;
+    }
+  }
+  .toTop {
+    position: fixed;
+    right: 5px;
+    bottom: 150px;
+    img {
+      width: 35px;
+      height: 35px;
+    }
+  }
+}

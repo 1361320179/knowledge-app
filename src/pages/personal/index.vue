@@ -146,34 +146,34 @@
 
         <!--&lt;!&ndash; 我的书架 &ndash;&gt;-->
         <!--<router-link v-if="infoData.is_login" to="/ebook/shelf" class="cell">-->
-          <!--<div class="svg">-->
-            <!--<svg class="icon" aria-hidden="true">-->
-              <!--<use xlink:href="#icon-shelf-block" />-->
-            <!--</svg>-->
-          <!--</div>-->
-          <!--<div class="desc">-->
-            <!--<span class="text">我的书架</span>-->
-          <!--</div>-->
-          <!--<div class="action">-->
-            <!--<svg class="icon" aria-hidden="true">-->
-              <!--<use xlink:href="#icon-next-line" />-->
-            <!--</svg>-->
-          <!--</div>-->
+        <!--<div class="svg">-->
+        <!--<svg class="icon" aria-hidden="true">-->
+        <!--<use xlink:href="#icon-shelf-block" />-->
+        <!--</svg>-->
+        <!--</div>-->
+        <!--<div class="desc">-->
+        <!--<span class="text">我的书架</span>-->
+        <!--</div>-->
+        <!--<div class="action">-->
+        <!--<svg class="icon" aria-hidden="true">-->
+        <!--<use xlink:href="#icon-next-line" />-->
+        <!--</svg>-->
+        <!--</div>-->
         <!--</router-link>-->
         <!--<router-link v-else to="/login/index" class="cell">-->
-          <!--<div class="svg">-->
-            <!--<svg class="icon" aria-hidden="true">-->
-              <!--<use xlink:href="#icon-personalAccount" />-->
-            <!--</svg>-->
-          <!--</div>-->
-          <!--<div class="desc">-->
-            <!--<span class="text">我的书架</span>-->
-          <!--</div>-->
-          <!--<div class="action">-->
-            <!--<svg class="icon" aria-hidden="true">-->
-              <!--<use xlink:href="#icon-next-line" />-->
-            <!--</svg>-->
-          <!--</div>-->
+        <!--<div class="svg">-->
+        <!--<svg class="icon" aria-hidden="true">-->
+        <!--<use xlink:href="#icon-personalAccount" />-->
+        <!--</svg>-->
+        <!--</div>-->
+        <!--<div class="desc">-->
+        <!--<span class="text">我的书架</span>-->
+        <!--</div>-->
+        <!--<div class="action">-->
+        <!--<svg class="icon" aria-hidden="true">-->
+        <!--<use xlink:href="#icon-next-line" />-->
+        <!--</svg>-->
+        <!--</div>-->
         <!--</router-link>-->
 
         <!-- 我听我看 -->
@@ -196,36 +196,36 @@
 
         <!-- 我听我看 -->
         <!--<router-link v-if="infoData.is_login" to="/listenAndRead/index" class="cell">-->
-          <!--<div class="svg">-->
-            <!--<svg class="icon" aria-hidden="true">-->
-              <!--<use xlink:href="#icon-gerenzhongxinwotingwokan" />-->
-            <!--</svg>-->
-          <!--</div>-->
-          <!--<div class="desc">-->
-            <!--<span class="text">我听我看</span>-->
-            <!--<span class="new">New</span>-->
-          <!--</div>-->
-          <!--<div class="action">-->
-            <!--<svg class="icon" aria-hidden="true">-->
-              <!--<use xlink:href="#icon-next-line" />-->
-            <!--</svg>-->
-          <!--</div>-->
+        <!--<div class="svg">-->
+        <!--<svg class="icon" aria-hidden="true">-->
+        <!--<use xlink:href="#icon-gerenzhongxinwotingwokan" />-->
+        <!--</svg>-->
+        <!--</div>-->
+        <!--<div class="desc">-->
+        <!--<span class="text">我听我看</span>-->
+        <!--<span class="new">New</span>-->
+        <!--</div>-->
+        <!--<div class="action">-->
+        <!--<svg class="icon" aria-hidden="true">-->
+        <!--<use xlink:href="#icon-next-line" />-->
+        <!--</svg>-->
+        <!--</div>-->
         <!--</router-link>-->
         <!--<router-link v-else to="/login/index" class="cell">-->
-          <!--<div class="svg">-->
-            <!--<svg class="icon" aria-hidden="true">-->
-              <!--<use xlink:href="#icon-gerenzhongxinwotingwokan" />-->
-            <!--</svg>-->
-          <!--</div>-->
-          <!--<div class="desc">-->
-            <!--<span class="text">我听我看</span>-->
-            <!--<span class="new">New</span>-->
-          <!--</div>-->
-          <!--<div class="action">-->
-            <!--<svg class="icon" aria-hidden="true">-->
-              <!--<use xlink:href="#icon-next-line" />-->
-            <!--</svg>-->
-          <!--</div>-->
+        <!--<div class="svg">-->
+        <!--<svg class="icon" aria-hidden="true">-->
+        <!--<use xlink:href="#icon-gerenzhongxinwotingwokan" />-->
+        <!--</svg>-->
+        <!--</div>-->
+        <!--<div class="desc">-->
+        <!--<span class="text">我听我看</span>-->
+        <!--<span class="new">New</span>-->
+        <!--</div>-->
+        <!--<div class="action">-->
+        <!--<svg class="icon" aria-hidden="true">-->
+        <!--<use xlink:href="#icon-next-line" />-->
+        <!--</svg>-->
+        <!--</div>-->
         <!--</router-link>-->
 
         <!-- 我的购物车 -->
@@ -294,19 +294,19 @@
 
         <!-- 兑换码 -->
         <!--<router-link to="/redeem/codeInput" class="cell">-->
-          <!--<div class="svg">-->
-            <!--<svg class="icon" aria-hidden="true">-->
-              <!--<use xlink:href="#icon-personalRedeem" />-->
-            <!--</svg>-->
-          <!--</div>-->
-          <!--<div class="desc">-->
-            <!--<span class="text">兑换码</span>-->
-          <!--</div>-->
-          <!--<div class="action">-->
-            <!--<svg class="icon" aria-hidden="true">-->
-              <!--<use xlink:href="#icon-next-line" />-->
-            <!--</svg>-->
-          <!--</div>-->
+        <!--<div class="svg">-->
+        <!--<svg class="icon" aria-hidden="true">-->
+        <!--<use xlink:href="#icon-personalRedeem" />-->
+        <!--</svg>-->
+        <!--</div>-->
+        <!--<div class="desc">-->
+        <!--<span class="text">兑换码</span>-->
+        <!--</div>-->
+        <!--<div class="action">-->
+        <!--<svg class="icon" aria-hidden="true">-->
+        <!--<use xlink:href="#icon-next-line" />-->
+        <!--</svg>-->
+        <!--</div>-->
         <!--</router-link>-->
 
         <!-- 我的评论 -->
@@ -371,7 +371,7 @@
               <use xlink:href="#icon-next-line" />
             </svg>
           </div>
-        </router-link> -->
+        </router-link>-->
       </template>
     </div>
     <CopyRight></CopyRight>
@@ -381,36 +381,31 @@
     <PublicPopup></PublicPopup>
     <!--打开app对应页面-->
     <!--<openAppPage :name="'/personal/index'"></openAppPage>-->
+
   </div>
 </template>
 
 <style src="@/style/scss/pages/personal/index.scss" scoped lang="scss"></style>
-
 <script>
-// import easyNav from "./../../components/easyNav";
 import { mapState, mapGetters, mapActions } from "vuex";
 //  引入接口
 import { USER_HOMEPAGE } from "../../apis/user.js";
 
 export default {
-  // components: {
-  //   easyNav
-  // },
   data() {
     return {
       // 信息
-      infoData: {}
+      infoData: {},
     };
   },
   mounted() {
-    // console.log("token:", this.$cookies.get("token"));
     this.homeData();
   },
   methods: {
     gotoLogin() {
-        if (!this.infoData.is_login) {
-            this.$router.push({ name: "login" });
-        }
+      if (!this.infoData.is_login) {
+        this.$router.push({ name: "login" });
+      }
     },
     gotoRemain() {
       if (this.infoData.is_login) {
@@ -423,7 +418,7 @@ export default {
       var tStamp = this.$getTimeStamp();
       let data = {
         timestamp: tStamp,
-        version: "1.0"
+        version: "1.0",
       };
       data.sign = this.$getSign(data);
       let res = await USER_HOMEPAGE(data);
@@ -448,8 +443,8 @@ export default {
       } else {
         this.$toast(res.error_message);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

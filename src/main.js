@@ -19,9 +19,6 @@ import VueCropper from 'vue-cropper'
 //clipboard
 import VueClipboard from 'vue-clipboard2'
 
-// 加密方式
-import JsEncrypt from 'jsencrypt'
-
 // jquery
 // import $ from 'jquery'
 
@@ -53,6 +50,18 @@ import openAppPage from './components/index'
 // 公共弹窗
 import publicPopup from './components/index';
 
+// 视频流vue-video-player（兼容m3u8）
+// import VideoPlayer from 'vue-video-player'
+// require('video.js/dist/video-js.css')
+// require('vue-video-player/src/custom-theme.css')
+// Vue.use(VideoPlayer)
+// import hls from 'videojs-contrib-hls'
+// Vue.use(hls)
+
+// 音视频流兼容m3u8
+import player from 'vue-hls-player'
+Vue.use(player)
+
 // vant
 // import Vant from 'vant';
 // import 'vant/lib/index.css';
@@ -76,6 +85,7 @@ import {
   PasswordInput, NumberKeyboard,
   Loading,
   Pagination, RadioGroup, Radio, Picker,
+  // CountDown
 } from 'vant'
 
 Vue.use(download)
@@ -121,6 +131,7 @@ Vue.use(Loading)
 Vue.use(RadioGroup)
 Vue.use(Radio)
 Vue.use(Picker)
+// Vue.use(CountDown)
 
 // 插件
 Vue.use(plugin)
@@ -177,6 +188,11 @@ Vue.config.productionTip = false
     unreload: true
   }
 
+  6: 需要记录路径的中间页
+  meta: {
+    isPath: true
+  }
+
 本地数据存储
 
 A、localStorage
@@ -203,7 +219,7 @@ A、localStorage
 
 路由参数
 
-  1、nullPage=1：引导微信  2：app登录
+  1、nullPage=1：引导微信   2：app登录  3：需要记录路径的中间页
   2、home_id=all/公号id，携带原始公号
   3、linkFrom=gzh链接来自公众号
 
@@ -304,7 +320,28 @@ router.beforeEach((to, from, next) => {
       next()
       // 微信端，将参数nullPage屏蔽
       // 非微信端，不用屏蔽nullPage
-      if (i == 'nullPage') {
+      if (to.query.nullPage == 1) {
+        _bool = false;
+        next()
+      }
+      next()
+    }
+    next()
+    if(localStorage.getItem('isHuobaAndroidLogin') == 'yes' || localStorage.getItem('isHuobaIosLogin') == 'yes') {
+      next()
+      // 当前app环境，将参数nullPage屏蔽
+      if (to.query.nullPage == 2) {
+        _bool = false;
+        next()
+      }
+      next()
+    }
+    next()
+    if(localStorage.getItem('loginState') == 1) {
+      next()
+      // 已登录，将参数nullPage屏蔽
+      // 未登录，不用屏蔽nullPage
+      if (to.query.nullPage == 3) {
         _bool = false;
         next()
       }
@@ -435,6 +472,25 @@ router.beforeEach((to, from, next) => {
       next();
     }
   }
+  // 需要记录路径的中间页
+  if(to.meta.isPath) {
+    if (localStorage.getItem("isHuobaIosLogin") == "no" && localStorage.getItem("isHuobaAndroidLogin") == "no" && localStorage.getItem('loginState') == 0) {
+      next();
+      if (replaceUrl.indexOf("nullPage") == -1) {
+        next();
+        if (replaceUrl.indexOf("?") == -1) {
+          replaceUrl += '?nullPage=3';
+          next();
+        } else {
+          replaceUrl += '&nullPage=3';
+          next();
+        }
+        next();
+      }
+      next();
+    }
+  }
+
   next();
 
   window.location.replace(replaceUrl); // 重定向跳转

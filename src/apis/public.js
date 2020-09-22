@@ -26,6 +26,9 @@ export const FOCUS_CANCEL = query => req('post', '/user/attention/cancel', query
 // 评论
 export const COMMENT = query => req('post', '/goods/comment/gets', query);
 export const COMMENT_ADD = query => req('post', '/goods/comment/add', query);
+export const COMMENT_PRAISE = query => req('post', '/goods/comment/praise', query);
+export const COMMENT_DISLIKE = query => req('post', '/goods/comment/dislike', query);
+export const COMMENT_COUNTER = query => req('post', '/goods/comment/getcounter', query);
 
 //上传图片
 export const COMMON_UPLOAD = query => req('post', '/common/upload', query);

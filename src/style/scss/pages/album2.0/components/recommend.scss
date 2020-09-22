@@ -1,0 +1,211 @@
+/*
+ * author: lrf
+ * date:2020/8/6
+ */
+
+@charset "UTF-8";
+
+#recommendComponent {
+  margin-bottom: 49px;
+  p, h3, h4, h5 {
+    margin: 0;
+  }
+  h3.title {
+    padding: 15px;
+    font-size: 15px;
+    line-height: 15px;
+    font-family: PingFang SC;
+    font-weight: bold;
+    color: #333;
+  }
+  .flexBox {
+    @include displayFlex (flex, flex-start, flex-start);
+    height: 115px;
+    .left {
+      flex-basis: 75px;
+      margin: 20px 15px;
+      .ratioBox {
+        width: 75px;
+        border-radius: 3px;
+      }
+    }
+    .center {
+      flex: 1;
+      margin-top: 20px;
+      .title {
+        margin-top: 11px;
+        font-size: 14px;
+        line-height: 14px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #333;
+      }
+      .subTitle {
+        margin-top: 28px;
+        font-size: 12px;
+        line-height: 12px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #999;
+      }
+    }
+    .right {
+      flex-basis: 77px;
+      line-height: 115px;
+      text-align: left;
+      color: #999;
+      .huoba-btn {
+        // display: inline-block;
+        font-size: $fontSize - 2;
+        text-align: center;
+        line-height: 29px;
+        border-radius: 3px;
+        border: none;
+        min-width: 62px;
+        box-sizing: border-box;
+      }
+      .huoba-btn.huoba-btn-one {
+        background-color: $redDark;
+        color: $clF;
+      }
+    }
+  }
+  .pic {
+    margin: 15px;
+    height: 90px;
+    background: #ddd;
+    border-radius: 10px;
+  }
+  .knowledge {
+    position: relative;
+    .unfold, .fold {
+      position: absolute;
+      top: 15px;
+      right: 11px;
+      font-size: 13px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      color: #999;
+    }
+    .content {
+      padding: 5px 15px 15px 15px;
+      word-break: break-all;
+      .unbought {
+        :first-of-type{
+          height: 50px;
+          @include textOverflow();
+        }
+      }
+      .foldText {
+        position: relative;
+        width: 100%;
+        :first-of-type{
+          height: 50px;
+          @include textOverflow();
+        }
+        &::before {
+          position: absolute;
+          top: 0;
+          left: 0;
+          content: '';
+          width: 100%;
+          height: 100%;
+          background: url("./../../../../../assets/album/jiangyi-bg.png") no-repeat;
+          background-size: cover;
+        }
+      }
+      .info {
+        text-align: center;
+        font-size: 13px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #999;
+      }
+      .text {
+        width: 100%;
+        font-size: 13px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #333;
+      }
+    }
+  }
+  .album {
+    h3.title {
+      padding-left: 15px;
+      padding-bottom: 5px;
+    }
+    .huoba-goods-list.huoba-goods-list-seven {
+      padding-right: 0;
+      & .huoba-goods-list-imgs {
+        & .ratioBox {
+          min-width: 100%;
+        }
+      }
+      & .swiper-container {
+        margin: unset;
+        & .swiper-slide {
+          margin-right: 10px;
+          width: 90px !important;
+        }
+      }
+    }
+    & .collect {
+      margin-top: 10px;
+      margin-bottom: 15px;
+      padding: 5px 0;
+      border: 0.5px solid #333;
+      border-radius: 3px;
+      font-size: 12px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      color: #333;
+      line-height: 12px;
+      text-align: center;
+    }
+    & .collected {
+      margin-top: 10px;
+      margin-bottom: 15px;
+      padding: 5px 0;
+      border: 0.5px solid #999;
+      border-radius: 3px;
+      font-size: 12px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      color: #999;
+      line-height: 12px;
+      text-align: center;
+    }
+  }
+  .book {
+    h3.title {
+      padding-left: 15px;
+      padding-bottom: 5px;
+    }
+    .huoba-goods-list.huoba-goods-list-seven {
+      padding-right: 0;
+      & .huoba-goods-list-imgs {
+        & .ratioBox {
+          min-width: 100%;
+        }
+      }
+      & .swiper-container {
+        margin: unset;
+        & .swiper-slide {
+          margin-right: 10px;
+          width: 90px !important;
+        }
+      }
+      & .name {
+        @include textOverflow;
+        margin-top: 10px;
+        margin-bottom: 15px;
+        font-size: 11px;
+        line-height: 11px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #333;
+      }
+    }
+  }
+}
