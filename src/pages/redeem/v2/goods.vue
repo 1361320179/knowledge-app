@@ -15,7 +15,7 @@
         <img :src="goodsDetail.pic" alt width="100%" />
       </div>
       <!-- 专辑 电子书 -->
-      <div v-if="goods_type == 9 || goods_type == 4">
+      <div v-if="goods_type == 9 || goods_type == 4|| goods_type == 1">
         <div
           v-for="(item,index) in goods_Lists"
           :key="index"
@@ -598,7 +598,7 @@ export default {
       this.submitRedeem();
     },
     // 是否是APP
-    isApp() {  
+    isApp() {
       if (
         localStorage.getItem("isHuobaIosLogin") == "yes" ||
         localStorage.getItem("isHuobaAndroidLogin") == "yes"
