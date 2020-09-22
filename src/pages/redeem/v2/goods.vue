@@ -143,7 +143,7 @@
                   <use xlink:href="#icon-uncheck-line" style="color:#E5E5E5;" />
                 </svg>
               </div>
-
+ 
               <div
                 v-else
                 class="default"
