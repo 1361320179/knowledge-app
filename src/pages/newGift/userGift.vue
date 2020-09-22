@@ -219,6 +219,16 @@
           this.freeData = res.response_data.free;
           this.chargeData = res.response_data.charge;
           this.ticketsData = res.response_data.tickets;
+          for (var i = 0; i < this.freeData.length; i++ ) {
+            if (this.freeData[i].is_buy == undefined || this.freeData[i].is_buy == '' || this.freeData[i].is_buy == null) {
+              this.freeData[i].is_buy = 0;
+            }
+          }
+          for (var j = 0; j < this.chargeData.length; j++ ) {
+            if (this.chargeData[j].is_buy == undefined || this.chargeData[j].is_buy == '' || this.chargeData[j].is_buy == null) {
+              this.chargeData[j].is_buy = 0;
+            }
+          }
           this.isLoading = false;
         } else {
           this.isLoading = false;
