@@ -4,7 +4,7 @@
     v-show="pageShow"
     :style="{'background-color':goodsDetail.colour.bg?goodsDetail.colour.bg:''}"
   >
-    <div v-if="!remindPopShow">
+    <div>
       <!-- <van-list
      v-model="goodsLoading"
      :finished="goodsFinished"
@@ -183,6 +183,7 @@
       <p class="limit_remind">
         <span>{{time}}</span>秒后回到个人中心
       </p>
+    </van-popup>
     </van-popup>
     <EazyNav type="brand" :isShow="false"></EazyNav>
     <!--通用弹窗-->
