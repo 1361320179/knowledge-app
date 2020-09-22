@@ -150,18 +150,21 @@ export default {
   },
   methods: {
     async getGoodsDetail() {
+       var tStamp = this.$getTimeStamp();
       let data = {
+        timestamp: tStamp,
         page: "1",
         page_size: "20",
         version: "1.0",
       };
+      data.sign = this.$getSign(data);
       let res = await REDEEM_RECOMMEND(data);
 
-      console.log(res);
+      // console.log(res);
       if (res.hasOwnProperty("response_code")) {
         this.goods_Lists = res.response_data.result;
       }
-      console.log(this.goods_Lists);
+      // console.log(this.goods_Lists);
     },
     // 跳转公众号首页
     toBrand(item, index) {

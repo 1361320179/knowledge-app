@@ -52,9 +52,21 @@
                 v-lazy:background-image=" item.pic[0]"
                 style="background-size: cover;border-radius: 10px 10px 0px 0px;"
               ></div>
-              <span class="book_text_title" v-if="item.goods_type == 3" style="border-radius: 10px 0px 10px 0px;padding: 2px 8px;">图书</span>
-              <span class="book_text_title" v-if="item.goods_type == 9" style="border-radius: 10px 0px 10px 0px;padding: 2px 8px;">专辑</span>
-              <span class="book_text_title" v-if="item.goods_type == 4" style="border-radius: 10px 0px 10px 0px;padding: 2px 8px;">电子书</span>
+              <span
+                class="book_text_title"
+                v-if="item.goods_type == 3"
+                style="border-radius: 10px 0px 10px 0px;padding: 2px 8px;"
+              >图书</span>
+              <span
+                class="book_text_title"
+                v-if="item.goods_type == 9"
+                style="border-radius: 10px 0px 10px 0px;padding: 2px 8px;"
+              >专辑</span>
+              <span
+                class="book_text_title"
+                v-if="item.goods_type == 4"
+                style="border-radius: 10px 0px 10px 0px;padding: 2px 8px;"
+              >电子书</span>
             </div>
             <div class="right">
               <div class="text">{{item.title}}</div>
@@ -144,11 +156,14 @@ export default {
   },
   methods: {
     async getGoodsDetail() {
+      var tStamp = this.$getTimeStamp();
       let data = {
         page: "1",
+        timestamp: tStamp,
         page_size: "20",
         version: "1.0",
       };
+      data.sign = this.$getSign(data);
       let res = await REDEEM_RECOMMEND(data);
 
       console.log(res);

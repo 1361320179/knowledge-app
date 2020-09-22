@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { REDEEM_LINK } from "@/apis/redeem.js";
+import { REDEEM_CHECK } from "@/apis/redeem.js";
 import { SERVER_TIME } from "@/apis/public.js";
 import axios from "axios";
 export default {
@@ -64,9 +64,12 @@ export default {
   methods: {
     // 调取服务器时间戳
     async getTimes() {
+      var tStamp = this.$getTimeStamp();
       let data = {
         version: "1.0",
+        timestamp: tStamp,
       };
+      data.sign = this.$getSign(data);
       let res = await SERVER_TIME(data);
     },
     inputCode() {
@@ -86,13 +89,15 @@ export default {
     async toRedeem() {
       let codeNum = this.codeNum.replace(" ", "");
       // console.log(codeNum);
+      var tStamp = this.$getTimeStamp();
       let data = {
         code: codeNum,
         // captcha: this.validateNum,
         version: "1.1",
+        timestamp: tStamp,
       };
-
-      let res = await REDEEM_LINK(data);
+      data.sign = this.$getSign(data);
+      let res = await REDEEM_CHECK(data);
       // console.log(res);
       if (res.hasOwnProperty("response_code")) {
         // 接口请求成功
@@ -116,7 +121,7 @@ export default {
       } else {
         if (res.hasOwnProperty("error_code")) {
           if (res.error_code == 100) {
-            console.log(res.error_message);
+            // console.log(res.error_message);
             // 需要输入验证码
             let msg = res.error_message.split("|")[0];
             this.userId = res.error_message.split("|")[1];

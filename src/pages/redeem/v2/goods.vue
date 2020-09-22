@@ -307,16 +307,17 @@ export default {
       } else if (localStorage.getItem("originLink")) {
         this.referer = localStorage.getItem("originLink");
       }
+      var tStamp = this.$getTimeStamp();
       let data = {
         code: this.code,
         redeem_id: this.redeem,
-        access: 1,
-        encrypt: 1,
+        timestamp: tStamp,
         referer: this.referer,
         is_captcha: 1,
         version: "1.1",
       };
       // console.log(data);
+      data.sign = this.$getSign(data);
       let res = await REDEEM_ITEM_POST(data);
 
       // console.log(res);
@@ -365,13 +366,6 @@ export default {
         }
       }
       let list = this.goodsDetail.goods_list;
-
-      list.forEach((item) => {
-        if (item.goods_num == item.used_num) {
-          item.state = 0; // 已领完
-        }
-      });
-
       this.goodsList = [];
 
       //  加载
@@ -512,17 +506,17 @@ export default {
       this.two_show = false;
     },
     async confirmEexchange() {
+      var tStamp = this.$getTimeStamp();
       let data = {
         code: this.code,
+        timestamp: tStamp,
         redeem_id: this.redeem,
-        access: 1,
-        encrypt: 1,
         target_ids: this.pick_a_few.join(","),
         referer: this.referer,
         is_captcha: 1,
         version: "1.1",
       };
-
+      data.sign = this.$getSign(data);
       let res = await REDEEM_EXCHANGE(data);
 
       if (res.error_code == 99) {
