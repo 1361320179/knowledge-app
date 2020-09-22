@@ -1,0 +1,275 @@
+/*
+ * author: zhuboyu
+ * date:2020/9/11
+ */
+
+@charset "utf-8";
+
+#newGiftUserGift {
+  .title {
+    margin: 20px 15px 40px;
+    color: #343434;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .one_box {
+    .top {
+      text-align: center;
+      margin-bottom: 20px;
+      .picture {
+        margin-bottom: -25px;
+        img {
+          width: 9%;
+          height: 14%;
+        }
+      }
+      .title_1 {
+        color: #343434;
+        font-size: 15px;
+        span {
+          position: relative;
+        }
+        .left-icon {
+          font-weight: bold;
+        }
+        .left-icon:before {
+          content: '';
+          position: absolute;
+          left: -30px;
+          top: 3px;
+          background: url("../../../../assets/newGift/gift_icon_left.png") no-repeat;
+          background-size: 100% 100%;
+          box-sizing: border-box;
+          width: 25px;
+          height: 18px;
+        }
+        .right-icon:after {
+          content: '';
+          position: absolute;
+          right: -30px;
+          top: 3px;
+          background: url("../../../../assets/newGift/gift_icon_right.png") no-repeat;
+          background-size: 100% 100%;
+          box-sizing: border-box;
+          width: 25px;
+          height: 18px;
+        }
+      }
+      .title_2 {
+        color: #9A9A9A;
+        margin-top: 15px;
+        font-size: 13px;
+      }
+    }
+    .content_coupon {
+      margin-bottom: 30px;
+      .coupon_img {
+        margin: 0 15px 15px;
+        overflow: hidden;
+        border-radius: 5px;
+        box-shadow: rgba(0, 0, 0, 0.06) 0px 0px 10px;
+        .toUse{
+          box-sizing: border-box;
+          background-color: $white;
+          border-radius: 6px;
+          @include displayFlex(flex, null, null);
+          align-items:stretch;
+          position: relative;
+          .left{
+            width: 8px;
+            background-color: $redLight;
+            border-radius: 6px 0 0 6px;
+          }
+          .mid{
+            text-align: center;
+            width: 30%;
+            padding: 10px 5px;
+            border-right: 1px dashed #E5E5E5;
+            box-sizing: border-box;
+            color: #F05646;
+            position: relative;
+            .price-icon {
+              font-size: 15px;
+              font-weight: bold;
+              .price{
+                @include font("PingFangBlod", $fontSize + 16, null);
+              }
+            }
+            .condition{
+              margin-top: 15px;
+              font-size: 12px;
+              font-weight: bold;
+              color: #343434;
+            }
+            .circle{
+              width: 10px;
+              height: 10px;
+              background-color: #f5f5f5;
+              border-radius: 50%;
+              position: absolute;
+              right:-5px;
+            }
+            .circle.top{
+              top:-5px;
+            }
+            .circle.bottom{
+              bottom:-5px;
+            }
+          }
+          .right{
+            flex-grow: 1;
+            padding: 20px 25px;
+            position: relative;
+            .desc_top {
+              font-size: 15px;
+              font-weight: bold;
+              color: #343434;
+              margin-bottom: 25px;
+            }
+            .desc_bottom {
+              color: #9A9A9A;
+              font-size: 12px;
+              span {
+                padding: 0 3px;
+                color: #F05646;
+              }
+            }
+          }
+          .coupon_title_name {
+            padding: 1px;
+            background: linear-gradient(to right,#F44533 0%,#FFA48F 100%);
+            border-bottom-right-radius: 5px;
+            border-top-left-radius: 5px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-size: 11px;
+            color: #fff;
+          }
+        }
+      }
+    }
+    .content.usedBook {
+      .right {
+        .text {
+          color: #999999;
+        }
+        .pinpai {
+          .sub_title {
+            color: #999999;
+          }
+        }
+        .bot {
+          del {
+            color: #999999;
+          }
+        }
+      }
+      .right_icon {
+        .icon {
+          color: #E5E5E5;
+        }
+      }
+    }
+    .content {
+      display: flex;
+      background-color: #fff;
+      padding: 10px;
+      margin: 0 15px 15px;
+      box-shadow: rgba(0, 0, 0, 0.06) 0px 0px 10px;
+      border-radius: 5px;
+      .ratiobook {
+        min-width: 96px;
+        position: relative;
+        .bookimg {
+          display: block;
+          @include ratioBox (100%, 100%, 1px solid transparent, contain, $white, null);
+          border-radius: 10px;
+        }
+        .book_text_title {
+          display: inline-block;
+          padding: 2px 3px;
+          background-color: #FFB26E;
+          border-radius: 5px;
+          position: absolute;
+          top: 0;
+          left: 0;
+          font-size: 10px;
+          color: #fff;
+        }
+      }
+      .right {
+        position: relative;
+        flex-grow: 1;
+        margin-left: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-content: space-between;
+        width: 40%;
+        .text {
+          @include font("PingFangBold", $fontSize, $cl3);
+          @include twoColtextOverflow;
+        }
+        .pinpai {
+          display: flex;
+          font-size: 11px;
+          color: #9A9A9A;
+          .sub_title {
+            @include textOverflow;
+            background-color: #F5F5F5;
+            padding: 2px;
+          }
+        }
+        .bot {
+          display: flex;
+          align-items: center;
+          color: #343434;
+          .price {
+            font-size: 13px;
+            color: #F05654;
+            padding-right: 12px;
+          }
+          del{
+            font-size: 10px;
+          }
+        }
+        .used {
+          font-size: 38px;
+          color: #999;
+          position: absolute;
+          right: -20px;
+          top: 50%;
+        }
+      }
+      .right_icon {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        .icon {
+          font-size: 18px;
+          color: #9A9A9A;
+        }
+        .icon.checked {
+          color: #F05654;
+        }
+      }
+    }
+  }
+  .next_page.active {
+    background-color: #f69a98;
+    color: #fff;
+  }
+  .next_page {
+    font-size: 15px;
+    background-color: #EF5545;
+    color: #fff;
+    width: 93%;
+    line-height: 40px;
+    margin: 20px 15px 10px;
+    border-radius: 5px;
+    text-align: center;
+    box-sizing: border-box;
+  }
+}

@@ -222,6 +222,7 @@ A、localStorage
   1、nullPage=1：引导微信   2：app登录  3：需要记录路径的中间页
   2、home_id=all/公号id，携带原始公号
   3、linkFrom=gzh链接来自公众号
+  4、isLoginFromApp=1通过app登陆成功后的页面不需要拼接nullPage=3
 
 */
 
@@ -474,6 +475,14 @@ router.beforeEach((to, from, next) => {
   }
   // 需要记录路径的中间页
   if(to.meta.isPath) {
+    // 通过app登陆成功后的页面设置登陆状态loginState = 1
+    if (replaceUrl.indexOf("isLoginFromApp=1") == -1) {
+      next();
+      localStorage.setItem('loginState', 1);
+      next();
+    }
+    next();
+
     if (localStorage.getItem("isHuobaIosLogin") == "no" && localStorage.getItem("isHuobaAndroidLogin") == "no" && localStorage.getItem('loginState') == 0) {
       next();
       if (replaceUrl.indexOf("nullPage") == -1) {

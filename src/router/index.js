@@ -192,6 +192,10 @@ import questionsPageTwo from '@/pages/gaokaoTest/questionsPageTwo'
 import resultPage from '@/pages/gaokaoTest/resultPage'
 import applet from '@/pages/gaokaoTest/applet'
 
+// 新人礼包
+import newGiftSexAge from '@/pages/newGift/sexAge'
+import newGiftSuccessDraw from '@/pages/newGift/successDraw'
+import newGiftUserGift from '@/pages/newGift/userGift'
 
 Vue.use(Router)
 
@@ -661,7 +665,7 @@ export default new Router({
       meta: {
         title: '设置',
         // requireAuth: true, // 需要登录才能进入的页面可以增加一个meta属性
-        // isPath: true
+        isPath: true
       }
     },
     {
@@ -1289,6 +1293,34 @@ export default new Router({
       component: applet,
       meta: {
         title: '火把知识'
+      }
+    },
+    // 新人礼包
+    {
+      path: '/newGift/sexAge',
+      name: 'newGiftSexAge',
+      component: newGiftSexAge,
+      meta: {
+        title: '火把知识',
+        isPath: true, // 需要登录才能进入的页面可以增加一个meta属性
+      }
+    },
+    {
+      path: '/newGift/successDraw',
+      name: 'newGiftSuccessDraw',
+      component: newGiftSuccessDraw,
+      meta: {
+        title: '火把知识',
+        isPath: true, // 需要登录才能进入的页面可以增加一个meta属性
+      }
+    },
+    {
+      path: '/newGift/userGift',
+      name: 'newGiftUserGift',
+      component: newGiftUserGift,
+      meta: {
+        title: '火把知识',
+        isPath: true, // 需要登录才能进入的页面可以增加一个meta属性
       }
     },
   ]
