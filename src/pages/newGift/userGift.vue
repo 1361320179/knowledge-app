@@ -221,8 +221,20 @@
           this.ticketsData = res.response_data.tickets;
           this.isLoading = false;
         } else {
-          this.$toast(res.error_message);
+          this.isLoading = false;
+          if (res.error_code === 100) {
+            this.$toast(res.error_message);
+            this.login();
+          } else {
+            this.$toast(res.error_message);
+          }
         }
+      },
+      // 登陆
+      login () {
+        this.$router.push({
+          name: "login"
+        });
       },
       // 领取按钮点击
       async drawButtonUrl () {
