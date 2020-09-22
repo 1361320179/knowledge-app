@@ -214,12 +214,6 @@
           query: {}
         });
       },
-      // 登陆
-      login () {
-        this.$router.push({
-          name: "login"
-        });
-      },
     }
   };
 </script>

@@ -228,7 +228,12 @@
           this.isLoading = false;
         } else {
           this.isLoading = false;
-          this.$toast(res.error_message);
+          if (res.error_code === 100) {
+            this.$toast(res.error_message);
+            this.login();
+          } else {
+            this.$toast(res.error_message);
+          }
         }
       },
       // 传输接口
