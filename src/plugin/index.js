@@ -264,7 +264,6 @@ export default {
         let _name = _href.split('?')[0].toLowerCase();
         let _params = this.$getPageParams(_name);
         let _pageName = _params.page_name;
-
         this.page_name = _pageName;
         this.params = _params;
         // 新人礼不执行调起app传递分享等信息
@@ -272,8 +271,9 @@ export default {
           return;
         }
 
-        if (_pageName == "goods/detail" || _pageName == "page/get" || _pageName == "groupbuy/open/detail" || _pageName == "groupbuy/goods/detail" || _pageName == "activity/interest" || _pageName == "assist/index" || _pageName == "assist/index" || _pageName == "brand/index" || _pageName == "mall/index" || _pageName == "mall/goods/search" || _pageName == "brand/goods/search" || _pageName == "brand/goods/search" || _pageName == "brand/goods/search" || _pageName == "activity/nemt") {
+        if (_pageName == "goods/detail" || _pageName == "page/get" || _pageName == "groupbuy/open/detail" || _pageName == "groupbuy/goods/detail" || _pageName == "activity/interest" || _pageName == "assist/index" || _pageName == "assist/index" || _pageName == "brand/index" || _pageName == "mall/index" || _pageName == "mall/goods/search" || _pageName == "brand/goods/search" || _pageName == "brand/goods/search" || _pageName == "brand/goods/search" || _pageName == "activity/nemt" || _pageName == "redeem/detail") {
           // 需要调分享的页面
+          console.log(999)
           var tStamp = this.$getTimeStamp();
           let data = {
             page_name: _pageName,
@@ -644,7 +644,6 @@ export default {
 
       return linkData;
     }
-
     // 不同页面不同参数信息
     Vue.prototype.$getPageParams = function (_name) {
       _name = _name.toLowerCase();
@@ -743,8 +742,12 @@ export default {
       } else if (_name == '/gaokaotest/index' || _name == '/gaokaotest/questionspageone' || _name == '/gaokaotest/questionspagetwo' || _name == '/gaokaotest/resultpage') {
         // 高考测一测
         linkData.page_name = 'activity/nemt';
+      } else if (_name == '/redeem/v2/goods') {
+        // 兑换码商品选择
+        linkData.page_name = 'redeem/detail';
+        linkData.code = this.$route.query.code;
+        linkData.redeem_id = this.$route.query.redeem_id;
       }
-
       return linkData;
     }
 

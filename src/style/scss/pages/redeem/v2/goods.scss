@@ -392,10 +392,18 @@
           }
         // }
       // }
+
+      .huoba-goods-num{
+        font-size: 12px;
+        color: #343434;
+        padding: 10px 0px 10px 0px;    
+        word-break: normal;
+      }
     }
 
     .huoba-goods-list-left {
       .huoba-goods-list-imgs {
+        display: inline-block;
         .ratioBox {
           min-width: 70px;
         }
