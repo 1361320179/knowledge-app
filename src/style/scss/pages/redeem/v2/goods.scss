@@ -515,3 +515,16 @@
 .van-toast--text{
   text-align: center;
 }
+
+
+@media only screen  and (min-device-width: 320px) and (max-device-width: 360px) {
+  #redeemGoodsPage .huoba-goods-list.huoba-goods-list-four .huoba-goods-list-left .huoba-goods-list-imgs{
+    margin-right: 2px !important;
+  }
+  #redeemGoodsPage .huoba-goods-list .huoba-goods-list-right{
+    padding-left: 2px!important;
+  }
+  #redeemGoodsPage .huoba-goods-list .huoba-goods-list-left .huoba-goods-list-imgs .ratioBox{
+    min-width: 65px !important;
+  } 
+}
