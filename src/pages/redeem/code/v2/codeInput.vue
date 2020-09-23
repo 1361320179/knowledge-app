@@ -95,7 +95,7 @@ export default {
       var tStamp = this.$getTimeStamp();
       let data = {
         code: codeNum,
-        // captcha: this.validateNum,
+        captcha: this.validateNum,
         version: "1.1",
         timestamp: tStamp,
       };
