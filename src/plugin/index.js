@@ -372,17 +372,16 @@ export default {
         } else {
           last_url += '&isLoginFromApp=1';
         }
-        window.JSWEB.RequestNative(JSON.stringify({
-          last_url: last_url
-        }));
-      }
-      // 进入ios登陆流程
-      else if (localStorage.getItem("isHuobaIosLogin") == "yes") {
-        last_url += 'isLoginFromApp=1';
-        if (last_url.indexOf("?") == -1) {
-          last_url += '?isLoginFromApp=1';
-        } else {
-          last_url += '&isLoginFromApp=1';
+        // 进入ios登陆流程
+        else if (localStorage.getItem("isHuobaIosLogin") == "yes") {
+          if (last_url.indexOf("?") == -1) {
+            last_url += '?isLoginFromApp=1';
+          } else {
+            last_url += '&isLoginFromApp=1';
+          }
+          window.webkit.messageHandlers.shareAndJump.postMessage({
+            last_url: last_url
+          })
         }
         window.webkit.messageHandlers.shareAndJump.postMessage({
           last_url: last_url
