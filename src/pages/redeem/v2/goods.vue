@@ -90,7 +90,7 @@
           v-for="(item,index) in goods_Lists"
           :key="index"
           :title="item"
-          :class="['huoba-goods-list','huoba-goods-list-four',
+          :class="['huoba-goods-list','huoba-goods-list-four','huoba_goods_coupon',
            item.used_num>=item.goods_num?'disabled_true':'',has_link_s==1?'disabled_true':'',item.has_own == 1?'disabled_true':'']"
           style="position: relative;margin-top: 20px;display: block;"
         >
@@ -115,7 +115,7 @@
                   <span class="huoba-goods-list-label" v-if="arry.goods_type == 9">专辑</span>
                   <span
                     class="huoba-goods-list-label goods_list_ebook"
-                    v-if="arry.goods_type == 2"
+                    v-if="arry.goods_type == 4"
                   >电子书</span>
                 </div>
                 <p style="text-align: center;">￥{{arry.price}}</p>
@@ -123,9 +123,7 @@
             </div>
             <div class="huoba-goods-list-right" style="padding-top: 0px;padding-left: 20px;">
               <p
-                class="huoba-goods-price"
-                style="color:#F05654;font-family: PingFang SC;font-weight: bold;font-size: 14px;text-align: center;"
-              >
+                class="huoba-goods-price">
                 ￥
                 <span style="font-size: 20px;">{{item.money}}</span>
               </p>
@@ -137,7 +135,7 @@
 
               <div
                 v-if="has_link_s==1|| item.used_num>=item.goods_num||item.has_own == 1"
-                class="default"
+                class="default default_s"
                 style="text-align: center;"
               >
                 <svg class="icon" aria-hidden="true">
@@ -147,7 +145,7 @@
 
               <div
                 v-else
-                class="default"
+                class="default default_s"
                 @click="singleChecked(item.ticket_id,index,item.title)"
                 :class="{ active: item.is_default == 1 }"
                 style="text-align: center;"

@@ -366,7 +366,17 @@
     .huoba-goods-list-right {
       padding-left: 20px;
       padding-top: 36px;
-
+      .huoba-goods-price{
+        color:#F05654;
+        font-family: PingFang SC;
+        font-weight: bold;
+        font-size: 14px;
+        text-align: center;
+        padding-right: 15px;
+      }
+      .default_s{
+        padding-right: 15px;
+      }
       // .huoba-goods-list-check {
       //   margin-right: 0px;
         // .van-checkbox{
@@ -522,7 +532,7 @@
     margin-right: 2px !important;
   }
   #redeemGoodsPage .huoba-goods-list .huoba-goods-list-right{
-    padding-left: 2px!important;
+    padding-left: 4px!important;
   }
   #redeemGoodsPage .huoba-goods-list .huoba-goods-list-left .huoba-goods-list-imgs .ratioBox{
     min-width: 65px !important;

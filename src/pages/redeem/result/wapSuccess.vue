@@ -9,7 +9,7 @@
     </p>
     <p class="content_goods" v-if="goodsNameType == 'coupons'">
       恭喜您获得
-      <span style="color:#343434;">“优惠券”</span>，快打开火把知识App，点击
+      <span style="color:#343434;">“优惠券”</span>，快去
       <span class="content_title">“我的-我的优惠券"</span>查看吧！
     </p>
     <p class="content_goods" v-if="goodsNameType == 'service_day'">
@@ -75,7 +75,7 @@
                   ￥
                   <span style="font-size: 20px;">{{item.price.toFixed(2)}}</span>
                 </div>
-                <div class="price" v-else>免费</div>
+                <div class="price" v-else><span style="font-size: 20px;">免费</span></div>
                 <div class="preferent_active">
                   <span v-for="(titems,indexs) in item.tag_list" :key="indexs">
                     <span class="active_1" v-if="indexs<1">
@@ -101,7 +101,7 @@
                     </svg>
                   </span>
                 </span>
-                <p
+                <span
                   class="bookgrow"
                   v-if="item.goods_type == 3"
                   style="display: flex;justify-content: space-between;"
@@ -113,7 +113,7 @@
                       <use xlink:href="#icon-next-line" />
                     </svg>
                   </span>
-                </p>
+                </span>
                 <span class="good" v-if="item.goods_type == 4">
                   <span @click.stop="toBrand(item,index)">
                     {{ item.brand_name }}

@@ -74,7 +74,7 @@
                   ￥
                   <span style="font-size: 20px;">{{item.price.toFixed(2)}}</span>
                 </div>
-                <div class="price" v-else>免费</div>
+                <div class="price" v-else><span style="font-size: 20px;">免费</span></div>
                 <div class="preferent_active">
                   <span v-for="(titems,indexs) in item.tag_list" :key="indexs">
                     <span class="active_1" v-if="indexs<1">
@@ -100,7 +100,7 @@
                     </svg>
                   </span>
                 </span>
-                <p
+                <span
                   class="bookgrow"
                   v-if="item.goods_type == 3"
                   style="display: flex;justify-content: space-between;"
@@ -112,7 +112,7 @@
                       <use xlink:href="#icon-next-line" />
                     </svg>
                   </span>
-                </p>
+                </span>
                 <span class="good" v-if="item.goods_type == 4">
                   <span @click.stop="toBrand(item,index)">
                     {{ item.brand_name }}
