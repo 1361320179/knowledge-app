@@ -2,16 +2,18 @@
   <div id="appSuccessPage">
     <div class="top_bg"></div>
     <h3 class="title">兑换成功</h3>
-    <p class="content" v-if="goodsNameType == 'goods'">
+    <p class="content_goods" v-if="goodsNameType == 'goods'">
       恭喜您获得商品名
       <span style="color:#343434;">“{{goodsName}}”</span> ，快去看看吧！
     </p>
-    <p class="content_goods" v-if="goodsNameType == 'coupons'">
+    <div class="content_goods" v-if="goodsNameType == 'coupons'">
       恭喜您获得
       <span style="color:#343434;">“优惠券”</span>，快打开火把知识App，点击
-      <span class="content_title">“我的-我的优惠券"</span>查看吧！
-    </p>
-    <p class="content" v-if="goodsNameType == 'service_day'">
+      <p>
+        <span class="content_title">“我的-我的优惠券"</span>查看吧！
+      </p>
+    </div>
+    <p class="content_goods" v-if="goodsNameType == 'service_day'">
       您已成功兑换的
       <span style="color:#343434;">“{{goodsName}}”</span>
       的{{serviceday}}天免费体验权快去
@@ -24,7 +26,6 @@
         @click="toCheck"
       >去看看</van-button>
     </div>
-
     <div class="recommend">
       <div style="color: #666666;font-weight: 700;">为您推荐</div>
       <div style="color: rgb(242, 121, 144);">
@@ -74,7 +75,9 @@
                   ￥
                   <span style="font-size: 20px;">{{item.price.toFixed(2)}}</span>
                 </div>
-                <div class="price" v-else><span style="font-size: 20px;">免费</span></div>
+                <div class="price" v-else>
+                  <span style="font-size: 20px;">免费</span>
+                </div>
                 <div class="preferent_active">
                   <span v-for="(titems,indexs) in item.tag_list" :key="indexs">
                     <span class="active_1" v-if="indexs<1">
@@ -138,19 +141,21 @@
 </style>
 <style src="@/style/scss/pages/brand/resultCorrent.scss" scoped lang="scss"></style>
 <script>
+import { REDEEM_RECOMMEND } from "@/apis/redeem.js";
 export default {
   name: "app-success",
   data() {
     return {
       goodsName: "",
       goodsNameType: "",
+      goods_Lists: [],
       serviceday: "",
       resData: {},
     };
   },
   methods: {
     async getGoodsDetail() {
-       var tStamp = this.$getTimeStamp();
+      var tStamp = this.$getTimeStamp();
       let data = {
         timestamp: tStamp,
         page: "1",
@@ -160,11 +165,11 @@ export default {
       data.sign = this.$getSign(data);
       let res = await REDEEM_RECOMMEND(data);
 
-      // console.log(res);
+      console.log(res);
       if (res.hasOwnProperty("response_code")) {
         this.goods_Lists = res.response_data.result;
       }
-      // console.log(this.goods_Lists);
+      console.log(this.goods_Lists);
     },
     // 跳转公众号首页
     toBrand(item, index) {
@@ -209,35 +214,15 @@ export default {
     },
 
     toCheck() {
-      // this.$toast(this.resData.redeem_goods_type);
-      if (this.resData.redeem_goods_type == 1) {
-        //  虚拟
-        if (this.resData.goods_type == 4) {
-          //  电子书
-          this.$router.push({
-            name: "ebookdetail",
-            query: { goods_id: this.resData.goods_id },
-          });
-        } else if (this.resData.goods_type == 9) {
-          this.$router.push({
-            name: "album",
-            query: { goods_id: this.resData.goods_id },
-          });
-        }
-      } else if (this.resData.redeem_goods_type == 2) {
-        // 优惠券
-        // console.log('url', window.location.href);
-        // this.$toast(window.location.href);
+      if (this.goodsNameType == "goods") {
+        // params = "/personal/order/list";
+        this.$router.push({ name: "orderlist" });
+      } else if (this.goodsNameType == "coupons") {
+        // params = "/coupon/mine";
         this.$router.push({ name: "couponmine" });
-      } else if (this.resData.redeem_goods_type == 3) {
-        this.$router.push({
-          name: "orderdetail",
-          query: { order_id: this.resData.order_id },
-        });
       } else if (this.goodsNameType == "service_day") {
-        this.$router.push({
-          name: "listenAndReadIndex",
-        });
+        // params = "/listenAndRead/index";
+        this.$router.push({ name: "listenAndReadIndex" });
       }
     },
   },

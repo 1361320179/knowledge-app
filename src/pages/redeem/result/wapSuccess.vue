@@ -15,7 +15,7 @@
     <p class="content_goods" v-if="goodsNameType == 'service_day'">
       您已成功兑换的
       <span style="color:#343434;">“{{goodsName}}”</span>
-      的{{serviceday}}天免费体验权，快打开火把知识app，点击底部
+      的{{service_day}}天免费体验权，快打开火把知识app，点击底部
       <span class="content_title">"我听我看"</span>查看吧！
     </p>
     <div class="button_wrapper">
@@ -75,7 +75,9 @@
                   ￥
                   <span style="font-size: 20px;">{{item.price.toFixed(2)}}</span>
                 </div>
-                <div class="price" v-else><span style="font-size: 20px;">免费</span></div>
+                <div class="price" v-else>
+                  <span style="font-size: 20px;">免费</span>
+                </div>
                 <div class="preferent_active">
                   <span v-for="(titems,indexs) in item.tag_list" :key="indexs">
                     <span class="active_1" v-if="indexs<1">
@@ -166,11 +168,11 @@ export default {
       data.sign = this.$getSign(data);
       let res = await REDEEM_RECOMMEND(data);
 
-      console.log(res);
+      // console.log(res);
       if (res.hasOwnProperty("response_code")) {
         this.goods_Lists = res.response_data.result;
       }
-      console.log(this.goods_Lists);
+      // console.log(this.goods_Lists);
     },
     // 跳转公众号首页
     toBrand(item, index) {
@@ -217,13 +219,15 @@ export default {
     download() {
       var params;
       if (this.goodsNameType == "goods") {
-        params = "/personal/order/list";
+        // params = "/personal/order/list";
+        this.$router.push({ name: "orderlist" });
       } else if (this.goodsNameType == "coupons") {
-        params = "/coupon/mine";
+        // params = "/coupon/mine";
+        this.$router.push({ name: "couponmine" });
       } else if (this.goodsNameType == "service_day") {
-        params = "/listenAndRead/index";
+        // params = "/listenAndRead/index";
+        this.$router.push({ name: "listenAndReadIndex" });
       }
-      Utils.$emit("goToApp", params);
     },
   },
   created() {
