@@ -365,7 +365,6 @@ export default {
         }
         // 进入ios登陆流程
         else if (localStorage.getItem("isHuobaIosLogin") == "yes") {
-          last_url += 'isLoginFromApp=1';
           if (last_url.indexOf("?") == -1) {
             last_url += '?isLoginFromApp=1';
           } else {

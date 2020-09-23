@@ -1,7 +1,7 @@
 <template>
   <div id="newGiftSuccessDraw">
     <div class="title">您已成功领取新人礼包</div>
-    <div class="sub_title">快来看看吧~</div>
+    <div class="sub_title">快去看看吧~</div>
     <div class="picture">
       <img src="../../assets/newGift/success_icon.png" />
     </div>
@@ -141,7 +141,6 @@
           }, 1);
           this.isLoading = false;
         } else {
-          this.isLoading = false;
           if (res.error_code === 100) {
             this.$toast(res.error_message);
             this.login();

@@ -228,12 +228,13 @@
           this.isLoading = false;
         } else {
           this.isLoading = false;
-          if (res.error_code === 100) {
-            this.$toast(res.error_message);
-            this.login();
-          } else {
-            this.$toast(res.error_message);
+          if (localStorage.getItem("isHuobaAndroidLogin") == "yes") {
+            if (res.error_code === 100) {
+              this.$toast(res.error_message);
+              this.login();
+            }
           }
+          this.$toast(res.error_message);
         }
       },
       // 传输接口

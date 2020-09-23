@@ -480,6 +480,8 @@ router.beforeEach((to, from, next) => {
       next();
       localStorage.setItem('loginState', 1);
       next();
+      replaceUrl = replaceUrl.replace('isLoginFromApp=1', "");
+      next();
     }
     next();
 
