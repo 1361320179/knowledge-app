@@ -95,13 +95,13 @@
         >
           <p class="goods_title">{{item.brand}}：{{item.use_range_desc}}</p>
           <div style="display: flex;justify-content: space-between;-webkit-box-pack: justify;">
-            <div class="huoba-goods-list-left" style="padding-top: 30px;display:flex;margin:0px;">
+            <div class="huoba-goods-list-left" style="padding-top: 30px;margin:0px;flex-grow: 1;display: inline-block;">
               <div
                 class="huoba-goods-list-imgs"
                 v-for="(arry,key) in item.goods"
                 :key="key"
                 :title="arry"
-                style="margin-right: 10px;"
+                style="margin-right: 6px;"
               >
                 <div class="ratioBox">
                   <div class="box" v-lazy:background-image="arry.pic">
@@ -120,16 +120,13 @@
                 <p style="text-align: center;">￥{{arry.price}}</p>
               </div>
             </div>
-            <div class="huoba-goods-list-right" style="padding-top: 0px;padding-left: 20px;">
+            <div class="huoba-goods-list-right" style="padding-top: 0px;padding-left: 0px;">
               <p class="huoba-goods-price">
                 ￥
                 <span style="font-size: 20px;">{{item.money}}</span>
               </p>
 
-              <p
-                class="huoba-goods-num"
-                style="font-size: 12px;color: #343434;padding: 10px 0px 10px 0px;"
-              >满{{item.min_money}}元可用</p>
+              <p class="huoba-goods-num">满{{item.min_money}}元可用</p>
 
               <div
                 v-if="has_link_s==1|| item.used_num>=item.goods_num||item.has_own == 1"

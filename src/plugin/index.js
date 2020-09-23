@@ -264,14 +264,15 @@ export default {
         let _name = _href.split('?')[0].toLowerCase();
         let _params = this.$getPageParams(_name);
         let _pageName = _params.page_name;
+
         this.page_name = _pageName;
         this.params = _params;
         // 新人礼不执行调起app传递分享等信息
         if (!_pageName || _pageName == '' || !_params || _params == '' || _pageName == "" || _pageName == "/newgift/sexage") {
           return;
         }
-       
-        if (_pageName == "goods/detail" || _pageName == "page/get" || _pageName == "groupbuy/open/detail" || _pageName == "groupbuy/goods/detail" || _pageName == "activity/interest" || _pageName == "assist/index" || _pageName == "assist/index" || _pageName == "brand/index" || _pageName == "mall/index" || _pageName == "mall/goods/search" || _pageName == "brand/goods/search" || _pageName == "brand/goods/search" || _pageName == "brand/goods/search" || _pageName == "activity/nemt"|| _pageName == "redeem/detail") {
+
+        if (_pageName == "goods/detail" || _pageName == "page/get" || _pageName == "groupbuy/open/detail" || _pageName == "groupbuy/goods/detail" || _pageName == "activity/interest" || _pageName == "assist/index" || _pageName == "assist/index" || _pageName == "brand/index" || _pageName == "mall/index" || _pageName == "mall/goods/search" || _pageName == "brand/goods/search" || _pageName == "brand/goods/search" || _pageName == "brand/goods/search" || _pageName == "activity/nemt") {
           // 需要调分享的页面
           var tStamp = this.$getTimeStamp();
           let data = {
@@ -376,7 +377,6 @@ export default {
       }
       // 进入ios登陆流程
       else if (localStorage.getItem("isHuobaIosLogin") == "yes") {
-        last_url += 'isLoginFromApp=1';
         if (last_url.indexOf("?") == -1) {
           last_url += '?isLoginFromApp=1';
         } else {
@@ -395,7 +395,6 @@ export default {
       }
 
     }
-
     // 音视频流解密
     Vue.prototype.$aesDecrypt = function (data1, data2) {
       var key = "huoba202009@..";
@@ -744,12 +743,8 @@ export default {
       } else if (_name == '/gaokaotest/index' || _name == '/gaokaotest/questionspageone' || _name == '/gaokaotest/questionspagetwo' || _name == '/gaokaotest/resultpage') {
         // 高考测一测
         linkData.page_name = 'activity/nemt';
-      } else if (_name == '/redeem/v2/goods') {
-        // 兑换码商品选择
-        linkData.page_name = 'redeem/detail';
-        linkData.code = this.$route.query.code;
-        linkData.redeem_id = this.$route.query.redeem_id;
       }
+
       return linkData;
     }
 
