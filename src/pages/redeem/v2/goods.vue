@@ -62,11 +62,6 @@
                 <use xlink:href="#icon-uncheck-line" style="color:#E5E5E5 !important;" />
               </svg>
             </div>
-
-
-
-
-
             <div
               v-else
               class="default"
@@ -81,13 +76,6 @@
                 <use xlink:href="#icon-uncheck-line" style="color:#9A9A9A !important;" />
               </svg>
             </div>
-
-
-
-
-
-
-
           </div>
           <div v-if="item.used_num >= item.goods_num && item.has_own == '1'" class="owned"></div>
           <div class="owned" v-else-if="item.has_own == '1'"></div>
