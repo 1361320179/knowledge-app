@@ -1340,6 +1340,7 @@ export default new Router({
       component: newGiftSexAge,
       meta: {
         title: '火把知识',
+        keepAlive: false,
         isPath: true, // 需要登录才能进入的页面可以增加一个meta属性
       }
     },
@@ -1349,6 +1350,7 @@ export default new Router({
       component: newGiftSuccessDraw,
       meta: {
         title: '火把知识',
+        keepAlive: false,
         isPath: true, // 需要登录才能进入的页面可以增加一个meta属性
       }
     },
@@ -1358,6 +1360,7 @@ export default new Router({
       component: newGiftUserGift,
       meta: {
         title: '火把知识',
+        keepAlive: false,
         isPath: true, // 需要登录才能进入的页面可以增加一个meta属性
       }
     },

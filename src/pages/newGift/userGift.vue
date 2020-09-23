@@ -128,6 +128,7 @@
     </div>
     <div class="next_page active" v-if="button_boolean">领取新人礼包</div>
     <div class="next_page" @click="drawUrl()" v-else>领取新人礼包</div>
+    <div class="mar_height"></div>
     <Loading :isLoading="isLoading"></Loading>
     <EazyNav type="brand" :isShow="isShows"></EazyNav>
     <!--通用弹窗-->
@@ -216,22 +217,31 @@
         data.sign = this.$getSign(data);
         let res = await NOVICEWELFARE_WELFARE(data);
         if (res.hasOwnProperty("response_code")) {
-          this.freeData = res.response_data.free;
-          this.chargeData = res.response_data.charge;
+          var freeData = res.response_data.free;
+          var chargeData = res.response_data.charge;
+          var freeDatas = [];
+          var chargeDatas = [];
           this.ticketsData = res.response_data.tickets;
-          for (var i = 0; i < this.freeData.length; i++ ) {
-            if (this.freeData[i].is_buy == undefined || this.freeData[i].is_buy == '' || this.freeData[i].is_buy == null) {
-              this.freeData[i].is_buy = 0;
+          for (var i = 0; i < freeData.length; i++ ) {
+            if (freeData[i] != null) {
+              freeDatas.push(freeData[i]);
+              if (freeDatas[i].is_buy == undefined || freeDatas[i].is_buy == '' || freeDatas[i].is_buy == null) {
+                freeDatas[i].is_buy = 0;
+              }
             }
           }
-          for (var j = 0; j < this.chargeData.length; j++ ) {
-            if (this.chargeData[j].is_buy == undefined || this.chargeData[j].is_buy == '' || this.chargeData[j].is_buy == null) {
-              this.chargeData[j].is_buy = 0;
+          this.freeData = freeDatas;
+          for (var j = 0; j < chargeData.length; j++ ) {
+            if (chargeData[j] != null) {
+              chargeDatas.push(chargeData[j]);
+              if (chargeDatas[j].is_buy == undefined || chargeDatas[j].is_buy == '' || chargeDatas[j].is_buy == null) {
+                chargeDatas[j].is_buy = 0;
+              }
             }
           }
+          this.chargeData = chargeDatas;
           this.isLoading = false;
         } else {
-          this.isLoading = false;
           if (res.error_code === 100) {
             this.$toast(res.error_message);
             this.login();
