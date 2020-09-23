@@ -49,6 +49,9 @@ export default {
     return {
       codeNum: "",
       validateNum: "",
+      redeemArr: [],
+      redeems: [],
+      referer: "",
       validateImage: "",
       validateFlag: false,
       userId: "",
@@ -99,6 +102,7 @@ export default {
       data.sign = this.$getSign(data);
       let res = await REDEEM_CHECK(data);
       // console.log(res);
+
       if (res.hasOwnProperty("response_code")) {
         // 接口请求成功
         // 判断是商品还是优惠券
@@ -108,8 +112,21 @@ export default {
         //     query: { code: codeNum },
         //   });
         // } else {
-        localStorage.setItem("ori_redeem_id", res.response_data.redeem_id);
-        localStorage.setItem("originLink", "code");
+        if (localStorage.getItem("redeemArr")) {
+          this.redeems = JSON.parse(localStorage.getItem("redeemArr"));
+          this.redeems.forEach((element, index) => {
+            if (element.id == res.response_data.redeem_id) {
+              this.redeems.splice(index, 1);
+            }
+          });
+        }
+
+        this.redeems.push({
+          id: res.response_data.redeem_id,
+          refer: "code",
+        });
+
+        localStorage.setItem("redeemArr", JSON.stringify(this.redeems));
         this.$router.push({
           name: "redeemGood_s",
           query: {

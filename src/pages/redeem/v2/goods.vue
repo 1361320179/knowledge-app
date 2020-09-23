@@ -31,8 +31,8 @@
                   alt
                 />-->
               </div>
-              <span class="huoba-goods-list-label" v-if="goods_type == 9">专辑</span>
-              <span class="huoba-goods-list-label goods_list_ebook" v-if="goods_type == 4">电子书</span>
+              <span class="huoba-goods-list-label" v-if="item.goods_type == 9">专辑</span>
+              <span class="huoba-goods-list-label goods_list_ebook" v-if="item.goods_type == 4">电子书</span>
             </div>
           </div>
           <div class="huoba-goods-list-mid">
@@ -83,13 +83,14 @@
           <div class="coupon_owned" v-else-if="item.used_num >= item.goods_num"></div>
         </div>
       </div>
+
       <!-- 优惠券 -->
       <div v-if="goods_type == 2">
         <div
           v-for="(item,index) in goods_Lists"
           :key="index"
           :title="item"
-          :class="['huoba-goods-list','huoba_goods_coupon',
+          :class="['huoba-goods-list','huoba-goods-list-four',
            item.used_num>=item.goods_num?'disabled_true':'',has_link_s==1?'disabled_true':'',item.has_own == 1?'disabled_true':'']"
           style="position: relative;margin-top: 20px;display: block;"
         >
@@ -283,6 +284,7 @@ export default {
       remindPopShow: false,
       goodsListLenght: "0",
       time: 3,
+      redeemArr: "",
       goodsDetail: {
         colour: { bg: "", text: "", bt: "" },
       },
@@ -302,10 +304,16 @@ export default {
   },
   methods: {
     async getGoodsDetail() {
-      if (localStorage.getItem("ori_redeem_id") != this.redeem) {
+      if (localStorage.getItem("redeemArr")) {
+        this.redeemArr = JSON.parse(localStorage.getItem("redeemArr"));
+        this.redeemArr.forEach((element, index) => {
+          if (element.id == this.redeem) {
+            this.referer = element.refer;
+            return;
+          }
+        });
+      } else {
         this.referer = "itself";
-      } else if (localStorage.getItem("originLink")) {
-        this.referer = localStorage.getItem("originLink");
       }
       var tStamp = this.$getTimeStamp();
       let data = {
@@ -326,7 +334,7 @@ export default {
         this.secShare = res.response_data.sec_share;
         this.goods_type = res.response_data.goods_type;
         this.goodsListLenght = res.response_data.redeem_kind_num;
-
+        this.description = res.response_data.description;
         if (res.response_data.page_button != "") {
           this.page_button = res.response_data.page_button;
         }
@@ -348,6 +356,7 @@ export default {
           case "该码已经被兑换过！":
           case "该兑换码已经兑换过":
           case "字段[code]值不能为空":
+          case "字段[redeem_id]值不能为空":
             this.errMsg = res.error_message;
             this.$toast(res.error_message + "\n5秒后回到个人中心");
             const timer = setInterval(() => {
@@ -358,10 +367,10 @@ export default {
             break;
           default:
             this.$toast(res.error_message);
-            const timers = setInterval(() => {
-              clearInterval(timers);
-              this.$router.go(0);
-            }, 3000);
+            // const timers = setInterval(() => {
+            //   clearInterval(timers);
+            //   this.$router.go(0);
+            // }, 3000);
             break;
         }
       }

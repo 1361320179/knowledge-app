@@ -13,8 +13,10 @@ export default {
   name: "straight-link-index",
   data() {
     return {
-      redeem: "",
+      redeem_id: "",
       referer: "",
+      redeemArr: [],
+      redeems:[],
       code: "",
     };
   },
@@ -49,16 +51,30 @@ export default {
     // },
   },
   created() {
-    this.redeem = this.$route.query.redeem_id;
+    this.redeem_id = this.$route.query.redeem_id;
     this.code = this.$route.query.code;
+
+    // console.log(this.code, this.redeem, this.$route.query.redeem_id,this.$route.query.code, 988); redeemArr
+
+    if (localStorage.getItem("redeemArr")) {
+      this.redeems = JSON.parse(localStorage.getItem("redeemArr"));
+      this.redeems.forEach((element, index) => {
+        if (element.id == this.redeem_id) {
+          this.redeems.splice(index, 1);
+        }
+      });
+    }
+
+    this.redeems.push({
+      id: this.redeem_id,
+      refer: "redirect",
+    });
+    localStorage.setItem("redeemArr", JSON.stringify(this.redeems));
 
     this.$router.push({
       name: "redeemGood_s",
-      query: { redeem_id: this.redeem, code: this.code },
+      query: { redeem_id: this.redeem_id, code: this.code },
     });
-    // console.log(this.code, this.redeem, this.$route.query.redeem_id,this.$route.query.code, 988);
-    localStorage.setItem("ori_redeem_id", this.redeem);
-    localStorage.setItem("originLink", "redirect");
   },
   // mounted() {
   //   this.getDetail();
