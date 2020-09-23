@@ -59,9 +59,13 @@
               style="text-align: center;"
             >
               <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-uncheck-line" style="color:#E5E5E5;" />
+                <use xlink:href="#icon-uncheck-line" style="color:#E5E5E5 !important;" />
               </svg>
             </div>
+
+
+
+
 
             <div
               v-else
@@ -71,12 +75,19 @@
               style="text-align: center;"
             >
               <svg class="icon" aria-hidden="true" v-if="item.is_default == 1">
-                <use xlink:href="#icon-checked-block" style="color:#F05654" />
+                <use xlink:href="#icon-checked-block" style="color:#EF5553 !important;" />
               </svg>
               <svg class="icon" aria-hidden="true" v-else>
-                <use xlink:href="#icon-uncheck-line" style="color:#9A9A9A;" />
+                <use xlink:href="#icon-uncheck-line" style="color:#9A9A9A !important;" />
               </svg>
             </div>
+
+
+
+
+
+
+
           </div>
           <div v-if="item.used_num >= item.goods_num && item.has_own == '1'" class="owned"></div>
           <div class="owned" v-else-if="item.has_own == '1'"></div>
@@ -122,8 +133,7 @@
               </div>
             </div>
             <div class="huoba-goods-list-right" style="padding-top: 0px;padding-left: 20px;">
-              <p
-                class="huoba-goods-price">
+              <p class="huoba-goods-price">
                 ￥
                 <span style="font-size: 20px;">{{item.money}}</span>
               </p>
@@ -139,7 +149,7 @@
                 style="text-align: center;"
               >
                 <svg class="icon" aria-hidden="true">
-                  <use xlink:href="#icon-uncheck-line" style="color:#E5E5E5;" />
+                  <use xlink:href="#icon-uncheck-line" style="color:#E5E5E5 !important;" />
                 </svg>
               </div>
 
@@ -151,10 +161,10 @@
                 style="text-align: center;"
               >
                 <svg class="icon" aria-hidden="true" v-if="item.is_default == 1">
-                  <use xlink:href="#icon-checked-block" style="color:#F05654" />
+                  <use xlink:href="#icon-checked-block"  style="color:#EF5553 !important;" />
                 </svg>
                 <svg class="icon" aria-hidden="true" v-else>
-                  <use xlink:href="#icon-uncheck-line" style="color:#9A9A9A;" />
+                  <use xlink:href="#icon-uncheck-line" style="color:#9A9A9A !important;" />
                 </svg>
               </div>
             </div>

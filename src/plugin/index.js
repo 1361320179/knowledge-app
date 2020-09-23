@@ -9,8 +9,18 @@ import CryptoJS from "crypto-js/crypto-js";
 
 //  引入时间戳接口
 // import req from "./../apis/http.js";
-import { SERVER_TIME, WX_SHARE, WX_SHARE_LOG, ADDRESS, CASHIER_PAY_CHECK, APP_DOWNLOAD } from "./../apis/public.js";
-import { LOGIN_PARTERNER, PAGE_INFO } from "./../apis/passport.js";
+import {
+  SERVER_TIME,
+  WX_SHARE,
+  WX_SHARE_LOG,
+  ADDRESS,
+  CASHIER_PAY_CHECK,
+  APP_DOWNLOAD
+} from "./../apis/public.js";
+import {
+  LOGIN_PARTERNER,
+  PAGE_INFO
+} from "./../apis/passport.js";
 
 // 支持await async
 // import regeneratorRuntime from './../regenerator-runtime/runtime.js';
@@ -117,7 +127,10 @@ export default {
           // });
           this.$router.replace({
             name: "bindPhone",
-            query: { bindtype: _type, outerId: _unionid }
+            query: {
+              bindtype: _type,
+              outerId: _unionid
+            }
           });
         }
         if (res.response_data.exist == 1) {
@@ -180,9 +193,9 @@ export default {
           let timestamp = response.data.timestamp;
           wx.config({
             debug: false,
-            appId: appId,         // 和获取Ticke的必须一样------必填，公众号的唯一标识
+            appId: appId, // 和获取Ticke的必须一样------必填，公众号的唯一标识
             timestamp: timestamp, // 必填，生成签名的时间戳
-            nonceStr: nonceStr,   // 必填，生成签名的随机串
+            nonceStr: nonceStr, // 必填，生成签名的随机串
             signature: signature, // 必填，签名，见附录1
             // 需要分享的列表项:发送给朋友，分享到朋友圈，分享到QQ，分享到QQ空间
             jsApiList: [
@@ -231,11 +244,11 @@ export default {
           }
         };
         console.log('shareData:', shareData);
-        wx.onMenuShareTimeline(shareData);    // 分享到朋友圈
-        wx.onMenuShareAppMessage(shareData);  // 分享给朋友
-        wx.onMenuShareQQ(shareData);          // 分享到QQ
-        wx.onMenuShareWeibo(shareData);       // 分享到weibo
-        wx.onMenuShareQZone(shareData);       // 分享到QQ空间
+        wx.onMenuShareTimeline(shareData); // 分享到朋友圈
+        wx.onMenuShareAppMessage(shareData); // 分享给朋友
+        wx.onMenuShareQQ(shareData); // 分享到QQ
+        wx.onMenuShareWeibo(shareData); // 分享到weibo
+        wx.onMenuShareQZone(shareData); // 分享到QQ空间
       });
 
     }
@@ -251,17 +264,17 @@ export default {
         let _name = _href.split('?')[0].toLowerCase();
         let _params = this.$getPageParams(_name);
         let _pageName = _params.page_name;
-
         this.page_name = _pageName;
         this.params = _params;
-
+          console.log(_pageName)
         // 新人礼不执行调起app传递分享等信息
         if (!_pageName || _pageName == '' || !_params || _params == '' || _pageName == "" || _pageName == "/newgift/sexage") {
           return;
         }
-
-        if (_pageName == "goods/detail" || _pageName == "page/get" || _pageName == "groupbuy/open/detail" || _pageName == "groupbuy/goods/detail" || _pageName == "activity/interest" || _pageName == "assist/index" || _pageName == "assist/index" || _pageName == "brand/index" || _pageName == "mall/index" || _pageName == "mall/goods/search" || _pageName == "brand/goods/search" || _pageName == "brand/goods/search" || _pageName == "brand/goods/search" || _pageName == "activity/nemt") {
+       
+        if (_pageName == "goods/detail" || _pageName == "page/get" || _pageName == "groupbuy/open/detail" || _pageName == "groupbuy/goods/detail" || _pageName == "activity/interest" || _pageName == "assist/index" || _pageName == "assist/index" || _pageName == "brand/index" || _pageName == "mall/index" || _pageName == "mall/goods/search" || _pageName == "brand/goods/search" || _pageName == "brand/goods/search" || _pageName == "brand/goods/search" || _pageName == "activity/nemt"|| _pageName == "redeem/detail") {
           // 需要调分享的页面
+          console.log(999)
           var tStamp = this.$getTimeStamp();
           let data = {
             page_name: _pageName,
@@ -349,19 +362,15 @@ export default {
 
     // webview需要登錄但未登陆的页面调app的登陆流程
     Vue.prototype.$gotoAppLogin = async function (routerLink) {
-        // 进入安卓登陆流程
-        var last_url = localStorage.getItem('routerLink');
+      // 进入安卓登陆流程
+      var last_url = localStorage.getItem('routerLink');
       last_url = last_url.replace('?nullPage=3', "");
-        last_url = last_url.replace('&nullPage=3', "");
-        if (localStorage.getItem("isHuobaAndroidLogin") == "yes") {
-          if (last_url.indexOf("?") == -1) {
-            last_url += '?isLoginFromApp=1';
-          } else {
-            last_url += '&isLoginFromApp=1';
-          }
-          window.JSWEB.RequestNative(JSON.stringify({
-            last_url: last_url
-          }));
+      last_url = last_url.replace('&nullPage=3', "");
+      if (localStorage.getItem("isHuobaAndroidLogin") == "yes") {
+        if (last_url.indexOf("?") == -1) {
+          last_url += '?isLoginFromApp=1';
+        } else {
+          last_url += '&isLoginFromApp=1';
         }
         // 进入ios登陆流程
         else if (localStorage.getItem("isHuobaIosLogin") == "yes") {
@@ -374,14 +383,17 @@ export default {
             last_url: last_url
           })
         }
-        else {
-          if(routerLink.indexOf('/newGift/sexAge') != -1) {
-            // 引导进入web端登陆
-            this.$router.push({
-              name: "login"
-            });
-          }
+        window.webkit.messageHandlers.shareAndJump.postMessage({
+          last_url: last_url
+        })
+      } else {
+        if (routerLink.indexOf('/newGift/sexAge') != -1) {
+          // 引导进入web端登陆
+          this.$router.push({
+            name: "login"
+          });
         }
+      }
 
     }
 
@@ -562,7 +574,7 @@ export default {
       } else if (_name == '/groupgoods') {
         // 实物商品拼团页面
         linkData.groupbuy_id = parseInt(this.$route.query.groupbuy_id);
-        linkData.brand_id = this.$route.query.brand_id;//??
+        linkData.brand_id = this.$route.query.brand_id; //??
       } else if (_name == '/album/audio') {
         // 专辑
         linkData.goods_id = this.$route.query.goods_id;
@@ -576,11 +588,11 @@ export default {
         linkData.goods_id = this.$route.query.goods_id;
       } else if (_name == '/assist/active') {
         // 助力活动
-        linkData.launch_id = this.$route.query.launch_id;//??
+        linkData.launch_id = this.$route.query.launch_id; //??
         linkData.activity_id = this.$route.query.activity_id;
       } else if (_name == '/assist/help') {
         // 助力活动
-        linkData.launch_id = this.$route.query.launch_id;//??
+        linkData.launch_id = this.$route.query.launch_id; //??
         linkData.activity_id = this.$route.query.activity_id;
       } else if (_name == '/brand/index') {
         // 品牌
@@ -660,7 +672,7 @@ export default {
         // 实物商品拼团页面
         linkData.page_name = 'groupbuy/goods/detail';
         linkData.groupbuy_id = parseInt(this.$route.query.groupbuy_id);
-        linkData.brand_id = this.$route.query.brand_id;//??
+        linkData.brand_id = this.$route.query.brand_id; //??
       } else if (_name == '/activity/interest') {
         // 问卷调查
         linkData.page_name = 'activity/interest';
@@ -676,12 +688,12 @@ export default {
       } else if (_name == '/assist/active') {
         // 助力活动
         linkData.page_name = 'assist/index';
-        linkData.launch_id = this.$route.query.launch_id;//??
+        linkData.launch_id = this.$route.query.launch_id; //??
         linkData.activity_id = this.$route.query.activity_id;
       } else if (_name == '/assist/help') {
         // 助力活动
         linkData.page_name = 'assist/index';
-        linkData.launch_id = this.$route.query.launch_id;//??
+        linkData.launch_id = this.$route.query.launch_id; //??
         linkData.activity_id = this.$route.query.activity_id;
       } else if (_name == '/brand/index') {
         // 品牌
@@ -733,8 +745,12 @@ export default {
       } else if (_name == '/gaokaotest/index' || _name == '/gaokaotest/questionspageone' || _name == '/gaokaotest/questionspagetwo' || _name == '/gaokaotest/resultpage') {
         // 高考测一测
         linkData.page_name = 'activity/nemt';
+      } else if (_name == '/redeem/v2/goods') {
+        // 兑换码商品选择
+        linkData.page_name = 'redeem/detail';
+        linkData.code = this.$route.query.code;
+        linkData.redeem_id = this.$route.query.redeem_id;
       }
-
       return linkData;
     }
 
@@ -752,8 +768,7 @@ export default {
       let res = await WX_SHARE_LOG(data);
 
       console.log('shareLog:', res);
-      if (res.hasOwnProperty("response_code")) {
-      } else {
+      if (res.hasOwnProperty("response_code")) {} else {
         this.$toast(res.error_message);
       }
     }
@@ -770,7 +785,7 @@ export default {
     }
 
     // 时间格式转换 秒数 -> 00:00:00
-    Vue.prototype.$formatTime = function(value) {
+    Vue.prototype.$formatTime = function (value) {
       let secondTime = parseInt(value);
       let minuteTime = 0;
       let hourTime = 0;
@@ -1143,14 +1158,14 @@ export default {
           if (dataTmp.params.album_id) queryTmp.album_id = parseInt(dataTmp.params.album_id);
 
           break;
-        // 公号商品搜索结果页
+          // 公号商品搜索结果页
         case 'brand/goods/search':
           __name = 'brandresult';
           __action = 'brand/result';
           queryTmp.brand_id = parseInt(dataTmp.params.brand_id);
           queryTmp.keywords = dataTmp.params.keywords;
           break;
-        // 商城商品搜索结果页
+          // 商城商品搜索结果页
         case 'mall/goods/search':
           __name = 'brandresultcorrent';
           __action = '/brand/resultCorrent';
@@ -1161,8 +1176,7 @@ export default {
             queryTmp.brand_id = dataTmp.params.brand_id
           } else {
             queryTmp.isbrand_id = 'no'
-          }
-          ;
+          };
           if (dataTmp.params.tagids) queryTmp.tagids = dataTmp.params.tagids;
           if (dataTmp.params.goods_id) queryTmp.goods_id = dataTmp.params.goods_id;
 
@@ -1177,7 +1191,7 @@ export default {
           if (dataTmp.params.tagids) queryTmp.tagids = dataTmp.params.tagids;
 
           break;
-        // 供应商商城首页
+          // 供应商商城首页
         case 'mall/index':
           __name = 'custompage';
           __action = 'custompage';
@@ -1185,26 +1199,26 @@ export default {
           queryTmp.type = 'mall';
 
           break;
-        // 公号首页
+          // 公号首页
         case 'brand/index':
           __name = 'brand';
           __action = 'brand';
           queryTmp.brand_id = parseInt(dataTmp.params.brand_id);
 
           break;
-        //自定义商城页
+          //自定义商城页
         case 'page/get':
           __name = 'custompage';
           __action = 'custompage';
           queryTmp.page_id = parseInt(dataTmp.params.page_id);
           break;
-        //跳转外链
+          //跳转外链
         case 'jump/url':
           __name = 'url'
           __action = 'url'
           queryTmp.url = dataTmp.params.url;
           break;
-        // 优惠券详情
+          // 优惠券详情
         case 'ticket/link/detail':
           __name = 'couponreceive'
           __action = 'coupon/receive'
@@ -1229,8 +1243,7 @@ export default {
 
 
       WeixinJSBridge.invoke(
-        "getBrandWCPayRequest",
-        {
+        "getBrandWCPayRequest", {
           appId: self.appid, //公众号名称，由商户传入
           timeStamp: _timestamp.toString(), //时间戳，自1970年以来的秒数
           nonceStr: _nonceStr, //随机串
@@ -1248,10 +1261,14 @@ export default {
               if (self.$route.query.endAccountTo == 'return') {
                 self.$router.replace({
                   name: "payaccount",
-                  query: { goods_id: self.goods_id }
+                  query: {
+                    goods_id: self.goods_id
+                  }
                 })
               } else {
-                self.$router.push({ name: "record" });
+                self.$router.push({
+                  name: "record"
+                });
               }
             }
             // 商品购买  虚拟 / 实物
@@ -1284,8 +1301,7 @@ export default {
               //   window.clearInterval(this.checkPayTime);
               //   self.isLoading = false;
               // }
-            }
-            else if (localStorage.getItem('routerLink').indexOf('/ebook/detail') != -1) {
+            } else if (localStorage.getItem('routerLink').indexOf('/ebook/detail') != -1) {
               // self.$toast('支付成功~');
               // self.rechargeAddPay();
               setTimeout(function () {
@@ -1433,9 +1449,7 @@ export default {
                 // 区
                 if (res.response_data[i].city[j].county) {
                   for (
-                    let k = 0;
-                    k < res.response_data[i].city[j].county.length;
-                    k++
+                    let k = 0; k < res.response_data[i].city[j].county.length; k++
                   ) {
                     ctstr +=
                       '"' +
@@ -1612,7 +1626,7 @@ export default {
             }
           });
           break;
-        // 手机号码，第四位以及第八位加空格 150 0000 0000
+          // 手机号码，第四位以及第八位加空格 150 0000 0000
         case 'tel':
           // 添加空格
           Array.from(code, (item, index) => {
