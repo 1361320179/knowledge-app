@@ -271,7 +271,7 @@ export default {
         if (!_pageName || _pageName == '' || !_params || _params == '' || _pageName == "" || _pageName == "/newgift/sexage") {
           return;
         }
-       
+
         if (_pageName == "goods/detail" || _pageName == "page/get" || _pageName == "groupbuy/open/detail" || _pageName == "groupbuy/goods/detail" || _pageName == "activity/interest" || _pageName == "assist/index" || _pageName == "assist/index" || _pageName == "brand/index" || _pageName == "mall/index" || _pageName == "mall/goods/search" || _pageName == "brand/goods/search" || _pageName == "brand/goods/search" || _pageName == "brand/goods/search" || _pageName == "activity/nemt"|| _pageName == "redeem/detail") {
           // 需要调分享的页面
           console.log(999)
@@ -372,22 +372,23 @@ export default {
         } else {
           last_url += '&isLoginFromApp=1';
         }
-        // 进入ios登陆流程
-        else if (localStorage.getItem("isHuobaIosLogin") == "yes") {
-          if (last_url.indexOf("?") == -1) {
-            last_url += '?isLoginFromApp=1';
-          } else {
-            last_url += '&isLoginFromApp=1';
-          }
-          window.webkit.messageHandlers.shareAndJump.postMessage({
-            last_url: last_url
-          })
+        window.JSWEB.RequestNative(JSON.stringify({
+          last_url: last_url
+        }));
+      }
+      // 进入ios登陆流程
+      else if (localStorage.getItem("isHuobaIosLogin") == "yes") {
+        if (last_url.indexOf("?") == -1) {
+          last_url += '?isLoginFromApp=1';
+        } else {
+          last_url += '&isLoginFromApp=1';
         }
         window.webkit.messageHandlers.shareAndJump.postMessage({
           last_url: last_url
         })
-      } else {
-        if (routerLink.indexOf('/newGift/sexAge') != -1) {
+      }
+      else {
+        if(routerLink.indexOf('/newGift/sexAge') != -1) {
           // 引导进入web端登陆
           this.$router.push({
             name: "login"
