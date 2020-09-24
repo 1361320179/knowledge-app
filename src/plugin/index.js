@@ -488,6 +488,24 @@ export default {
         if (this.$route.query.page_id) linkData.page_id = this.$route.query.page_id;
         if (this.$route.query.supplier_id) linkData.supplier_id = this.$route.query.supplier_id;
 
+      } else if (_name == '/personal/order/list') {
+        // 兑换码结束页 跳app订单
+        // linkData.page_name = this.$route.query.type;
+        // linkData.page_id = this.$route.query.page_id;
+        // linkData.supplier_id = this.$route.query.supplier_id;
+
+      } else if (_name == '/coupon/mine') {
+        // 兑换码结束页 跳app我的优惠券
+        // linkData.type = this.$route.query.type;
+        // linkData.page_id = this.$route.query.page_id;
+        // linkData.supplier_id = this.$route.query.supplier_id;
+
+      } else if (_name == '/listenAndRead/index') {
+        // 兑换码结束页 跳app我听我看
+        // linkData.type = this.$route.query.type;
+        // linkData.page_id = this.$route.query.page_id;
+        // linkData.supplier_id = this.$route.query.supplier_id;
+
       }
       return linkData;
     }
