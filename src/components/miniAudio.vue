@@ -59,7 +59,7 @@
     </div>
 
     <!-- 播放器 -->
-    <audio id="myMiniAudio" preload="auto" @ended="onEnded"></audio>
+    <audio id="myMiniAudio" ref="audio" preload="auto" @ended="onEnded"></audio>
   </div>
 </template>
 
@@ -398,15 +398,15 @@ export default {
       this.playType = false;
       var audio = document.getElementById("myMiniAudio");
       var second = parseInt(audio.currentTime);
+      var path = this.playUrl;
       // 设置当前播放时间null != 0，null为点击播放按钮，继续播放或者获取localstorage记录
       if (__currentTime == null) {
         // audio.currentTime = 0;
         // second = __currentTime;
       }
-      console.log('aaaa',this.playUrl);
+      // console.log('aaaa',this.playUrl);
       if (Hls.isSupported() && this.playUrl != '') {
-        var path = this.playUrl;
-        console.log('pathaaa',path);
+        // console.log('pathaaa',path);
         var myMiniAudio = document.getElementById('myMiniAudio');
         var myhls = new Hls();
         myhls.loadSource(path);
@@ -415,7 +415,13 @@ export default {
           // 播放
           audio.play();
         });
-
+      } else if (this.$refs.audio.canPlayType('application/vnd.apple.mpegurl') && this.playUrl != '') {
+        // this.$refs.video.type = "application/vnd.apple.mpegurl";
+        this.$refs.audio.src = path;
+        // this.$toast('pathaaa'+ this.$refs.audio.src);
+        this.$refs.audio.addEventListener('loadedmetadata',function() {
+          this.$refs.audio.play();
+        });
       }
 
       console.log("测试全部播放:", __currentTime);
