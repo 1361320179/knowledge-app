@@ -12,7 +12,6 @@
         autoplay
         @play="videoPlay"
         @pause="videoPause"
-        :src="videoPath"
         controls
         controlslist="nodownload"
         width="100%"
@@ -116,6 +115,11 @@
 </template>
 
 <script>
+  // aes加密解密
+  import CryptoJS from "crypto-js/crypto-js";
+  // m3u8播放
+  import Hls from 'hls.js';
+
   import {TICKET_LINK} from "@/apis/coupon.js";
   import audioList from "@/pages/album2.0/components/list";
   import recommend from './components/recommend';
@@ -149,7 +153,7 @@
         rankType: 1, // 默认0倒序, 1正序
         programList: [],
         programTotalCount: 0,
-        videoPath: '',
+        // videoPath: '',
         playStatus: null,
         // 基础信息
         baseData: {
@@ -207,7 +211,7 @@
           );
           var item = this.programList[index];
           // console.log('index',index);
-          this.changeVideo(item);
+          this.setVideo(item);
           // 设置总节目数
           this.programTotalCount = res.response_data.total_count;
         } else {
@@ -225,14 +229,14 @@
           this.counter = res.response_data.counter;
         }
       },
-      // 获取专辑/商品接口信息
-      async albumData() {
+      // 获取节目接口信息
+      async albumData(goods_id) {
         var tStamp = this.$getTimeStamp();
         let data = {
           ad: parseInt(this.$route.query.ad) == 1 ? 1 : 0,
           timestamp: tStamp,
-          pid: this.pid ? this.pid : null,
-          goods_id: this.goods_id,
+          pid: this.pid,
+          goods_id: goods_id,
           version: "1.0"
         };
         data.sign = this.$getSign(data);
@@ -244,12 +248,23 @@
           this.albumInfo = res.response_data.album_info;
           // 当前商品基础信息
           this.baseData = res.response_data.base;
-          // console.log('baseData',this.baseData);
+          console.log('baseData',this.baseData);
           // 公号信息
           this.brandInfoData = res.response_data.brand_info;
 
-          // 限时免费
-          this.limitUse = res.response_data.activity.limituse;
+          // 音视频秘钥
+          let play_url = this.baseData.play_url;
+          let play_key = this.baseData.play_key;
+          let path = this.$aesDecrypt(play_url, play_key);
+          console.log('path',path);
+
+          // hls.js
+          if (Hls.isSupported()) {
+            var myVideo = document.getElementById('myVideo');
+            var myhls = new Hls();
+            myhls.loadSource(path);
+            myhls.attachMedia(myVideo);
+          }
 
           // console.log(7474,$('.van-goods-action-big-btn .van-button__text'))
 
@@ -288,6 +303,8 @@
           // console.log('albumBase', this.albumBase);
           // 推荐用券
           this.recommendTicket = res.response_data.recommend_ticket;
+          // 限时免费
+          this.limitUse = res.response_data.activity.limituse;
         } else {
           this.$toast(res.error_message);
         }
@@ -335,20 +352,42 @@
         }
       },
 
+      // 设置初始视频
+      setVideo(item) {
+        var program = item;
+        console.log('program', program);
+        var index = this.programList.findIndex(element =>
+          element.goods_id == program.goods_id
+        );
+        this.baseData = program;
+        // 处理节目标题
+        this.title = program.title;
+        this.foldState = 0;
+        this.$nextTick(() => {
+          this.handleTitle();
+        });
+
+        // console.log('program',program);
+        this.itemClass = [];
+        this.itemClass.length = this.programList.length;
+        this.itemClass[index] = 'percent';
+      },
       // 切换节目列表
       changeVideo(item) {
         var program = item;
+        console.log('program', program);
         var index = this.programList.findIndex(element =>
           element.goods_id == program.goods_id
         );
         this.baseData = program;
         if (program.goods_type == 1) {
           // this.baseData.goods_type = 1;
-          this.videoPath = "";
+          // this.videoPath = "";
           // this.$toast('音频');
         } else if (program.goods_type == 2 && (this.baseData.is_free == 1 || this.baseData.is_payed == 1 || JSON.stringify(this.limitUse) != '{}')) {
           // this.baseData.goods_type = 2;
-          this.videoPath = program.file_path;
+          // this.videoPath = program.file_path;
+          this.albumData(program.goods_id);
         }
         this.goods_id = program.goods_id;
         this.goods_no = program.goods_no;
@@ -431,7 +470,7 @@
       this.isLogin = localStorage.getItem('loginState');
 
       this.wholeAlbum();
-      this.albumData().then(() => {
+      this.albumData(this.goods_id).then(() => {
         this.programData();
       });
       this.commentCounter();
