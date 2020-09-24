@@ -218,21 +218,24 @@ export default {
 
     download() {
       var params;
+
       if (this.goodsNameType == "goods") {
-        // params = "/personal/order/list";
-        this.$router.push({ name: "orderlist" });
+        params = "/personal/order/list";
+        // this.$router.push({ name: "orderlist" });
       } else if (this.goodsNameType == "coupons") {
-        // params = "/coupon/mine";
-        this.$router.push({ name: "couponmine" });
+        params = "/coupon/mine";
+        // this.$router.push({ name: "couponmine" });
       } else if (this.goodsNameType == "service_day") {
-        // params = "/listenAndRead/index";
-        this.$router.push({ name: "listenAndReadIndex" });
+        params = "/listenAndRead/index";
+        // this.$router.push({ name: "listenAndReadIndex" });
       }
+      this.$getAppParams(params);
+      Utils.$emit("goToApp", params);
     },
   },
   created() {
     this.goodsName = this.$route.query.goodsName;
-    
+
     if (this.goodsName instanceof Array) {
       this.goodsName = this.goodsName.join(",");
     }
