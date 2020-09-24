@@ -452,27 +452,6 @@
 
     }
 
-    .owned {
-      width: 76px;
-      height: 76px;
-      background-repeat: no-repeat;
-      @include bgImageOne('./../../../../../assets/redeem/owned');
-      position: absolute;
-      right: 30px;
-      bottom: 15px;
-    }
-
-    .ebook_owned,
-    .coupon_owned {
-      width: 76px;
-      height: 76px;
-      background-repeat: no-repeat;
-      @include bgImageOne('./../../../../../assets/redeem/lootall');
-      position: absolute;
-      right: 30px;
-      bottom: 15px;
-    }
-
     .goods_title {
       width: 70%;
       position: absolute;
@@ -551,9 +530,28 @@
     border-radius: 5px;
   }
 
-  // .van-overlay{
-  //   background-color: rgba(0,0,0,0);
-  // }
+  .owned {
+    width: 76px;
+    height: 76px;
+    background-repeat: no-repeat;
+    @include bgImageOne('./../../../../../assets/redeem/owned');
+    position: absolute;
+    right: 30px;
+    bottom: 15px;
+    z-index: 1000;
+  }
+
+  .ebook_owned,
+  .coupon_owned {
+    width: 76px;
+    height: 76px;
+    background-repeat: no-repeat;
+    @include bgImageOne('./../../../../../assets/redeem/lootall');
+    position: absolute;
+    right: 30px;
+    bottom: 15px;
+    z-index: 1000;
+  }
 }
 
 .van-toast--text {
