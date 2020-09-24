@@ -260,6 +260,7 @@ export default {
         }
 
         if (_pageName == "goods/detail" || _pageName == "page/get" || _pageName == "groupbuy/open/detail" || _pageName == "groupbuy/goods/detail" || _pageName == "activity/interest" || _pageName == "assist/index" || _pageName == "assist/index" || _pageName == "brand/index" || _pageName == "mall/index" || _pageName == "mall/goods/search" || _pageName == "brand/goods/search" || _pageName == "brand/goods/search" || _pageName == "brand/goods/search" || _pageName == "activity/nemt" || _pageName == "redeem/detail") {
+
           // 需要调分享的页面
           console.log(999)
           var tStamp = this.$getTimeStamp();
@@ -375,7 +376,7 @@ export default {
         })
       }
       else {
-        if (routerLink.indexOf('/newGift/sexAge') != -1) {
+        if(routerLink.indexOf('/newGift/sexAge') != -1) {
           // 引导进入web端登陆
           this.$router.push({
             name: "login"
