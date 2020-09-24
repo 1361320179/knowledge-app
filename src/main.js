@@ -475,6 +475,8 @@ router.beforeEach((to, from, next) => {
   }
   // 需要记录路径的中间页
   if(to.meta.isPath) {
+    localStorage.setItem('ceshi222', replaceUrl);
+    localStorage.setItem('ceshi333', replaceUrl.indexOf("isLoginFromApp=1") != -1);
     // 通过app登陆成功后的页面设置登陆状态loginState = 1
     if (replaceUrl.indexOf("isLoginFromApp=1") != -1) {
       next();
