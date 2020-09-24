@@ -123,7 +123,7 @@ cnpm install --save vue-clipboard2
 # cnpm install vue-hls-player
 
 // hls.js
-npm i hls.js@0.13.3-canary.5704
+npm install --save hls.js
 
 // vue中使用AES加密(安装后需要替换依赖aes.js)
 cnpm install crypto-js --save-dev
