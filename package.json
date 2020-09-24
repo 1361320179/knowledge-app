@@ -17,6 +17,7 @@
     "axios": "^0.18.0",
     "clipboard": "^2.0.4",
     "css-loader": "^0.28.11",
+    "hls.js": "^0.13.3-canary.5704",
     "jquery": "^3.4.0",
     "js-md5": "^0.7.3",
     "jsencrypt": "^3.0.0-rc.1",
