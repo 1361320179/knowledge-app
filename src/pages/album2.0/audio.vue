@@ -34,7 +34,7 @@
     <!--<template v-if="JSON.stringify(aOption) != '{}'">-->
       <!--<aplayer :playerOptions="aOption" muted="muted" />-->
     <!--</template>-->
-    <audio id="musicPlayer" @ended="onEnded" style="display: none;"></audio>
+    <audio id="musicPlayer" ref="audio" @ended="onEnded" style="display: none;"></audio>
 
     <!--<audio ref="audio" id="musicPlayer" @ended="onEnded">-->
       <!--<source :src="baseData.file_path"/>-->
@@ -322,6 +322,12 @@
                 // }, 10000);
 
               }
+            });
+          } else if (this.$refs.audio.canPlayType('application/vnd.apple.mpegurl')) {
+            // this.$refs.video.type = "application/vnd.apple.mpegurl";
+            this.$refs.audio.src = path;
+            this.$refs.audio.addEventListener('loadedmetadata',function() {
+              this.$refs.audio.play();
             });
           }
 

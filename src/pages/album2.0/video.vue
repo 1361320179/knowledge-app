@@ -8,6 +8,7 @@
       </div>
       <video
         id="myVideo"
+        ref="video"
         v-if="(baseData.is_payed == 1 || baseData.is_free == 1 || JSON.stringify(limitUse) != '{}') && baseData.goods_type == 2"
         autoplay
         @play="videoPlay"
@@ -16,7 +17,6 @@
         controlslist="nodownload"
         width="100%"
         height="100%"
-        poster="baseData.pic[0]"
         x5-playsinline="true" playsinline="true" webkit-playsinline="true" x-webkit-airplay="true" x5-video-player-type="h5" x5-video-player-fullscreen="true" x5-video-orientation="portraint"
       ></video>
       <!--<div class="leftBottom" v-if="baseData.is_payed == 0 && baseData.is_free == 1 && albumBase.is_free == 0">-->
@@ -264,6 +264,12 @@
             var myhls = new Hls();
             myhls.loadSource(path);
             myhls.attachMedia(myVideo);
+          } else if (this.$refs.video.canPlayType('application/vnd.apple.mpegurl')) {
+            // this.$refs.video.type = "application/vnd.apple.mpegurl";
+            this.$refs.video.src = path;
+            this.$refs.video.addEventListener('loadedmetadata',function() {
+              this.$refs.video.play();
+            });
           }
 
           // console.log(7474,$('.van-goods-action-big-btn .van-button__text'))
@@ -470,8 +476,8 @@
       this.isLogin = localStorage.getItem('loginState');
 
       this.wholeAlbum();
-      this.albumData(this.goods_id).then(() => {
-        this.programData();
+      this.programData().then(() => {
+        this.albumData(this.goods_id);
       });
       this.commentCounter();
     },
