@@ -250,7 +250,7 @@ router.beforeEach((to, from, next) => {
   // 重定向功能，为解决ios微信上复制链接功能不能复制到动态路由问题
   // 获取地址前段部分，不算参数
   var replaceUrl = window.location.href.split('#')[0] + '#' + to.path;
-  localStorage.setItem('ceshi111', to.fullPath);
+
   // var _routeUrlSet = false;
   // let _url = window.location.href.split('#')[0]
   // if(_url.indexOf('?from=') > -1 && _url.indexOf('&isappinstalled=') > -1){
