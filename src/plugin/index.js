@@ -373,9 +373,9 @@ export default {
           } else {
             last_url += '&isLoginFromApp=1';
           }
-
           window.JSWEB.RequestNative(JSON.stringify({
-            link_data: {page_name: "login"},
+            link_data: {page_name: "/login"},
+            isJump: true,
             last_url: last_url
           }));
         }
@@ -389,7 +389,7 @@ export default {
             last_url += '&isLoginFromApp=1';
           }
           window.webkit.messageHandlers.shareAndJump.postMessage({
-            link_data: {page_name: "login"},
+            link_data: {page_name: "/login"},
             last_url: last_url
           })
         }

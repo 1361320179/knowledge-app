@@ -227,12 +227,6 @@
           }
           this.isLoading = false;
         } else {
-          /*if (localStorage.getItem("isHuobaAndroidLogin") == "yes") {
-            if (res.error_code === 100) {
-              this.$toast(res.error_message);
-              this.login();
-            }
-          }*/
           this.$toast(res.error_message);
         }
       },
