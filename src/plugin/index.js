@@ -355,28 +355,33 @@ export default {
       last_url = last_url.replace('?nullPage=3', "");
       last_url = last_url.replace('&nullPage=3', "");
       if (localStorage.getItem("isHuobaAndroidLogin") == "yes") {
-        if (last_url.indexOf("?") == -1) {
-          last_url += '?isLoginFromApp=1';
-        } else {
-          last_url += '&isLoginFromApp=1';
+        if (routerLink.indexOf('/newGift/sexAge') != -1) {
+          if (last_url.indexOf("?") == -1) {
+            last_url += '?isLoginFromApp=1';
+          } else {
+            last_url += '&isLoginFromApp=1';
+          }
+
+          window.JSWEB.RequestNative(JSON.stringify({
+            last_url: last_url
+          }));
         }
-        window.JSWEB.RequestNative(JSON.stringify({
-          last_url: last_url
-        }));
       }
       // 进入ios登陆流程
       else if (localStorage.getItem("isHuobaIosLogin") == "yes") {
-        if (last_url.indexOf("?") == -1) {
-          last_url += '?isLoginFromApp=1';
-        } else {
-          last_url += '&isLoginFromApp=1';
+        if (routerLink.indexOf('/newGift/sexAge') != -1) {
+          if (last_url.indexOf("?") == -1) {
+            last_url += '?isLoginFromApp=1';
+          } else {
+            last_url += '&isLoginFromApp=1';
+          }
+          window.webkit.messageHandlers.shareAndJump.postMessage({
+            last_url: last_url
+          })
         }
-        window.webkit.messageHandlers.shareAndJump.postMessage({
-          last_url: last_url
-        })
       }
       else {
-        if(routerLink.indexOf('/newGift/sexAge') != -1) {
+        if (routerLink.indexOf('/newGift/sexAge') != -1) {
           // 引导进入web端登陆
           this.$router.push({
             name: "login"
