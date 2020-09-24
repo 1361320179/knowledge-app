@@ -81,11 +81,11 @@
       };
     },
     mounted () {
-      if (localStorage.getItem("isHuobaAndroidLogin") == "yes" || localStorage.getItem("isHuobaIosLogin") == "yes") {
+      /*if (localStorage.getItem("isHuobaAndroidLogin") == "yes" || localStorage.getItem("isHuobaIosLogin") == "yes") {
         this.isShows = false;
       } else {
         this.isShows = true;
-      }
+      }*/
       this.initData();
     },
     methods: {
