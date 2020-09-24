@@ -7,6 +7,7 @@
 
 #appSuccessPage {
   overflow: hidden;
+
   .top_bg {
     margin: 0 auto;
     margin-top: 89px;
@@ -16,6 +17,7 @@
     background-repeat: no-repeat;
     @include bgImageOne('./../../../../../assets/redeem/success');
   }
+
   .title {
     text-align: center;
     font-size: 17px;
@@ -24,6 +26,7 @@
     color: #333333;
     line-height: 20px;
   }
+
   .content_goods {
     margin: 0 auto;
     width: 95%;
@@ -33,15 +36,22 @@
     font-weight: 500;
     color: #999999;
     line-height: 19px;
+
+    .content_title {
+      color: #F05654;
+    }
   }
+
   .button_wrapper {
     margin: 0 auto;
     margin-top: 53px;
     width: 345px;
+
     .van-button--primary {
       width: 345px;
       height: 40px;
       border-radius: 3px;
+
       .van-button__text {
         font-size: 15px;
         font-family: PingFang SC;
@@ -50,7 +60,8 @@
       }
     }
   }
-  .recommend{
+
+  .recommend {
     margin: 10px;
     margin-top: 40px;
     box-sizing: border-box;
