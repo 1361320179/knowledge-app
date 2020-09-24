@@ -152,12 +152,12 @@
               </div>
             </div>
           </div>
-          <div v-if="item.used_num >= item.goods_num && item.has_own == '1'" class="owned"></div>
+          <div class="owned" v-if="item.used_num >= item.goods_num && item.has_own == '1'"></div>
           <div class="owned" v-else-if="item.has_own == '1'"></div>
           <div
             class="coupon_owned"
             v-else-if="item.used_num >= item.goods_num"
-            style="top: 12px;right: 4px;"
+            style="top: 5px;right: 5px;"
           ></div>
         </div>
       </div>
@@ -395,7 +395,6 @@ export default {
         this.goodsList.push(list[i]);
       }
 
-         
       localStorage.removeItem("goods_Lists");
       localStorage.setItem("goods_Lists", JSON.stringify(this.goodsList));
       // 加载状态结束
@@ -403,24 +402,19 @@ export default {
       this.renderingGoods();
     },
     renderingGoods() {
-
-     
       this.goods_Lists = [];
       if (localStorage.getItem("login_add") == "1") {
         localStorage.removeItem("login_add");
         this.goods_Lists = JSON.parse(
           localStorage.getItem("login_goods_Lists")
         );
-        this.goodsList = JSON.parse(
-          localStorage.getItem("goods_Lists")
-        );
- 
+        this.goodsList = JSON.parse(localStorage.getItem("goods_Lists"));
+
         this.pick_a_few = [];
         // console.log(this.goods_Lists);
-       
+
         for (let index = 0; index < this.goods_Lists.length; index++) {
           const ele = this.goods_Lists[index];
-
 
           for (let r = 0; r < this.goodsList.length; r++) {
             const eles = this.goodsList[r];
@@ -435,7 +429,6 @@ export default {
                 ele.is_default = "0";
               }
             }
-            
           }
 
           if (ele.is_default == "1") {
@@ -444,10 +437,8 @@ export default {
             } else {
               this.pick_a_few.push(ele.goods_id);
             }
-             this.percentGoods.push(ele.title);
+            this.percentGoods.push(ele.title);
           }
-
-          
         }
 
         this.select_goods = this.pick_a_few.length;

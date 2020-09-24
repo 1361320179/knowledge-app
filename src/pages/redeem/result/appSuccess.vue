@@ -2,24 +2,37 @@
   <div id="appSuccessPage">
     <div class="top_bg"></div>
     <h3 class="title">兑换成功</h3>
-    <p class="content_goods" v-if="goodsNameType == 'goods'">
-      恭喜您获得商品名
-      <span style="color:#343434;">“{{goodsName}}”</span> ，快去看看吧！
-    </p>
-    <div class="content_goods" v-if="goodsNameType == 'coupons'">
-      恭喜您获得
-      <span style="color:#343434;">“优惠券”</span>
+    <div class="content_goods" v-if="goodsNameType == 'goods'">
       <p>
-        ，快打开火把知识App，点击
+        您已成功兑换商品
+        <span style="color:#343434;">“{{goodsName}}”</span>
+      </p>
+      <p>
+        快去
+        <span class="content_title">“我的-我的订单"</span>查看吧！
+      </p>
+    </div>
+    <div class="content_goods" v-if="goodsNameType == 'coupons'">
+      <p>
+        您已成功兑换
+        <span style="color:#343434;">“优惠券”</span>
+      </p>
+      <p>
+        快打开火把知识App，点击
         <span class="content_title">“我的-我的优惠券"</span>查看吧！
       </p>
     </div>
-    <p class="content_goods" v-if="goodsNameType == 'service_day'">
-      您已成功兑换的
-      <span style="color:#343434;">“{{goodsName}}”</span>
-      的{{serviceday}}天免费体验权快去
-      <span class="content_title">"我听我看"</span>查看吧！
-    </p>
+    <div class="content_goods" v-if="goodsNameType == 'service_day'">
+      <p>
+        您已成功兑换商品
+        <span style="color:#343434;">“{{goodsName}}”</span>
+        的{{serviceday}}天免费体验权
+      </p>
+      <p>
+        快去
+        <span class="content_title">"我听我看"</span>查看吧！
+      </p>
+    </div>
     <div class="button_wrapper">
       <van-button
         type="primary"
