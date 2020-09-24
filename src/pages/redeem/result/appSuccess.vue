@@ -26,7 +26,7 @@
       <p>
         您已成功兑换商品
         <span style="color:#343434;">“{{goodsName}}”</span>
-        的{{serviceday}}天免费体验权
+        的{{service_day}}天免费体验权
       </p>
       <p>
         快去
@@ -250,7 +250,7 @@ export default {
     }
     this.resData = this.$route.query.resData;
     this.goodsNameType = this.$route.query.goodsNameType;
-    this.serviceday = this.$route.query.serviceday;
+    this.service_day = this.$route.query.service_day;
     // console.log(this.resData);
     this.getGoodsDetail();
   },
