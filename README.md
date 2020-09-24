@@ -120,7 +120,7 @@ cnpm install --save vue-clipboard2
 # cnpm install videojs-contrib-hls --save
 
 // 音视频流兼容m3u8
-cnpm install vue-hls-player
+# cnpm install vue-hls-player
 
 // hls.js
 npm i hls.js@0.13.3-canary.5704
