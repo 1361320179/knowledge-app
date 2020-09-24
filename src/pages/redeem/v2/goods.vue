@@ -444,6 +444,7 @@ export default {
             } else {
               this.pick_a_few.push(ele.goods_id);
             }
+             this.percentGoods.push(ele.title);
           }
 
           
