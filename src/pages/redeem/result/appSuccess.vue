@@ -8,8 +8,9 @@
     </p>
     <div class="content_goods" v-if="goodsNameType == 'coupons'">
       恭喜您获得
-      <span style="color:#343434;">“优惠券”</span>，快打开火把知识App，点击
+      <span style="color:#343434;">“优惠券”</span>
       <p>
+        ，快打开火把知识App，点击
         <span class="content_title">“我的-我的优惠券"</span>查看吧！
       </p>
     </div>
@@ -228,6 +229,9 @@ export default {
   },
   created() {
     this.goodsName = this.$route.query.goodsName;
+    if (this.goodsName.length > 0) {
+      this.goodsName = this.goodsName.join(",");
+    }
     this.resData = this.$route.query.resData;
     this.goodsNameType = this.$route.query.goodsNameType;
     this.serviceday = this.$route.query.serviceday;
