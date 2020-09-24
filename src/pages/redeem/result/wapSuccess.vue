@@ -218,7 +218,6 @@ export default {
 
     download() {
       var params;
-
       if (this.goodsNameType == "goods") {
         params = "/personal/order/list";
         // this.$router.push({ name: "orderlist" });
