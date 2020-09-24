@@ -486,6 +486,9 @@
 </template>
 
 <script>
+  // aes加密解密
+  import CryptoJS from "crypto-js/crypto-js";
+
   import miniAudio from "./../../components/miniAudio";
   import audioList from "./../../pages/album2.0/components/list";
   //  引入接口
@@ -515,6 +518,11 @@
         onsale: null,
         tabModel: 0,
         activeKey: 0,
+        /*
+       * ----------------------------------音频控件----------------------------------
+       */
+        // 播放路径
+        playUrl: '',
         /*
         * ----------------------------------限时免费----------------------------------
         */
@@ -678,8 +686,8 @@
         }
       },
       // --------------------------------专辑信息----------------------------------
-      // 获取专辑接口信息
-      async albumData() {
+      // 获取整个专辑信息
+      async wholeAlbum() {
         var tStamp = this.$getTimeStamp();
         let data = {
           ad: parseInt(this.$route.query.ad) == 1 ? 1 : 0,
@@ -720,7 +728,48 @@
         // 读取localStorage音频缩略播放器数据
         this.getMiniAudioData();
       },
+      // 获取节目接口信息
+      async albumData(pid, goods_id) {
+        var tStamp = this.$getTimeStamp();
+        var data = {
+          ad: parseInt(this.$route.query.ad) == 1 ? 1 : 0,
+          timestamp: tStamp,
+          pid: pid,
+          goods_id: goods_id,
+          version: "1.0"
+        };
+        data.sign = this.$getSign(data);
+        let res = await ALBUM(data);
+        if (res.hasOwnProperty("response_code")) {
+          // 音视频秘钥
+          let play_url = res.response_data.base.play_url;
+          let play_key = res.response_data.base.play_key;
+          // console.log(play_url);
+          // console.log(play_key);
+          this.playUrl = this.$aesDecrypt(play_url, play_key);
+          console.log('playurl',this.playUrl);
 
+          // console.log(this.$aesDecrypt(play_url, play_key));
+
+          // if (Hls.isSupported()) {
+          //   var musicPlayer = document.getElementById('musicPlayer');
+          //   var myhls = new Hls();
+          //   var _this = this;
+          //   myhls.loadSource(path);
+          //   myhls.attachMedia(musicPlayer);
+          //   myhls.on(Hls.Events.MANIFEST_PARSED, function () {
+          //     var u = navigator.userAgent;
+          //     var _ios = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+          //     if (_this.isAutoPlay() && !_ios) {
+          //       _this.playAudio();
+          //     }
+          //   });
+          // }
+
+        } else {
+          this.$toast(res.error_message);
+        }
+      },
       // tab切换
       tabChange(index, title) {
         this.activeKey = index;
@@ -917,6 +966,10 @@
           next = next > count - 1 ? 0 : next;
           // 当点击全部播放，从第一条开始播放
           if (actionType == "all") next = 0;
+
+          // 获取节目播放秘钥
+          this.albumData(this.baseData.goods_id, this.allProgramList[next].goods_id);
+
           // // 当收费方式非专辑收费为单个节目收费时，跳转到需要收费的单个节目的支付页面
           // if (
           //   this.allProgramList[next].is_payed == 0 &&
@@ -974,7 +1027,8 @@
         info[0] = item.goods_no;
         info[1] = this.baseData.goods_id;
         info[2] = item.pic;
-        info[3] = item.file_path;
+        // info[3] = item.file_path;
+        info[3] = '';
         info[4] = item.duration;
         info[5] = 0;
         info[6] = item.title;
@@ -1033,11 +1087,15 @@
           // console.log('第二次跳转购买')
           return;
         }
+        // 获取节目播放秘钥
+        this.albumData(this.baseData.goods_id, item.goods_id);
+
         $("#miniAudio").css("display", "block");
         let __goodsNo = item.goods_no;
         let __pid = this.baseData.goods_id ? this.baseData.goods_id : 0;
         let __pic = item.pic;
-        let __src = item.file_path;
+        // let __src = item.file_path;
+        let __src = '';
         let __duration = item.duration;
         // 获取当前节目播放进度
         // ??????????????????????
@@ -1124,7 +1182,7 @@
           this.$set(this.myAudioData, "goodsNo", __goodsNo);
           this.$set(this.myAudioData, "pid", __pid);
           this.$set(this.myAudioData, "pic", __pic);
-          this.$set(this.myAudioData, "src", __src);
+          this.$set(this.myAudioData, "src", this.playUrl);
           this.$set(this.myAudioData, "duration", __duration);
           this.$set(this.myAudioData, "currentTime", __currentTime);
           this.$set(this.myAudioData, "program", __program);
@@ -1138,7 +1196,7 @@
           setTimeout(() => {
             if (this.$refs.control) {
               this.$refs.control.audioData.pic = __pic;
-              this.$refs.control.audioData.src = __src;
+              this.$refs.control.audioData.src = this.playUrl;
               this.$refs.control.audioData.currentTime = __currentTime;
               this.$refs.control.audioData.duration = __duration;
               this.$refs.control.audioData.program = __program;
@@ -1261,7 +1319,10 @@
           var info = JSON.parse(localStorage.getItem("miniAudio"));
           // 从第一条开始播放，是否自动播放规则同上
           this.allProgramData(info, "all");
-
+          // setTimeout(() => {
+          //   console.log('timeout');
+          //   this.$refs.control.playAudio(null);
+          // }, 15000)
         }
         // 暂停播放
         else if (this.allPlayStatus == "pause") {
@@ -1674,7 +1735,7 @@
       // 账号信息，是否登录
       this.isLogin = localStorage.getItem('loginState');
       // 当前页接口信息
-      this.albumData();
+      this.wholeAlbum();
       this.commentCounter();
       this.getCouponList();
 

@@ -19,9 +19,6 @@
 
     <template v-else>
       <Download></Download>
-      <!--<aplayer :playerOptions="aOption" muted="muted" />
-      <vplayer :playerOptions="vOption" muted="muted" />-->
-
       <!-- 页面缓存, $route.meta.keepAlive默认false -->
       <keep-alive>
         <router-view v-if="$route.meta.keepAlive" />
@@ -100,11 +97,6 @@
   }
 </style>
 <script>
-// aes加密解密
-import CryptoJS from "crypto-js/crypto-js";
-// 音视频流兼容m3u8
-import { aplayer, vplayer } from "vue-hls-player";
-
 // 微信分享，引入sdk
 import wx from "weixin-js-sdk";
 export default {
@@ -113,67 +105,10 @@ export default {
     return {
       nullPage: this.$route.query.nullPage ? this.$route.query.nullPage : 0,
       msg: "",
-      aOption: {
-        type: "application/x-mpegURL",
-        src:
-          "http://wap.huoba.dev.zzy/callback/media/file?gid=10004791&playkey=5e8d5719fcef6fe65f0a79111f1765bc",
-        preload: true,
-        autoplay: true,
-        isLoop: false,
-        poster: "",
-        title: "音频播放器",
-        description: "",
-        controls: "progress,durration",
-      },
-      vOption: {
-        type: "application/x-mpegURL",
-        src:
-          "http://wap.huoba.dev.zzy/callback/media/file?gid=10004771&playkey=123",
-        preload: true,
-        autoplay: true,
-        isLoop: false,
-        poster: "",
-        playsinline: true,
-        title: "视频播放器",
-        controls: "progress,durration,volume",
-      },
     };
   },
   created() {
-    //解密
-    var data1 =
-      "U2FsdGVkX1+kio7qvgg85GTx+0NaWh+Ngt0bXu+o3FRccFgtc4JeTr86PFR6D41uluqd8IA45KvprH4+Yufrz9J9dOyAQW+QtjIxAI0aiq4=";
-    var data2 =
-      "U2FsdGVkX1/x5CixbFmvUKEmjyIXWx8xSW/tKqVQMKl8tuLLl++v8Lpk+HHwPQK1UAx92+ikF2fcuwc1zKC4qw==";
 
-    // var audio1 = "";
-    // var audio2 = "";
-    // this.vOption.src = this.$aesDecrypt(data1, data2);
-
-    this.aOption = {
-        type: "application/x-mpegURL",
-        src: "http://wap.huoba.dev.zzy/callback/media/file?gid=10004791&playkey=5e8d5719fcef6fe65f0a79111f1765bc",
-        preload: true,
-        autoplay: true,
-        isLoop: false,
-        poster: "",
-        title: "音频播放器",
-        description: "",
-        controls: "progress,durration",
-      };
-
-    this.vOption = {
-      type: "application/x-mpegURL",
-      // src: "http://wap.huoba.dev.zzy/callback/media/file?gid=10004771&playkey=123",
-      src: this.$aesDecrypt(data1, data2),
-      preload: true,
-      autoplay: true,
-      isLoop: false,
-      poster: "",
-      playsinline: true,
-      title: "视频播放器",
-      controls: "progress,durration,volume",
-    };
   },
   mounted() {
     //加密
