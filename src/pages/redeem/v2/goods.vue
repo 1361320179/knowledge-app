@@ -55,11 +55,11 @@
           <div class="huoba-goods-list-right">
             <div
               v-if="has_link_s=='1'|| item.used_num>=item.goods_num||item.has_own == '1'"
-              class="default"
+              class="default defaults"
               style="text-align: center;"
             >
               <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-uncheck-line" style="color:rgba(229, 229, 229, 1) !important;" />
+                <use xlink:href="#icon-uncheck-line" />
               </svg>
             </div>
             <div
@@ -70,10 +70,10 @@
               style="text-align: center;"
             >
               <svg class="icon" aria-hidden="true" v-if="item.is_default == 1">
-                <use xlink:href="#icon-checked-block"  class="is_default1" />
+                <use xlink:href="#icon-checked-block" class="is_default1" />
               </svg>
               <svg class="icon" aria-hidden="true" v-else>
-                <use xlink:href="#icon-uncheck-line" class="is_default0"/>
+                <use xlink:href="#icon-uncheck-line" class="is_default0" />
               </svg>
             </div>
           </div>
@@ -125,17 +125,15 @@
                 <span style="font-size: 20px;font-weight: 700;">{{item.money}}</span>
               </p>
 
-              <p
-                class="huoba-goods-num"
-              >满{{item.min_money}}元可用</p>
+              <p class="huoba-goods-num">满{{item.min_money}}元可用</p>
 
               <div
                 v-if="has_link_s==1|| item.used_num>=item.goods_num||item.has_own == 1"
-                class="default default_s"
+                class="default defaults"
                 style="text-align: center;"
               >
                 <svg class="icon" aria-hidden="true">
-                  <use xlink:href="#icon-uncheck-line" style="color:rgba(229, 229, 229, 1) !important;" />
+                  <use xlink:href="#icon-uncheck-line" />
                 </svg>
               </div>
 
@@ -146,10 +144,10 @@
                 :class="{ active: item.is_default == 1 }"
               >
                 <svg class="icon" aria-hidden="true" v-if="item.is_default == 1">
-                  <use xlink:href="#icon-checked-block" class="is_default1"/>
+                  <use xlink:href="#icon-checked-block" class="is_default1" />
                 </svg>
                 <svg class="icon" aria-hidden="true" v-else>
-                  <use xlink:href="#icon-uncheck-line" class="is_default0"/>
+                  <use xlink:href="#icon-uncheck-line" class="is_default0" />
                 </svg>
               </div>
             </div>
@@ -275,6 +273,9 @@ export default {
       select_goods: "0",
       is_default_arr: [],
       remindPopShow: false,
+      has_own_index: "",
+      used_num_index: "",
+      goods_num_index: "",
       goodsListLenght: "0",
       time: 3,
       redeemArr: "",
@@ -328,6 +329,7 @@ export default {
         this.goods_type = res.response_data.goods_type;
         this.goodsListLenght = res.response_data.redeem_kind_num;
         this.description = res.response_data.description;
+        this.has_own_index = res.response_data.has_own;
         if (res.response_data.page_button != "") {
           this.page_button = res.response_data.page_button;
         }
@@ -372,10 +374,9 @@ export default {
 
       //  加载
       for (let i = 0; i < list.length; i++) {
-        // console.log(list[i]);
         if (this.goodsListLenght == list.length) {
           if (
-            list[i].has_own == "0" &&
+            (list[i].has_own == "0" || list[i].has_own === undefined) &&
             list[i].used_num < list[i].goods_num &&
             this.has_link_s != "1"
           ) {
@@ -393,6 +394,8 @@ export default {
         }
         this.goodsList.push(list[i]);
       }
+
+         
       localStorage.removeItem("goods_Lists");
       localStorage.setItem("goods_Lists", JSON.stringify(this.goodsList));
       // 加载状态结束
@@ -400,15 +403,40 @@ export default {
       this.renderingGoods();
     },
     renderingGoods() {
+
+     
       this.goods_Lists = [];
       if (localStorage.getItem("login_add") == "1") {
         localStorage.removeItem("login_add");
         this.goods_Lists = JSON.parse(
           localStorage.getItem("login_goods_Lists")
         );
-
+        this.goodsList = JSON.parse(
+          localStorage.getItem("goods_Lists")
+        );
+ 
+        this.pick_a_few = [];
+        // console.log(this.goods_Lists);
+       
         for (let index = 0; index < this.goods_Lists.length; index++) {
           const ele = this.goods_Lists[index];
+
+
+          for (let r = 0; r < this.goodsList.length; r++) {
+            const eles = this.goodsList[r];
+            if (this.goods_type == "2") {
+              if (ele.ticket_id == eles.ticket_id && eles.has_own == "1") {
+                ele.has_own = "1";
+                ele.is_default = "0";
+              }
+            } else {
+              if (ele.goods_id == eles.goods_id && eles.has_own == "1") {
+                ele.has_own = "1";
+                ele.is_default = "0";
+              }
+            }
+            
+          }
 
           if (ele.is_default == "1") {
             if (this.goods_type == "2") {
@@ -418,28 +446,15 @@ export default {
             }
           }
 
-          for (let r = 0; r < this.goodsList.length; r++) {
-            const eles = this.goodsList[r];
-
-            if (ele.has_own == "1") {
-              eles.has_own = ele.has_own;
-              eles.is_default = "0";
-            } else {
-              eles.has_own = ele.has_own;
-            }
-          }
+          
         }
 
         this.select_goods = this.pick_a_few.length;
         this.goodsList = this.goods_Lists;
-        // console.log(this.goods_Lists, 99);
-        // console.log(this.pick_a_few, 99);
-        // this.$router.go(0);
       } else {
         this.goods_Lists = JSON.parse(localStorage.getItem("goods_Lists"));
         this.select_goods = this.pick_a_few.length;
       }
-      // console.log(this.goods_Lists, 99);
     },
     singleChecked(value, id, name) {
       for (let i = 0; i < this.goodsList.length; i++) {
