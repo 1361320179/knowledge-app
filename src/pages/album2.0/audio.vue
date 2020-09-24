@@ -163,7 +163,7 @@
         </svg>
       </div>
     </div>
-    <Recommend :message="baseData.is_free" ref="recommendContent" @collect="collectAction"></Recommend>
+    <Recommend :message="baseData.is_free" :albumBase="albumBase" ref="recommendContent" @collect="collectAction"></Recommend>
     <div class="commentBox">
       <div class="addComment" @click="toComment(1)">
         <svg class="icon" aria-hidden="true">

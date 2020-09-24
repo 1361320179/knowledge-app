@@ -88,7 +88,7 @@
         <div class="count">{{counter}}</div>
       </div>
     </div>
-    <Recommend :message="baseData.is_free"></Recommend>
+    <Recommend :message="baseData.is_free" :albumBase="albumBase"></Recommend>
     <!-- 播放列表 -->
     <!--<audioList-->
       <!--:goodsId="pid"-->
