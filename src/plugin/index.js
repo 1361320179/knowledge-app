@@ -274,7 +274,7 @@ export default {
         if (_pageName == "goods/detail" || _pageName == "page/get" || _pageName == "groupbuy/open/detail" || _pageName == "groupbuy/goods/detail" || _pageName == "activity/interest" || _pageName == "assist/index" || _pageName == "assist/index" || _pageName == "brand/index" || _pageName == "mall/index" || _pageName == "mall/goods/search" || _pageName == "brand/goods/search" || _pageName == "brand/goods/search" || _pageName == "brand/goods/search" || _pageName == "activity/nemt" || _pageName == "redeem/detail") {
 
           // 需要调分享的页面
-          console.log(999)
+          // console.log(999)
           var tStamp = this.$getTimeStamp();
           let data = {
             page_name: _pageName,
@@ -451,6 +451,7 @@ export default {
     // 不同页面不同参数信息
     Vue.prototype.$getAppParams = function (_name) {
       _name = _name.toLowerCase();
+      console.log(_name)
       let linkData = {
         page_name: _name
       };
@@ -489,18 +490,21 @@ export default {
         if (this.$route.query.supplier_id) linkData.supplier_id = this.$route.query.supplier_id;
 
       } else if (_name == '/personal/order/list') {
+        console.log(63473)
         // 兑换码结束页 跳app订单
         // linkData.page_name = this.$route.query.type;
         // linkData.page_id = this.$route.query.page_id;
         // linkData.supplier_id = this.$route.query.supplier_id;
 
       } else if (_name == '/coupon/mine') {
+        console.log(63473)
         // 兑换码结束页 跳app我的优惠券
         // linkData.type = this.$route.query.type;
         // linkData.page_id = this.$route.query.page_id;
         // linkData.supplier_id = this.$route.query.supplier_id;
 
-      } else if (_name == '/listenAndRead/index') {
+      } else if (_name == '/listenandread/index') {
+        console.log(63473)
         // 兑换码结束页 跳app我听我看
         // linkData.type = this.$route.query.type;
         // linkData.page_id = this.$route.query.page_id;
