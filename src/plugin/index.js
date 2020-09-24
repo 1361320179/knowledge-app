@@ -389,7 +389,6 @@ export default {
             last_url += '&isLoginFromApp=1';
           }
           window.webkit.messageHandlers.shareAndJump.postMessage({
-            link_data: {page_name: "/login"},
             last_url: last_url
           })
         }
