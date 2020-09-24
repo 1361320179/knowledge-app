@@ -114,7 +114,6 @@
         <div>我的</div>
       </router-link>
     </div>
-    <div style="word-break: break-all;">{{ ceshi1 }}</div>
   </div>
 </template>
 
@@ -204,11 +203,9 @@ export default {
         goods_nums: 0,
       },
       is_Login: null,
-      ceshi1: '',
     };
   },
   mounted() {
-    this.ceshi1 = localStorage.getItem('ceshi111');
     this.home_id = localStorage.getItem("home_id");
     if (this.type === undefined) {
       this.type = this.navData.type;
