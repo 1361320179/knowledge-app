@@ -229,7 +229,7 @@ export default {
   },
   created() {
     this.goodsName = this.$route.query.goodsName;
-    if (this.goodsName.length > 0) {
+    if (this.goodsName instanceof Array) {
       this.goodsName = this.goodsName.join(",");
     }
     this.resData = this.$route.query.resData;
