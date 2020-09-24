@@ -232,6 +232,10 @@ export default {
   },
   created() {
     this.goodsName = this.$route.query.goodsName;
+    if (this.goodsName.length > 0) {
+      this.goodsName = this.goodsName.join(",");
+    }
+    console.log(this.goodsName.length);
     this.goodsNameType = this.$route.query.goodsNameType;
     this.service_day = this.$route.query.service_day;
     this.coupons_length = this.$route.query.coupons_length;
