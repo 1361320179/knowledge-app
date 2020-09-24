@@ -5,12 +5,12 @@
         <div class="ratioBox">
           <div class="box">
             <!--图片-->
-            <img :src="baseData.pic[0]" @click="toAlbumDetail($route.query.pid)"/>
+            <img :src="albumBase.pic" @click="toAlbumDetail($route.query.pid)"/>
           </div>
         </div>
       </div>
       <div class="center">
-        <h4 class="title" @click="toAlbumDetail($route.query.pid)"><span>{{ baseData.title }}</span></h4>
+        <h4 class="title" @click="toAlbumDetail($route.query.pid)"><span>{{ albumBase.title }}</span></h4>
         <h5 class="subTitle" @click="toAlbumDetail($route.query.pid)"><span>{{ brandInfoData.name }}</span></h5>
       </div>
       <div class="right huoba-btn">
@@ -136,7 +136,7 @@
         limitUse: {},
       }
     },
-    props: ['message'],
+    props: ['message', 'albumBase'],
     watch: {
       message(val) {
         this.isFree = val;

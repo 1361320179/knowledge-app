@@ -200,7 +200,7 @@ export default {
         cartLink: "/cart",
         type: "brand",
         loginLink: "/login/index",
-        goods_nums: 0
+        goods_nums: 0,
       },
       is_Login: null,
     };
@@ -216,20 +216,20 @@ export default {
     this.navData.fold = false;
   },
   methods: {
-    flushCom () {
-      sessionStorage.setItem('saveSearchContent','')
+    flushCom() {
+      sessionStorage.setItem("saveSearchContent", "");
       this.$router.go(0);
     },
     gotoLink() {
       if (this.home_id == "all") {
         this.$router.push({
           name: "custompage",
-          query: { type: "find" }
+          query: { type: "find" },
         });
       } else {
         this.$router.push({
           name: "brand",
-          query: { brand_id: localStorage.getItem("home_id") }
+          query: { brand_id: localStorage.getItem("home_id") },
         });
         location.reload();
       }
@@ -241,7 +241,7 @@ export default {
       var tStamp = this.$getTimeStamp();
       let data = {
         timestamp: tStamp,
-        version: "1.0"
+        version: "1.0",
       };
       data.sign = this.$getSign(data);
       let res = await USER_HOMEPAGE(data);
@@ -256,19 +256,16 @@ export default {
           } else {
             // webview需要登錄但未登陆的页面调app的登陆流程
             // nullPage == 3 && 获取当前路劲 _path(routerlink)
-            var routerLink = localStorage.getItem('routerLink');
-            var last_url = routerLink.replace('nullPage=3', "");
-            if (routerLink.indexOf('/newGift/sexAge') != -1) {
-              this.$gotoAppLogin(last_url);
-            } else {
-              // 获取分享信息
-              this.$getWxShareData();
-            }
+            var routerLink = localStorage.getItem("routerLink");
+            var last_url = routerLink.replace("nullPage=3", "");
+            // if (routerLink.indexOf('/newGift/sexAge') != -1) {
+            this.$gotoAppLogin(last_url);
+            // } else {
+            //   // 获取分享信息
+            //   this.$getWxShareData();
+            // }
           }
         }
-
-
-
       } else {
         // 获取分享信息
         this.$getWxShareData();
@@ -282,7 +279,7 @@ export default {
       var tStamp = this.$getTimeStamp();
       let data = {
         timestamp: tStamp,
-        version: "1.1"
+        version: "1.1",
       };
       data.sign = this.$getSign(data);
       let res = await CART_INFO(data);
@@ -292,8 +289,8 @@ export default {
       } else {
         this.$toast(res.error_message);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

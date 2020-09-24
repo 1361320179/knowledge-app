@@ -82,7 +82,7 @@ cnpm install vue-cropper --save-dev
 cnpm install jquery --save, 配置webpack.base.conf.js
 
 // qs
-cnpm install --save axios vue-axios qs 
+cnpm install --save axios vue-axios qs
 
 // 支持async/await
 cnpm install -g regenerator
@@ -120,7 +120,10 @@ cnpm install --save vue-clipboard2
 # cnpm install videojs-contrib-hls --save
 
 // 音视频流兼容m3u8
-cnpm install vue-hls-player
+# cnpm install vue-hls-player
+
+// hls.js
+npm i hls.js@0.13.3-canary.5704
 
 // vue中使用AES加密(安装后需要替换依赖aes.js)
 cnpm install crypto-js --save-dev

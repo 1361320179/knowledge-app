@@ -59,7 +59,7 @@
               style="text-align: center;"
             >
               <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-uncheck-line" style="color:#E5E5E5 !important;" />
+                <use xlink:href="#icon-uncheck-line" style="color:rgba(229, 229, 229, 1) !important;" />
               </svg>
             </div>
             <div
@@ -70,10 +70,10 @@
               style="text-align: center;"
             >
               <svg class="icon" aria-hidden="true" v-if="item.is_default == 1">
-                <use xlink:href="#icon-checked-block" style="color:#EF5553 !important;" />
+                <use xlink:href="#icon-checked-block"  class="is_default1" />
               </svg>
               <svg class="icon" aria-hidden="true" v-else>
-                <use xlink:href="#icon-uncheck-line" style="color:#9A9A9A !important;" />
+                <use xlink:href="#icon-uncheck-line" class="is_default0"/>
               </svg>
             </div>
           </div>
@@ -89,13 +89,12 @@
           v-for="(item,index) in goods_Lists"
           :key="index"
           :title="item"
-          :class="['huoba-goods-list','huoba-goods-list-four','huoba_goods_coupon',
+          :class="['huoba_goods_list','huoba_goods_coupon',
            item.used_num>=item.goods_num?'disabled_true':'',has_link_s==1?'disabled_true':'',item.has_own == 1?'disabled_true':'']"
-          style="position: relative;margin-top: 20px;display: block;"
         >
           <p class="goods_title">{{item.brand}}：{{item.use_range_desc}}</p>
           <div style="display: flex;justify-content: space-between;-webkit-box-pack: justify;">
-            <div class="huoba-goods-list-left" style="padding-top: 30px;margin:0px;flex-grow: 1;display: inline-block;">
+            <div class="huoba-goods-list-left">
               <div
                 class="huoba-goods-list-imgs"
                 v-for="(arry,key) in item.goods"
@@ -120,13 +119,15 @@
                 <p style="text-align: center;">￥{{arry.price}}</p>
               </div>
             </div>
-            <div class="huoba-goods-list-right" style="padding-top: 0px;padding-left: 0px;">
+            <div class="huoba-goods-list-right">
               <p class="huoba-goods-price">
                 ￥
-                <span style="font-size: 20px;">{{item.money}}</span>
+                <span style="font-size: 20px;font-weight: 700;">{{item.money}}</span>
               </p>
 
-              <p class="huoba-goods-num">满{{item.min_money}}元可用</p>
+              <p
+                class="huoba-goods-num"
+              >满{{item.min_money}}元可用</p>
 
               <div
                 v-if="has_link_s==1|| item.used_num>=item.goods_num||item.has_own == 1"
@@ -134,7 +135,7 @@
                 style="text-align: center;"
               >
                 <svg class="icon" aria-hidden="true">
-                  <use xlink:href="#icon-uncheck-line" style="color:#E5E5E5 !important;" />
+                  <use xlink:href="#icon-uncheck-line" style="color:rgba(229, 229, 229, 1) !important;" />
                 </svg>
               </div>
 
@@ -143,13 +144,12 @@
                 class="default default_s"
                 @click="singleChecked(item.ticket_id,index,item.title)"
                 :class="{ active: item.is_default == 1 }"
-                style="text-align: center;"
               >
                 <svg class="icon" aria-hidden="true" v-if="item.is_default == 1">
-                  <use xlink:href="#icon-checked-block"  style="color:#EF5553 !important;" />
+                  <use xlink:href="#icon-checked-block" class="is_default1"/>
                 </svg>
                 <svg class="icon" aria-hidden="true" v-else>
-                  <use xlink:href="#icon-uncheck-line" style="color:#9A9A9A !important;" />
+                  <use xlink:href="#icon-uncheck-line" class="is_default0"/>
                 </svg>
               </div>
             </div>
@@ -386,6 +386,7 @@ export default {
               this.pick_a_few.push(list[i].goods_id);
             }
             this.is_default_arr.push(list[i].is_default);
+            this.percentGoods.push(list[i].title);
           }
         } else {
           list[i].is_default = "0";
@@ -444,11 +445,12 @@ export default {
       for (let i = 0; i < this.goodsList.length; i++) {
         if (this.goods_type == "2") {
           if (this.goodsList[i].ticket_id == value) {
-            if (this.goodsList[id].is_default == "1") {
+            if (this.goodsList[i].is_default == "1") {
               this.goodsList[i].is_default = "0";
-              var index = this.goodsList.indexOf(this.goodsList[i].ticket_id);
+              var index = this.pick_a_few.indexOf(value);
+              var inde_x = this.percentGoods.indexOf(name);
               this.pick_a_few.splice(index, 1);
-              this.percentGoods.splice(name, 1);
+              this.percentGoods.splice(inde_x, 1);
             } else {
               if (this.pick_a_few.length > this.goodsListLenght) {
                 this.goodsList[i].is_default = "0";
@@ -463,11 +465,12 @@ export default {
           }
         } else {
           if (this.goodsList[i].goods_id == value) {
-            if (this.goodsList[id].is_default == "1") {
+            if (this.goodsList[i].is_default == "1") {
               this.goodsList[i].is_default = "0";
-              var index = this.goodsList.indexOf(this.goodsList[i].goods_id);
+              var index = this.pick_a_few.indexOf(value);
+              var inde_x = this.percentGoods.indexOf(name);
               this.pick_a_few.splice(index, 1);
-              this.percentGoods.splice(name, 1);
+              this.percentGoods.splice(inde_x, 1);
             } else {
               if (this.pick_a_few.length > this.goodsListLenght) {
                 this.goodsList[i].is_default = "0";

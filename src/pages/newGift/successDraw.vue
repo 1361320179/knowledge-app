@@ -101,6 +101,7 @@
     mounted () {
       if (localStorage.getItem("isHuobaAndroidLogin") == "yes" || localStorage.getItem("isHuobaIosLogin") == "yes") {
         this.isShows = false;
+        document.documentElement.scrollTop = 0;
       } else {
         this.isShows = true;
       }

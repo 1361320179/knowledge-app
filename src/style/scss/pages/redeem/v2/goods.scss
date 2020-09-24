@@ -294,7 +294,7 @@
     background: #F05654;
     border: 1px solid #F05654;
     bottom: 0px;
-    z-index: 99;
+    z-index:1000;
   }
 
   .huoba-goods-list {
@@ -366,7 +366,6 @@
     .huoba-goods-list-right {
       padding-left: 20px;
       padding-top: 36px;
-      display: inline-block;
       .huoba-goods-price{
         color:#F05654;
         font-family: PingFang SC;
@@ -535,9 +534,90 @@
   text-align: center;
 }
 
+.huoba_goods_list{
+  position: relative;
+  margin-top: 20px;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  .goods_title{
+    width: 73%;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+  .huoba-goods-list-left{
+    padding-top: 10px;
+    margin:0px;
+    width: 73%;
+    display: flex;
+    .huoba-goods-list-imgs{
+      display: inline-block;
+      width: 30%;
+      .ratioBox{
+        border-radius: 10px;
+        box-shadow: 0 0 #000;
+        .box{
+          border-radius: 10px;
+          background-repeat: no-repeat;
+          background-size: 100% 100%;
+        }
+        .huoba-goods-list-label{
+          position: absolute;
+          z-index: 99;
+          width: 35px;
+          height: 22px;
+          background: #ffb16e;
+          border-radius: 10px 0 10px 0;
+          font-size: 14px;
+          color: #fff;
+          display: inline-block;
+          padding: 2px 3px;
+          top: 0;
+          left: 0;
+        }
+        .goods_list_ebook{
+          width: 45px;
+        }
+      }
+    }
+  }
+  .huoba-goods-list-right{
+    padding-top: 0px;
+    text-align: center;
+    .huoba-goods-price{
+      color: rgba(239, 85, 83, 1);
+    }
+    .default {
+      position: relative;
+      z-index: 999;
+    .icon {
+            width: 2.5em;
+            height: 2.5em;
+        }
+    }
+    .huoba-goods-num{
+      padding-top: 5px;
+      padding-bottom: 5px;
+      position: relative;
+      z-index: 999;
+      left: 2px;
+    }
+  }
+}
+.is_default1{
+  color:rgba(239, 85, 83, 1)!important;
+}
+.is_default0{
+  color:rgba(153, 153, 153, 1) !important;
+}
+
 
 @media only screen  and (min-device-width: 320px) and (max-device-width: 360px) {
-  #redeemGoodsPage .huoba-goods-list.huoba-goods-list-four .huoba-goods-list-left .huoba-goods-list-imgs{
+  #redeemGoodsPage .huoba-goods-list .huoba-goods-list-left .huoba-goods-list-imgs{
     margin-right: 2px !important;
   }
   #redeemGoodsPage .huoba-goods-list .huoba-goods-list-right{
@@ -546,4 +626,7 @@
   #redeemGoodsPage .huoba-goods-list .huoba-goods-list-left .huoba-goods-list-imgs .ratioBox{
     min-width: 65px !important;
   } 
+  #redeemGoodsPage .huoba_goods_list .huoba-goods-list-left{
+    width: 88%;
+  }
 }

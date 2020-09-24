@@ -30,10 +30,16 @@
       <span class="info" v-if="baseData.goods_type == 2">本节目为视频，点击观看</span>
       <span class="action" v-if="baseData.goods_type == 2" @click="toVideo">前去观看</span>
     </div>
-    <audio ref="audio" id="musicPlayer" @ended="onEnded">
-      <source :src="baseData.file_path"/>
-      您的浏览器不支持 audio 元素。
-    </audio>
+
+    <!--<template v-if="JSON.stringify(aOption) != '{}'">-->
+      <!--<aplayer :playerOptions="aOption" muted="muted" />-->
+    <!--</template>-->
+    <audio id="musicPlayer" @ended="onEnded" style="display: none;"></audio>
+
+    <!--<audio ref="audio" id="musicPlayer" @ended="onEnded">-->
+      <!--<source :src="baseData.file_path"/>-->
+      <!--您的浏览器不支持 audio 元素。-->
+    <!--</audio>-->
 
     <!--控件一-->
     <div class="controlBoxOne">
@@ -157,7 +163,7 @@
         </svg>
       </div>
     </div>
-    <Recommend :message="baseData.is_free" ref="recommendContent" @collect="collectAction"></Recommend>
+    <Recommend :message="baseData.is_free" :albumBase="albumBase" ref="recommendContent" @collect="collectAction"></Recommend>
     <div class="commentBox">
       <div class="addComment" @click="toComment(1)">
         <svg class="icon" aria-hidden="true">
@@ -190,6 +196,11 @@
 </template>
 
 <script>
+  // aes加密解密
+  import CryptoJS from "crypto-js/crypto-js";
+  // m3u8播放
+  import Hls from 'hls.js';
+
   import {TICKET_LINK} from "@/apis/coupon.js";
   import audioList from "@/pages/album2.0/components/list";
   import recommend from './components/recommend';
@@ -251,14 +262,14 @@
           this.counter = res.response_data.counter;
         }
       },
-      // 获取专辑/商品接口信息
+      // 获取节目接口信息
       async albumData(pid, goods_id) {
         var tStamp = this.$getTimeStamp();
         var data = {
           ad: parseInt(this.$route.query.ad) == 1 ? 1 : 0,
           timestamp: tStamp,
-          pid: this.$route.query.pid ? this.$route.query.pid : null,
-          goods_id: this.$route.query.goods_id,
+          pid: pid,
+          goods_id: goods_id,
           version: "1.0"
         };
         data.sign = this.$getSign(data);
@@ -268,28 +279,52 @@
           this.album_info = res.response_data.album_info;
           // 设置音频播放信息
           this.setBaseData("base", res.response_data.base);
+          // 设置播放秘钥
+          this.baseData.play_url = res.response_data.base.play_url;
+          this.baseData.play_key = res.response_data.base.play_key;
 
-          // 限时免费
-          this.limitUse = res.response_data.activity.limituse;
+          // 音视频秘钥
+          let play_url = this.baseData.play_url;
+          let play_key = this.baseData.play_key;
+          // console.log(play_url);
+          // console.log(play_key);
+          let path = this.$aesDecrypt(play_url, play_key);
+          // console.log(this.$aesDecrypt(play_url, play_key));
 
-          var u = navigator.userAgent;
-          var _ios = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
-          if (this.isAutoPlay() && !_ios) {
-            this.playAudio();
-            // var audio = document.getElementById("musicPlayer");
-            // audio.addEventListener('play', function () {
-            //   audio.load();
-            //   audio.play();
-            // });
+          // return path;
+          // let play_url =
+          //   "U2FsdGVkX1+kio7qvgg85GTx+0NaWh+Ngt0bXu+o3FRccFgtc4JeTr86PFR6D41uluqd8IA45KvprH4+Yufrz9J9dOyAQW+QtjIxAI0aiq4=";
+          // let play_key =
+          //   "U2FsdGVkX1/x5CixbFmvUKEmjyIXWx8xSW/tKqVQMKl8tuLLl++v8Lpk+HHwPQK1UAx92+ikF2fcuwc1zKC4qw==";
+          // hls.js
+          if (Hls.isSupported()) {
+            var musicPlayer = document.getElementById('musicPlayer');
+            var myhls = new Hls();
+            var _this = this;
+            myhls.loadSource(path);
+            myhls.attachMedia(musicPlayer);
+            myhls.on(Hls.Events.MANIFEST_PARSED, function () {
+              var u = navigator.userAgent;
+              var _ios = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+              if (_this.isAutoPlay() && !_ios) {
+                _this.playAudio();
+                // var audio = document.getElementById("musicPlayer");
+                // audio.addEventListener('play', function () {
+                //   audio.load();
+                //   audio.play();
+                // });
 
-            // var _this = this;
-            // setTimeout(function () {
-            //   _this.pauseAudio();
-            //   _this.playAudio();
-            //   alert("11111");
-            // }, 10000);
+                // var _this = this;
+                // setTimeout(function () {
+                //   _this.pauseAudio();
+                //   _this.playAudio();
+                //   alert("11111");
+                // }, 10000);
 
+              }
+            });
           }
+
         } else {
           this.$toast(res.error_message);
         }
@@ -309,6 +344,9 @@
           this.albumBase = res.response_data.base;
           // 推荐用券
           this.recommendTicket = res.response_data.recommend_ticket;
+          // 限时免费
+          this.limitUse = res.response_data.activity.limituse;
+
         } else {
           this.$toast(res.error_message);
         }
@@ -321,7 +359,8 @@
         info[0] = this.$route.query.goods_no;
         info[1] = this.$route.query.pid;
         info[2] = item.pic[0];
-        info[3] = item.file_path;
+        // info[3] = item.file_path;
+        info[3] = '';
         info[4] = item.duration;
         info[5] = item.progress;
         info[6] = item.title;
@@ -373,13 +412,13 @@
         // console.log('isfree', this.baseData.is_free);
         // console.log('ispayed', this.baseData.is_payed);
         this.baseData.goods_type = item.goods_type;
-        if (item.goods_type == 1 && (this.baseData.is_free == 1 || this.baseData.is_payed == 1 || JSON.stringify(this.limitUse) != '{}')) {
-          this.baseData.file_path = item.file_path;
-          this.$refs.audio.src = item.file_path;
-        } else {
-          this.baseData.file_path = "";
-          this.$refs.audio.src = "";
-        }
+        // if (item.goods_type == 1 && (this.baseData.is_free == 1 || this.baseData.is_payed == 1 || JSON.stringify(this.limitUse) != '{}')) {
+          // this.baseData.file_path = item.file_path;
+          // this.$refs.audio.src = item.file_path;
+        // } else {
+          // this.baseData.file_path = "";
+          // this.$refs.audio.src = "";
+        // }
         document.title = "正在播放-" + item.title;
         this.goods_id = item.goods_id;
         this.title = item.title;
@@ -430,6 +469,7 @@
       },
       // 播放中倒计时
       audioTimeChange(second, type) {
+        clearInterval(this.clock);
         var audio = document.getElementById("musicPlayer");
         // 暂停
         if (type) {
@@ -759,6 +799,7 @@
             this.resetAudioSliderInfo(item);
             // 设置音频播放信息
             this.setBaseData("item", item);
+            this.albumData(this.pid, item.goods_id);
           } else {
             this.$toast(res.error_message);
           }
@@ -1000,7 +1041,7 @@
     },
     components: {
       'Recommend': recommend,
-      'audioList': audioList
+      'audioList': audioList,
     }
   }
 </script>

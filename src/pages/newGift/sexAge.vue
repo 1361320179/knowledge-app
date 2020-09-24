@@ -227,13 +227,12 @@
           }
           this.isLoading = false;
         } else {
-          this.isLoading = false;
-          if (localStorage.getItem("isHuobaAndroidLogin") == "yes") {
+          /*if (localStorage.getItem("isHuobaAndroidLogin") == "yes") {
             if (res.error_code === 100) {
               this.$toast(res.error_message);
               this.login();
             }
-          }
+          }*/
           this.$toast(res.error_message);
         }
       },
