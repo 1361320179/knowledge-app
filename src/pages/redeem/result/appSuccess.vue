@@ -4,7 +4,8 @@
     <h3 class="title">兑换成功</h3>
     <p class="content_goods" v-if="goodsNameType == 'goods'">
       恭喜您获得商品名
-      <span style="color:#343434;">“{{goodsName}}”</span> ，快去看看吧！
+      <span style="color:#343434;">“{{goodsName}}”</span>快去
+      <span class="content_title">“我的-我的订单"</span>查看吧！
     </p>
     <div class="content_goods" v-if="goodsNameType == 'coupons'">
       恭喜您获得
