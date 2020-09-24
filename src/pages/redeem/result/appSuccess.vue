@@ -143,6 +143,7 @@
 <style src="@/style/scss/pages/brand/resultCorrent.scss" scoped lang="scss"></style>
 <script>
 import { REDEEM_RECOMMEND } from "@/apis/redeem.js";
+import Utils from "@/components/util.js";
 export default {
   name: "app-success",
   data() {
@@ -166,11 +167,11 @@ export default {
       data.sign = this.$getSign(data);
       let res = await REDEEM_RECOMMEND(data);
 
-      console.log(res);
+      // console.log(res);
       if (res.hasOwnProperty("response_code")) {
         this.goods_Lists = res.response_data.result;
       }
-      console.log(this.goods_Lists);
+      // console.log(this.goods_Lists);
     },
     // 跳转公众号首页
     toBrand(item, index) {
@@ -215,16 +216,18 @@ export default {
     },
 
     toCheck() {
+      let params = "";
       if (this.goodsNameType == "goods") {
-        // params = "/personal/order/list";
-        this.$router.push({ name: "orderlist" });
+        params = "/personal/order/list";
+        // this.$router.push({ name: "orderlist" });
       } else if (this.goodsNameType == "coupons") {
-        // params = "/coupon/mine";
-        this.$router.push({ name: "couponmine" });
+        params = "/coupon/mine";
+        // this.$router.push({ name: "couponmine" });
       } else if (this.goodsNameType == "service_day") {
-        // params = "/listenAndRead/index";
-        this.$router.push({ name: "listenAndReadIndex" });
+        params = "/listenAndRead/index";
+        // this.$router.push({ name: "listenAndReadIndex" });
       }
+      Utils.$emit("goToApp", params);
     },
   },
   created() {
