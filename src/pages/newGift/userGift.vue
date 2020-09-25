@@ -46,6 +46,52 @@
       </div>
       <div
         :class="[{content: content},{usedBook: item.is_buy == 1}]"
+        v-for="(item,index) in chargeData" :key="index"
+        @click="chargeClick(item,index)"
+      >
+        <div class="ratiobook">
+          <div class="bookimg" v-lazy:background-image="item.pic"></div>
+          <span class="book_text_title">{{ item.type }}</span>
+        </div>
+        <div class="right">
+          <div class="text">{{ item.goods_name }}</div>
+          <div class="pinpai">
+            <div class="sub_title">{{ item.sub_title }}</div>
+          </div>
+          <div class="bot">
+            <div class="price" v-if="item.sales_price">￥{{item.sales_price.toFixed(2)}}</div>
+            <div class="price" v-else>免费</div>
+            <del>￥{{ item.price.toFixed(2) }}</del>
+          </div>
+          <span class="used" v-if="item.is_buy == 1">
+            <svg aria-hidden="true" class="icon">
+              <use xlink:href="#icon-yiyongyou"></use>
+            </svg>
+          </span>
+        </div>
+        <div class="right_icon">
+          <svg class="icon checked" aria-hidden="true" v-if="charge_icon == index">
+            <use xlink:href="#icon-checked-block" />
+          </svg>
+          <svg class="icon" aria-hidden="true" v-else>
+            <use xlink:href="#icon-uncheck-line" />
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="one_box" style="margin-top: 40px;">
+      <div class="top">
+        <div class="picture">
+          <img src="../../assets/newGift/gift_num3.png" />
+        </div>
+        <div class="title_1">
+          <span class="left-icon">三重礼</span>
+          <span class="right-icon">-好课0元购</span>
+        </div>
+        <div class="title_2">新人专属神价，仅有一次选择机会哦~</div>
+      </div>
+      <div
+        :class="[{content: content},{usedBook: item.is_buy == 1}]"
         v-for="(item,index) in freeData"
         :key="index"
         @click="freeClick(item,index)"
@@ -72,52 +118,6 @@
         </div>
         <div class="right_icon">
           <svg class="icon checked" aria-hidden="true" v-if="free_icon == index">
-            <use xlink:href="#icon-checked-block" />
-          </svg>
-          <svg class="icon" aria-hidden="true" v-else>
-            <use xlink:href="#icon-uncheck-line" />
-          </svg>
-        </div>
-      </div>
-    </div>
-    <div class="one_box" style="margin-top: 40px;">
-      <div class="top">
-        <div class="picture">
-          <img src="../../assets/newGift/gift_num3.png" />
-        </div>
-        <div class="title_1">
-          <span class="left-icon">三重礼</span>
-          <span class="right-icon">-好课0元购</span>
-        </div>
-        <div class="title_2">新人专属神价，仅有一次选择机会哦~</div>
-      </div>
-      <div
-        :class="[{content: content},{usedBook: item.is_buy == 1}]"
-        v-for="(item,index) in chargeData" :key="index"
-        @click="chargeClick(item,index)"
-      >
-        <div class="ratiobook">
-          <div class="bookimg" v-lazy:background-image="item.pic"></div>
-          <span class="book_text_title">{{ item.type }}</span>
-        </div>
-        <div class="right">
-          <div class="text">{{ item.goods_name }}</div>
-          <div class="pinpai">
-            <div class="sub_title">{{ item.sub_title }}</div>
-          </div>
-          <div class="bot">
-            <div class="price" v-if="item.sales_price">￥{{item.sales_price.toFixed(2)}}</div>
-            <div class="price" v-else>免费</div>
-            <del>￥{{ item.price.toFixed(2) }}</del>
-          </div>
-          <span class="used" v-if="item.is_buy == 1">
-            <svg aria-hidden="true" class="icon">
-              <use xlink:href="#icon-yiyongyou"></use>
-            </svg>
-          </span>
-        </div>
-        <div class="right_icon">
-          <svg class="icon checked" aria-hidden="true" v-if="charge_icon == index">
             <use xlink:href="#icon-checked-block" />
           </svg>
           <svg class="icon" aria-hidden="true" v-else>

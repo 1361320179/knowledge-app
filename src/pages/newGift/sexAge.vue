@@ -32,8 +32,8 @@
         <span :class="[{child: child},{active: item.selected}]" @click="linkClick(item)">{{ item.name }}</span>
       </div>
     </div>
-    <div style="word-break: break-all">{{ ceshi1 }}9999999</div>
-    <div style="word-break: break-all">{{ ceshi2 }}</div>
+    <!--<div style="word-break: break-all">{{ ceshi1 }}9999999</div>
+    <div style="word-break: break-all">{{ ceshi2 }}</div>-->
     <div class="next_page" @click="saveUrl1()" v-if="sexLink">继续</div>
     <div v-else>
       <div class="next_page active" @click="saveUrl2()" v-if="skip_next">继续</div>
@@ -93,9 +93,9 @@
       this.initData();
     },
     updated () {
-      setTimeout(() => {
+      /*setTimeout(() => {
         this.ceshi1 = localStorage.getItem("ceshi111");
-      },3000);
+      },3000);*/
     },
     methods: {
       // 跳过弹窗1
@@ -199,7 +199,7 @@
         data.sign = this.$getSign(data);
         let res = await NOVICEWELFARE_INFO(data);
         if (res.hasOwnProperty("response_code")) {
-          this.ceshi2 = '登录进来了';
+          // this.ceshi2 = '登录进来了';
           this.ageData = res.response_data.age;
           var datas = res.response_data.label;
           var user_info = res.response_data.user_info;
@@ -240,9 +240,9 @@
           this.isLoading = false;
         } else {
           if (res.error_code === 100) {
-            this.ceshi2 = '未登录';
+            // this.ceshi2 = '未登录';
           } else {
-            this.ceshi2 = '没走100';
+            // this.ceshi2 = '没走100';
           }
           this.isLoading = false;
           this.$toast(res.error_message);

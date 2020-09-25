@@ -476,18 +476,25 @@ router.beforeEach((to, from, next) => {
   next();
   // 需要记录路径的中间页
   let tmp = localStorage.getItem('reloadCount');
-  tmp ? localStorage.setItem('reloadCount',tmp++) : localStorage.setItem('reloadCount', 0);
+  tmp ? localStorage.setItem('reloadCount', ++tmp) : localStorage.setItem('reloadCount', 0);
+  next();
+  if(parseInt(localStorage.getItem('reloadCount')) == 1) {
+    next()
+    if (replaceUrl.indexOf("?nullPage=3") != -1) replaceUrl = replaceUrl.replace('?nullPage=3', "");
+    if (replaceUrl.indexOf("&nullPage=3") != -1) replaceUrl = replaceUrl.replace('&nullPage=3', "");
+    location.reload();
+    next();
+  }
   next();
   if(to.meta.isPath) {
     // 通过app登陆成功后的页面设置登陆状态loginState = 1
     if (replaceUrl.indexOf("isLoginFromApp=1") != -1) {
+      localStorage.setItem('loginState', 1);
       if (replaceUrl.indexOf("?isLoginFromApp=1") != -1) replaceUrl = replaceUrl.replace('?isLoginFromApp=1', "");
       if (replaceUrl.indexOf("&isLoginFromApp=1") != -1) replaceUrl = replaceUrl.replace('&isLoginFromApp=1', "");
       if (replaceUrl.indexOf("?nullPage=3") != -1) replaceUrl = replaceUrl.replace('?nullPage=3', "");
       if (replaceUrl.indexOf("&nullPage=3") != -1) replaceUrl = replaceUrl.replace('&nullPage=3', "");
-      if (localStorage.getItem("isHuobaIosLogin") == "yes") {
-        if(parseInt(localStorage.getItem('reloadCount')) == 0) location.reload();
-      }
+      if(parseInt(localStorage.getItem('reloadCount')) == 0) location.reload();
       next();
     }
     next();
