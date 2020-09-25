@@ -248,7 +248,7 @@ export default {
       if (res.hasOwnProperty("response_code")) {
         if (res.response_data.hasOwnProperty("is_login")) {
           this.is_Login = res.response_data.is_login;
-          localStorage.setItem("ceshi111", JSON.stringify(res.response_data));
+          // localStorage.setItem("ceshi111", JSON.stringify(res.response_data));
           localStorage.setItem("loginState", this.is_Login);
           if (res.response_data.is_login == 1) {
             this.cartData();
