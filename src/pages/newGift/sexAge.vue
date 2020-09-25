@@ -224,8 +224,9 @@
           }
           if (is_new != 1) {
             window.location.href = res.response_data.url;
+          } else {
+            this.isLoading = false;
           }
-          this.isLoading = false;
         } else {
           this.$toast(res.error_message);
         }
