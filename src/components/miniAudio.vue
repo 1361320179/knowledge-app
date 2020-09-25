@@ -99,10 +99,11 @@ export default {
     // },
     'audioData.src'(newValue, oldValue) {
         console.log('newValue',newValue)
-        this.playUrl = newValue;
-        this.playAudio();
+        if (oldValue == '' && newValue != '') {
+          this.playUrl = newValue;
+          this.playAudio();
+        }
         console.log('playUrl',this.playUrl);
-
     },
     rank: {
       handler(newValue, oldValue) {
@@ -404,24 +405,43 @@ export default {
         // audio.currentTime = 0;
         // second = __currentTime;
       }
-      // console.log('aaaa',this.playUrl);
+      console.log('aaaa',this.playUrl);
       if (Hls.isSupported() && this.playUrl != '') {
-        // console.log('pathaaa',path);
+        console.log('pathaaa',path);
         var myMiniAudio = document.getElementById('myMiniAudio');
         var myhls = new Hls();
         myhls.loadSource(path);
         myhls.attachMedia(myMiniAudio);
-        myhls.on(Hls.Events.MANIFEST_PARSED, function () {
-          // 播放
-          audio.play();
-        });
-      } else if (this.$refs.audio.canPlayType('application/vnd.apple.mpegurl') && this.playUrl != '') {
+        // myhls.on(Hls.Events.MANIFEST_PARSED, function () {
+        //   // 播放
+        //   this.$toast('hlsplay');
+        //   audio.play();
+        // });
+      } else if (
+      this.$refs.audio.canPlayType('application/vnd.apple.mpegurl') && this.playUrl != '') {
         // this.$refs.video.type = "application/vnd.apple.mpegurl";
         this.$refs.audio.src = path;
-        // this.$toast('pathaaa'+ this.$refs.audio.src);
-        this.$refs.audio.addEventListener('loadedmetadata',function() {
-          this.$refs.audio.play();
-        });
+        // audio.currentTime = 0;
+        // this.$toast('src'+ this.$refs.audio.src);
+        // setTimeout(()=> {
+        //   this.$refs.audio.pause();
+        //   this.$refs.audio.play();
+        //   // this.$toast('current'+ audio.duration);
+        //   this.$toast('current'+ audio.currentSrc);
+        // }, 3000)
+        // document.addEventListener("WeixinJSBridgeReady", function () {
+        //   audio.pause();
+        //   audio.play();
+        // }, false);
+        // this.$refs.audio.addEventListener('loadedmetadata',function() {
+        //   audio.pause();
+        //   audio.play();
+        // });
+        // this.$refs.audio.addEventListener('canplaythrough',function() {
+        //   audio.pause();
+        //   audio.play();
+        //   this.$toast('current'+ audio.currentTime);
+        // });
       }
 
       console.log("测试全部播放:", __currentTime);

@@ -12,7 +12,7 @@
       <img class="pic" src="./../../assets/album/audio-bg.png" alt="">
     </div>
     <div class="center"
-         v-if="baseData.is_payed == 0 && albumBase.is_free == 0 && baseData.is_free == 1 && JSON.stringify(limitUse) != '{}' && baseData.goods_type == 1">
+         v-if="baseData.is_payed == 0 && albumBase.is_free == 0 && baseData.is_free == 1 && JSON.stringify(limitUse) == '{}' && baseData.goods_type == 1">
       <span class="info" v-if="baseData.goods_type == 1">试听中，购买后解锁完整专辑</span>
       <span class="action" v-if="albumBase.single_activity_id" @click="buyAction(pid)">限时促销价 ￥{{albumBase.price}}</span>
       <span class="action" v-if="JSON.stringify(recommendTicket) != '{}'" @click="buyAction(pid)">券后价 ￥{{recommendTicket.after_use_ticket_money}}</span>
@@ -390,6 +390,8 @@
         if ((item.is_payed == 1 || item.is_free == 1 || JSON.stringify(this.limitUse) != '{}') && item.goods_type == 1) {
           this.pauseAudio();
           this.playAudio();
+        } else if (item.goods_type == 2) {
+          this.pauseAudio();
         }
       },
       // 设置音频播放信息
@@ -905,6 +907,7 @@
 
         // 重置音频播放信息以及当前slider进度
         this.resetAudioSliderInfo(item);
+        this.albumData(this.pid, item.goods_id);
       },
       // 关联播放列表
       listData(goods_no, _bool) {
