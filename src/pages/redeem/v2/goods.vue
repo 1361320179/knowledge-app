@@ -180,21 +180,18 @@
     <!--通用弹窗-->
     <PublicPopup></PublicPopup>
 
-    <van-button
-      v-if="has_link_s == '1'"
-      type="primary"
-      class="receive_btn"
-      style="background: #F69A98;border-color:#F69A98;"
-    >
+    <van-button v-if="has_link_s == '1'" type="primary" class="receive_btn default_btn">
       <span>{{page_button==""?page_button:page_button}}</span> (
       <span>{{select_goods}}</span> /
       <span>{{goodsListLenght}}</span> )
     </van-button>
+    <!--  -->
     <van-button
       v-else
       type="primary"
       class="receive_btn"
-      :style="{'background':goodsDetail.colour.button?goodsDetail.colour.button:'','border':goodsDetail.colour.button?goodsDetail.colour.button:''}"
+      :style="{'background':goodsDetail.colour.button?goodsDetail.colour.button:'','border':goodsDetail.colour.button?goodsDetail.colour.button:'',
+      'opacity':pick_a_few.length>0?'1':'0.8'}"
       @click="receiveBtn()"
     >
       <span>{{page_button==""?page_button:page_button}}</span> (
@@ -207,7 +204,7 @@
         您只有一次兑换机会哦
         <p>确定兑换吗？</p>
       </h3>
-      <div class="pop-two-text-two" @click="continueExchange()">我在想想</div>
+      <div class="pop-two-text-two" @click="continueExchange()">我再想想</div>
       <div class="pop-two-text-three" @click="confirmEexchange()">确定兑换</div>
     </van-popup>
 
@@ -216,7 +213,7 @@
         您还可以多选择{{goodsListNumber}}件商品哦
         <p>仅兑换选中的商品吗？</p>
       </h3>
-      <div class="pop-two-text-two" @click="continueExchange()">我在想想</div>
+      <div class="pop-two-text-two" @click="continueExchange()">我再想想</div>
       <div class="pop-two-text-three" @click="confirmEexchange()">继续兑换</div>
     </van-popup>
     <!-- 
