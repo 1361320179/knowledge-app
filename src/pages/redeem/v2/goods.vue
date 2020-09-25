@@ -318,11 +318,9 @@ export default {
         is_captcha: 1,
         version: "1.1",
       };
-      // console.log(data);
       data.sign = this.$getSign(data);
       let res = await REDEEM_ITEM_POST(data);
 
-      // console.log(res);
       if (res.hasOwnProperty("response_code")) {
         this.goodsDetail = res.response_data;
         this.secShare = res.response_data.sec_share;
@@ -539,14 +537,8 @@ export default {
         );
         localStorage.setItem("login_add", 1);
         localStorage.setItem("select_goods", this.select_goods);
-        // if (true) {
-        if (localStorage.getItem("unionid")) {
-          this.$router.push({ name: "redeemLogin" });
-        } else {
-          this.$router.push({ name: "login" });
-        }
+        this.$router.push({ name: "login" });
       } else if (res.hasOwnProperty("response_code")) {
-        // console.log(res);
         localStorage.removeItem("login_goods_Lists");
         localStorage.removeItem("login_add");
         localStorage.removeItem("select_goods");
