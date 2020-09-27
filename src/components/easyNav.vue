@@ -210,6 +210,14 @@ export default {
     if (this.type === undefined) {
       this.type = this.navData.type;
     }
+    var replaceUrl = localStorage.getItem("routerLink");
+    if (parseInt(sessionStorage.getItem('reloadCount')) == 2 && localStorage.getItem("isHuobaIosLogin") == "yes") {
+      this.$toast(sessionStorage.getItem('reloadCount'));
+      if (replaceUrl.indexOf("?nullPage=3") != -1) replaceUrl = replaceUrl.replace('?nullPage=3', "");
+      if (replaceUrl.indexOf("&nullPage=3") != -1) replaceUrl = replaceUrl.replace('&nullPage=3', "");
+      sessionStorage.setItem('reloadCount', 3);
+      location.reload();
+    }
     this.isLogin();
   },
   destroyed() {
@@ -248,7 +256,6 @@ export default {
       if (res.hasOwnProperty("response_code")) {
         if (res.response_data.hasOwnProperty("is_login")) {
           this.is_Login = res.response_data.is_login;
-          // localStorage.setItem("ceshi111", JSON.stringify(res.response_data));
           localStorage.setItem("loginState", this.is_Login);
           if (res.response_data.is_login == 1) {
             this.cartData();
