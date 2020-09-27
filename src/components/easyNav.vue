@@ -210,14 +210,6 @@ export default {
     if (this.type === undefined) {
       this.type = this.navData.type;
     }
-    var replaceUrl = localStorage.getItem("routerLink");
-    if (parseInt(sessionStorage.getItem('reloadCount')) == 2 && localStorage.getItem("isHuobaIosLogin") == "yes") {
-      this.$toast(sessionStorage.getItem('reloadCount'));
-      if (replaceUrl.indexOf("?nullPage=3") != -1) replaceUrl = replaceUrl.replace('?nullPage=3', "");
-      if (replaceUrl.indexOf("&nullPage=3") != -1) replaceUrl = replaceUrl.replace('&nullPage=3', "");
-      sessionStorage.setItem('reloadCount', 3);
-      location.reload();
-    }
     this.isLogin();
   },
   destroyed() {
@@ -272,6 +264,7 @@ export default {
             //   // 获取分享信息
             //   this.$getWxShareData();
             // }
+
           }
         }
       } else {
