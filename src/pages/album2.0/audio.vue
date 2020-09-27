@@ -79,6 +79,8 @@
 
     <!-- 进度条 -->
     <div class="sliderBox">
+      <span class="hide-line" v-if="(baseData.is_payed == 0 && baseData.is_free == 0 && JSON.stringify(limitUse) == '{}') || baseData.goods_type == 2"></span>
+      <span class="before-line" v-else></span>
       <van-slider
         v-model="sliderValue"
         @change="audioSliderChange"
@@ -98,6 +100,8 @@
           <span class="sliderText" v-else>00:00/{{ baseData.duration_str }}</span>
         </div>
       </van-slider>
+      <span class="hide-line" v-if="(baseData.is_payed == 0 && baseData.is_free == 0 && JSON.stringify(limitUse) == '{}') || baseData.goods_type == 2"></span>
+      <span class="after-line" v-else></span>
       <div>
       </div>
     </div>
