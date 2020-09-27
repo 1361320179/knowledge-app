@@ -115,27 +115,3 @@
   left: -1px !important;
   top: -1px !important;
 }
-
-.active_text_3 {
-  background-size: contain;
-  background-repeat: round;
-  @include bgImageOne('./../../../../../assets/redeem/ellipse');
-  border: none !important;
-  padding: 0px !important;
-  border-radius: 0px !important;
-  display: block;
-  position: inherit !important;
-  text-align: center;
-  width: 75%;
-}
-
-
-.active_text_3:before {
-  display: none !important;
-  border: none !important;
-}
-
-.active_text_3:after {
-  display: none !important;
-  border: none !important;
-}

@@ -635,9 +635,10 @@
     }
 
     .default {
-
-      position: relative;
+      position: absolute;
       z-index: 999;
+      bottom: 8px;
+      right: 35px;
 
       .icon {
         width: 1.3em;
@@ -680,14 +681,12 @@
     padding-left: 4px !important;
   }
 
-  #redeemGoodsPage .huoba-goods-list .huoba-goods-list-left .huoba-goods-list-imgs .ratioBox {
-    min-width: 65px !important;
-  }
-
   #redeemGoodsPage .huoba_goods_list .huoba-goods-list-left {
-    width: 88%;
+    width: 75%;
   }
-
+  #redeemGoodsPage  .huoba_goods_list .huoba-goods-list-right{
+    width: 25%;
+  }
   #redeemGoodsPage .huoba-popup-two {
     width: 75%;
     height: 126px;
