@@ -41,9 +41,6 @@
             </span>
             <div>
               <p class="limited_immunity" v-if="service_day > 0">
-                <svg aria-hidden="true" class="icon">
-                  <use xlink:href="#icon-biaoqian" />
-                </svg>
                 <span>{{service_day}}天限免</span>
               </p>
               <p class="prices">
@@ -116,13 +113,13 @@
                     v-if="arry.goods_type == 4"
                   >电子书</span>
                 </div>
-                <p style="text-align: center;">￥{{arry.price}}</p>
+                <p style="text-align: center; font-size: 12px;padding-top: 10px;">￥{{arry.price}}</p>
               </div>
             </div>
             <div class="huoba-goods-list-right">
               <p class="huoba-goods-price">
                 ￥
-                <span style="font-size: 20px;font-weight: 700;">{{item.money}}</span>
+                <span style="font-size: 25px;font-weight: 700;">{{item.money}}</span>
               </p>
 
               <p class="huoba-goods-num">满{{item.min_money}}元可用</p>

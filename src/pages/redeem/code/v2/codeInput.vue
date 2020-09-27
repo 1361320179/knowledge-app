@@ -25,7 +25,7 @@
     <van-button
       type="primary"
       size="large"
-      style="background:#F05654;border: 1px solid #F05654;margin-top: 40px;"
+      style="background:#F05654;border: 1px solid #F05654;margin-top: 25px; height:40px;line-height: 40px;"
       @click="toRedeem"
     >立即兑换</van-button>
 
