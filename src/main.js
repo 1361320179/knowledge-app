@@ -475,14 +475,15 @@ router.beforeEach((to, from, next) => {
   }
   next();
   // 需要记录路径的中间页
-  let tmp = localStorage.getItem('reloadCount');
-  tmp ? localStorage.setItem('reloadCount', ++tmp) : localStorage.setItem('reloadCount', 0);
-  next();
-  if(parseInt(localStorage.getItem('reloadCount')) == 1) {
-    next()
-    if (replaceUrl.indexOf("?nullPage=3") != -1) replaceUrl = replaceUrl.replace('?nullPage=3', "");
-    if (replaceUrl.indexOf("&nullPage=3") != -1) replaceUrl = replaceUrl.replace('&nullPage=3', "");
-    location.reload();
+  let tmp = sessionStorage.getItem('reloadCount');
+  if (tmp == 1) {
+    sessionStorage.setItem('reloadCount', 2);
+    next();
+  } else if (tmp == 3) {
+    sessionStorage.setItem('reloadCount', 1);
+    next();
+  } else {
+    sessionStorage.setItem('reloadCount', 1);
     next();
   }
   next();
@@ -494,7 +495,6 @@ router.beforeEach((to, from, next) => {
       if (replaceUrl.indexOf("&isLoginFromApp=1") != -1) replaceUrl = replaceUrl.replace('&isLoginFromApp=1', "");
       if (replaceUrl.indexOf("?nullPage=3") != -1) replaceUrl = replaceUrl.replace('?nullPage=3', "");
       if (replaceUrl.indexOf("&nullPage=3") != -1) replaceUrl = replaceUrl.replace('&nullPage=3', "");
-      if(parseInt(localStorage.getItem('reloadCount')) == 0) location.reload();
       next();
     }
     next();
