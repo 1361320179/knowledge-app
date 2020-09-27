@@ -90,7 +90,8 @@
                     <span class="bought" v-if="baseData.is_payed == 1">已购</span>
                     <span class="bought" v-if="baseData.is_free == 1">免费</span>
                   </template>
-                  <span class="play">
+                  <!--暂时隐藏，有bug-->
+                  <span class="play" v-if="false">
                       <div
                         class="tag"
                         v-if="allPlayStatus == 'play'"
