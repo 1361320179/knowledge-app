@@ -300,14 +300,14 @@
           if (Hls.isSupported()) {
             var musicPlayer = document.getElementById('musicPlayer');
             var myhls = new Hls();
-            var _this = this;
+            // var _this = this;
             myhls.loadSource(path);
             myhls.attachMedia(musicPlayer);
-            myhls.on(Hls.Events.MANIFEST_PARSED, function () {
-              var u = navigator.userAgent;
-              var _ios = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
-              if (_this.isAutoPlay() && !_ios) {
-                _this.playAudio();
+            // myhls.on(Hls.Events.MANIFEST_PARSED, function () {
+            //   var u = navigator.userAgent;
+            //   var _ios = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+              // if (_this.isAutoPlay() && !_ios) {
+                // _this.playAudio(); // 自动播放谷歌浏览器有限制会报错
                 // var audio = document.getElementById("musicPlayer");
                 // audio.addEventListener('play', function () {
                 //   audio.load();
@@ -321,14 +321,14 @@
                 //   alert("11111");
                 // }, 10000);
 
-              }
-            });
+              // }
+            // });
           } else if (this.$refs.audio.canPlayType('application/vnd.apple.mpegurl')) {
             // this.$refs.video.type = "application/vnd.apple.mpegurl";
             this.$refs.audio.src = path;
-            this.$refs.audio.addEventListener('loadedmetadata',function() {
-              this.$refs.audio.play();
-            });
+            // this.$refs.audio.addEventListener('loadedmetadata',function() {
+            //   this.$refs.audio.play();
+            // });
           }
 
         } else {
