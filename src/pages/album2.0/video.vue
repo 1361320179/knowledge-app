@@ -10,7 +10,6 @@
         id="myVideo"
         ref="video"
         v-if="(baseData.is_payed == 1 || baseData.is_free == 1 || JSON.stringify(limitUse) != '{}') && baseData.goods_type == 2"
-        autoplay
         @play="videoPlay"
         @pause="videoPause"
         controls
@@ -267,9 +266,9 @@
           } else if (this.$refs.video.canPlayType('application/vnd.apple.mpegurl')) {
             // this.$refs.video.type = "application/vnd.apple.mpegurl";
             this.$refs.video.src = path;
-            this.$refs.video.addEventListener('loadedmetadata',function() {
-              this.$refs.video.play();
-            });
+            // this.$refs.video.addEventListener('loadedmetadata',function() {
+            //   this.$refs.video.play();
+            // });
           }
 
           // console.log(7474,$('.van-goods-action-big-btn .van-button__text'))
