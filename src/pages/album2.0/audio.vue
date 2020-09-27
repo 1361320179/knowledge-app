@@ -19,26 +19,28 @@
       <span class="action" v-if="!albumBase.single_activity_id && JSON.stringify(recommendTicket) == '{}'"
             @click="buyAction(pid)">购买专辑 ￥{{albumBase.market_price}}</span>
     </div>
-    <div class="center" v-if="baseData.is_payed == 0 && albumBase.is_free == 0 && baseData.is_free == 0 && JSON.stringify(limitUse) == '{}'">
+    <div class="center"
+         v-if="baseData.is_payed == 0 && albumBase.is_free == 0 && baseData.is_free == 0 && JSON.stringify(limitUse) == '{}'">
       <span class="info" v-if="baseData.is_free == 0 && JSON.stringify(limitUse) == '{}'">购买后即可播放完整专辑</span>
       <span class="action" v-if="albumBase.single_activity_id" @click="buyAction(pid)">限时促销价 ￥{{albumBase.price}}</span>
       <span class="action" v-if="JSON.stringify(recommendTicket) != '{}'" @click="buyAction(pid)">券后价 ￥{{recommendTicket.after_use_ticket_money}}</span>
       <span class="action" v-if="!albumBase.single_activity_id && JSON.stringify(recommendTicket) == '{}'"
             @click="buyAction(pid)">购买专辑 ￥{{albumBase.market_price}}</span>
     </div>
-    <div class="center" v-if="baseData.is_payed == 1 || albumBase.is_free == 1 || baseData.is_free == 1 || JSON.stringify(limitUse) != '{}'">
+    <div class="center"
+         v-if="baseData.is_payed == 1 || albumBase.is_free == 1 || baseData.is_free == 1 || JSON.stringify(limitUse) != '{}'">
       <span class="info" v-if="baseData.goods_type == 2">本节目为视频，点击观看</span>
       <span class="action" v-if="baseData.goods_type == 2" @click="toVideo">前去观看</span>
     </div>
 
     <!--<template v-if="JSON.stringify(aOption) != '{}'">-->
-      <!--<aplayer :playerOptions="aOption" muted="muted" />-->
+    <!--<aplayer :playerOptions="aOption" muted="muted" />-->
     <!--</template>-->
     <audio id="musicPlayer" ref="audio" @ended="onEnded" style="display: none;"></audio>
 
     <!--<audio ref="audio" id="musicPlayer" @ended="onEnded">-->
-      <!--<source :src="baseData.file_path"/>-->
-      <!--您的浏览器不支持 audio 元素。-->
+    <!--<source :src="baseData.file_path"/>-->
+    <!--您的浏览器不支持 audio 元素。-->
     <!--</audio>-->
 
     <!--控件一-->
@@ -163,7 +165,8 @@
         </svg>
       </div>
     </div>
-    <Recommend :message="baseData.is_free" :albumBase="albumBase" ref="recommendContent" @collect="collectAction"></Recommend>
+    <Recommend :message="baseData.is_free" :albumBase="albumBase" ref="recommendContent"
+               @collect="collectAction"></Recommend>
     <div class="commentBox">
       <div class="addComment" @click="toComment(1)">
         <svg class="icon" aria-hidden="true">
@@ -250,6 +253,13 @@
         limitUse: {} // 限时免费
       }
     },
+    watch: {
+      currentTime__(val) {
+        if (val == this.baseData.duration_str) {
+          this.onEnded(); // 修复ended事件不触发
+        }
+      }
+    },
     methods: {
       async commentCounter() {
         let data = {
@@ -306,22 +316,22 @@
             // myhls.on(Hls.Events.MANIFEST_PARSED, function () {
             //   var u = navigator.userAgent;
             //   var _ios = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
-              // if (_this.isAutoPlay() && !_ios) {
-                // _this.playAudio(); // 自动播放谷歌浏览器有限制会报错
-                // var audio = document.getElementById("musicPlayer");
-                // audio.addEventListener('play', function () {
-                //   audio.load();
-                //   audio.play();
-                // });
+            // if (_this.isAutoPlay() && !_ios) {
+            // _this.playAudio(); // 自动播放谷歌浏览器有限制会报错
+            // var audio = document.getElementById("musicPlayer");
+            // audio.addEventListener('play', function () {
+            //   audio.load();
+            //   audio.play();
+            // });
 
-                // var _this = this;
-                // setTimeout(function () {
-                //   _this.pauseAudio();
-                //   _this.playAudio();
-                //   alert("11111");
-                // }, 10000);
+            // var _this = this;
+            // setTimeout(function () {
+            //   _this.pauseAudio();
+            //   _this.playAudio();
+            //   alert("11111");
+            // }, 10000);
 
-              // }
+            // }
             // });
           } else if (this.$refs.audio.canPlayType('application/vnd.apple.mpegurl')) {
             // this.$refs.video.type = "application/vnd.apple.mpegurl";
@@ -421,11 +431,11 @@
         // console.log('ispayed', this.baseData.is_payed);
         this.baseData.goods_type = item.goods_type;
         // if (item.goods_type == 1 && (this.baseData.is_free == 1 || this.baseData.is_payed == 1 || JSON.stringify(this.limitUse) != '{}')) {
-          // this.baseData.file_path = item.file_path;
-          // this.$refs.audio.src = item.file_path;
+        // this.baseData.file_path = item.file_path;
+        // this.$refs.audio.src = item.file_path;
         // } else {
-          // this.baseData.file_path = "";
-          // this.$refs.audio.src = "";
+        // this.baseData.file_path = "";
+        // this.$refs.audio.src = "";
         // }
         document.title = "正在播放-" + item.title;
         this.goods_id = item.goods_id;
@@ -637,7 +647,7 @@
       },
       // 播放结束
       onEnded() {
-        // this.$toast("end");
+        console.log("end");
         this.clearClock();
         var audio = document.getElementById("musicPlayer");
         // 重置
@@ -689,21 +699,21 @@
         this.clearClock();
         var audio = document.getElementById("musicPlayer");
         var c;
-        if (this.sliderValue) {
-          // 设置音频当前时间
-          audio.currentTime = (this.sliderValue / 100) * this.baseData.duration;
-          // 滑动到最后
-          if (this.sliderValue > 100) {
-            // 重置
-            c = 0;
-          } else {
-            c = audio.currentTime;
-          }
-          // 设置当前播放时间
-          this.currentTime__ = this.todate(c);
-          // 绑定slider
-          this.audiobindtoslider(c);
+        // 设置音频当前时间
+        audio.currentTime = (this.sliderValue / 100) * this.baseData.duration;
+        // 滑动到最后
+        if (this.sliderValue > 100) {
+          // 重置
+          c = 0;
+        } else {
+          c = audio.currentTime;
         }
+        // 设置当前播放时间
+        this.currentTime__ = this.todate(c);
+        // console.log('currentTime__', this.currentTime__);
+        // 绑定slider
+        this.audiobindtoslider(c);
+
         this.pauseAudio();
         this.playAudio();
       },

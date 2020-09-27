@@ -152,6 +152,28 @@
   }
   .sliderBox {
     margin: 24.5px 46px;
+    position: relative;
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      z-index: -1;
+      left: -33.5px;
+      top: 0;
+      border-bottom: 2px solid rgb(240, 86, 84);
+      width: 33.5px;
+    }
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      z-index: -1;
+      right: -33.5px;
+      top: 0;
+      border-bottom: 2px solid rgb(238, 238, 238);
+      width: 33.5px;
+    }
+
     .sliderButton {
       text-align: center;
       width: 67px;

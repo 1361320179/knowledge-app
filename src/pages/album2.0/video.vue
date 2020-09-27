@@ -392,7 +392,9 @@
         } else if (program.goods_type == 2 && (this.baseData.is_free == 1 || this.baseData.is_payed == 1 || JSON.stringify(this.limitUse) != '{}')) {
           // this.baseData.goods_type = 2;
           // this.videoPath = program.file_path;
-          this.albumData(program.goods_id);
+          this.albumData(program.goods_id).then(()=> {
+            document.getElementById('myVideo').play();
+          });
         }
         this.goods_id = program.goods_id;
         this.goods_no = program.goods_no;
