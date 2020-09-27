@@ -87,8 +87,17 @@
         this.isShows = true;
       }
       this.initData();
+      if (localStorage.getItem("isHuobaIosLogin") == "yes") {
+        this.clickLogin();
+      }
     },
     methods: {
+      clickLogin (){
+        var replaceUrl = location.href;
+        this.$router.replace({
+          name: 'newGiftSexAge'
+        });
+      },
       // 跳过弹窗1
       clear1 () {
         this.$dialog
@@ -229,11 +238,6 @@
           }
           this.isLoading = false;
         } else {
-          if (res.error_code === 100) {
-
-          } else {
-
-          }
           this.isLoading = false;
           // this.$toast(res.error_message);
         }
