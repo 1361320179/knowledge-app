@@ -8,6 +8,7 @@
         maxlength="9"
         clearable
         ref="code"
+        style="height:40px;line-height: 20px;"
         v-model="codeNum"
         @input="inputCode"
         placeholder="请输入8位兑换码,不区分大小写,长按可粘贴。"
@@ -18,7 +19,7 @@
         <van-field class="validate_num" clearable v-model="validateNum" placeholder="请输入右侧验证码。" />
         <div class="validate_image" @click="refreshImage">
           <img :src="validateImage" width="120" height="44" alt />
-        </div>
+        </div> 
       </div>
     </van-cell-group>
 
