@@ -264,7 +264,6 @@ export default {
             //   // 获取分享信息
             //   this.$getWxShareData();
             // }
-
           }
         }
       } else {

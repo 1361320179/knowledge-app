@@ -78,6 +78,7 @@
         sexStr: '',
         ageStr: '',
         labelStr: '',
+        ceshi1: '',
       };
     },
     mounted () {
@@ -86,8 +87,30 @@
       } else {
         this.isShows = true;
       }
+      // var replaceUrl = localStorage.getItem("routerLink");
+      // this.ceshi1 = sessionStorage.getItem('reloadCount');
+      // this.ceshi2 = replaceUrl;
+      // if (parseInt(sessionStorage.getItem('reloadCount')) == 2 && localStorage.getItem("isHuobaIosLogin") == "yes") {
+      //   if (replaceUrl.indexOf("?nullPage=3") != -1) replaceUrl = replaceUrl.replace('?nullPage=3', "");
+      //   if (replaceUrl.indexOf("&nullPage=3") != -1) replaceUrl = replaceUrl.replace('&nullPage=3', "");
+      //   sessionStorage.setItem('reloadCount', 3);
+      //   location.reload();
+      // }
       this.initData();
+      // if (localStorage.getItem("isHuobaIosLogin") == "yes") {
+      //   this.ceshi1 = sessionStorage.getItem('reloadCount') != 2;
+      //   if(!sessionStorage.getItem('reloadCount') && sessionStorage.getItem('reloadCount') != 2) location.reload();
+      // }
+
+      // sessionStorage.getItem('reloadCount') ? sessionStorage.getItem('reloadCount') : 1;
+      // if(localStorage.getItem('loginState') == 1) {
+        // sessionStorage.setItem('reloadCount', 2);
+        // window.location.reload();
+        // this.initData();
       if (localStorage.getItem("isHuobaIosLogin") == "yes") {
+        // replaceUrl = replaceUrl.replace('?inullPage=3', "");
+        // replaceUrl = replaceUrl.replace('&nullPage=3', "");
+        // location.href = replaceUrl;
         this.clickLogin();
       }
     },
@@ -97,6 +120,14 @@
         this.$router.replace({
           name: 'newGiftSexAge'
         });
+        // if(replaceUrl.indexOf("nullPage=3") != -1 && localStorage.getItem('loginState') == 0) {
+        //     location.reload();
+        //   this.$router.replace({
+        //     name: 'newGiftSexAge'
+        //   });
+        // } else {
+        //   this.setLogin();
+        // }
       },
       // 跳过弹窗1
       clear1 () {
@@ -239,7 +270,7 @@
           this.isLoading = false;
         } else {
           this.isLoading = false;
-          // this.$toast(res.error_message);
+          this.$toast(res.error_message);
         }
       },
       // 传输接口

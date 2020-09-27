@@ -13,6 +13,7 @@
       <div class="nullBox">
         <img src="./assets/null/link.png" width="100%" />
         <button class="huoba-btn huoba-btn-one" @click="gotoLogin">{{ msg }}</button>
+        <div style="word-break: break-all">{{ test }}</div>
         <EazyNav type="brand" :isShow="true"></EazyNav>
       </div>
     </template>
@@ -105,6 +106,7 @@ export default {
     return {
       nullPage: this.$route.query.nullPage ? this.$route.query.nullPage : 0,
       msg: "",
+      test: location.href + '---' + replaceUrl.indexOf("nullPage=3") != -1 + "--" + localStorage.getItem('loginState') == 0
     };
   },
   created() {
