@@ -289,13 +289,14 @@
   .receive_btn {
     position: fixed;
     width: 100%;
-    height: 65px;
+    height: 49px;
     max-width: 640px;
     border-radius: 0px;
     background: #F05654;
     border: 1px solid #F05654;
     bottom: 0px;
     z-index: 1000;
+    font-size: 15px;
   }
 
   .default_btn {
@@ -304,13 +305,14 @@
   }
 
   .huoba-goods-list {
-    margin: 10px;
-    border-radius: 10px;
+    margin: 15px;
+    border-radius: 5px;
+    margin-bottom: 12px;
     position: relative;
 
     .ratioBox {
       min-width: 100px;
-      border-radius: 10px;
+      border-radius: 5px;
       box-shadow: 0 0 black;
 
       .box {
@@ -318,42 +320,38 @@
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
-        border-radius: 10px;
+        border-radius: 5px;
       }
 
       .huoba-goods-list-label {
-        width: 35px;
-        height: 22px;
+        width: 26px;
+        height: 18px;
         background: #ffb16e;
-        border-radius: 10px 0px 10px 0;
-        font-size: 14px;
+        border-radius: 5px 0px 5px 0;
+        font-size: 12px;
+        padding: 2px 2.5px;
+        text-align: center;
       }
 
       .goods_list_ebook {
-        width: 45px;
+        width: 36px;
       }
     }
 
 
     .huoba-goods-list-mid {
       .limited_immunity {
-        height: 20px;
+        display: inline-block;
         position: relative;
-
-        .icon {
-          font-size: 65px;
-          position: absolute;
-          top: -30px;
-          left: -6px;
-        }
+        background: #EF5553;
+        padding: 0px 3px;
+        border-radius: 14px 14px 0px 14px;
+        top: -8px;
+        left: -4px;
 
         span {
           font-size: 12px;
           color: #fff;
-          position: absolute;
-          z-index: 1;
-          top: -6px;
-          left: 5px;
         }
       }
 
@@ -378,7 +376,7 @@
         color: #F05654;
         font-family: PingFang SC;
         font-weight: bold;
-        font-size: 14px;
+        font-size: 12px;
         text-align: center;
         padding-right: 15px;
       }
@@ -388,8 +386,8 @@
       }
 
       .icon {
-        width: 2.5em;
-        height: 2.5em;
+        width: 1.3em;
+        height: 1.3em;
         color: rgba(153, 153, 153, 1);
         opacity: 1;
       }
@@ -461,6 +459,7 @@
       width: 70%;
       position: absolute;
       top: 8px;
+      font-size: 13px;
       overflow: hidden;
       -o-text-overflow: ellipsis;
       text-overflow: ellipsis;
@@ -493,7 +492,7 @@
     height: 130px;
     text-align: center;
     background: #FFFFFF;
-    border-radius: 10px;
+    border-radius: 5px;
 
     h3 {
       padding: 20px;
@@ -536,25 +535,27 @@
   }
 
   .owned {
-    width: 76px;
-    height: 76px;
+    width: 38px;
+    height: 38px;
     background-repeat: no-repeat;
     @include bgImageOne('./../../../../../assets/redeem/owned');
     position: absolute;
-    right: 30px;
-    bottom: 15px;
+    right: 78px;
+    bottom: 13px;
+    background-size: cover;
     z-index: 1000;
   }
 
   .ebook_owned,
   .coupon_owned {
-    width: 76px;
-    height: 76px;
+    width: 38px;
+    height: 38px;
     background-repeat: no-repeat;
     @include bgImageOne('./../../../../../assets/redeem/lootall');
     position: absolute;
-    right: 30px;
-    bottom: 15px;
+    right: 78px;
+    bottom: 13px;
+    background-size: cover;
     z-index: 1000;
   }
 }
@@ -566,9 +567,10 @@
 .huoba_goods_list {
   position: relative;
   margin-top: 20px;
-  margin: 10px;
+  margin: 15px;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 5px;
+  margin-bottom: 12px;
 
   .goods_title {
     width: 73%;
@@ -591,11 +593,11 @@
       width: 30%;
 
       .ratioBox {
-        border-radius: 10px;
+        border-radius: 5px;
         box-shadow: 0 0 #000;
 
         .box {
-          border-radius: 10px;
+          border-radius: 5px;
           background-repeat: no-repeat;
           background-size: 100% 100%;
         }
@@ -603,20 +605,21 @@
         .huoba-goods-list-label {
           position: absolute;
           z-index: 99;
-          width: 35px;
-          height: 22px;
+          width: 26px;
+          height: 18px;
           background: #ffb16e;
-          border-radius: 10px 0 10px 0;
-          font-size: 14px;
+          border-radius: 5px 0 5px 0;
+          font-size: 12px;
           color: #fff;
           display: inline-block;
-          padding: 2px 3px;
+          padding: 2px 2.5px;
           top: 0;
           left: 0;
+          text-align: center;
         }
 
         .goods_list_ebook {
-          width: 45px;
+          width: 36px;
         }
       }
     }
@@ -636,8 +639,8 @@
       z-index: 999;
 
       .icon {
-        width: 2.5em;
-        height: 2.5em;
+        width: 1.3em;
+        height: 1.3em;
         color: rgba(153, 153, 153, 1) !important;
       }
 
@@ -652,9 +655,10 @@
 
     .huoba-goods-num {
       padding-top: 5px;
-      padding-bottom: 5px;
+      padding-bottom: 22px;
       position: relative;
       z-index: 999;
+      font-size: 12px;
       left: 2px;
     }
   }
@@ -686,5 +690,9 @@
   #redeemGoodsPage .huoba-popup-two {
     width: 75%;
     height: 126px;
+  }
+
+  #redeemGoodsPage .owned {
+    right: 48px;
   }
 }

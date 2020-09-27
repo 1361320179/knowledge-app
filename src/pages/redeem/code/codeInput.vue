@@ -15,7 +15,12 @@
 
       <!--验证码-->
       <div v-show="validateFlag" class="validate_wrapper">
-        <van-field class="validate_num" clearable v-model="validateNum" placeholder="请输入右侧验证码。" />
+        <van-field
+          class="validate_num"
+          clearable
+          v-model="validateNum"
+          placeholder="请输入右侧验证码。"
+        />
         <div class="validate_image" @click="refreshImage">
           <img :src="validateImage" width="120" height="44" alt />
         </div>
@@ -25,9 +30,10 @@
     <van-button
       type="primary"
       size="large"
-      style="background:#F05654;border: 1px solid #F05654;margin-top: 40px;"
+      style="background: #f05654; border: 1px solid #f05654; margin-top: 40px"
       @click="toRedeem"
-    >兑换</van-button>
+      >兑换</van-button
+    >
 
     <p class="notes_one">
       1.参与活动有机会获得兑换码,使用兑换码可兑换超值优惠券以及虚拟商品。
@@ -41,7 +47,7 @@
 
 <script>
 import { REDEEM_ITEM_GET } from "@/apis/redeem.js";
-import {SERVER_TIME} from "@/apis/public.js";
+import { SERVER_TIME } from "@/apis/public.js";
 import axios from "axios";
 export default {
   name: "code-input",
@@ -49,9 +55,10 @@ export default {
     return {
       codeNum: "",
       validateNum: "",
+      redeems:[],
       validateImage: "",
       validateFlag: false,
-      userId: ""
+      userId: "",
     };
   },
   created() {
@@ -63,10 +70,10 @@ export default {
   },
   methods: {
     // 调取服务器时间戳
-    async getTimes(){
+    async getTimes() {
       let data = {
-        version: "1.0"
-      }
+        version: "1.0",
+      };
       let res = await SERVER_TIME(data);
     },
     inputCode() {
@@ -89,17 +96,43 @@ export default {
       let data = {
         code: codeNum,
         captcha: this.validateNum,
-        version: "1.0"
+        version: "1.0",
       };
 
       let res = await REDEEM_ITEM_GET(data);
       if (res.hasOwnProperty("response_code")) {
         // 接口请求成功
         // 判断是商品还是优惠券
+        if (res.response_data.redeem_version == "2") {
+          if (localStorage.getItem("redeemArr")) {
+            this.redeems = JSON.parse(localStorage.getItem("redeemArr"));
+            this.redeems.forEach((element, index) => {
+              if (element.id == res.response_data.v2_redeem_id) {
+                this.redeems.splice(index, 1);
+              }
+            });
+          }
+
+          this.redeems.push({
+            id: res.response_data.v2_redeem_id,
+            refer: "code",
+          });
+
+          localStorage.setItem("redeemArr", JSON.stringify(this.redeems));
+
+          this.$router.push({
+            name: "redeemGood_s",
+            query: {
+              code: res.response_data.v2_code,
+              redeem_id: res.response_data.v2_redeem_id,
+            },
+          });
+          return;
+        }
         if (res.response_data.goods_type == 2) {
           this.$router.push({
             name: "redeemCoupons",
-            query: { code: codeNum }
+            query: { code: codeNum },
           });
         } else {
           this.$router.push({ name: "redeemGoods", query: { code: codeNum } });
@@ -120,7 +153,6 @@ export default {
               window.location.hostname +
               ":" +
               window.location.port +
-
               "/callback/captcha?user_id=" +
               id;
             this.validateFlag = true;
@@ -141,8 +173,8 @@ export default {
           this.$toast(res.error_message);
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

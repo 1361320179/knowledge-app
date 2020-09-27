@@ -5,7 +5,7 @@
     <div class="content_goods" v-if="goodsNameType == 'goods'">
       <p>
         您已成功兑换商品
-        <span style="color:#343434;">“{{goodsName}}”</span>
+        <span style="color: #343434">“{{ goodsName }}”</span>
       </p>
       <p>
         快去
@@ -15,7 +15,7 @@
     <div class="content_goods" v-if="goodsNameType == 'coupons'">
       <p>
         您已成功兑换
-        <span style="color:#343434;">“优惠券”</span>
+        <span style="color: #343434">“优惠券”</span>
       </p>
       <p>
         快打开火把知识App，点击
@@ -25,8 +25,8 @@
     <div class="content_goods" v-if="goodsNameType == 'service_day'">
       <p>
         您已成功兑换商品
-        <span style="color:#343434;">“{{goodsName}}”</span>
-        的{{service_day}}天免费体验权
+        <span style="color: #343434">“{{ goodsName }}”</span>
+        的{{ service_day }}天免费体验权
       </p>
       <p>
         快去
@@ -37,72 +37,97 @@
     <div class="button_wrapper">
       <van-button
         type="primary"
-        style="background:#F05654;border: 1px solid #F05654;"
+        style="background: #f05654; border: 1px solid #f05654"
         @click="download"
-      >去看看</van-button>
+        >去看看</van-button
+      >
     </div>
 
     <div class="recommend">
-      <div style="color: #666666;font-weight: 700;">为您推荐</div>
-      <div style="color: rgb(242, 121, 144);">
+      <div style="color: #666666; font-weight: 700; font-size: 15px">
+        为您推荐
+      </div>
+      <div style="color: rgb(242, 121, 144)">
         <!-- <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-lipin" />
         </svg>-->
-        <van-icon name="point-gift-o" style="font-size: 16px;vertical-align: middle;" />
-        <span>首登APP专享110元新人礼</span>
+        <van-icon
+          name="point-gift-o"
+          style="vertical-align: sub; font-size: 17px"
+        />
+        <span style="font-size: 13px">首登APP专享110元新人礼</span>
       </div>
     </div>
-    <div id="resultPage" style="padding: 10px;">
-      <div class="etc_box" style="justify-content: space-between;">
+    <div id="resultPage" style="padding: 10px">
+      <div class="etc_box" style="display: block">
         <div
           class="etc_inbox"
-          v-for="(item,index) in goods_Lists"
+          v-for="(item, index) in goods_Lists"
           :key="index"
-          style="width: 49%;margin-bottom: 10px;border-radius: 10px;"
+          style="margin-bottom: 10px; width: auto"
         >
           <!-- 专辑 -->
-          <div class="content book" @click="gotoDetail(item)" style="margin:0px;">
-            <div class="ratiobook" style="width: 100%;overflow: hidden;">
+          <div
+            class="content book"
+            @click="gotoDetail(item)"
+            style="margin: 0px"
+          >
+            <div
+              class="ratiobook"
+              style="
+                width: 100%;
+                overflow: hidden;
+                border-radius: 5px 5px 0px 0px;
+              "
+            >
               <div
                 class="bookimg"
-                v-lazy:background-image=" item.pic[0]"
-                style="background-size: cover;border-radius: 10px 10px 0px 0px;"
+                v-lazy:background-image="item.pic[0]"
+                style="background-size: cover; border-radius: 5px 5px 0px 0px"
               ></div>
+
               <span
-                class="book_text_title"
-                v-if="item.goods_type == 3"
-                style="border-radius: 10px 0px 10px 0px;padding: 2px 8px;"
-              >图书</span>
+                class="book_text_title huoba-goods-list-label"
+                 v-if="item.goods_type == 3"
+                >图书</span
+              >
               <span
-                class="book_text_title"
+                class="book_text_title huoba-goods-list-label"
                 v-if="item.goods_type == 9"
-                style="border-radius: 10px 0px 10px 0px;padding: 2px 8px;"
-              >专辑</span>
+                >专辑</span
+              >
               <span
-                class="book_text_title"
+                class="book_text_title  huoba-goods-list-label goods_list_ebook"
                 v-if="item.goods_type == 4"
-                style="border-radius: 10px 0px 10px 0px;padding: 2px 8px;"
-              >电子书</span>
+                >电子书</span
+              >
             </div>
             <div class="right">
-              <div class="text">{{item.title}}</div>
+              <div class="text">{{ item.title }}</div>
               <div class="pinpai">
                 <div class="price" v-if="item.price">
                   ￥
-                  <span style="font-size: 20px;">{{item.price.toFixed(2)}}</span>
+                  <span style="font-size: 15px;font-weight: 700;">{{
+                    item.price.toFixed(2)
+                  }}</span>
                 </div>
                 <div class="price" v-else>
-                  <span style="font-size: 20px;">免费</span>
+                  <span style="font-size: 15px; font-weight: 700;">免费</span>
                 </div>
                 <div class="preferent_active">
-                  <span v-for="(titems,indexs) in item.tag_list" :key="indexs">
-                    <span class="active_1" v-if="indexs<1">
+                  <span v-for="(titems, indexs) in item.tag_list" :key="indexs">
+                    <span class="active_1" v-if="indexs < 1">
                       <span
                         class="active_text_1"
                         v-if="titems.type == 1 || titems.type == 2"
-                      >{{ titems.name }}</span>
-                      <span class="active_text_2" v-if="titems.type == 3">{{ titems.name }}</span>
-                      <span class="active_text_3" v-if="titems.type == 4">{{ titems.name }}</span>
+                        >{{ titems.name }}</span
+                      >
+                      <span class="active_text_2" v-if="titems.type == 3">{{
+                        titems.name
+                      }}</span>
+                      <span class="active_text_3" v-if="titems.type == 4">
+                        {{ titems.name }}</span
+                      >
                     </span>
                   </span>
                 </div>
@@ -112,28 +137,28 @@
                   <span>￥{{ item.price }}</span>
                 </span>-->
                 <span class="comment" v-if="item.goods_type == 9">
-                  <span @click.stop="toBrand(item,index)">
+                  <span @click.stop="toBrand(item, index)">
                     {{ item.brand_name }}
                     <svg class="icon" aria-hidden="true">
                       <use xlink:href="#icon-next-line" />
                     </svg>
                   </span>
                 </span>
-                <span
-                  class="bookgrow"
-                  v-if="item.goods_type == 3"
-                  style="display: flex;justify-content: space-between;"
-                >
+                <span class="bookgrow" v-if="item.goods_type == 3">
                   {{ item.brand_name }}
-                  <span @click.stop="toBrandShop(item,index)">
-                    <span class="bookShop" style="color:#343434;">进店</span>
-                    <svg class="icon" aria-hidden="true" style="color:#343434;">
+                  <span @click.stop="toBrandShop(item, index)">
+                    <span
+                      class="bookShop"
+                      style="color: #343434; margin-left: 10px"
+                      >进店</span
+                    >
+                    <svg class="icon" aria-hidden="true" style="color: #343434">
                       <use xlink:href="#icon-next-line" />
                     </svg>
                   </span>
                 </span>
                 <span class="good" v-if="item.goods_type == 4">
-                  <span @click.stop="toBrand(item,index)">
+                  <span @click.stop="toBrand(item, index)">
                     {{ item.brand_name }}
                     <svg class="icon" aria-hidden="true">
                       <use xlink:href="#icon-next-line" />
