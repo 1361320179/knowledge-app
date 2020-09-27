@@ -333,6 +333,14 @@ export default {
         document.title = this.goodsDetail.page_title
           ? this.goodsDetail.page_title
           : "火把知识";
+      }else if (res.error_code == 109){
+            this.errMsg = res.error_message;
+            this.$toast(res.error_message + "\n5秒后回到个人中心");
+            const timers = setInterval(() => {
+              this.isOutdated = false;
+              clearInterval(timers);
+              this.$router.push({ name: "personalIndex" });
+            }, 5000);
       } else if (res.error_code == 0) {
         switch (res.error_message) {
           case "仅受邀用户可参与此活动":
