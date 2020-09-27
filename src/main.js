@@ -474,11 +474,29 @@ router.beforeEach((to, from, next) => {
     }
   }
   next();
+  // 需要记录路径的中间页
+  // let tmp = sessionStorage.getItem('reloadCount');
+  // if(from.path == '/' && to.path == 'newGift/sexAge') {
+  //   if (tmp == 1) {
+  //     sessionStorage.setItem('reloadCount', 2);
+  //     next();
+  //   } else if (tmp == 3) {
+  //     sessionStorage.setItem('reloadCount', 1);
+  //     next();
+  //   } else {
+  //     sessionStorage.setItem('reloadCount', 2);
+  //     next();
+  //   }
+  // }
   next();
   if(to.meta.isPath) {
     // 通过app登陆成功后的页面设置登陆状态loginState = 1
     if (replaceUrl.indexOf("isLoginFromApp=1") != -1 && localStorage.getItem("isHuobaAndroidLogin") == "yes") {
-        localStorage.setItem('loginState', 1);
+      localStorage.setItem('loginState', 1);
+      // if (replaceUrl.indexOf("?isLoginFromApp=1") != -1) replaceUrl = replaceUrl.replace('?isLoginFromApp=1', "");
+      // if (replaceUrl.indexOf("&isLoginFromApp=1") != -1) replaceUrl = replaceUrl.replace('&isLoginFromApp=1', "");
+      // if (replaceUrl.indexOf("?nullPage=3") != -1) replaceUrl = replaceUrl.replace('?nullPage=3', "");
+      // if (replaceUrl.indexOf("&nullPage=3") != -1) replaceUrl = replaceUrl.replace('&nullPage=3', "");
       next();
     }
     next();
