@@ -813,11 +813,13 @@
                 item = this.allProgramList[next];
             }
 
-            // 重置音频播放信息以及当前slider进度
-            this.resetAudioSliderInfo(item);
             // 设置音频播放信息
             this.setBaseData("item", item);
-            this.albumData(this.pid, item.goods_id);
+            var _this = this;
+            this.albumData(this.pid, item.goods_id).then(function () {
+              // 重置音频播放信息以及当前slider进度
+              _this.resetAudioSliderInfo(item);
+            });
           } else {
             this.$toast(res.error_message);
           }
@@ -915,9 +917,11 @@
           })
         });
 
-        // 重置音频播放信息以及当前slider进度
-        this.resetAudioSliderInfo(item);
-        this.albumData(this.pid, item.goods_id);
+        var _this = this;
+        this.albumData(this.pid, item.goods_id).then(function () {
+          // 重置音频播放信息以及当前slider进度
+          _this.resetAudioSliderInfo(item);
+        });
       },
       // 关联播放列表
       listData(goods_no, _bool) {
