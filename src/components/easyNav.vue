@@ -30,7 +30,7 @@
       <!-- 公号首页 -->
       <router-link
         v-if="type == 'brand' && navData.search"
-        :to="{path:navData.searchLink,query:{type:type}}"
+        :to="{ path: navData.searchLink, query: { type: type } }"
         class="link"
         @click.native="flushCom"
       >
@@ -42,7 +42,7 @@
       <!-- 我的订单 -->
       <router-link
         v-if="type == 'order' && navData.search"
-        :to="{path:navData.searchLink,query:{type:'order'}}"
+        :to="{ path: navData.searchLink, query: { type: 'order' } }"
         class="link"
         @click.native="flushCom"
       >
@@ -54,7 +54,10 @@
       <!-- 优惠券 -->
       <router-link
         v-if="type == 'coupon' && navData.search"
-        :to="{path:'/searchOnly',query:{type:'coupon',ticket_id:$route.query.ticket_id}}"
+        :to="{
+          path: '/searchOnly',
+          query: { type: 'coupon', ticket_id: $route.query.ticket_id },
+        }"
         class="link"
         @click.native="flushCom"
       >
@@ -66,7 +69,10 @@
       <!-- 商城首页 -->
       <router-link
         v-if="type == 'mall' && navData.search"
-        :to="{path:navData.searchLink,query:{type:'mall', supplier_id: $route.query.supplier_id}}"
+        :to="{
+          path: navData.searchLink,
+          query: { type: 'mall', supplier_id: $route.query.supplier_id },
+        }"
         class="link"
         @click.native="flushCom"
       >
@@ -78,7 +84,7 @@
       <!-- 首页 -->
       <router-link
         v-if="type == 'index' && navData.search"
-        :to="{path:navData.searchLink,query:{type:type}}"
+        :to="{ path: navData.searchLink, query: { type: type } }"
         class="link"
         @click.native="flushCom"
       >
@@ -88,12 +94,18 @@
         <div>搜索</div>
       </router-link>
       <!-- 购物车 -->
-      <router-link :to="navData.cartLink" class="link" v-if="navData.cart&&is_Login">
+      <router-link
+        :to="navData.cartLink"
+        class="link"
+        v-if="navData.cart && is_Login"
+      >
         <div class="cart_buy">
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#icon-gouwuche" />
           </svg>
-          <span class="cart_num" v-if="navData.goods_nums">{{navData.goods_nums}}</span>
+          <span class="cart_num" v-if="navData.goods_nums">{{
+            navData.goods_nums
+          }}</span>
           <div>购物车</div>
         </div>
       </router-link>
@@ -102,12 +114,18 @@
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#icon-gouwuche" />
           </svg>
-          <span class="cart_num" v-if="navData.goods_nums">{{navData.goods_nums}}</span>
+          <span class="cart_num" v-if="navData.goods_nums">{{
+            navData.goods_nums
+          }}</span>
           <div>购物车</div>
         </div>
       </router-link>
       <!-- 我的 -->
-      <router-link :to="navData.personalLink" class="link" v-if="navData.personal">
+      <router-link
+        :to="navData.personalLink"
+        class="link"
+        v-if="navData.personal"
+      >
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-personal-line" />
         </svg>
@@ -206,6 +224,8 @@ export default {
     };
   },
   mounted() {
+    // 获取分享信息
+    this.$getWxShareData();
     this.home_id = localStorage.getItem("home_id");
     if (this.type === undefined) {
       this.type = this.navData.type;
@@ -253,8 +273,13 @@ export default {
             this.cartData();
             // 获取分享信息
             this.$getWxShareData();
-            if (localStorage.getItem("isHuobaIosLogin") == "yes" && (window.location.href.indexOf('/newGift/sexAge') != -1) && (window.location.href.indexOf('nullPage=3') != -1)) {
-              window.location.href = window.location.href.split('#')[0] + '#' + '/newGift/sexAge';
+            if (
+              localStorage.getItem("isHuobaIosLogin") == "yes" &&
+              window.location.href.indexOf("/newGift/sexAge") != -1 &&
+              window.location.href.indexOf("nullPage=3") != -1
+            ) {
+              window.location.href =
+                window.location.href.split("#")[0] + "#" + "/newGift/sexAge";
             }
           } else {
             // webview需要登錄但未登陆的页面调app的登陆流程
