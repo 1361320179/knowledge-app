@@ -402,9 +402,39 @@ export default {
       }
 
     }
+    // 字符串加密/解密 added by lrf 2020/9/28
+    /*
+    * 加密函数
+    * @params str 待加密字符串
+    * returns {string}
+    * */
+    // Vue.prototype.$strEncrypt = function(str) {
+    //   var s = String.fromCharCode(str.charCodeAt(0) + str.length);
+    //   for (var i = 1; i < str.length; i++) {
+    //     s += String.fromCharCode(str.charCodeAt(i) + str.charCodeAt(i -1));
+    //   }
+    //   return encodeURIComponent(s);
+    // }
+
+    /*
+    * 解密函数
+    * @params str 待解密字符串
+    * return {string}
+    * */
+    Vue.prototype.$strDecrypt = function(str) {
+      str = decodeURIComponent(str);
+      var s = String.fromCharCode(str.charCodeAt(0) - str.length);
+      for (var i = 1; i < str.length; i++) {
+        s += String.fromCharCode(str.charCodeAt(i) - s.charCodeAt(i - 1));
+      }
+      return s;
+    }
+
     // 音视频流解密
     Vue.prototype.$aesDecrypt = function (data1, data2) {
-      var key = "huoba202009@..";
+      // var key = "huoba202009@..";
+      var str = "v%C3%9D%C3%A4%C3%91%C3%83%C2%93bbb%60iyn%5C";
+      var key = Vue.prototype.$strDecrypt(str);
       var hash = CryptoJS.MD5(key).toString();
       var plaintext1 = CryptoJS.AES.decrypt(data1, hash).toString(
         CryptoJS.enc.Utf8
