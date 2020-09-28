@@ -798,10 +798,8 @@
               ) {
                 this.pauseAudio();
                 this.$toast("上一个节目收费");
-                return;
-              } else {
-                item = this.allProgramList[prev];
               }
+                item = this.allProgramList[prev];
             } else if (actionType == "next" || this.autoPlay) {
               // 节目已支付
               if (
@@ -811,10 +809,8 @@
               ) {
                 this.pauseAudio();
                 this.$toast("下一个节目收费");
-                return;
-              } else {
-                item = this.allProgramList[next];
               }
+                item = this.allProgramList[next];
             }
 
             // 重置音频播放信息以及当前slider进度
