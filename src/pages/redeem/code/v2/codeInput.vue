@@ -9,7 +9,7 @@
         maxlength="9"
         clearable
         ref="code"
-        style="height:40px;line-height: 20px;"
+        style="height:40px;line-height: 20px;font-size: 18px;"
         v-model="codeNum"
         @input="inputCode"
         placeholder="请输入8位兑换码,不区分大小写,长按可粘贴。"

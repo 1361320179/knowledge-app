@@ -8,27 +8,34 @@
 #codeInputPage {
   padding: 0 15px;
   overflow: hidden;
+
   .input_num_wrapper {
     text-align: center;
     font-size: 0;
   }
+
   .code_num {
     margin: 0 auto;
     margin-top: 38px;
     background: #F5F5F5;
+
     .van-field__control {
       text-align: center;
+      font-size: 18px;
+      font-family: "Helvetica Neue", Helvetica, "PingFang SC";
     }
   }
 
   .validate_wrapper {
     display: flex;
   }
+
   .validate_num {
     flex: 1;
     margin-top: 10px;
     background: #F5F5F5;
   }
+
   .validate_image {
     display: inline-block;
     margin: 10px 0 0 10px;
@@ -38,6 +45,7 @@
     font-size: 14px;
     line-height: 44px;
   }
+
   .top_bg {
     margin: 0 auto;
     margin-top: 28px;
@@ -48,26 +56,30 @@
     @include bgImageOne('./../../../../../assets/redeem/present2');
   }
 
-    .van-button--primary {
-      border-radius: 3px;
-      .van-button__text {
-        font-size: 15px;
-        font-family: PingFang SC;
-        font-weight: 500;
-        color: #FFFFFF;
-      }
-    }
+  .van-button--primary {
+    border-radius: 3px;
 
-  .notes_one, .notes_two {
+    .van-button__text {
+      font-size: 15px;
+      font-family: PingFang SC, San Francisco;
+      font-weight: 500;
+      color: #FFFFFF;
+    }
+  }
+
+  .notes_one,
+  .notes_two {
     font-size: 13px;
-    font-family: PingFang SC;
+    font-family: PingFang SC, San Francisco;
     font-weight: 500;
     color: #999999;
     line-height: 18px;
   }
+
   .notes_one {
     margin-top: 29px;
   }
+
   .notes_two {
     margin-top: 18px;
   }
