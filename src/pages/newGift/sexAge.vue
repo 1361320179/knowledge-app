@@ -38,7 +38,7 @@
       <div class="next_page" @click="saveUrl3()" v-else>继续</div>
     </div>
     <EazyNav type="brand" :isShow="isShows"></EazyNav>
-    <!--<Loading :isLoading="isLoading"></Loading>-->
+    <Loading :isLoading="isLoading"></Loading>
     <!--通用弹窗-->
     <PublicPopup></PublicPopup>
   </div>
@@ -87,16 +87,8 @@
         this.isShows = true;
       }
       this.initData();
-      if (localStorage.getItem("isHuobaIosLogin") == "yes") {
-        this.clickLogin();
-      }
     },
     methods: {
-      clickLogin (){
-        this.$router.replace({
-          name: 'newGiftSexAge'
-        });
-      },
       // 跳过弹窗1
       clear1 () {
         this.$dialog
@@ -235,9 +227,7 @@
           } else {
             this.isLoading = false;
           }
-          this.isLoading = false;
         } else {
-          this.isLoading = false;
           this.$toast(res.error_message);
         }
       },
