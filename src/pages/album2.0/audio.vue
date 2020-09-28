@@ -311,7 +311,7 @@
           // let play_key =
           //   "U2FsdGVkX1/x5CixbFmvUKEmjyIXWx8xSW/tKqVQMKl8tuLLl++v8Lpk+HHwPQK1UAx92+ikF2fcuwc1zKC4qw==";
           // hls.js
-          if (Hls.isSupported()) {
+          if (Hls.isSupported() && play_url != '') {
             var musicPlayer = document.getElementById('musicPlayer');
             var myhls = new Hls();
             // var _this = this;
@@ -337,7 +337,7 @@
 
             // }
             // });
-          } else if (this.$refs.audio.canPlayType('application/vnd.apple.mpegurl')) {
+          } else if (this.$refs.audio.canPlayType('application/vnd.apple.mpegurl') && play_url != '') {
             // this.$refs.video.type = "application/vnd.apple.mpegurl";
             this.$refs.audio.src = path;
             // this.$refs.audio.addEventListener('loadedmetadata',function() {
