@@ -107,12 +107,12 @@
               <div class="pinpai">
                 <div class="price" v-if="item.price">
                   ￥
-                  <span style="font-size: 15px;font-weight: 700;">{{
+                  <span style="font-size: 15px;">{{
                     item.price.toFixed(2)
                   }}</span>
                 </div>
                 <div class="price" v-else>
-                  <span style="font-size: 15px; font-weight: 700;">免费</span>
+                  <span style="font-size: 15px;">免费</span>
                 </div>
                 <div class="preferent_active">
                   <span v-for="(titems, indexs) in item.tag_list" :key="indexs">
