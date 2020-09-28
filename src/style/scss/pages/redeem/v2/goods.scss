@@ -671,7 +671,9 @@
   }
 }
 
-
+.van-overlay{
+  background-color:rgba(0,0,0,0) !important;
+}
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 360px) {
   #redeemGoodsPage .huoba-goods-list .huoba-goods-list-left .huoba-goods-list-imgs {

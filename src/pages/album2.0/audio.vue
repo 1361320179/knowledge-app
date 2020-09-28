@@ -404,7 +404,7 @@
         if ((item.is_payed == 1 || item.is_free == 1 || JSON.stringify(this.limitUse) != '{}') && item.goods_type == 1) {
           this.pauseAudio();
           this.playAudio();
-        } else if (item.goods_type == 2) {
+        } else {
           this.pauseAudio();
         }
       },
@@ -798,10 +798,8 @@
               ) {
                 this.pauseAudio();
                 this.$toast("上一个节目收费");
-                return;
-              } else {
-                item = this.allProgramList[prev];
               }
+                item = this.allProgramList[prev];
             } else if (actionType == "next" || this.autoPlay) {
               // 节目已支付
               if (
@@ -811,10 +809,8 @@
               ) {
                 this.pauseAudio();
                 this.$toast("下一个节目收费");
-                return;
-              } else {
-                item = this.allProgramList[next];
               }
+                item = this.allProgramList[next];
             }
 
             // 重置音频播放信息以及当前slider进度
