@@ -258,12 +258,12 @@
           console.log('path',path);
 
           // hls.js
-          if (Hls.isSupported()) {
+          if (Hls.isSupported() && play_url != '') {
             var myVideo = document.getElementById('myVideo');
             var myhls = new Hls();
             myhls.loadSource(path);
             myhls.attachMedia(myVideo);
-          } else if (this.$refs.video.canPlayType('application/vnd.apple.mpegurl')) {
+          } else if (this.$refs.video.canPlayType('application/vnd.apple.mpegurl') && play_url != '') {
             // this.$refs.video.type = "application/vnd.apple.mpegurl";
             this.$refs.video.src = path;
             // this.$refs.video.addEventListener('loadedmetadata',function() {
