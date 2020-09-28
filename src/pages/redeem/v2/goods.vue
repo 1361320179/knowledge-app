@@ -292,7 +292,7 @@
           <use xlink:href="#icon-cuowu" />
         </svg>
       </div>
-      <p class="outdated_remind">兑换失败</p>
+      <p class="outdated_remind">{{errMsg}}</p>
     </van-popup>
   </div>
 </template>
@@ -418,6 +418,9 @@ export default {
           clearInterval(timers);
           this.$router.push({ name: "personalIndex" });
         }, 5000);
+      } else if (res.error_code == 506) {
+            this.errMsg = res.error_message;
+            this.exchange_failure = true;
       } else if (res.error_code == 0) {
         switch (res.error_message) {
           case "仅受邀用户可参与此活动":
@@ -437,15 +440,8 @@ export default {
               this.$router.push({ name: "personalIndex" });
             }, 5000);
             break;
-          case "兑换失败":
-            this.exchange_failure = true;
-            break;
           default:
             this.$toast(res.error_message);
-            // const timers = setInterval(() => {
-            //   clearInterval(timers);
-            //   this.$router.go(0);
-            // }, 3000);
             break;
         }
       }
