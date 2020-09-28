@@ -9,11 +9,10 @@
         clearable
         ref="code"
         v-model="codeNum"
-        style="height:40px;line-height: 20px;"
+        style="height:40px;line-height: 20px; font-size:18px;"
         @input="inputCode"
         placeholder="请输入8位兑换码,不区分大小写,长按可粘贴。"
       />
-
       <!--验证码-->
       <div v-show="validateFlag" class="validate_wrapper">
         <van-field
