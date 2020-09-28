@@ -2,7 +2,9 @@
   <div
     id="redeemGoodsPage"
     v-show="pageShow"
-    :style="{'background-color':goodsDetail.colour.bg?goodsDetail.colour.bg:''}"
+    :style="{
+      'background-color': goodsDetail.colour.bg ? goodsDetail.colour.bg : '',
+    }"
   >
     <div>
       <!-- <van-list
@@ -15,13 +17,18 @@
         <img :src="goodsDetail.pic" alt width="100%" />
       </div>
       <!-- 专辑 电子书 -->
-      <div v-if="goods_type == 9 || goods_type == 4|| goods_type == 1">
+      <div v-if="goods_type == 9 || goods_type == 4 || goods_type == 1">
         <div
-          v-for="(item,index) in goods_Lists"
+          v-for="(item, index) in goods_Lists"
           :key="index"
           :title="item"
-          :class="['huoba-goods-list','huoba-goods-list-five',
-           item.used_num>=item.goods_num?'disabled_true':'',has_link_s=='1'?'disabled_true':'',item.has_own == '1'?'disabled_true':'']"
+          :class="[
+            'huoba-goods-list',
+            'huoba-goods-list-five',
+            item.used_num >= item.goods_num ? 'disabled_true' : '',
+            has_link_s == '1' ? 'disabled_true' : '',
+            item.has_own == '1' ? 'disabled_true' : '',
+          ]"
         >
           <div class="huoba-goods-list-left">
             <div class="ratioBox">
@@ -31,29 +38,39 @@
                   alt
                 />-->
               </div>
-              <span class="huoba-goods-list-label" v-if="item.goods_type == 9">专辑</span>
-              <span class="huoba-goods-list-label goods_list_ebook" v-if="item.goods_type == 4">电子书</span>
+              <span class="huoba-goods-list-label" v-if="item.goods_type == 9"
+                >专辑</span
+              >
+              <span
+                class="huoba-goods-list-label goods_list_ebook"
+                v-if="item.goods_type == 4"
+                >电子书</span
+              >
             </div>
           </div>
           <div class="huoba-goods-list-mid">
             <span class="huoba-goods-title">
-              <span>{{item.title}}</span>
+              <span>{{ item.title }}</span>
             </span>
             <div>
               <p class="limited_immunity" v-if="service_day > 0">
-                <span>{{service_day}}天限免</span>
+                <span>{{ service_day }}天限免</span>
               </p>
               <p class="prices">
                 ￥
-                <span>{{item.price}}</span>
+                <span>{{ item.price }}</span>
               </p>
             </div>
           </div>
           <div class="huoba-goods-list-right">
             <div
-              v-if="has_link_s=='1'|| item.used_num>=item.goods_num||item.has_own == '1'"
+              v-if="
+                has_link_s == '1' ||
+                item.used_num >= item.goods_num ||
+                item.has_own == '1'
+              "
               class="default defaults"
-              style="text-align: center;"
+              style="text-align: center"
             >
               <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-uncheck-line" />
@@ -62,9 +79,9 @@
             <div
               v-else
               class="default"
-              @click="singleChecked(item.goods_id,index,item.title)"
+              @click="singleChecked(item.goods_id, index, item.title)"
               :class="{ active: item.is_default == 1 }"
-              style="text-align: center;"
+              style="text-align: center"
             >
               <svg class="icon" aria-hidden="true" v-if="item.is_default == 1">
                 <use xlink:href="#icon-checked-block" class="is_default1" />
@@ -74,30 +91,47 @@
               </svg>
             </div>
           </div>
-          <div v-if="item.used_num >= item.goods_num && item.has_own == '1'" class="owned"></div>
+          <div
+            v-if="item.used_num >= item.goods_num && item.has_own == '1'"
+            class="owned"
+          ></div>
           <div class="owned" v-else-if="item.has_own == '1'"></div>
-          <div class="coupon_owned" v-else-if="item.used_num >= item.goods_num"></div>
+          <div
+            class="coupon_owned"
+            v-else-if="item.used_num >= item.goods_num"
+          ></div>
         </div>
       </div>
 
       <!-- 优惠券 -->
       <div v-if="goods_type == 2">
         <div
-          v-for="(item,index) in goods_Lists"
+          v-for="(item, index) in goods_Lists"
           :key="index"
           :title="item"
-          :class="['huoba_goods_list','huoba_goods_coupon',
-           item.used_num>=item.goods_num?'disabled_true':'',has_link_s==1?'disabled_true':'',item.has_own == 1?'disabled_true':'']"
+          :class="[
+            'huoba_goods_list',
+            'huoba_goods_coupon',
+            item.used_num >= item.goods_num ? 'disabled_true' : '',
+            has_link_s == 1 ? 'disabled_true' : '',
+            item.has_own == 1 ? 'disabled_true' : '',
+          ]"
         >
-          <p class="goods_title">{{item.brand}}：{{item.use_range_desc}}</p>
-          <div style="display: flex;justify-content: space-between;-webkit-box-pack: justify;">
+          <p class="goods_title">{{ item.brand }}：{{ item.use_range_desc }}</p>
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              -webkit-box-pack: justify;
+            "
+          >
             <div class="huoba-goods-list-left">
               <div
                 class="huoba-goods-list-imgs"
-                v-for="(arry,key) in item.goods"
+                v-for="(arry, key) in item.goods"
                 :key="key"
                 :title="arry"
-                style="margin-right: 6px;"
+                style="margin-right: 6px"
               >
                 <div class="ratioBox">
                   <div class="box" v-lazy:background-image="arry.pic">
@@ -106,28 +140,47 @@
                     alt
                     />-->
                   </div>
-                  <span class="huoba-goods-list-label" v-if="arry.goods_type == 3">图书</span>
-                  <span class="huoba-goods-list-label" v-if="arry.goods_type == 9">专辑</span>
+                  <span
+                    class="huoba-goods-list-label"
+                    v-if="arry.goods_type == 3"
+                    >图书</span
+                  >
+                  <span
+                    class="huoba-goods-list-label"
+                    v-if="arry.goods_type == 9"
+                    >专辑</span
+                  >
                   <span
                     class="huoba-goods-list-label goods_list_ebook"
                     v-if="arry.goods_type == 4"
-                  >电子书</span>
+                    >电子书</span
+                  >
                 </div>
-                <p style="text-align: center; font-size: 12px;padding-top: 10px;">￥{{arry.price}}</p>
+                <p
+                  style="text-align: center; font-size: 12px; padding-top: 10px"
+                >
+                  ￥{{ arry.price }}
+                </p>
               </div>
             </div>
             <div class="huoba-goods-list-right">
               <p class="huoba-goods-price">
                 ￥
-                <span style="font-size: 25px;font-weight: 700;">{{item.money}}</span>
+                <span style="font-size: 25px; font-weight: 700">{{
+                  item.money
+                }}</span>
               </p>
 
-              <p class="huoba-goods-num">满{{item.min_money}}元可用</p>
+              <p class="huoba-goods-num">满{{ item.min_money }}元可用</p>
 
               <div
-                v-if="has_link_s==1|| item.used_num>=item.goods_num||item.has_own == 1"
+                v-if="
+                  has_link_s == 1 ||
+                  item.used_num >= item.goods_num ||
+                  item.has_own == 1
+                "
                 class="default defaults"
-                style="text-align: center;"
+                style="text-align: center"
               >
                 <svg class="icon" aria-hidden="true">
                   <use xlink:href="#icon-uncheck-line" />
@@ -137,10 +190,14 @@
               <div
                 v-else
                 class="default default_s"
-                @click="singleChecked(item.ticket_id,index,item.title)"
+                @click="singleChecked(item.ticket_id, index, item.title)"
                 :class="{ active: item.is_default == 1 }"
               >
-                <svg class="icon" aria-hidden="true" v-if="item.is_default == 1">
+                <svg
+                  class="icon"
+                  aria-hidden="true"
+                  v-if="item.is_default == 1"
+                >
                   <use xlink:href="#icon-checked-block" class="is_default1" />
                 </svg>
                 <svg class="icon" aria-hidden="true" v-else>
@@ -149,20 +206,29 @@
               </div>
             </div>
           </div>
-          <div class="owned" v-if="item.used_num >= item.goods_num && item.has_own == '1'"></div>
+          <div
+            class="owned"
+            v-if="item.used_num >= item.goods_num && item.has_own == '1'"
+          ></div>
           <div class="owned" v-else-if="item.has_own == '1'"></div>
           <div
             class="coupon_owned"
             v-else-if="item.used_num >= item.goods_num"
-            style="top: 5px;right: 5px;"
+            style="top: 5px; right: 5px"
           ></div>
         </div>
       </div>
 
       <div class="rule">
         <p
-          :style="{'color':goodsDetail.colour.text?goodsDetail.colour.text:''}"
-          v-html="description ==''?'':goodsDetail.description.replace(/\n/g, '<br />')"
+          :style="{
+            color: goodsDetail.colour.text ? goodsDetail.colour.text : '',
+          }"
+          v-html="
+            description == ''
+              ? ''
+              : goodsDetail.description.replace(/\n/g, '<br />')
+          "
         ></p>
       </div>
     </div>
@@ -170,30 +236,36 @@
       <h4 class="limit_title">此活动仅限受邀用户参加</h4>
       <div class="limit_img"></div>
       <p class="limit_remind">
-        <span>{{time}}</span>秒后回到个人中心
+        <span>{{ time }}</span
+        >秒后回到个人中心
       </p>
     </van-popup>
     <EazyNav type="brand" :isShow="false"></EazyNav>
     <!--通用弹窗-->
     <PublicPopup></PublicPopup>
 
-    <van-button v-if="has_link_s == '1'" type="primary" class="receive_btn default_btn">
-      <span>{{page_button==""?page_button:page_button}}</span> (
-      <span>{{select_goods}}</span> /
-      <span>{{goodsListLenght}}</span> )
+    <van-button
+      v-if="has_link_s == '1'"
+      type="primary"
+      class="receive_btn default_btn"
+    >
+      <span>{{ page_button == "" ? page_button : page_button }}</span> (
+      <span>{{ select_goods }}</span> / <span>{{ goodsListLenght }}</span> )
     </van-button>
     <!--  -->
     <van-button
       v-else
       type="primary"
       class="receive_btn"
-      :style="{'background':goodsDetail.colour.button?goodsDetail.colour.button:'','border':goodsDetail.colour.button?goodsDetail.colour.button:'',
-      'opacity':pick_a_few.length>0?'1':'0.8'}"
+      :style="{
+        background: goodsDetail.colour.button ? goodsDetail.colour.button : '',
+        border: goodsDetail.colour.button ? goodsDetail.colour.button : '',
+        opacity: pick_a_few.length > 0 ? '1' : '0.8',
+      }"
       @click="receiveBtn()"
     >
-      <span>{{page_button==""?page_button:page_button}}</span> (
-      <span>{{select_goods}}</span> /
-      <span>{{goodsListLenght}}</span> )
+      <span>{{ page_button == "" ? page_button : page_button }}</span> (
+      <span>{{ select_goods }}</span> / <span>{{ goodsListLenght }}</span> )
     </van-button>
 
     <van-popup v-model="pop_two_show" position="center" class="huoba-popup-two">
@@ -207,17 +279,21 @@
 
     <van-popup v-model="two_show" position="center" class="huoba-popup-two">
       <h3 class="pop-two-text-one">
-        您还可以多选择{{goodsListNumber}}件商品哦
+        您还可以多选择{{ goodsListNumber }}件商品哦
         <p>仅兑换选中的商品吗？</p>
       </h3>
       <div class="pop-two-text-two" @click="continueExchange()">我再想想</div>
       <div class="pop-two-text-three" @click="confirmEexchange()">继续兑换</div>
     </van-popup>
-    <!-- 
-    <van-popup class="outdated_info" v-model="isOutdated">
-      <div class="outdated_title">{{errMsg}}仅受邀用户可参与此活动</div>
-      <p class="outdated_remind">5秒后回到个人中心</p>
-    </van-popup>-->
+
+    <van-popup class="outdated_info" v-model="exchange_failure">
+      <div class="outdated_title">
+        <svg class="icon" aria-hidden="true" style="font-size: 40px">
+          <use xlink:href="#icon-cuowu" />
+        </svg>
+      </div>
+      <p class="outdated_remind">{{errMsg}}</p>
+    </van-popup>
   </div>
 </template>
 
@@ -257,6 +333,7 @@ export default {
       goodsListNumber: "",
       pick_a_few: [],
       goods_type: "",
+      exchange_failure: false,
       goods_Lists: [],
       goodsNameType: "",
       btnShoucang: [],
@@ -333,14 +410,17 @@ export default {
         document.title = this.goodsDetail.page_title
           ? this.goodsDetail.page_title
           : "火把知识";
-      }else if (res.error_code == 109){
+      } else if (res.error_code == 109) {
+        this.errMsg = res.error_message;
+        this.$toast(res.error_message + "\n5秒后回到个人中心");
+        const timers = setInterval(() => {
+          this.isOutdated = false;
+          clearInterval(timers);
+          this.$router.push({ name: "personalIndex" });
+        }, 5000);
+      } else if (res.error_code == 506) {
             this.errMsg = res.error_message;
-            this.$toast(res.error_message + "\n5秒后回到个人中心");
-            const timers = setInterval(() => {
-              this.isOutdated = false;
-              clearInterval(timers);
-              this.$router.push({ name: "personalIndex" });
-            }, 5000);
+            this.exchange_failure = true;
       } else if (res.error_code == 0) {
         switch (res.error_message) {
           case "仅受邀用户可参与此活动":
@@ -362,10 +442,6 @@ export default {
             break;
           default:
             this.$toast(res.error_message);
-            // const timers = setInterval(() => {
-            //   clearInterval(timers);
-            //   this.$router.go(0);
-            // }, 3000);
             break;
         }
       }
