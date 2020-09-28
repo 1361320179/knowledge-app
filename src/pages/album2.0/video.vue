@@ -124,6 +124,7 @@
   import recommend from './components/recommend';
   import {ALBUM, ALBUM_DETAIL} from "../../apis/album.js";
   import {COMMENT_COUNTER} from "@/apis/public.js";
+  import {USER_PLAYED_RECORD} from "@/apis/user.js";
 
   // vue无刷新修改url参数
   import merge from "webpack-merge";
@@ -314,6 +315,33 @@
           this.$toast(res.error_message);
         }
       },
+      // 播放次数记录
+      async currentTimeData() {
+        // 已登录账号才存储到数据库
+        if (this.isLogin == 0) return;
+
+        // 如果是非专辑，则传入goods_id
+        var _pid = this.$route.query.pid;
+        var _goodsId = this.$route.query.goods_id;
+        if (_pid == null || _pid == "NaN") {
+          _pid = this.$route.query.goods_id;
+          _goodsId = null;
+        }
+        var tStamp = this.$getTimeStamp();
+        var data = {
+          goods_id: _pid,
+          sub_goods_id: _goodsId,
+          duration: 0,
+          timestamp: tStamp,
+          version: "1.0"
+        };
+        data.sign = this.$getSign(data);
+        let res = await USER_PLAYED_RECORD(data);
+        if (res.hasOwnProperty("response_code")) {
+        } else {
+          this.$toast(res.error_message);
+        }
+      },
       // --------------------------------播放列表----------------------------------
       programListShow() {
         this.$refs.controlList.popupModel = true;
@@ -322,9 +350,13 @@
       },
       // 视频播放
       videoPlay() {
-        // console.log('videoPlay');
-        // this.playStatus = true;
-        // this.$refs.controlList.popupModel = false;
+        console.log('videoPlay');
+        var video = document.getElementById('myVideo');
+        var time = video.currentTime;
+        // console.log('time',video.currentTime);
+        if (time == 0) {
+          this.currentTimeData();
+        }
       },
       // 视频暂停
       videoPause() {
