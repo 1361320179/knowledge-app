@@ -253,6 +253,9 @@ export default {
             this.cartData();
             // 获取分享信息
             this.$getWxShareData();
+            if (localStorage.getItem("isHuobaIosLogin") == "yes" && window.location.href.indexOf('nullPage=3')) {
+              window.location.href = window.location.href.split('#')[0] + '#' + '/newGift/sexAge';
+            }
           } else {
             // webview需要登錄但未登陆的页面调app的登陆流程
             // nullPage == 3 && 获取当前路劲 _path(routerlink)
