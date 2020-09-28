@@ -402,8 +402,8 @@
         // 绑定slider
         this.audiobindtoslider(0);
         if ((item.is_payed == 1 || item.is_free == 1 || JSON.stringify(this.limitUse) != '{}') && item.goods_type == 1) {
-          this.pauseAudio();
-          this.playAudio();
+          // this.pauseAudio();
+          // this.playAudio();
         } else {
           this.pauseAudio();
         }
