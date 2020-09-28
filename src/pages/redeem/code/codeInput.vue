@@ -9,6 +9,7 @@
         clearable
         ref="code"
         v-model="codeNum"
+        style="height:40px;line-height: 20px;"
         @input="inputCode"
         placeholder="请输入8位兑换码,不区分大小写,长按可粘贴。"
       />
@@ -30,16 +31,16 @@
     <van-button
       type="primary"
       size="large"
-      style="background: #f05654; border: 1px solid #f05654; margin-top: 40px"
+      style="background: #f05654; border: 1px solid #f05654; margin-top: 25px; height:40px;line-height: 40px;"
       @click="toRedeem"
-      >兑换</van-button
+      >立即兑换</van-button
     >
 
-    <p class="notes_one">
+    <p class="notes_one" style="color: #333;">
       1.参与活动有机会获得兑换码,使用兑换码可兑换超值优惠券以及虚拟商品。
       <br />2.请在兑换码有效期内完成兑换,过期自动失效;具体兑换结果以页面显示为准。
     </p>
-    <p class="notes_two">提示：请使用英文输入法。</p>
+    <p class="notes_two" style="color: #333;">提示：请使用英文输入法。</p>
     <!--通用弹窗-->
     <PublicPopup></PublicPopup>
   </div>

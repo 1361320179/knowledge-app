@@ -5,6 +5,7 @@
       <!--兑换码-->
       <van-field
         class="code_num"
+        
         maxlength="9"
         clearable
         ref="code"

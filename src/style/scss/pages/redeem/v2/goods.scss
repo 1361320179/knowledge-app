@@ -306,6 +306,7 @@
 
   .huoba-goods-list {
     margin: 15px;
+    padding: 10px;
     border-radius: 5px;
     margin-bottom: 12px;
     position: relative;
@@ -363,7 +364,7 @@
         text-decoration: line-through;
 
         span {
-          font-weight: 700;
+          // font-weight: 700;
           font-size: 14px;
         }
       }
