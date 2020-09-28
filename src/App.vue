@@ -122,6 +122,7 @@ export default {
     if (this.$route.query.nullPage == 1) this.msg = "请在微信端打开~";
     if (this.$route.query.nullPage == 2) this.msg = "请在app端打开~";
     if (this.$route.query.nullPage == 3) this.msg = "请先登录";
+    if (this.$route.query.nullPage == 3 && window.location.href.indexOf('/newGift/sexAge')) this.msg = "页面加载中，请稍等...";
     // 获取适配信息，并微信授权
     this.$setLoginData();
   },
