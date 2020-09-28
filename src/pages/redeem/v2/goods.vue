@@ -292,7 +292,7 @@
           <use xlink:href="#icon-cuowu" />
         </svg>
       </div>
-      <p class="outdated_remind">{{errMsg}}</p>
+      <p class="outdated_remind">{{ errMsg }}</p>
     </van-popup>
   </div>
 </template>
@@ -418,9 +418,6 @@ export default {
           clearInterval(timers);
           this.$router.push({ name: "personalIndex" });
         }, 5000);
-      } else if (res.error_code == 506) {
-            this.errMsg = res.error_message;
-            this.exchange_failure = true;
       } else if (res.error_code == 0) {
         switch (res.error_message) {
           case "仅受邀用户可参与此活动":
@@ -616,6 +613,15 @@ export default {
         localStorage.setItem("login_add", 1);
         localStorage.setItem("select_goods", this.select_goods);
         this.$router.push({ name: "login" });
+      } else if (res.error_code == 506) {
+        this.errMsg = res.error_message;
+        this.exchange_failure = true;
+        const timer = setInterval(() => {
+         this.exchange_failure = false;
+           this.two_show = false;
+          this.pop_two_show = false;
+          clearInterval(timer);
+        }, 3000);
       } else if (res.hasOwnProperty("response_code")) {
         localStorage.removeItem("login_goods_Lists");
         localStorage.removeItem("login_add");
@@ -653,20 +659,6 @@ export default {
               coupons_length: this.coupons_length,
               goodsNameType: this.goodsNameType,
             },
-          });
-        }
-      } else {
-        if (this.isApp()) {
-          // APP
-          this.$router.push({
-            name: "appFail",
-            query: { errorMsg: res.error_message },
-          });
-        } else {
-          //  WAP
-          this.$router.push({
-            name: "wapFail",
-            query: { errorMsg: res.error_message },
           });
         }
       }
