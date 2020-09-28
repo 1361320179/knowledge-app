@@ -253,7 +253,7 @@ export default {
             this.cartData();
             // 获取分享信息
             this.$getWxShareData();
-            if (localStorage.getItem("isHuobaIosLogin") == "yes" && window.location.href.indexOf('nullPage=3') && window.location.href.indexOf('/newGift/sexAge')) {
+            if (localStorage.getItem("isHuobaIosLogin") == "yes" && (window.location.href.indexOf('/newGift/sexAge') != -1) && (window.location.href.indexOf('nullPage=3') != -1)) {
               window.location.href = window.location.href.split('#')[0] + '#' + '/newGift/sexAge';
             }
           } else {
