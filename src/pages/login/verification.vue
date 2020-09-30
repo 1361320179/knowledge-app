@@ -202,10 +202,10 @@
         let res = await CHECK_CODE(data);
         if (res.hasOwnProperty("response_code")) {
           if (this.type == 'changePassword') {
-            this.$router.replace({name: 'changePassword', query: {phone: this.phone, code: this.code}});
+            this.$router.replace({name: 'changePassword', query: {phone: this.phone.replace(/\s/g, ''), code: this.code}});
           } else if (this.type == 'oldChangePhone') {
             this.resetApply();
-            this.$router.replace({name: 'changePhone', query: {phone: this.phone}});
+            this.$router.replace({name: 'changePhone', query: {phone: this.phone.replace(/\s/g, '')}});
           } else if (this.type == 'newChangePhone') {
             this.resetSave();
           }
