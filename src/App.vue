@@ -18,6 +18,15 @@
       </div>
     </template>
 
+
+    <template v-else-if="nullPage == 4">
+      <div class="nullBox">
+        <img src="./assets/null/link.png" width="100%" />
+        <div style="text-align: center;color: #999;" @click="gotoLogin">{{ msg }}</div>
+        <EazyNav type="brand" :isShow="true"></EazyNav>
+      </div>
+    </template>
+
     <template v-else>
       <Download></Download>
       <!-- 页面缓存, $route.meta.keepAlive默认false -->
@@ -100,6 +109,10 @@
 <script>
 // 微信分享，引入sdk
 import wx from "weixin-js-sdk";
+
+// 节目是音频还是视频
+import { GOODS_TYPE } from '@/apis/album';
+
 export default {
   name: "App",
   data() {
@@ -126,8 +139,18 @@ export default {
     if (this.$route.query.nullPage == 3 && window.location.href.indexOf('/newGift/sexAge')) {
       this.msg = "页面加载中，请稍等...";
     }
+    if (this.$route.query.nullPage == 4) {
+      this.msg = "页面加载中，请稍等...";
+      console.log('aaaaaaaaaaa');
+      // 调用接口判断是音频还是视频
+      let pid = this.$route.query.pid;
+      let goods_id = this.$route.query.goods_id;
+      let goods_no = this.$route.query.goods_no;
+      this.getGoodsType(pid, goods_id, goods_no);
+
+    }
     // 获取适配信息，并微信授权
-    this.$setLoginData();
+    // this.$setLoginData();
   },
   methods: {
     gotoLogin() {
@@ -137,6 +160,23 @@ export default {
       });
     },
     async getM3u8Url() {},
+    async getGoodsType(pid,goods_id,goods_no) {
+      let data = {
+        goods_id: goods_id,
+        version: '1.0'
+      };
+      let res = await GOODS_TYPE(data);
+      if (res.hasOwnProperty("response_code")) {
+        let goodsType = res.response_data.type;
+        if (goodsType == 1) {
+          this.$router.replace({path: '/album/audio', query: {pid: pid, goods_id: goods_id, goods_no: goods_no}});
+        } else if (goodsType == 2) {
+          this.$router.replace({path: '/album/video',  query: {pid: pid, goods_id: goods_id, goods_no: goods_no}});
+        }
+      } else {
+        this.$toast(res.error_message);
+      }
+    }
   },
 };
 </script>
