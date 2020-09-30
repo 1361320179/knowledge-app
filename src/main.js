@@ -219,7 +219,7 @@ A、localStorage
 
 路由参数
 
-  1、nullPage=1：引导微信   2：app登录  3：需要记录路径的中间页
+  1、nullPage=1：引导微信   2：app登录  3：需要记录路径的中间页  4：老版音视频跳转中转指引到相应音频或视频
   2、home_id=all/公号id，携带原始公号
   3、linkFrom=gzh链接来自公众号
   4、isLoginFromApp=1通过app登陆成功后的页面不需要拼接nullPage=3
@@ -366,10 +366,11 @@ router.beforeEach((to, from, next) => {
 
     next()
   }
+
   // console.log('87',route_arr)
   next()
   //判断该页面有 brand_id
-  if (from.query.brand_id) {
+  if (from.query.brand_id && from.query.nullPage != 4) {
     next();
     // 路由切换时，如果没有就添加，有就跳过执行，添加固定参数
     if (!to.query.brand_id) {
@@ -405,6 +406,7 @@ router.beforeEach((to, from, next) => {
 
   // 记录当前路由
   localStorage.setItem('routerLink', replaceUrl);
+
   next();
   // 记录页面进入方式，gzh：来自公众号
   if (localStorage.getItem('routerLink').indexOf('linkFrom=gzh') != -1) {
@@ -498,9 +500,20 @@ router.beforeEach((to, from, next) => {
       next();
     }
   }
-
   next();
 
+  // 解决老版音视频类型跳转问题
+  if((replaceUrl.indexOf('album/detail')) != -1 && replaceUrl.indexOf('nullPage=4') == -1) {
+    next();
+    if (replaceUrl.indexOf("?") == -1) {
+      replaceUrl += '?nullPage=4';
+      next();
+    } else {
+      replaceUrl += '&nullPage=4';
+      next();
+    }
+    next();
+  }
   window.location.replace(replaceUrl); // 重定向跳转
 
   // 相同页面跳转刷新，除个别不需要刷新的页面外，比如brand/index
@@ -530,7 +543,6 @@ router.beforeEach((to, from, next) => {
     next();
   }
   next();
-
 })
 
 /* eslint-disable no-new */
