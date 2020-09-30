@@ -393,12 +393,10 @@ export default {
           })
         }
       } else {
-        if (routerLink.indexOf('/newGift/sexAge') != -1) {
-          // 引导进入web端登陆
-          this.$router.push({
-            name: "login"
-          });
-        }
+        // 引导进入web端登陆
+        this.$router.push({
+          name: "login"
+        });
       }
 
     }
