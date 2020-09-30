@@ -285,13 +285,16 @@ export default {
             // webview需要登錄但未登陆的页面调app的登陆流程
             // nullPage == 3 && 获取当前路劲 _path(routerlink)
             var routerLink = localStorage.getItem("routerLink");
-            var last_url = routerLink.replace("nullPage=3", "");
-            // if (routerLink.indexOf('/newGift/sexAge') != -1) {
-            this.$gotoAppLogin(last_url);
-            // } else {
-            //   // 获取分享信息
-            //   this.$getWxShareData();
-            // }
+
+            if(routerLink.indexOf('nullPage=3') != -1) {
+              var last_url = routerLink.replace("nullPage=3", "");
+              // if (routerLink.indexOf('/newGift/sexAge') != -1) {
+              this.$gotoAppLogin(last_url);
+              // } else {
+              //   // 获取分享信息
+              //   this.$getWxShareData();
+              // }
+            }
           }
         }
       } else {
