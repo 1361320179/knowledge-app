@@ -20,9 +20,9 @@
 
 
     <template v-else-if="nullPage == 4">
-      <div class="nullBox">
+      <div class="nullBox" @click="gotoLogin">
         <img src="./assets/null/link.png" width="100%" />
-        <div style="text-align: center;color: #999;" @click="gotoLogin">{{ msg }}</div>
+        <div style="text-align: center;color: #999;">{{ msg }}</div>
         <EazyNav type="brand" :isShow="true"></EazyNav>
       </div>
     </template>
@@ -136,12 +136,11 @@ export default {
     if (this.$route.query.nullPage == 1) this.msg = "请在微信端打开~";
     if (this.$route.query.nullPage == 2) this.msg = "请在app端打开~";
     if (this.$route.query.nullPage == 3) this.msg = "点击屏幕，重新加载";
+    if (this.$route.query.nullPage == 4) this.msg = "点击屏幕，重新加载";
     if (this.$route.query.nullPage == 3 && window.location.href.indexOf('/newGift/sexAge') != -1) {
       this.msg = "页面加载中，请稍等...";
     }
     if (this.$route.query.nullPage == 4) {
-      this.msg = "页面加载中，请稍等...";
-      console.log('aaaaaaaaaaa');
       // 调用接口判断是音频还是视频
       let pid = this.$route.query.pid;
       let goods_id = this.$route.query.goods_id;
