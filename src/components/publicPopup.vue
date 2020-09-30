@@ -71,22 +71,24 @@
 
           let urlObj = JSON.parse(res.response_data.url); // 图片跳转链接(JSON)
           let tempObj = this.$translate(urlObj);
-          if (tempObj.name) {
+          if (tempObj.name && tempObj.name != 'url') {
             urlObj = this.$translate(urlObj);
           }
-          let url = window.location.href.split('#')[0] + '#/' +  urlObj.action;
 
-          // url拼接
-          if (Object.keys(urlObj.params).length !== 0) {
-            url += '?';
+          if (urlObj.action == 'jump/url') {
+            this.url = urlObj.params.url;
+          } else {
+            let url = window.location.href.split('#')[0] + '#/' +  urlObj.action;
+            // url拼接
+            if (Object.keys(urlObj.params).length !== 0) {
+              url += '?';
+            }
+            for (var k in urlObj.params) {
+              url += ( k + '=' + urlObj.params[k] + '&');
+            }
+            this.url = url.substring(0, url.length - 1);
           }
-          for (var k in urlObj.params) {
-            url += ( k + '=' + urlObj.params[k] + '&');
-          }
-          this.url = url.substring(0, url.length - 1);
-          // this.url = this.$translate(url);
 
-          // console.log('URL',this.url);
         }
       },
       async sendPopupLog() {

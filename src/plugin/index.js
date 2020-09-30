@@ -1188,9 +1188,13 @@ export default {
         // 商品详情
         case 'goods/detail':
           // 音/视频
-          if (dataTmp.params.goods_type == 1 || dataTmp.params.goods_type == 2) {
-            __name = 'albumdetail';
-            __action = 'album/detail';
+          if (dataTmp.params.goods_type == 1) {
+            __name = 'audio';
+            __action = 'album/audio';
+          }
+          if (dataTmp.params.goods_type == 2) {
+            __name = 'video';
+            __action = 'album/video';
           }
           if (dataTmp.params.goods_type == 6) { // 文章
             __name = 'article';
@@ -1198,7 +1202,7 @@ export default {
           }
           if (dataTmp.params.goods_type == 9) { // 专辑
             __name = 'album';
-            __action = 'album';
+            __action = 'album/index';
           }
           if (dataTmp.params.goods_type == 3) { // 图书
             __name = 'detail';
