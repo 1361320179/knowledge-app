@@ -1,5 +1,5 @@
 <template>
-  <div id="miniAudio" :class="{ iphx: this.isIphx }">
+  <div id="miniAudio" :class="{ iphx: this.isIphx }" style="display:none;">
     <!-- 播放器缩略 -->
     <div :class="{active: unfold}" v-if="closeAudio == null || closeAudio == 'no'">
       <van-row class="miniAudio" :class="{ patch: showBuyButton }">
@@ -59,22 +59,26 @@
     </div>
 
     <!-- 播放器 -->
-    <audio id="myMiniAudio" :src="audioData.src" preload="auto" @ended="onEnded"></audio>
+    <audio id="myMiniAudio" ref="audio" preload="auto" @ended="onEnded"></audio>
   </div>
 </template>
 
 <style src="@/style/scss/components/miniAudio.scss" lang="scss"></style>
 
 <script>
+// m3u8播放
+import Hls from 'hls.js';
+
 import { USER_PLAYED_RECORD } from "./../apis/user.js";
 export default {
   name: "music",
-  props: ["audioData", "rank", "loginStatus", "showBuyButton"],
+  props: ["audioData", "rank", "loginStatus", "showBuyButton","baseData"],
   data() {
     return {
       closeAudio: localStorage.getItem("closeAudio"),
       unfold: true,
       playType: true,
+      playUrl: '',
       // 存储是否新增
       isAdd: false,
       // 是否显示播放列表入口
@@ -85,11 +89,21 @@ export default {
   },
   // 解决子组件数据实时刷新问题
   watch: {
-    audioData: {
-      handler(newValue, oldValue) {
-        // console.log(newValue)
-      },
-      deep: true
+    // audioData: {
+    //   handler(newValue, oldValue) {
+    //     console.log('newValue',newValue)
+    //     this.playUrl = newValue.src;
+    //     console.log('playUrl',this.playUrl);
+    //   },
+    //   deep: true
+    // },
+    'audioData.src'(newValue, oldValue) {
+        console.log('newValue',newValue)
+        if (oldValue == '' && newValue != '') {
+          this.playUrl = newValue;
+          this.playAudio();
+        }
+        console.log('playUrl',this.playUrl);
     },
     rank: {
       handler(newValue, oldValue) {
@@ -161,12 +175,14 @@ export default {
         if (info[0] != null && info[0] != "") this.activeGoodNo = info[0];
         if (info[1] != null && info[1] != "") this.programGoodsId = info[1];
         if (info[2] != null && info[2] != "") this.audioData.pic = info[2];
+
         // 专辑
         // if(info[2] != null && info[2] != "") this.baseData.pic = info[2];
-        if (info[3] != null && info[3] != "") {
+        // if (info[3] != null && info[3] != "") {
           // 初始化音频
-          this.audioData.src = info[3];
-        }
+          // this.audioData.src = info[3];
+        // }
+
         if (info[5] != null && info[5] != "") {
           this.currentSecond = info[5];
           this.audioData.currentTime = info[5];
@@ -368,6 +384,8 @@ export default {
     },
     // 点击播放
     playAudio(__currentTime) {
+      console.log('playaudio');
+
       localStorage.setItem("closeAudio", "no");
       this.closeAudio = "no";
       this.count = 1;
@@ -381,13 +399,51 @@ export default {
       this.playType = false;
       var audio = document.getElementById("myMiniAudio");
       var second = parseInt(audio.currentTime);
+      var path = this.playUrl;
       // 设置当前播放时间null != 0，null为点击播放按钮，继续播放或者获取localstorage记录
       if (__currentTime == null) {
         // audio.currentTime = 0;
         // second = __currentTime;
       }
-      // 播放
-      audio.play();
+      console.log('aaaa',this.playUrl);
+      if (Hls.isSupported() && this.playUrl != '') {
+        console.log('pathaaa',path);
+        var myMiniAudio = document.getElementById('myMiniAudio');
+        var myhls = new Hls();
+        myhls.loadSource(path);
+        myhls.attachMedia(myMiniAudio);
+        // myhls.on(Hls.Events.MANIFEST_PARSED, function () {
+        //   // 播放
+        //   this.$toast('hlsplay');
+        //   audio.play();
+        // });
+      } else if (
+      this.$refs.audio.canPlayType('application/vnd.apple.mpegurl') && this.playUrl != '') {
+        // this.$refs.video.type = "application/vnd.apple.mpegurl";
+        this.$refs.audio.src = path;
+        // audio.currentTime = 0;
+        // this.$toast('src'+ this.$refs.audio.src);
+        // setTimeout(()=> {
+        //   this.$refs.audio.pause();
+        //   this.$refs.audio.play();
+        //   // this.$toast('current'+ audio.duration);
+        //   this.$toast('current'+ audio.currentSrc);
+        // }, 3000)
+        // document.addEventListener("WeixinJSBridgeReady", function () {
+        //   audio.pause();
+        //   audio.play();
+        // }, false);
+        // this.$refs.audio.addEventListener('loadedmetadata',function() {
+        //   audio.pause();
+        //   audio.play();
+        // });
+        // this.$refs.audio.addEventListener('canplaythrough',function() {
+        //   audio.pause();
+        //   audio.play();
+        //   this.$toast('current'+ audio.currentTime);
+        // });
+      }
+
       console.log("测试全部播放:", __currentTime);
       this.$emit("setType", false);
       this.audioTimeChange(second, false);

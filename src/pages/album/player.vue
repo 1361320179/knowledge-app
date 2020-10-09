@@ -91,6 +91,8 @@
     ></audioList>
 
     <EazyNav type="brand" :isShow="false"></EazyNav>
+    <!--通用弹窗-->
+    <PublicPopup></PublicPopup>
   </div>
 </template>
 
@@ -612,7 +614,6 @@ export default {
     // 关联播放列表
     listData(goods_no, _bool) {
       this.activeGoodNo = goods_no;
-      if (_bool) this.$refs.control.goodsNo = goods_no;
       this.$refs.control.popupModel = _bool;
     },
     // 日期格式转换

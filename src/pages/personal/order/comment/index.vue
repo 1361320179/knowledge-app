@@ -19,6 +19,8 @@
     </div>
     <CopyRight></CopyRight>
     <EazyNav type="brand" :isShow="true"></EazyNav>
+    <!--通用弹窗-->
+    <PublicPopup></PublicPopup>
   </div>
 </template>
 
@@ -70,7 +72,7 @@ export default {
     },
     //评价
     comment(item) {
-      console.log(item);
+      // console.log(item);
       this.$router.push({
         name: "commentpunish",
         query: {

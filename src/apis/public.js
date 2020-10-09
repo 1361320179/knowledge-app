@@ -26,6 +26,9 @@ export const FOCUS_CANCEL = query => req('post', '/user/attention/cancel', query
 // 评论
 export const COMMENT = query => req('post', '/goods/comment/gets', query);
 export const COMMENT_ADD = query => req('post', '/goods/comment/add', query);
+export const COMMENT_PRAISE = query => req('post', '/goods/comment/praise', query);
+export const COMMENT_DISLIKE = query => req('post', '/goods/comment/dislike', query);
+export const COMMENT_COUNTER = query => req('post', '/goods/comment/getcounter', query);
 
 //上传图片
 export const COMMON_UPLOAD = query => req('post', '/common/upload', query);
@@ -61,3 +64,12 @@ export const LOCATION_CHANGE = query => req('post', '/common/location/change', q
 
 //交易支付并购买状态监测
 export const CASHIER_PAY_CHECK = query => req('post', '/cashier/pay/check', query);
+
+// 公共弹窗信息获取
+export const POPUP_INFO = query => req('post', '/page/popup/get', query);
+
+// 公共弹窗用户行为日志
+export const POPUP_LOG = query => req('post', '/page/popup/log', query);
+
+// 下载链接
+export const APP_DOWNLOAD = query => req('post', '/app/update', query);

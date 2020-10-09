@@ -1,0 +1,285 @@
+/*
+ * author: lrf
+ * date:2020/8/5
+ */
+
+@charset "UTF-8";
+
+#audioPage {
+  overflow-x: hidden;
+  .normal {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding-top: 100%;
+    .pic {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      z-index: 20;
+    }
+  }
+  .filter {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding-top: 100%;
+    filter: blur(20px);
+    .pic {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      z-index: 20;
+    }
+    .shadow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 10;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      opacity: 0.2;
+    }
+  }
+  .center {
+    position: absolute;
+    z-index: 100;
+    top: 187.5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    text-align: center;
+    .info {
+      display: block;
+      margin-bottom: 15px;
+      font-size: 15px;
+      font-family: PingFang SC;
+      font-weight: bold;
+      color: #fff;
+    }
+    .action {
+      display: inline-block;
+      padding: 11px 15px;
+      background: #fff;
+      font-size: 13px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      color: #333;
+      border-radius: 3px;
+    }
+  }
+  .controlBoxOne {
+    display: flex;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+
+    .more {
+      position: relative;
+      flex-basis: 55px;
+      margin-left: 13px;
+      .moreList {
+        position: absolute;
+        z-index: 100;
+        bottom: -20px;
+        left: 0;
+        width: 100px;
+        background: #fff;
+        box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        .moreItem {
+          padding: 9px;
+          .text {
+            display: inline-block;
+            margin-left: 7.5px;
+            font-size: 14px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            color: #343434;
+          }
+        }
+        .collected {
+          color: #f05654;
+        }
+      }
+      .icon {
+        font-size: 22px;
+      }
+    }
+
+    .normalTitle {
+      flex: 1;
+      @include textOverflow();
+      .title {
+        font-size: 15px;
+        font-family: PingFang SC;
+        font-weight: bold;
+        color: #333;
+      }
+    }
+    .carousel {
+      flex: 1;
+      overflow: hidden;
+      font-size: 15px;
+      font-family: PingFang SC;
+      font-weight: bold;
+      color: #333;
+      .title {
+        display: inline-block;
+        white-space: nowrap;
+        animation: horizontal-move 20s linear infinite;
+        transform: translate(100%);
+      }
+      @keyframes horizontal-move {
+      %0 {
+        transform: translate(-100%);
+      }
+      100% {
+        transform: translate(calc(-100%));
+      }
+    }
+    }
+
+    .list {
+      text-align: right;
+      flex-basis: 55px;
+      margin-right: 14px;
+      .icon {
+        font-size: 22px;
+      }
+    }
+  }
+  .sliderBox {
+    margin: 24.5px 46px;
+    position: relative;
+    .hide-line {
+      content: "";
+      display: block;
+      position: absolute;
+      z-index: -100;
+      right: -33.5px;
+      top: 0;
+      border-bottom: 2px solid rgba(238, 238, 238, 0.3);
+      width: 33.5px;
+    }
+    .before-line {
+      content: "";
+      display: block;
+      position: absolute;
+      z-index: -1;
+      left: -33.5px;
+      top: 0;
+      border-bottom: 2px solid rgb(240, 86, 84);
+      width: 36px;
+    }
+    .after-line {
+      content: "";
+      display: block;
+      position: absolute;
+      z-index: -1;
+      right: -33.5px;
+      top: 0;
+      border-bottom: 2px solid rgb(238, 238, 238);
+      width: 33.5px;
+    }
+
+    .sliderButton {
+      text-align: center;
+      width: 67px;
+      height: 17px;
+      line-height: 17px;
+      background: linear-gradient(90deg, rgba(240, 86, 84, 1) 0%, rgba(252, 129, 129, 1) 100%);
+      border-radius: 8.5px;
+      .sliderText {
+        font-size: 10px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #fff;
+      }
+    }
+  }
+  .controlBoxTwo {
+    @include displayFlex(flex, space-between, center);
+    height: 65px;
+    line-height: 65px;
+    .prev.non-clickable .icon,.next.non-clickable .icon,.play.non-clickable .icon{
+      color: #F69A98;
+    }
+    .play .icon,
+    .pause .icon {
+      width: 60px;
+      height: 60px;
+      color: #f05654;
+      //margin: 0 34px;
+    }
+    .prev .icon,
+    .next .icon {
+      width: 22px;
+      height: 22px;
+    }
+    .prev .icon {
+      color: #f05654;
+    }
+    .next .icon {
+      color: #f05654;
+    }
+    .backward .icon {
+      margin-left: 13px;
+      width: 22px;
+      height: 22px;
+    }
+    .forward .icon {
+      margin-right: 13px;
+      width: 22px;
+      height: 22px;
+    }
+  }
+  .commentBox {
+    display: flex;
+    position: fixed;
+    z-index: 10;
+    bottom: 0;
+    height: 49px;
+    width: 100%;
+    max-width: 640px;
+    background: #fff;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
+    .addComment {
+      flex: 1;
+      margin: 8px 15px;
+      height: 33px;
+      background: #F5F5F5;
+      border-radius: 16.5px;
+      .icon {
+        margin: 0 10px 0 15px;
+        font-size: 15px;
+      }
+      .text {
+        font-size: 14px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #999;
+        line-height: 33px;
+      }
+    }
+    .info {
+      flex-basis: 50px;
+      .icon {
+        margin-top: 6px;
+        margin-left: 6px;
+        width: 22px;
+        height: 22px;
+      }
+      .count {
+        margin-left: 6px;
+        font-size: 10px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #999;
+        width: 20px;
+        text-align: center;
+      }
+    }
+  }
+}

@@ -415,7 +415,8 @@
       </div>
     </div>
     <EazyNav type="brand" ref="nav" :isShow="true"></EazyNav>
-
+    <!--通用弹窗-->
+    <PublicPopup></PublicPopup>
     <Loading :isLoading="isLoading"></Loading>
   </div>
 </template>
@@ -767,7 +768,10 @@ export default {
           name: "orderconfirm",
           query: {
             address_id: this.address_id,
-            detail: JSON.stringify(this.detail),
+            goods_id: this.detail.goods_id,
+            sku_id: this.detail.sku_id,
+            count: 1,
+            detail: true,
             groupbuy_id: this.couponInfo.groupbuy.id
           }
         });

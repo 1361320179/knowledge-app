@@ -46,7 +46,6 @@
         </div>
       </li>
     </ul>
-    <CopyRight></CopyRight>
     <div style="height: 60px;"></div>
     <div v-if="this.isIphx" style="height: 34px;"></div>
     <div class="bottomBox" :class="{ iphx: this.isIphx }">
@@ -61,6 +60,8 @@
       <div class="count">{{ addressData.length }}/50</div>
     </div>
     <EazyNav type="brand" :isShow="true"></EazyNav>
+    <!--通用弹窗-->
+    <PublicPopup></PublicPopup>
   </div>
 </template>
 

@@ -64,12 +64,10 @@
           <div class="discount">
             <span class="original">
               原价
-              <del
-                v-if="baseData.price !== baseData.market_price"
-              >¥{{ baseData.market_price.toFixed(2) }}</del>
+              <del>¥{{ baseData.market_price.toFixed(2) }}</del>
               <span
                 class="price"
-                v-if="baseData.price !== baseData.market_price"
+                v-if="baseData.price < baseData.market_price"
               >{{((baseData.price/baseData.market_price)*10).toFixed(1)}}折</span>
             </span>
             <span v-if="baseData.stores <= 10" class="stores">仅剩{{baseData.stores}}件</span>
@@ -145,7 +143,7 @@
         </div>
       </div>
       <!-- 图文 -->
-      <div v-if="baseData.goods_desc" class="introduction" v-html="baseData.goods_desc"></div>
+      <div v-if="baseData.goods_desc" class="introduction htmlContent" v-html="baseData.goods_desc"></div>
       <!-- 目录及其他 -->
 
       <div
@@ -159,7 +157,7 @@
             <span class="verticleLine"></span>
             <span class="lh">{{ item.name }}</span>
           </div>
-          <div class="detail" v-html="changeHtml(item.val)"></div>
+          <div class="detail htmlContent" v-html="changeHtml(item.val)"></div>
           <div class="action" @click="showAllAction(index)">展开全部</div>
         </div>
         <div class="introduction unfold" v-else>
@@ -167,7 +165,7 @@
             <span class="verticleLine"></span>
             <span class="lh">{{ item.name }}</span>
           </div>
-          <div class="detail" style v-html="changeHtml(item.val)"></div>
+          <div class="detail htmlContent" style v-html="changeHtml(item.val)"></div>
         </div>
       </div>
 
@@ -389,6 +387,8 @@
       </div>
     </div>
     <EazyNav type="brand" ref="nav" :isShow="true"></EazyNav>
+    <!--通用弹窗-->
+    <PublicPopup></PublicPopup>
     <!-- 拼团 -->
     <div
       class="groupBuy"
@@ -401,6 +401,8 @@
       </svg>
     </div>
     <Loading :isLoading="isLoading"></Loading>
+    <!--打开app对应页面-->
+    <!--<openAppPage :name="'/detail'"></openAppPage>-->
   </div>
 </template>
 
@@ -438,6 +440,12 @@
   }
   .multi .van-cell__title {
     white-space: pre-wrap;
+  }
+  & .htmlContent{
+    a{
+      text-decoration: underline;
+      color: #01AAED;
+    }
   }
 }
 </style>
@@ -635,7 +643,6 @@ export default {
       let res = await ALBUM(data);
 
       if (res.hasOwnProperty("response_code")) {
-        // console.log(666,this.navData.goods_nums)
         this.shoppingcart_num = res.response_data.shoppingcart_num;
         // 邮费信息
         this.dispatch_str = res.response_data.dispatch_str;
@@ -682,11 +689,6 @@ export default {
             this.baseData.desc_arr[i].showAll = false;
           }
         }
-
-        // 获取页面分享信息
-        // var _pageName = "goods/detail";
-        // var _params = JSON.stringify({ goods_id: this.$route.query.goods_id });
-        // if (this.isWxLogin) this.$getWxShareData(_pageName, _params);
 
         this.onsale = 1;
       } else {
@@ -796,7 +798,12 @@ export default {
       if (this.$refs.nav.is_Login) {
         this.$router.push({
           name: "orderconfirm",
-          query: { detail: JSON.stringify(this.detail) }
+          query:{
+            goods_id: this.detail.goods_id,
+            sku_id: this.detail.sku_id,
+            count: this.detail.count,
+            detail: true
+          }
         });
       } else {
         this.$router.push({ name: "login" });
@@ -896,8 +903,9 @@ export default {
       }
     },
     toResult(item, index) {
+      sessionStorage.setItem('saveCouponKey',"")
       this.$router.push({
-        name: "couponresult",
+        name: "couponresultcorrent",
         query: {
           ticket_id: item.ticket_id
         }
@@ -907,8 +915,9 @@ export default {
       this.multiModel = true;
     },
     toMultiResult() {
+      sessionStorage.setItem('saveFullreduction',"")
       this.$router.push({
-        name: "multiresult",
+        name: "multiresultcorrent",
         query: {
           multi_id: this.couponInfo.multi.activity_id
         }

@@ -1,0 +1,148 @@
+/*
+ * author: zhuboyu
+ * date:2020/9/11
+ */
+
+@charset "utf-8";
+
+#newGiftSexAge {
+  .title {
+    display: flex;
+    align-items: center;
+    margin: 20px 15px 50px;
+    .left {
+      flex: 1;
+      font-weight: bold;
+      font-size: 18px;
+      color: #333333;
+    }
+    .right {
+      flex-shrink: 0;
+      font-size: 14px;
+      color: #999999;
+    }
+  }
+  .sexChoose {
+    display: flex;
+    margin: 0 20px;
+    .left {
+      flex-basis: 50%;
+      text-align: center;
+      .light {
+        box-sizing: border-box;
+        text-align: center;
+        background: url("../../../../assets/newGift/sex_man_light.png") no-repeat;
+        background-size: 100% 100%;
+        overflow: hidden;
+        width: 120px;
+        height: 110px;
+        margin: 0 auto;
+      }
+      .w_light {
+        box-sizing: border-box;
+        text-align: center;
+        background: url("../../../../assets/newGift/sex_man.png") no-repeat;
+        background-size: 100% 100%;
+        overflow: hidden;
+        width: 120px;
+        height: 110px;
+        margin: 0 auto;
+      }
+      .text {
+        width: 50px;
+        margin: 20px auto;
+        border-radius: 10px;
+        font-size: 14px;
+        color: #ffffff;
+      }
+    }
+    .right {
+      flex-basis: 50%;
+      text-align: center;
+      .light {
+        box-sizing: border-box;
+        text-align: center;
+        background: url("../../../../assets/newGift/sex_men_light.png") no-repeat;
+        background-size: 100% 100%;
+        overflow: hidden;
+        width: 120px;
+        height: 110px;
+        margin: 0 auto;
+      }
+      .w_light {
+        box-sizing: border-box;
+        text-align: center;
+        background: url("../../../../assets/newGift/sex_men.png") no-repeat;
+        background-size: 100% 100%;
+        overflow: hidden;
+        width: 120px;
+        height: 110px;
+        margin: 0 auto;
+      }
+      .text {
+        width: 50px;
+        margin: 20px auto;
+        border-radius: 10px;
+        font-size: 14px;
+        color: #ffffff;
+      }
+    }
+  }
+  .ageChoose {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 20px 25px 0;
+    .box {
+      min-width: 33.3%;
+      line-height: 55px;
+      text-align: center;
+      .child {
+        padding: 7px 25px;
+        border: 0.5px solid #E5E5E5;
+        border-radius: 18px;
+        font-size: 14px;
+      }
+      .child.active {
+        border-color: #EF5545;
+        color: #EF5545;
+      }
+    }
+  }
+  .linkChoose {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 20px 25px 0;
+    .box {
+      min-width: 23.3%;
+      line-height: 55px;
+      margin-right: 22px;
+      .child {
+        padding: 7px 25px;
+        border: 0.5px solid #E5E5E5;
+        border-radius: 18px;
+        font-size: 14px;
+      }
+      .child.active {
+        border-color: #EF5545;
+        color: #EF5545;
+      }
+    }
+  }
+  .next_page.active {
+    background-color: #f69a98;
+    color: #fff;
+  }
+  .next_page {
+    position: absolute;
+    bottom: 0;
+    font-size: 15px;
+    background-color: #EF5545;
+    color: #fff;
+    width: 93%;
+    line-height: 40px;
+    margin: 10px 15px;
+    border-radius: 5px;
+    text-align: center;
+    box-sizing: border-box;
+  }
+}

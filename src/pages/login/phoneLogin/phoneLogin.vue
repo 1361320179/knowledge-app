@@ -1,7 +1,8 @@
 <template>
   <div id="phoneLoginPage">
-    <div class="huoba_pic"></div>
-    <h3 class="huoba_name">火把知识</h3>
+    <!--<div class="huoba_pic"></div>-->
+    <!--<h3 class="huoba_name">火把知识</h3>-->
+    <h3 class="title">验证码注册/登录</h3>
     <div class="field_wrapper">
       <van-field
         type="tel"
@@ -19,7 +20,7 @@
     <div class="button_wrapper" v-else>
       <van-button size="large" type="danger" @click="getCode">获取验证码</van-button>
     </div>
-    <router-link :to="{name: 'passwordLogin'}" class="link_text">密码登录
+    <router-link :to="{name: 'passwordLogin'}" class="link_text">使用密码登录
     </router-link>
     <div class="wx_login">
       <div v-if="isShowWx">
@@ -54,6 +55,10 @@
     </van-popup>
     <Bottom></Bottom>
     <EazyNav type="brand" :isShow="false"></EazyNav>
+    <!--通用弹窗-->
+    <PublicPopup></PublicPopup>
+    <!--打开app对应页面-->
+    <openAppPage :name="'/login/phoneLogin/phoneLogin'"></openAppPage>
   </div>
 </template>
 
@@ -140,13 +145,13 @@
 
           } else if (_this.isRegister == 1) { // 已注册
             sessionStorage.setItem('isToVerification', '1');
-            _this.$router.push({name: 'verification', query: {phone: _this.phone,isRegister: true, type: 'phoneLogin'}});
+            _this.$router.push({name: 'verification', query: {phone: _this.phone.replace(/\s/g, ''),isRegister: 1, type: 'phoneLogin'}});
           }
         });
       },
       agree() {
         sessionStorage.setItem('isToVerification', '1');
-        this.$router.push({name: 'verification', query: {phone: this.phone,isRegister: false, type: 'phoneLogin'}});
+        this.$router.push({name: 'verification', query: {phone: this.phone.replace(/\s/g, ''),isRegister: 0, type: 'phoneLogin'}});
 
       },
       disagree() {
@@ -159,6 +164,8 @@
         this.gotoLogin = true;
         localStorage.setItem("gotoLogin", "yes");
         this.$wxLogin();
+
+        localStorage.setItem("loginState", '1');
       }
     },
     created() {

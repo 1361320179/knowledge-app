@@ -71,7 +71,7 @@
             @load="programLoad"
           >
             <div class="content" v-for="(item,index) in couponList" :key="index">
-              <div class="toUse isused" @click="toresult(item,index)">
+              <div class="toUse isused">
                 <div class="left"></div>
                 <div class="mid">
                   <div>
@@ -120,7 +120,7 @@
             @load="programLoad"
           >
             <div class="content" v-for="(item,index) in couponList" :key="index">
-              <div class="toUse overdue" @click="toresult(item,index)">
+              <div class="toUse overdue">
                 <div class="left"></div>
                 <div class="mid">
                   <div>
@@ -179,6 +179,10 @@
       </van-button>
     </div>
     <EazyNav type="brand" :isShow="false"></EazyNav>
+    <!--通用弹窗-->
+    <PublicPopup></PublicPopup>
+    <!--打开app对应页面-->
+    <!--<openAppPage :name="'/coupon/mine'"></openAppPage>-->
   </div>
 </template>
 
@@ -290,8 +294,9 @@ export default {
     },
     toresult(item, index) {
       // console.log(item);
+      sessionStorage.setItem('saveCouponKey',"")
       this.$router.push({
-        name: "couponresult",
+        name: "couponresultcorrent",
         query: {
           ticket_id: item.ticket_id
         }

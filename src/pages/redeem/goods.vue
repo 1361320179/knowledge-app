@@ -83,6 +83,8 @@
       <p class="limit_remind"><span>{{time}}</span>秒后回到个人中心</p>
     </van-popup>
     <EazyNav type="brand" :isShow="false"></EazyNav>
+    <!--通用弹窗-->
+    <PublicPopup></PublicPopup>
   </div>
 </template>
 
@@ -317,7 +319,7 @@
     },
     created() {
       this.code = this.$route.query.code;
-      this.redeem = decodeURIComponent(this.$route.query.redeem_id).replace(/\s/g, '+');
+      this.redeem = decodeURI(this.$route.query.redeem_id).replace(/\s/g, '+');
       localStorage.setItem('hash', window.location.hash);
     },
     mounted() {

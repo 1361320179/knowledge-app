@@ -19,9 +19,6 @@ import VueCropper from 'vue-cropper'
 //clipboard
 import VueClipboard from 'vue-clipboard2'
 
-// 加密方式
-import JsEncrypt from 'jsencrypt'
-
 // jquery
 // import $ from 'jquery'
 
@@ -48,16 +45,26 @@ import nav from './components/index'
 import loading from './components/index'
 //版权
 import copyRight from './components/index'
+// 打开app对应页面
+import openAppPage from './components/index'
+// 公共弹窗
+import publicPopup from './components/index';
 
-Vue.use(download)
-Vue.use(nav)
-Vue.use(loading)
-Vue.use(copyRight)
+// 视频流vue-video-player（兼容m3u8）
+// import VideoPlayer from 'vue-video-player'
+// require('video.js/dist/video-js.css')
+// require('vue-video-player/src/custom-theme.css')
+// Vue.use(VideoPlayer)
+// import hls from 'videojs-contrib-hls'
+// Vue.use(hls)
+
+// 音视频流兼容m3u8
+import player from 'vue-hls-player'
+Vue.use(player)
 
 // vant
 // import Vant from 'vant';
 // import 'vant/lib/index.css';
-
 // Vue.use(Vant);
 
 import {
@@ -78,7 +85,15 @@ import {
   PasswordInput, NumberKeyboard,
   Loading,
   Pagination, RadioGroup, Radio, Picker,
+  // CountDown
 } from 'vant'
+
+Vue.use(download)
+Vue.use(nav)
+Vue.use(loading)
+Vue.use(copyRight)
+Vue.use(openAppPage)
+Vue.use(publicPopup)
 Vue.use(Field)
 Vue.use(Toast)
 Vue.use(Button)
@@ -116,6 +131,7 @@ Vue.use(Loading)
 Vue.use(RadioGroup)
 Vue.use(Radio)
 Vue.use(Picker)
+// Vue.use(CountDown)
 
 // 插件
 Vue.use(plugin)
@@ -142,6 +158,7 @@ Vue.prototype.$md5 = md5;
 Vue.use(VueCookies)
 
 Vue.config.productionTip = false
+
 
 /*
 
@@ -171,6 +188,11 @@ Vue.config.productionTip = false
     unreload: true
   }
 
+  6: 需要记录路径的中间页
+  meta: {
+    isPath: true
+  }
+
 本地数据存储
 
 A、localStorage
@@ -193,12 +215,14 @@ A、localStorage
   17、phone：记录验证码手机号
   18、second：记录验证码手机号对应倒计时
   19、isReload: 1為true，0為false
+  20、orderCmts：记录订单历史搜索内容
 
 路由参数
 
-  1、nullPage=1：引导微信  2：app登录
+  1、nullPage=1：引导微信   2：app登录  3：需要记录路径的中间页  4：老版音视频跳转中转指引到相应音频或视频
   2、home_id=all/公号id，携带原始公号
   3、linkFrom=gzh链接来自公众号
+  4、isLoginFromApp=1通过app登陆成功后的页面不需要拼接nullPage=3
 
 */
 
@@ -226,6 +250,14 @@ router.beforeEach((to, from, next) => {
   // 重定向功能，为解决ios微信上复制链接功能不能复制到动态路由问题
   // 获取地址前段部分，不算参数
   var replaceUrl = window.location.href.split('#')[0] + '#' + to.path;
+
+  // var _routeUrlSet = false;
+  // let _url = window.location.href.split('#')[0]
+  // if(_url.indexOf('?from=') > -1 && _url.indexOf('&isappinstalled=') > -1){
+  //   replaceUrl = _url.split('?')[0] + '#' + to.path;
+  // }
+  // console.log('试试',replaceUrl)
+
   // 存放来源地址，如果未登录，进入登录页或者第三方绑定页不修改fromLink，回退到指定页面
   var index = 0; // 索引初始化
 
@@ -278,6 +310,7 @@ router.beforeEach((to, from, next) => {
   // 过滤路由参数
   for (var i in to.query) {
     var _bool = true;
+    // route_arr.push({i:to.query[i]})
     if (i == 'home_id') {
       _bool = false;
       next()
@@ -288,7 +321,28 @@ router.beforeEach((to, from, next) => {
       next()
       // 微信端，将参数nullPage屏蔽
       // 非微信端，不用屏蔽nullPage
-      if (i == 'nullPage') {
+      if (to.query.nullPage == 1) {
+        _bool = false;
+        next()
+      }
+      next()
+    }
+    next()
+    if(localStorage.getItem('isHuobaAndroidLogin') == 'yes' || localStorage.getItem('isHuobaIosLogin') == 'yes') {
+      next()
+      // 当前app环境，将参数nullPage屏蔽
+      if (to.query.nullPage == 2) {
+        _bool = false;
+        next()
+      }
+      next()
+    }
+    next()
+    if(localStorage.getItem('loginState') == 1) {
+      next()
+      // 已登录，将参数nullPage屏蔽
+      // 未登录，不用屏蔽nullPage
+      if (to.query.nullPage == 3) {
         _bool = false;
         next()
       }
@@ -312,10 +366,11 @@ router.beforeEach((to, from, next) => {
 
     next()
   }
-  next()
 
+  // console.log('87',route_arr)
+  next()
   //判断该页面有 brand_id
-  if (from.query.brand_id) {
+  if (from.query.brand_id && from.query.nullPage != 4) {
     next();
     // 路由切换时，如果没有就添加，有就跳过执行，添加固定参数
     if (!to.query.brand_id) {
@@ -351,6 +406,7 @@ router.beforeEach((to, from, next) => {
 
   // 记录当前路由
   localStorage.setItem('routerLink', replaceUrl);
+
   next();
   // 记录页面进入方式，gzh：来自公众号
   if (localStorage.getItem('routerLink').indexOf('linkFrom=gzh') != -1) {
@@ -420,7 +476,44 @@ router.beforeEach((to, from, next) => {
     }
   }
   next();
+  if(to.meta.isPath) {
+    // 通过app登陆成功后的页面设置登陆状态loginState = 1
+    if (replaceUrl.indexOf("isLoginFromApp=1") != -1 && localStorage.getItem("isHuobaAndroidLogin") == "yes") {
+      localStorage.setItem('loginState', 1);
+      next();
+    }
+    next();
 
+    if (parseInt(localStorage.getItem('loginState')) == 0) {
+      next();
+      if (replaceUrl.indexOf("nullPage") == -1) {
+        next();
+        if (replaceUrl.indexOf("?") == -1) {
+          replaceUrl += '?nullPage=3';
+          next();
+        } else {
+          replaceUrl += '&nullPage=3';
+          next();
+        }
+        next();
+      }
+      next();
+    }
+  }
+  next();
+
+  // 解决老版音视频类型跳转问题
+  if((replaceUrl.indexOf('album/detail')) != -1 && replaceUrl.indexOf('nullPage=4') == -1) {
+    next();
+    if (replaceUrl.indexOf("?") == -1) {
+      replaceUrl += '?nullPage=4';
+      next();
+    } else {
+      replaceUrl += '&nullPage=4';
+      next();
+    }
+    next();
+  }
   window.location.replace(replaceUrl); // 重定向跳转
 
   // 相同页面跳转刷新，除个别不需要刷新的页面外，比如brand/index
@@ -439,14 +532,17 @@ router.beforeEach((to, from, next) => {
     next();
   }
   next();
-  if((from.path == '/custompage' && to.path == '/custompage') || from.fullPath.indexOf("nullPage=1") != -1 || (to.path == '/login/verification' && from.path != '/')){
+  if((from.path == '/custompage' && to.path == '/custompage') || (to.fullPath.indexOf("nullPage") != -1 && from.path != '/') || (to.path == '/login/verification' && from.path != '/') || (from.fullPath.indexOf("nullPage") != -1) ||
+    (from.path == '/login/passwordLogin/passwordLogin' && to.path == '/gaokaoTest/index')){
+
+    // if (from.path != '/' && to.path == '/gaokaoTest/index') {
+    //   alert('refresh');
+    // }
+
     location.reload();
-    console.log(111, localStorage.getItem('isReload'));
     next();
   }
   next();
-
-
 })
 
 /* eslint-disable no-new */

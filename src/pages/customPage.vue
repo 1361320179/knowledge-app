@@ -578,6 +578,10 @@
       </div>
     </div>
     <EazyNav type="mall" :isShow="true"></EazyNav>
+    <!--通用弹窗-->
+    <PublicPopup></PublicPopup>
+    <!--打开app对应页面-->
+    <!--<openAppPage :name="'/customPage'"></openAppPage>-->
   </div>
 </template>
 
@@ -646,8 +650,9 @@ export default {
   },
   methods: {
     inputText() {
+      sessionStorage.setItem('saveSearchContent','');
       this.$router.push({
-        name: "search",
+        name: "searchcorrent",
         query: {
           type: "mall",
           brand_id: this.brand_id,
@@ -700,19 +705,7 @@ export default {
             this.bookRecommendTmp[j] = [];
           }
         }
-        // console.log(111,this.bookRecommend)
-        // 获取页面分享信息
-        // if(this.isWxLogin) this.wxShareData();
 
-        // var _pageName = "page/get";
-        // var _data = {};
-
-        // if(this.$route.query.type) _data.type = this.$route.query.type;
-        // if(this.$route.query.page_id) _data.page_id = this.$route.query.page_id;
-        // if(this.$route.query.supplier_id) _data.supplier_id = this.$route.query.supplier_id;
-
-        // var _params = JSON.stringify(_data);
-        // if (this.isWxLogin) this.$getWxShareData(_pageName, _params);
 
       } else {
         this.$toast(res.error_message);

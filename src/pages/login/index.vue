@@ -9,6 +9,10 @@
       </div>
       <Bottom></Bottom>
       <!-- <EazyNav type="brand" :isShow="false"></EazyNav> -->
+      <!--通用弹窗-->
+      <PublicPopup></PublicPopup>
+      <!--打开app对应页面-->
+      <openAppPage :name="'/login/index'"></openAppPage>
     </div>
   </div>
 </template>
@@ -29,6 +33,8 @@
         this.gotoLogin = true;
         localStorage.setItem("gotoLogin", "yes");
         this.$wxLogin();
+
+        localStorage.setItem("loginState", '1');
       },
       phoneLogin() {
         this.$router.push({name: 'phoneLogin'});

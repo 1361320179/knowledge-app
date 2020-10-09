@@ -18,7 +18,7 @@
       <div class="radioButton" v-if="buyPrice" @click="buyAction(packageData.base.goods_id)">
         <span>￥ {{ packageData.base.price }} 立即购买</span>
       </div>
-      <div class="radioButton" v-if="email" @click="emailClick">
+      <div class="radioButton" v-if="email" @click="emailClick('1')">
         <img src="../../assets/library/icon_email.png" alt width="19px" height="15px"/>
         <span>免费通过邮件获取</span>
       </div>
@@ -45,7 +45,7 @@
                 <img src="../../assets/library/img_big2.png" alt width="30px" height="25px"/>
                 <div class="text">{{ item.file_name }}</div>
                 </div>
-                <img src="../../assets/library/icon_dowenload.png" alt width="25px" height="25px" v-if="fileDownload" @click="textPackIcon"/>
+                <img src="../../assets/library/icon_dowenload.png" alt width="25px" height="25px" v-if="fileDownload" @click="textPackIcon(item,index)"/>
               </div>
               <div class="content" v-else>
                 <a
@@ -54,7 +54,7 @@
                   <img src="../../assets/library/img_big2.png" alt width="30px" height="25px"/>
                   <div class="text">{{ item.file_name }}</div>
                 </a>
-                <img src="../../assets/library/icon_dowenload.png" alt width="25px" height="25px" v-if="fileDownload" @click="textPackIcon"/>
+                <img src="../../assets/library/icon_dowenload.png" alt width="25px" height="25px" v-if="fileDownload" @click="textPackIcon(item,index)"/>
               </div>
             </div>
           </div>
@@ -72,7 +72,7 @@
                   <img src="../../assets/library/img_big2.png" alt width="30px" height="25px"/>
                   <div class="text">{{ item.file_name }}</div>
                 </div>
-                <img src="../../assets/library/icon_dowenload.png" alt width="25px" height="25px" v-if="fileDownload" @click="textPackIcon"/>
+                <img src="../../assets/library/icon_dowenload.png" alt width="25px" height="25px" v-if="fileDownload" @click="textPackIcon(item,index)"/>
               </div>
               <div class="content" v-else>
                 <a
@@ -81,7 +81,7 @@
                   <img src="../../assets/library/img_big2.png" alt width="30px" height="25px"/>
                   <div class="text">{{ item.file_name }}</div>
                 </a>
-                <img src="../../assets/library/icon_dowenload.png" alt width="25px" height="25px" v-if="fileDownload" @click="textPackIcon"/>
+                <img src="../../assets/library/icon_dowenload.png" alt width="25px" height="25px" v-if="fileDownload" @click="textPackIcon(item,index)"/>
               </div>
             </div>
           </div>
@@ -98,7 +98,7 @@
       <div class="text">发送下载链接至邮箱</div>
       <van-cell-group>
         <van-field v-model="emailValue" placeholder="请填写电子邮箱地址" class="input">
-          <van-button slot="button" size="small" round class="send" @click="sendEmail" :style="{'background': emailValue == '' ? '' : '#F45856','color': emailValue == '' ? '' : '#ffffff'}">发送</van-button>
+          <van-button slot="button" size="small" round class="send" @click="sendEmail" :style="{'background': emailValue == '' ? '' : '#F45856','color': emailValue == '' ? '' : '#ffffff','pointer-events': emailValue == '' ? 'none' : 'auto'}">发送</van-button>
         </van-field>
       </van-cell-group>
       <div class="text" style="margin-top: 20px;">
@@ -110,8 +110,18 @@
         <van-button slot="button" size="small" round class="copyBtn" v-clipboard:copy="this.url" v-clipboard:success="copyUrl">复制</van-button>
       </div>
     </van-popup>
+    <!-- 点击下载路径 -->
+    <van-popup v-model="downUrl" class="downBox">
+      <div class="text" style="text-align: center;">确认获取文件下载地址</div>
+      <div style="text-align: center;margin-top: 30px;">
+        <van-button round type="info" size="small" class="copyBtn copydown" :data-clipboard-text="url" @click="copyDownFile()">确认</van-button>
+        <van-button round type="info" size="small" class="cancel" @click="cancelDown()">取消</van-button>
+      </div>
+    </van-popup>
     <Loading :isLoading="isLoading"></Loading>
     <EazyNav type="brand" :isShow="false"></EazyNav>
+    <!--通用弹窗-->
+    <PublicPopup></PublicPopup>
   </div>
 </template>
 
@@ -140,8 +150,29 @@
     margin-top: 100px;
     margin-bottom: 50px;
   }
+  #libraryDetail .downBox{
+    width: 60%;
+    height: 100px;
+    border-radius: 5px;
+    padding: 25px 16px 0;
+    overflow: hidden;
+    top: 150px;
+  }
+  #libraryDetail .downBox .copyBtn{
+    background: #fff;
+    border: 1px solid #E5E5E5;
+    color: #333333;
+    display: inline-block;
+  }
+  #libraryDetail .downBox .cancel{
+    background: #fff;
+    border: 1px solid #E5E5E5;
+    color: #999999;
+    display: inline-block;
+  }
 </style>
 <script>
+  import Clipboard from "clipboard";
   import { ALBUM } from "../../apis/album.js";
   import { FILEPACKAGE_SEND , FILEPACKAGE_GETURL } from "../../apis/bookresource.js";
   import { ImagePreview } from 'vant';
@@ -166,9 +197,11 @@ export default {
       },
       email: false,
       emailShowPopup: false,
+      downUrl: false,
       goods_id: 0,
       emailValue: '',
-      activeName: 'a'
+      activeName: 'a',
+      downFileId: ''
     }
   },
   beforeRouteLeave (to,from,next) {
@@ -182,11 +215,11 @@ export default {
   },
   methods: {
     // email显示弹窗事件
-    async emailClick () {
+    async emailClick (paramId) {
       var tStamp = this.$getTimeStamp();
       let data = {
         timestamp: tStamp,
-        file_package_detail_id: this.packageData.base.compress_file_id,
+        file_package_detail_id: this.downFileId,
         equipment: this.phoneType,
         version: "1.0"
       };
@@ -195,7 +228,11 @@ export default {
       if (res.hasOwnProperty("response_code")) {
         if (res.response_data.file_path != null) {
           this.url = res.response_data.file_path;
-          this.emailShowPopup = true
+          if (paramId === '1') {
+            this.emailShowPopup = true
+          } else if (paramId === '2') {
+            this.downUrl = true
+          }
         }
       } else {
         if (res.error_code === 100) {
@@ -205,6 +242,9 @@ export default {
           this.$toast(res.error_message);
         }
       }
+    },
+    cancelDown () {
+      this.downUrl = false
     },
     closeEmail () {
       this.emailShowPopup = false
@@ -220,7 +260,8 @@ export default {
       data.sign = this.$getSign(data);
       let res = await ALBUM(data);
       if (res.hasOwnProperty("response_code")) {
-        this.packageData = res.response_data;
+        this.packageData = res.response_data
+        this.downFileId = this.packageData.base.compress_file_id
         if (this.packageData.base.is_download == 0 && this.packageData.base.is_payed == '0' && this.packageData.base.price == 0) {
           this.email = false;
           this.buyPrice = false;
@@ -309,13 +350,14 @@ export default {
         });
       }
     },
-    textPackIcon () {
+    textPackIcon (item,index) {
+      this.downFileId = item.id
       if (this.packageData.base.price != 'undefined' && this.packageData.base.price != null && this.packageData.base.price != 0 && this.packageData.base.is_payed == '0') {
         this.buyAction(this.goods_id);
-      } else if ((this.packageData.base.price == 0)) {
-        this.emailClick();
+      } else if ((this.packageData.base.price == 0)) { // downFileId
+        this.emailClick('2');
       } else if (this.packageData.base.is_payed != '0') {
-        this.emailClick();
+        this.emailClick('2');
       }
     },
     // 购买
@@ -397,7 +439,20 @@ export default {
     },
     // 点击自动复制内容
     copyUrl () {
-      this.$toast("链接复制成功");
+      this.$toast('文档下载链接已保存至剪贴板，去粘贴吧');
+    },
+    copyDownFile () {
+      const clipboard = new Clipboard('.copydown');
+      clipboard.on("success", e => {
+        this.$toast("下载地址已保存至剪贴板，快去粘贴吧");
+        // this.$message({ type: 'success', message: '复制成功' });
+        clipboard.destroy();
+      });
+      clipboard.on("error", e => {
+        // this.$message({ type: 'waning', message: '该浏览器不支持自动复制' });
+        clipboard.destroy();
+      });
+      this.downUrl = false
     }
   }
 }

@@ -29,6 +29,8 @@
     <!-- 快速导航 -->
     <CopyRight></CopyRight>
     <EazyNav type="brand" :isShow="true"></EazyNav>
+    <!--通用弹窗-->
+    <PublicPopup></PublicPopup>
   </div>
 </template>
 
@@ -174,7 +176,9 @@ export default {
         this.unionid = "";
 
         localStorage.setItem("headPic", null);
-        this.$router.push("/login/index");
+
+        localStorage.setItem('defaultLink', window.location.href.split('#')[0] + '#' + '/personal/index');
+        this.$router.push("/personal/index");
       } else {
         this.$toast(res.error_message);
       }

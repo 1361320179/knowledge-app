@@ -1,0 +1,191 @@
+/*
+ * author: zhuboyu
+ * date:2020/9/11
+ */
+
+@charset "utf-8";
+
+#newGiftSuccessDraw {
+  .title {
+    margin: 15px;
+    color: #343434;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .sub_title {
+    font-size: 13px;
+    margin: 0 15px 20px;
+  }
+  .picture {
+    display: flex;
+    justify-content: center;
+    img {
+      width: 63%;
+      height: 63%;
+    }
+  }
+  .button {
+    margin: 30px 15px 50px;
+    font-size: 15px;
+    .left-button {
+      border: 1px solid #F05654;
+      color: #F05654;
+      text-align: center;
+      line-height: 38px;
+      border-radius: 5px;
+    }
+    .right-button {
+      background-color: #F05654;
+      line-height: 40px;
+      text-align: center;
+      color: #ffffff;
+      border-radius: 5px;
+    }
+  }
+  .new_rem {
+    .rem_title {
+      padding: 0 15px 5px;
+      font-size: 15px;
+      font-weight: bold;
+      color: #343434;
+    }
+    .content{
+      @include displayFlex(flex, null, null);
+      background-color: #fff;
+      padding: 15px;
+      .ebook_border{
+        position: relative;
+        width: 98px;
+        height: 98px;
+        display: flex;
+        justify-content: center;
+      }
+      .ratiobox {
+        min-width: 72px;
+        width: 72px;
+        position: relative;
+        .bookImg {
+          display: block;
+          @include ratioBox (100%, 133.33%, 1px solid transparent, contain, $white, null);
+          border-radius: 10px;
+        }
+        .book_text_title {
+          display: inline-block;
+          padding: 2px 3px;
+          background-color: #FFB26E;
+          border-radius: 5px;
+          position: absolute;
+          top: 0;
+          left: 0;
+          font-size: 10px;
+          color: #fff;
+        }
+      }
+      .ratiobook {
+        min-width: 96px;
+        position: relative;
+        .bookimg {
+          display: block;
+          @include ratioBox (100%, 100%, 1px solid transparent, contain, $white, null);
+          border-radius: 10px;
+        }
+        .book_text_title {
+          display: inline-block;
+          padding: 2px 3px;
+          background-color: #FFB26E;
+          border-radius: 5px;
+          position: absolute;
+          top: 0;
+          left: 0;
+          font-size: 10px;
+          color: #fff;
+        }
+      }
+      .right{
+        flex-grow: 1;
+        margin-left: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-content: space-between;
+        .text{
+          @include font("PingFangBold", $fontSize, $cl3);
+          @include twoColtextOverflow;
+        }
+        .pinpai{
+          display: flex;
+          align-items: center;
+          font-size: 10px;
+          .price{
+            color: #F05654;
+            flex-shrink: 0;
+            padding-right: 10px;
+          }
+          .preferent_active{
+            flex-grow: 1;
+            flex-shrink: 0;
+            .active_1{
+              font-size: 10px;
+              padding-right: 5px;
+              .active_text_1{
+                color: $white;
+                background-color: #f05654;
+                margin-right: 10px;
+                padding: 1px 5px;
+                border-bottom-left-radius: 10px;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+              }
+              .active_text_2{
+                color: #f05653;
+                border: 1px solid #f05654;
+                padding: 1px 5px;
+                border-radius: 20px;
+              }
+              .active_text_3{
+                color: #f05653;
+                border: 1px solid #f05654;
+                padding: 1px 8px;
+                border-radius: 5px;
+                position: relative;
+              }
+              .active_text_3:before {
+                width: 5px;
+                height: 7px;
+                content: "";
+                left: -2px;
+                top: 4px;
+                position: absolute;
+                display: block;
+                background: #fff;
+                border: 1px solid #f05654;
+                border-left: 1px solid #fff;
+                border-radius: 50%;
+              }
+              .active_text_3:after {
+                width: 5px;
+                height: 7px;
+                content: "";
+                right: -2px;
+                top: 4px;
+                position: absolute;
+                display: block;
+                background: #fff;
+                border: 1px solid #f05654;
+                border-right: 1px solid #fff;
+                border-radius: 50%;
+              }
+            }
+          }
+        }
+        .nice{
+          color: $cl9;
+          font-size: $fontSize - 4;
+          .comment {
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+  }
+}

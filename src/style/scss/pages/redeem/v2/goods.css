@@ -1,0 +1,400 @@
+/*
+ * author: lrf
+ * date:2019/12/03
+ */
+#redeemGoodsPage {
+  overflow: hidden;
+  min-height: 100%;
+  background: #F5F5F5;
+}
+
+#redeemGoodsPage h3,
+#redeemGoodsPage p {
+  margin: 0;
+}
+
+#redeemGoodsPage .goods_wrapper {
+  margin: 10px 15px 0 15px;
+  padding: 10px;
+  border-radius: 5px;
+  background: #FFFFFF;
+}
+
+#redeemGoodsPage .goods_wrapper .goods_intro {
+  display: flex;
+  position: relative;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+#redeemGoodsPage .goods_wrapper .goods_intro .picture {
+  display: inline-block;
+  position: relative;
+  flex-basis: 85px;
+  flex-shrink: 0;
+  margin: 3px 0 3px 3px;
+  height: 85px;
+  border-radius: 3px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+#redeemGoodsPage .goods_wrapper .goods_intro .picture .nothing_left {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  background: #000000;
+  opacity: 0.5;
+  border-radius: 50%;
+}
+
+#redeemGoodsPage .goods_wrapper .goods_intro .picture .nothing_left .text {
+  text-align: center;
+  width: 50px;
+  height: 50px;
+  font-size: 12px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #FFFFFF;
+  line-height: 50px;
+}
+
+#redeemGoodsPage .goods_wrapper .goods_intro .content {
+  flex: 1;
+  display: inline-block;
+  position: relative;
+  margin-left: 12px;
+}
+
+#redeemGoodsPage .goods_wrapper .goods_intro .content .title {
+  font-size: 14px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #333333;
+  line-height: 18px;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+#redeemGoodsPage .goods_wrapper .goods_intro .content .sub_title {
+  margin-top: 3px;
+  font-size: 12px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #999999;
+  height: 18px;
+  line-height: 18px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+#redeemGoodsPage .goods_wrapper .goods_intro .content .price {
+  position: absolute;
+  width: 100%;
+  right: 0;
+  bottom: 3px;
+  font-size: 12px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #999999;
+  line-height: 27px;
+  text-decoration: line-through;
+}
+
+#redeemGoodsPage .goods_wrapper .goods_intro .content .redeem_btn {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  border-radius: 3px;
+  width: 80px;
+  height: 27px;
+}
+
+#redeemGoodsPage .goods_wrapper .goods_intro .content .van-button {
+  line-height: 25px;
+}
+
+#redeemGoodsPage .goods_wrapper .goods_intro .content .van-button--normal {
+  padding: 0;
+}
+
+#redeemGoodsPage .goods_wrapper .goods_intro .content .van-button__text {
+  width: 55px;
+  height: 13px;
+  font-size: 14px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #FFFFFF;
+}
+
+#redeemGoodsPage .goods_wrapper .goods_detail {
+  margin-top: 10px;
+  font-size: 12px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #666666;
+  line-height: 19px;
+}
+
+#redeemGoodsPage .rule {
+  margin: 28px 15px 64px 15px;
+  font-size: 14px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #333333;
+  line-height: 19px;
+}
+
+#redeemGoodsPage .addressPopup {
+  width: 74.67%;
+  height: 66.56%;
+  border-radius: 14px;
+  padding: 50px 30px 0;
+  overflow: hidden;
+}
+
+#redeemGoodsPage .addressPopup .close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 13px;
+  color: #999;
+}
+
+#redeemGoodsPage .addressPopup .addressBox {
+  height: 77%;
+  overflow-y: auto;
+}
+
+#redeemGoodsPage .addressPopup .addressBox .addressMember {
+  display: flex;
+  margin-bottom: 30px;
+  align-items: center;
+}
+
+#redeemGoodsPage .addressPopup .addressBox .addressMember .default {
+  flex-basis: 50px;
+}
+
+#redeemGoodsPage .addressPopup .addressBox .addressMember .active .icon {
+  color: #f05654;
+}
+
+#redeemGoodsPage .addressPopup .addressBox .addressMember .title {
+  flex-grow: 1;
+}
+
+#redeemGoodsPage .addressPopup .button {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+}
+
+#redeemGoodsPage .addressPopup .button .addButton {
+  flex-grow: 1;
+  text-align: center;
+}
+
+#redeemGoodsPage .addressPopup .button .define {
+  flex-grow: 1;
+  text-align: center;
+}
+
+#redeemGoodsPage .addressPopup .button .van-button {
+  width: 125px;
+}
+
+#redeemGoodsPage .addressPopup .button .van-button--primary {
+  border-radius: 3px;
+}
+
+#redeemGoodsPage .addressPopup .button .van-button--primary .van-button__text {
+  font-size: 15px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #FFFFFF;
+}
+
+#redeemGoodsPage .addressPopup .button .van-button--default {
+  border: 0.5px solid #F05654;
+  border-radius: 3px;
+}
+
+#redeemGoodsPage .addressPopup .button .van-button--default .van-button__text {
+  font-size: 15px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #F05654;
+}
+
+#redeemGoodsPage .limit_info {
+  overflow: hidden;
+  width: 214px;
+  height: 214px;
+  border-radius: 5px;
+}
+
+#redeemGoodsPage .limit_info .limit_title {
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 21px;
+  width: 186px;
+  height: 17px;
+  font-size: 15px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #333333;
+  line-height: 28px;
+  background-size: 186px 17px;
+  background-repeat: no-repeat;
+}
+
+#redeemGoodsPage .limit_info .limit_img {
+  margin: 0 auto;
+  margin-top: 28px;
+  width: 105px;
+  height: 83px;
+  background-size: 105px 83px;
+  background-repeat: no-repeat;
+}
+
+#redeemGoodsPage .limit_info .limit_remind {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 14px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #999999;
+  line-height: 34px;
+}
+
+#redeemGoodsPage .receive_btn {
+  position: fixed;
+  width: 100%;
+  border-radius: 0px;
+  background: #F05654;
+  border: 1px solid #F05654;
+  bottom: 0px;
+}
+
+#redeemGoodsPage .huoba-goods-list {
+  margin: 10px 15px;
+  border-radius: 10px;
+  position: relative;
+}
+
+#redeemGoodsPage .huoba-goods-list .ratioBox {
+  min-width: 100px;
+}
+
+#redeemGoodsPage .huoba-goods-list .ratioBox .box img {
+  border-radius: 10px;
+}
+
+#redeemGoodsPage .huoba-goods-list .ratioBox .huoba-goods-list-label {
+  width: 35px;
+  height: 22px;
+  background: #ffb16e;
+  border-radius: 10px 0px 10px 0;
+  font-size: 14px;
+}
+
+#redeemGoodsPage .huoba-goods-list .ratioBox .goods_list_ebook {
+  width: 45px;
+}
+
+#redeemGoodsPage .huoba-goods-list .huoba-goods-list-mid .limited_immunity {
+  height: 20px;
+  position: relative;
+}
+
+#redeemGoodsPage .huoba-goods-list .huoba-goods-list-mid .limited_immunity .icon {
+  font-size: 65px;
+  position: absolute;
+  top: -30px;
+  left: -6px;
+}
+
+#redeemGoodsPage .huoba-goods-list .huoba-goods-list-mid .limited_immunity span {
+  font-size: 12px;
+  color: #fff;
+  position: absolute;
+  z-index: 1;
+  top: -6px;
+  left: 5px;
+}
+
+#redeemGoodsPage .huoba-goods-list .huoba-goods-list-mid .prices {
+  font-size: 10px;
+  color: #343434;
+  font-weight: 500;
+  font-family: PingFang SC;
+  text-decoration: line-through;
+}
+
+#redeemGoodsPage .huoba-goods-list .huoba-goods-list-mid .prices span {
+  font-size: 14px;
+}
+
+#redeemGoodsPage .huoba-goods-list .huoba-goods-list-right {
+  padding-left: 20px;
+  padding-top: 36px;
+}
+
+#redeemGoodsPage .huoba-goods-list .huoba-goods-list-right .huoba-goods-list-check {
+  margin-right: 0px;
+}
+
+#redeemGoodsPage .huoba-goods-list .huoba-goods-list-right .huoba-goods-list-check .icon {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+#redeemGoodsPage .huoba-goods-list .huoba-goods-list-left .huoba-goods-list-imgs .ratioBox {
+  min-width: 70px;
+}
+
+#redeemGoodsPage .huoba-goods-list .dotted_line {
+  height: 120px;
+  position: absolute;
+  right: 81px;
+  z-index: 4;
+  border-left: 1px dashed #CBCBCB;
+}
+
+#redeemGoodsPage .huoba-goods-list .upper_semicircle {
+  position: absolute;
+  width: 26px;
+  height: 13px;
+  border: 1px solid #F5F5F5;
+  background-color: #F5F5F5;
+  border-radius: 100px 100px 0 0;
+  bottom: 0px;
+  right: 68px;
+  z-index: 8;
+}
+
+#redeemGoodsPage .huoba-goods-list .lower_semicircle {
+  position: absolute;
+  width: 26px;
+  height: 13px;
+  border: 1px solid #f5f5f5;
+  background-color: #f5f5f5;
+  border-radius: 0 0 100px 100px;
+  top: 0;
+  right: 68px;
+  z-index: 8;
+}
+
+#redeemGoodsPage .huoba-goods-list .owned {
+  width: 76px;
+  background-repeat: no-repeat;
+}

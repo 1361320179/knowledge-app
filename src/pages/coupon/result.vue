@@ -192,6 +192,8 @@
       </van-tabs>
     </div>
     <EazyNav type="coupon" ref="nav" :isShow="false"></EazyNav>
+    <!--通用弹窗-->
+    <PublicPopup></PublicPopup>
   </div>
 </template>
 
@@ -232,7 +234,11 @@ export default {
   mounted() {
     console.log(111, this.priceSort);
     this.ticket_id = this.$route.query.ticket_id;
-    this.searchContent = this.$route.query.searchContent;
+    if(this.$route.query.searchContent){
+      this.searchContent = this.$route.query.searchContent;
+    }else if(sessionStorage.getItem('saveSearchContent')){
+      this.searchContent = sessionStorage.getItem('saveSearchContent')
+    }
   },
   methods: {
     programLoad() {

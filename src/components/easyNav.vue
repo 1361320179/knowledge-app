@@ -30,8 +30,9 @@
       <!-- 公号首页 -->
       <router-link
         v-if="type == 'brand' && navData.search"
-        :to="{path:navData.searchLink,query:{type:type}}"
+        :to="{ path: navData.searchLink, query: { type: type } }"
         class="link"
+        @click.native="flushCom"
       >
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-littleSearch-line" />
@@ -41,8 +42,9 @@
       <!-- 我的订单 -->
       <router-link
         v-if="type == 'order' && navData.search"
-        :to="{path:navData.searchLink,query:{type:type}}"
+        :to="{ path: navData.searchLink, query: { type: 'order' } }"
         class="link"
+        @click.native="flushCom"
       >
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-littleSearch-line" />
@@ -52,8 +54,12 @@
       <!-- 优惠券 -->
       <router-link
         v-if="type == 'coupon' && navData.search"
-        :to="{path:navData.searchLink,query:{type:type,ticket_id:$route.query.ticket_id}}"
+        :to="{
+          path: '/searchOnly',
+          query: { type: 'coupon', ticket_id: $route.query.ticket_id },
+        }"
         class="link"
+        @click.native="flushCom"
       >
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-littleSearch-line" />
@@ -63,8 +69,12 @@
       <!-- 商城首页 -->
       <router-link
         v-if="type == 'mall' && navData.search"
-        :to="{path:navData.searchLink,query:{type:type, supplier_id: $route.query.supplier_id}}"
+        :to="{
+          path: navData.searchLink,
+          query: { type: 'mall', supplier_id: $route.query.supplier_id },
+        }"
         class="link"
+        @click.native="flushCom"
       >
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-littleSearch-line" />
@@ -74,8 +84,9 @@
       <!-- 首页 -->
       <router-link
         v-if="type == 'index' && navData.search"
-        :to="{path:navData.searchLink,query:{type:type}}"
+        :to="{ path: navData.searchLink, query: { type: type } }"
         class="link"
+        @click.native="flushCom"
       >
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-littleSearch-line" />
@@ -83,12 +94,18 @@
         <div>搜索</div>
       </router-link>
       <!-- 购物车 -->
-      <router-link :to="navData.cartLink" class="link" v-if="navData.cart&&is_Login">
+      <router-link
+        :to="navData.cartLink"
+        class="link"
+        v-if="navData.cart && is_Login"
+      >
         <div class="cart_buy">
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#icon-gouwuche" />
           </svg>
-          <span class="cart_num" v-if="navData.goods_nums">{{navData.goods_nums}}</span>
+          <span class="cart_num" v-if="navData.goods_nums">{{
+            navData.goods_nums
+          }}</span>
           <div>购物车</div>
         </div>
       </router-link>
@@ -97,12 +114,18 @@
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#icon-gouwuche" />
           </svg>
-          <span class="cart_num" v-if="navData.goods_nums">{{navData.goods_nums}}</span>
+          <span class="cart_num" v-if="navData.goods_nums">{{
+            navData.goods_nums
+          }}</span>
           <div>购物车</div>
         </div>
       </router-link>
       <!-- 我的 -->
-      <router-link :to="navData.personalLink" class="link" v-if="navData.personal">
+      <router-link
+        :to="navData.personalLink"
+        class="link"
+        v-if="navData.personal"
+      >
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-personal-line" />
         </svg>
@@ -188,22 +211,21 @@ export default {
         home: true,
         homeLink: "/brand/index",
         search: true,
-        searchLink: "/search",
+        searchLink: "/searchCorrent",
         personal: true,
         personalLink: "/personal/index",
         cart: true,
         cartLink: "/cart",
         type: "brand",
         loginLink: "/login/index",
-        goods_nums: 0
+        goods_nums: 0,
       },
-      is_Login: null
+      is_Login: null,
     };
   },
   mounted() {
     // 获取分享信息
     this.$getWxShareData();
-    
     this.home_id = localStorage.getItem("home_id");
     if (this.type === undefined) {
       this.type = this.navData.type;
@@ -214,16 +236,20 @@ export default {
     this.navData.fold = false;
   },
   methods: {
+    flushCom() {
+      sessionStorage.setItem("saveSearchContent", "");
+      this.$router.go(0);
+    },
     gotoLink() {
       if (this.home_id == "all") {
         this.$router.push({
           name: "custompage",
-          query: { type: "find" }
+          query: { type: "find" },
         });
       } else {
         this.$router.push({
           name: "brand",
-          query: { brand_id: localStorage.getItem("home_id") }
+          query: { brand_id: localStorage.getItem("home_id") },
         });
         location.reload();
       }
@@ -235,21 +261,47 @@ export default {
       var tStamp = this.$getTimeStamp();
       let data = {
         timestamp: tStamp,
-        version: "1.0"
+        version: "1.0",
       };
       data.sign = this.$getSign(data);
       let res = await USER_HOMEPAGE(data);
-
       if (res.hasOwnProperty("response_code")) {
         if (res.response_data.hasOwnProperty("is_login")) {
           this.is_Login = res.response_data.is_login;
-          localStorage.setItem("loginState", res.response_data.is_login);
-        }
-        if (res.response_data.is_login == 1) {
-          this.cartData();
+          localStorage.setItem("loginState", this.is_Login);
+          if (res.response_data.is_login == 1) {
+            this.cartData();
+            // 获取分享信息
+            this.$getWxShareData();
+            if (
+              localStorage.getItem("isHuobaIosLogin") == "yes" &&
+              window.location.href.indexOf("/newGift/sexAge") != -1 &&
+              window.location.href.indexOf("nullPage=3") != -1
+            ) {
+              window.location.href =
+                window.location.href.split("#")[0] + "#" + "/newGift/sexAge";
+            }
+          } else {
+            // webview需要登錄但未登陆的页面调app的登陆流程
+            // nullPage == 3 && 获取当前路劲 _path(routerlink)
+            var routerLink = localStorage.getItem("routerLink");
+
+            if(routerLink.indexOf('nullPage=3') != -1) {
+              var last_url = routerLink.replace("nullPage=3", "");
+              // if (routerLink.indexOf('/newGift/sexAge') != -1) {
+              this.$gotoAppLogin(last_url);
+              // } else {
+              //   // 获取分享信息
+              //   this.$getWxShareData();
+              // }
+            }
+          }
         }
       } else {
+        // 获取分享信息
+        this.$getWxShareData();
         localStorage.setItem("loginState", 0);
+
         this.$toast(res.error_message);
       }
     },
@@ -258,18 +310,18 @@ export default {
       var tStamp = this.$getTimeStamp();
       let data = {
         timestamp: tStamp,
-        version: "1.1"
+        version: "1.1",
       };
       data.sign = this.$getSign(data);
       let res = await CART_INFO(data);
 
       if (res.hasOwnProperty("response_code")) {
-        this.navData.goods_nums = res.response_data.goods_nums;
+        this.navData.goods_nums = res.response_data.kind_num;
       } else {
         this.$toast(res.error_message);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

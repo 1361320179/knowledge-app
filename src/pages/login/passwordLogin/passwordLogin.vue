@@ -1,7 +1,8 @@
 <template>
   <div id="passwordLoginPage">
-    <div class="huoba_pic"></div>
-    <h3 class="huoba_name">火把知识</h3>
+    <!--<div class="huoba_pic"></div>-->
+    <!--<h3 class="huoba_name">火把知识</h3>-->
+    <h3 class="title">密码登录</h3>
     <div class="field_wrapper">
       <van-field
         type="tel"
@@ -26,7 +27,7 @@
     <div class="button_wrapper" v-else>
       <van-button size="large" type="danger" @click="passwordLogin">登录</van-button>
     </div>
-    <router-link :to="{name: 'phoneLogin'}" class="link_text_login">验证码登录
+    <router-link :to="{name: 'phoneLogin'}" class="link_text_login">使用验证码登录
     </router-link>
     <router-link :to="{name: 'authentication', query: {pageType: 'findPassword'}}" class="link_text_password">忘记密码
     </router-link>
@@ -39,6 +40,8 @@
       </div>
     </div>
     <EazyNav type="brand" :isShow="false"></EazyNav>
+    <!--通用弹窗-->
+    <PublicPopup></PublicPopup>
   </div>
 </template>
 
@@ -100,6 +103,7 @@
           localStorage.setItem(("loginState"), 1);
 
           // 不需要登录的页面，如果未登录，进入登录页，登录成功后回退到指定页面
+          localStorage.setItem("loginState", '1');
           window.location.href = localStorage.getItem("defaultLink");
         } else {
           this.$toast(res.error_message);
@@ -115,6 +119,8 @@
         this.gotoLogin = true;
         localStorage.setItem("gotoLogin", "yes");
         this.$wxLogin();
+
+        localStorage.setItem("loginState", '1');
       }
     },
     created() {
